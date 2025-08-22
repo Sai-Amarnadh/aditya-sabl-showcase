@@ -14,15 +14,18 @@ const Navbar = () => {
     <nav className="bg-background border-b shadow-header sticky top-0 z-50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-3 flex-shrink-0">
             <GraduationCap className="h-8 w-8 text-primary" />
-            <div>
+            <div className="hidden sm:block">
               <h1 className="text-lg font-bold text-primary">Aditya University</h1>
               <p className="text-sm text-muted-foreground">CSE Department SABL Activities</p>
             </div>
+            <div className="sm:hidden">
+              <h1 className="text-md font-bold text-primary">Aditya University</h1>
+            </div>
           </div>
           
-          <div className="hidden md:flex space-x-8">
+          <div className="hidden lg:flex space-x-6">
             {navItems.map((item) => (
               <NavLink
                 key={item.to}
@@ -41,13 +44,26 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Mobile menu button - simplified for now */}
-          <div className="md:hidden">
-            <button className="text-muted-foreground hover:text-primary p-2">
-              <svg className="h-6 w-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
-                <path d="M4 6h16M4 12h16M4 18h16"></path>
-              </svg>
-            </button>
+          {/* Simplified mobile menu for now */}
+          <div className="lg:hidden">
+            <div className="flex space-x-1">
+              {navItems.slice(0, 3).map((item) => (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  className={({ isActive }) =>
+                    `p-2 rounded-md transition-colors duration-200 ${
+                      isActive
+                        ? 'text-primary bg-primary/10'
+                        : 'text-muted-foreground hover:text-primary hover:bg-primary/5'
+                    }`
+                  }
+                  title={item.label}
+                >
+                  <item.icon className="h-5 w-5" />
+                </NavLink>
+              ))}
+            </div>
           </div>
         </div>
       </div>

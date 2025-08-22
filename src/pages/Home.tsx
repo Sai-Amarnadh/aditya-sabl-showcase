@@ -24,9 +24,11 @@ const Home = () => {
           <p className="text-lg md:text-xl mb-8 opacity-80 max-w-2xl mx-auto">
             Fostering innovation, creativity, and excellence in computer science education through engaging activities and competitions.
           </p>
-          <Button size="lg" variant="secondary" className="animate-fade-in">
-            Explore Activities
-            <ArrowRight className="ml-2 h-5 w-5" />
+          <Button size="lg" variant="secondary" asChild className="animate-fade-in">
+            <Link to="/upcoming">
+              Explore Activities
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
           </Button>
         </div>
       </section>
