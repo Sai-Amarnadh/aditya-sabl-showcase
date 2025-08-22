@@ -17,7 +17,9 @@ const Navbar = () => {
           <div className="flex items-center space-x-3 flex-shrink-0">
             <GraduationCap className="h-8 w-8 text-primary" />
             <div className="hidden sm:block">
-              <h1 className="text-lg font-bold text-primary">Aditya University</h1>
+              <h1 className="text-lg font-bold">
+  <span className="text-[#F2722C]">ADITYA</span>{' '}
+  <span className="text-primary">UNIVERSITY</span></h1>
               <p className="text-sm text-muted-foreground">CSE Department SABL Activities</p>
             </div>
             <div className="sm:hidden">
