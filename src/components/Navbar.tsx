@@ -15,7 +15,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-3 flex-shrink-0">
-            <img src="aditya_modified.png" alt="Aditya Logo" className="h-10 w-10 object-contain" />
+            <img src="/aditya_modified.png" alt="Aditya Logo" className="h-10 w-10 object-contain" />
             <div className="hidden sm:block">
               <h1 className="text-lg font-bold">
   <span className="text-[#F2722C]">ADITYA</span>{' '}
