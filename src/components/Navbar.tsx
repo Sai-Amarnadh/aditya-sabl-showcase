@@ -44,26 +44,13 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Simplified mobile menu for now */}
+          {/* Mobile hamburger menu */}
           <div className="lg:hidden">
-            <div className="flex space-x-1">
-              {navItems.slice(0, 3).map((item) => (
-                <NavLink
-                  key={item.to}
-                  to={item.to}
-                  className={({ isActive }) =>
-                    `p-2 rounded-md transition-colors duration-200 ${
-                      isActive
-                        ? 'text-primary bg-primary/10'
-                        : 'text-muted-foreground hover:text-primary hover:bg-primary/5'
-                    }`
-                  }
-                  title={item.label}
-                >
-                  <item.icon className="h-5 w-5" />
-                </NavLink>
-              ))}
-            </div>
+            <button className="text-muted-foreground hover:text-primary p-2 transition-colors duration-200">
+              <svg className="h-6 w-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+            </button>
           </div>
         </div>
       </div>
