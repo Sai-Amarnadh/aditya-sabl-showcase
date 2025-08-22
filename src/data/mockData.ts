@@ -20,7 +20,7 @@ export interface Activity {
 export const winners: Winner[] = [
   {
     id: '1',
-    name: 'Yamini',
+    name: 'Yamini CSE-4',
     event: 'Code Quest 2024',
     date: '2024-01-15',
     photo: '/api/placeholder/150/150',
