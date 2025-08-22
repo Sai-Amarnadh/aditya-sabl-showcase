@@ -16,8 +16,9 @@ const Home = () => {
         />
         <div className="relative z-10 text-center text-primary-foreground px-4">
         <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in">
-  <span className="text-[#F2722C]">ADITYA</span> UNIVERSITY
+  <span style={{ color: "#F2722C" }}>ADITYA</span> UNIVERSITY
 </h1>
+
           <h2 className="text-2xl md:text-3xl font-semibold mb-4 opacity-90">
             CSE Department SABL Activities
           </h2>
