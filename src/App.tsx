@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import { DataProvider } from "./contexts/DataContext";
 import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
@@ -36,7 +36,7 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
+        <HashRouter>
           <DataProvider>
             <div className="min-h-screen bg-background">
               <Navbar />
@@ -51,7 +51,7 @@ const App = () => {
               </Routes>
             </div>
           </DataProvider>
-        </BrowserRouter>
+        </HashRouter>
       </TooltipProvider>
     </QueryClientProvider>
   );
