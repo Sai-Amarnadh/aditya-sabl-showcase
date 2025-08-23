@@ -3,19 +3,22 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import * as DataService from '@/lib/data-service';
 import { Winner, Activity, GalleryImage } from '@/lib/data-service';
+import { useData } from '@/contexts/DataContext';
 
 const Admin = () => {
+  const { triggerDataChange } = useData();
   const [winners, setWinners] = useState<Winner[]>([]);
   const [activities, setActivities] = useState<Activity[]>([]);
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
 
   // Form state for new winner
-  const [newWinner, setNewWinner] = useState<Omit<Winner, 'id'>>({ name: '', event: '', date: '', photo: '', year: '' });
+  const [newWinner, setNewWinner] = useState<Omit<Winner, 'id'>>({ name: '', event: '', date: '', photo: '', year: '', isThisWeekWinner: false });
 
   // Form state for new activity
   const [newActivity, setNewActivity] = useState<Omit<Activity, 'id'>>({ name: '', date: '', description: '', status: 'upcoming' });
@@ -23,50 +26,48 @@ const Admin = () => {
   // Form state for new gallery image
   const [newGalleryImage, setNewGalleryImage] = useState<Omit<GalleryImage, 'id'>>({ url: '', caption: '' });
 
-  useEffect(() => {
-    reloadData();
-  }, []);
+  const { dataChanged } = useData();
 
-  const reloadData = () => {
+  useEffect(() => {
     setWinners(DataService.getWinners());
     setActivities(DataService.getActivities());
     setGalleryImages(DataService.getGalleryImages());
-  }
+  }, [dataChanged]);
 
   const handleAddWinner = (e: FormEvent) => {
     e.preventDefault();
     DataService.addWinner(newWinner);
-    setNewWinner({ name: '', event: '', date: '', photo: '', year: '' });
-    reloadData();
+    setNewWinner({ name: '', event: '', date: '', photo: '', year: '', isThisWeekWinner: false });
+    triggerDataChange();
   };
 
   const handleDeleteWinner = (id: string) => {
     DataService.deleteWinner(id);
-    reloadData();
+    triggerDataChange();
   }
 
   const handleAddActivity = (e: FormEvent) => {
     e.preventDefault();
     DataService.addActivity(newActivity);
     setNewActivity({ name: '', date: '', description: '', status: 'upcoming' });
-    reloadData();
+    triggerDataChange();
   };
 
   const handleDeleteActivity = (id: string) => {
     DataService.deleteActivity(id);
-    reloadData();
+    triggerDataChange();
   }
 
   const handleAddGalleryImage = (e: FormEvent) => {
     e.preventDefault();
     DataService.addGalleryImage(newGalleryImage);
     setNewGalleryImage({ url: '', caption: '' });
-    reloadData();
+    triggerDataChange();
   };
 
   const handleDeleteGalleryImage = (id: string) => {
     DataService.deleteGalleryImage(id);
-    reloadData();
+    triggerDataChange();
   }
 
   return (
@@ -106,6 +107,10 @@ const Admin = () => {
                   <div>
                     <Label htmlFor="winner-photo">Photo URL</Label>
                     <Input id="winner-photo" value={newWinner.photo} onChange={e => setNewWinner({ ...newWinner, photo: e.target.value })} />
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox id="isThisWeekWinner" checked={newWinner.isThisWeekWinner} onCheckedChange={checked => setNewWinner({ ...newWinner, isThisWeekWinner: !!checked })} />
+                    <Label htmlFor="isThisWeekWinner">This Week's Winner</Label>
                   </div>
                   <Button type="submit">Add Winner</Button>
                 </form>

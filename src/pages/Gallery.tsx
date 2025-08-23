@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Image, Grid, Eye } from 'lucide-react';
 import { getGalleryImages, GalleryImage } from '@/lib/data-service';
+import { useData } from '@/contexts/DataContext';
 
 const Gallery = () => {
   const [photos, setPhotos] = useState<GalleryImage[]>([]);
 
+  const { dataChanged } = useData();
+
   useEffect(() => {
     setPhotos(getGalleryImages());
-  }, []);
+  }, [dataChanged]);
 
   return (
     <div className="min-h-screen bg-background">

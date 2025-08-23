@@ -14,9 +14,13 @@ const WinnerCard = ({ winner, featured = false }: WinnerCardProps) => {
       <div className="p-6">
         <div className="flex items-center space-x-4">
           <div className="relative">
-            <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center text-primary-foreground font-bold text-lg">
-              {winner.name.split(' ').map(n => n[0]).join('')}
-            </div>
+            {winner.photo ? (
+              <img src={winner.photo} alt={winner.name} className="w-16 h-16 rounded-full object-cover" />
+            ) : (
+              <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center text-primary-foreground font-bold text-lg">
+                {winner.name.split(' ').map(n => n[0]).join('')}
+              </div>
+            )}
             {featured && (
               <div className="absolute -top-1 -right-1 bg-primary rounded-full p-1">
                 <Trophy className="h-3 w-3 text-primary-foreground" />
