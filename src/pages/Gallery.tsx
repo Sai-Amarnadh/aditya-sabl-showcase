@@ -2,6 +2,13 @@ import { useState, useEffect } from 'react';
 import { Image, Grid, Eye } from 'lucide-react';
 import { getGalleryImages, GalleryImage } from '@/lib/data-service';
 import { useData } from '@/contexts/DataContext';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const Gallery = () => {
   const [photos, setPhotos] = useState<GalleryImage[]>([]);
@@ -49,22 +56,32 @@ const Gallery = () => {
         {photos.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {photos.map((photo) => (
-              <div key={photo.id} className="group relative bg-card rounded-lg overflow-hidden shadow-card hover:shadow-elevated transition-all duration-300">
-                <div className="aspect-square bg-gradient-card relative overflow-hidden">
-                  <img src={photo.url} alt={photo.caption} className="w-full h-full object-cover"/>
-                  
-                  {/* Hover overlay */}
-                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <Eye className="h-8 w-8 text-white" />
+              <Dialog key={photo.id}>
+                <DialogTrigger asChild>
+                  <div className="group relative bg-card rounded-lg overflow-hidden shadow-card hover:shadow-elevated transition-all duration-300 cursor-pointer">
+                    <div className="aspect-square bg-gradient-card relative overflow-hidden">
+                      <img src={photo.url} alt={photo.caption} className="w-full h-full object-cover"/>
+
+                      {/* Hover overlay */}
+                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <Eye className="h-8 w-8 text-white" />
+                      </div>
+                    </div>
+
+                    <div className="p-4">
+                      <h3 className="font-semibold text-card-foreground text-sm mb-1 truncate">
+                        {photo.caption}
+                      </h3>
+                    </div>
                   </div>
-                </div>
-                
-                <div className="p-4">
-                  <h3 className="font-semibold text-card-foreground text-sm mb-1 truncate">
-                    {photo.caption}
-                  </h3>
-                </div>
-              </div>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[80vw]">
+                  <DialogHeader>
+                    <DialogTitle>{photo.caption}</DialogTitle>
+                  </DialogHeader>
+                  <img src={photo.url} alt={photo.caption} className="w-full h-auto object-contain rounded-lg"/>
+                </DialogContent>
+              </Dialog>
             ))}
           </div>
         ) : (

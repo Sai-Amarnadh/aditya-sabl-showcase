@@ -13,6 +13,7 @@ export interface Activity {
   name: string;
   date: string;
   description: string;
+  details?: string;
   poster?: string;
   photos?: string[];
   status: 'upcoming' | 'completed';

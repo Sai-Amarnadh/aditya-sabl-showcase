@@ -66,6 +66,7 @@ export const deleteWinner = (id: string) => deleteItem<Winner>(WINNERS_KEY, id);
 
 // --- Activities ---
 export const getActivities = (): Activity[] => getData<Activity>(ACTIVITIES_KEY);
+export const getActivity = (id: string): Activity | undefined => getData<Activity>(ACTIVITIES_KEY).find(a => a.id === id);
 export const addActivity = (activity: Omit<Activity, 'id'>) => addItem<Activity>(ACTIVITIES_KEY, activity);
 export const updateActivity = (activity: Activity) => updateItem<Activity>(ACTIVITIES_KEY, activity);
 export const deleteActivity = (id: string) => deleteItem<Activity>(ACTIVITIES_KEY, id);

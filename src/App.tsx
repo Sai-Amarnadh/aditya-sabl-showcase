@@ -9,6 +9,8 @@ import Navbar from "./components/Navbar";
 import PageLoader from "./components/PageLoader";
 import Home from "./pages/Home";
 import UpcomingActivities from "./pages/UpcomingActivities";
+import ActivityDetail from "./pages/ActivityDetail";
+import ActivityPhotos from "./pages/ActivityPhotos";
 import PreviousActivities from "./pages/PreviousActivities";
 import Winners from "./pages/Winners";
 import Gallery from "./pages/Gallery";
@@ -43,6 +45,8 @@ const App = () => {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/upcoming" element={<UpcomingActivities />} />
+              <Route path="/activity/:id" element={<ActivityDetail />} />
+              <Route path="/activity/:id/photos" element={<ActivityPhotos />} />
                 <Route path="/previous" element={<PreviousActivities />} />
                 <Route path="/winners" element={<Winners />} />
                 <Route path="/gallery" element={<Gallery />} />

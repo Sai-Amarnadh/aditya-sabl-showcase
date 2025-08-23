@@ -22,8 +22,10 @@ const Admin = () => {
   const [editingWinner, setEditingWinner] = useState<Winner | null>(null);
 
   // Form state for new activity
-  const [newActivity, setNewActivity] = useState<Omit<Activity, 'id' | 'poster'>>({ name: '', date: '', description: '', status: 'upcoming' });
+  const [newActivity, setNewActivity] = useState<Omit<Activity, 'id' | 'poster' | 'details' | 'photos'>>({ name: '', date: '', description: '', status: 'upcoming' });
   const [poster, setPoster] = useState('');
+  const [details, setDetails] = useState('');
+  const [photos, setPhotos] = useState('');
   const [editingActivity, setEditingActivity] = useState<Activity | null>(null);
 
   // Form state for new gallery image
@@ -62,7 +64,7 @@ const Admin = () => {
 
   const handleAddActivity = (e: FormEvent) => {
     e.preventDefault();
-    const activityData = { ...newActivity, poster };
+    const activityData = { ...newActivity, poster, details, photos: photos.split('\n').filter(p => p) };
     if (editingActivity) {
       DataService.updateActivity({ ...activityData, id: editingActivity.id });
       setEditingActivity(null);
@@ -71,14 +73,18 @@ const Admin = () => {
     }
     setNewActivity({ name: '', date: '', description: '', status: 'upcoming' });
     setPoster('');
+    setDetails('');
+    setPhotos('');
     triggerDataChange();
   };
 
   const handleEditActivity = (activity: Activity) => {
     setEditingActivity(activity);
-    const { poster, ...rest } = activity;
+    const { poster, details, photos, ...rest } = activity;
     setNewActivity(rest);
     setPoster(poster || '');
+    setDetails(details || '');
+    setPhotos(photos?.join('\n') || '');
   };
 
   const handleDeleteActivity = (id: string) => {
@@ -198,6 +204,14 @@ const Admin = () => {
                     <Textarea id="activity-description" value={newActivity.description} onChange={e => setNewActivity({ ...newActivity, description: e.target.value })} />
                   </div>
                   <div>
+                    <Label htmlFor="activity-details">Details</Label>
+                    <Textarea id="activity-details" value={details} onChange={e => setDetails(e.target.value)} />
+                  </div>
+                  <div>
+                    <Label htmlFor="activity-photos">Photo URLs (one per line)</Label>
+                    <Textarea id="activity-photos" value={photos} onChange={e => setPhotos(e.target.value)} />
+                  </div>
+                  <div>
                     <Label htmlFor="activity-poster">Poster URL</Label>
                     <Input id="activity-poster" value={poster} onChange={e => setPoster(e.target.value)} />
                   </div>
@@ -216,7 +230,7 @@ const Admin = () => {
                   <div className="flex space-x-2">
                     <Button type="submit">{editingActivity ? 'Update Activity' : 'Add Activity'}</Button>
                     {editingActivity && (
-                      <Button variant="outline" onClick={() => { setEditingActivity(null); setNewActivity({ name: '', date: '', description: '', status: 'upcoming' }); setPoster(''); }}>Cancel</Button>
+                      <Button variant="outline" onClick={() => { setEditingActivity(null); setNewActivity({ name: '', date: '', description: '', status: 'upcoming' }); setPoster(''); setDetails(''); setPhotos(''); }}>Cancel</Button>
                     )}
                   </div>
                 </form>
