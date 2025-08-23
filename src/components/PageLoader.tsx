@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 
 const motivatingThoughts = [
-  "The secret of getting ahead is getting started.",
-  "The best way to predict the future is to create it.",
-  "Don't watch the clock; do what it does. Keep going.",
-  "The only limit to our realization of tomorrow will be our doubts of today.",
-  "Believe you can and you're halfway there.",
-  "The future belongs to those who believe in the beauty of their dreams.",
-  "It does not matter how slowly you go as long as you do not stop.",
-  "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+  "Dream big. Work hard.",
+  "Stay focused and never give up.",
+  "The future is bright.",
+  "You are capable of amazing things.",
+  "Believe in yourself.",
+  "Every day is a new beginning.",
+  "Keep moving forward.",
+  "Success is a journey, not a destination.",
 ];
 
 const PageLoader = () => {
