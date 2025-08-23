@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { GraduationCap, Calendar, History, Trophy, Image } from 'lucide-react';
+import { GraduationCap, Calendar, History, Trophy, Image, Settings } from 'lucide-react';
 
 const Navbar = () => {
   const navItems = [
@@ -8,6 +8,7 @@ const Navbar = () => {
     { to: '/previous', label: 'Previous Activities', icon: History },
     { to: '/winners', label: 'Winners', icon: Trophy },
     { to: '/gallery', label: 'Gallery', icon: Image },
+    { to: '/admin', label: 'Admin', icon: Settings },
   ];
 
   return (

@@ -1,0 +1,225 @@
+import { useState, useEffect, FormEvent } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import * as DataService from '@/lib/data-service';
+import { Winner, Activity, GalleryImage } from '@/lib/data-service';
+
+const Admin = () => {
+  const [winners, setWinners] = useState<Winner[]>([]);
+  const [activities, setActivities] = useState<Activity[]>([]);
+  const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
+
+  // Form state for new winner
+  const [newWinner, setNewWinner] = useState<Omit<Winner, 'id'>>({ name: '', event: '', date: '', photo: '', year: '' });
+
+  // Form state for new activity
+  const [newActivity, setNewActivity] = useState<Omit<Activity, 'id'>>({ name: '', date: '', description: '', status: 'upcoming' });
+
+  // Form state for new gallery image
+  const [newGalleryImage, setNewGalleryImage] = useState<Omit<GalleryImage, 'id'>>({ url: '', caption: '' });
+
+  useEffect(() => {
+    reloadData();
+  }, []);
+
+  const reloadData = () => {
+    setWinners(DataService.getWinners());
+    setActivities(DataService.getActivities());
+    setGalleryImages(DataService.getGalleryImages());
+  }
+
+  const handleAddWinner = (e: FormEvent) => {
+    e.preventDefault();
+    DataService.addWinner(newWinner);
+    setNewWinner({ name: '', event: '', date: '', photo: '', year: '' });
+    reloadData();
+  };
+
+  const handleDeleteWinner = (id: string) => {
+    DataService.deleteWinner(id);
+    reloadData();
+  }
+
+  const handleAddActivity = (e: FormEvent) => {
+    e.preventDefault();
+    DataService.addActivity(newActivity);
+    setNewActivity({ name: '', date: '', description: '', status: 'upcoming' });
+    reloadData();
+  };
+
+  const handleDeleteActivity = (id: string) => {
+    DataService.deleteActivity(id);
+    reloadData();
+  }
+
+  const handleAddGalleryImage = (e: FormEvent) => {
+    e.preventDefault();
+    DataService.addGalleryImage(newGalleryImage);
+    setNewGalleryImage({ url: '', caption: '' });
+    reloadData();
+  };
+
+  const handleDeleteGalleryImage = (id: string) => {
+    DataService.deleteGalleryImage(id);
+    reloadData();
+  }
+
+  return (
+    <div className="container mx-auto px-4 py-12">
+      <h1 className="text-4xl font-bold text-center mb-12">Admin Panel</h1>
+      <Tabs defaultValue="winners">
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="winners">Manage Winners</TabsTrigger>
+          <TabsTrigger value="activities">Manage Activities</TabsTrigger>
+          <TabsTrigger value="gallery">Manage Gallery</TabsTrigger>
+        </TabsList>
+        <TabsContent value="winners">
+          <Card>
+            <CardHeader>
+              <CardTitle>Winners</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="mb-8">
+                <h3 className="text-2xl font-semibold mb-4">Add New Winner</h3>
+                <form onSubmit={handleAddWinner} className="space-y-4">
+                  <div>
+                    <Label htmlFor="winner-name">Name</Label>
+                    <Input id="winner-name" value={newWinner.name} onChange={e => setNewWinner({ ...newWinner, name: e.target.value })} />
+                  </div>
+                  <div>
+                    <Label htmlFor="winner-event">Event</Label>
+                    <Input id="winner-event" value={newWinner.event} onChange={e => setNewWinner({ ...newWinner, event: e.target.value })} />
+                  </div>
+                  <div>
+                    <Label htmlFor="winner-date">Date</Label>
+                    <Input id="winner-date" type="date" value={newWinner.date} onChange={e => setNewWinner({ ...newWinner, date: e.target.value })} />
+                  </div>
+                   <div>
+                    <Label htmlFor="winner-year">Year</Label>
+                    <Input id="winner-year" value={newWinner.year} onChange={e => setNewWinner({ ...newWinner, year: e.target.value })} />
+                  </div>
+                  <div>
+                    <Label htmlFor="winner-photo">Photo URL</Label>
+                    <Input id="winner-photo" value={newWinner.photo} onChange={e => setNewWinner({ ...newWinner, photo: e.target.value })} />
+                  </div>
+                  <Button type="submit">Add Winner</Button>
+                </form>
+              </div>
+              <div>
+                <h3 className="text-2xl font-semibold mb-4">Existing Winners</h3>
+                {winners.map(winner => (
+                  <div key={winner.id} className="flex items-center justify-between p-4 border rounded-lg mb-2">
+                    <div>
+                      <p className="font-bold">{winner.name}</p>
+                      <p className="text-sm text-muted-foreground">{winner.event} - {winner.year}</p>
+                    </div>
+                    <div>
+                      <Button variant="destructive" size="sm" onClick={() => handleDeleteWinner(winner.id)}>Delete</Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        <TabsContent value="activities">
+          <Card>
+            <CardHeader>
+              <CardTitle>Activities</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="mb-8">
+                <h3 className="text-2xl font-semibold mb-4">Add New Activity</h3>
+                <form onSubmit={handleAddActivity} className="space-y-4">
+                  <div>
+                    <Label htmlFor="activity-name">Name</Label>
+                    <Input id="activity-name" value={newActivity.name} onChange={e => setNewActivity({ ...newActivity, name: e.target.value })} />
+                  </div>
+                  <div>
+                    <Label htmlFor="activity-date">Date</Label>
+                    <Input id="activity-date" type="date" value={newActivity.date} onChange={e => setNewActivity({ ...newActivity, date: e.target.value })} />
+                  </div>
+                  <div>
+                    <Label htmlFor="activity-description">Description</Label>
+                    <Textarea id="activity-description" value={newActivity.description} onChange={e => setNewActivity({ ...newActivity, description: e.target.value })} />
+                  </div>
+                  <div>
+                    <Label htmlFor="activity-status">Status</Label>
+                    <Select value={newActivity.status} onValueChange={(value: 'upcoming' | 'completed') => setNewActivity({ ...newActivity, status: value })}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select status" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="upcoming">Upcoming</SelectItem>
+                        <SelectItem value="completed">Completed</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <Button type="submit">Add Activity</Button>
+                </form>
+              </div>
+              <div>
+                <h3 className="text-2xl font-semibold mb-4">Existing Activities</h3>
+                {activities.map(activity => (
+                  <div key={activity.id} className="flex items-center justify-between p-4 border rounded-lg mb-2">
+                    <div>
+                      <p className="font-bold">{activity.name}</p>
+                      <p className="text-sm text-muted-foreground">{activity.status}</p>
+                    </div>
+                    <div>
+                      <Button variant="destructive" size="sm" onClick={() => handleDeleteActivity(activity.id)}>Delete</Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        <TabsContent value="gallery">
+          <Card>
+            <CardHeader>
+              <CardTitle>Gallery</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="mb-8">
+                <h3 className="text-2xl font-semibold mb-4">Add New Gallery Image</h3>
+                <form onSubmit={handleAddGalleryImage} className="space-y-4">
+                  <div>
+                    <Label htmlFor="gallery-url">Image URL</Label>
+                    <Input id="gallery-url" value={newGalleryImage.url} onChange={e => setNewGalleryImage({ ...newGalleryImage, url: e.target.value })} />
+                  </div>
+                  <div>
+                    <Label htmlFor="gallery-caption">Caption</Label>
+                    <Input id="gallery-caption" value={newGalleryImage.caption} onChange={e => setNewGalleryImage({ ...newGalleryImage, caption: e.target.value })} />
+                  </div>
+                  <Button type="submit">Add Image</Button>
+                </form>
+              </div>
+              <div>
+                <h3 className="text-2xl font-semibold mb-4">Existing Gallery Images</h3>
+                {galleryImages.map(image => (
+                  <div key={image.id} className="flex items-center justify-between p-4 border rounded-lg mb-2">
+                    <div className="flex items-center">
+                      <img src={image.url} alt={image.caption} className="h-16 w-16 object-cover rounded-md mr-4"/>
+                      <p>{image.caption}</p>
+                    </div>
+                    <div>
+                      <Button variant="destructive" size="sm" onClick={() => handleDeleteGalleryImage(image.id)}>Delete</Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+};
+
+export default Admin;

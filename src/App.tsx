@@ -9,6 +9,7 @@ import UpcomingActivities from "./pages/UpcomingActivities";
 import PreviousActivities from "./pages/PreviousActivities";
 import Winners from "./pages/Winners";
 import Gallery from "./pages/Gallery";
+import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const App = () => (
             <Route path="/previous" element={<PreviousActivities />} />
             <Route path="/winners" element={<Winners />} />
             <Route path="/gallery" element={<Gallery />} />
+            <Route path="/admin" element={<Admin />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

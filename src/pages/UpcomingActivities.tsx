@@ -1,9 +1,15 @@
+import { useState, useEffect } from 'react';
 import ActivityCard from '@/components/ActivityCard';
-import { activities } from '@/data/mockData';
+import { getActivities, Activity } from '@/lib/data-service';
 import { Calendar, Clock, MapPin } from 'lucide-react';
 
 const UpcomingActivities = () => {
-  const upcomingActivities = activities.filter(activity => activity.status === 'upcoming');
+  const [upcomingActivities, setUpcomingActivities] = useState<Activity[]>([]);
+
+  useEffect(() => {
+    const allActivities = getActivities();
+    setUpcomingActivities(allActivities.filter(activity => activity.status === 'upcoming'));
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">

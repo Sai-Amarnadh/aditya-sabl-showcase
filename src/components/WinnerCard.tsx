@@ -1,4 +1,4 @@
-import { Winner } from '@/data/mockData';
+import { Winner } from '@/lib/data-service';
 import { Trophy, Calendar } from 'lucide-react';
 
 interface WinnerCardProps {

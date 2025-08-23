@@ -1,4 +1,4 @@
-import { Activity } from '@/data/mockData';
+import { Activity } from '@/lib/data-service';
 import { Calendar, MapPin, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
