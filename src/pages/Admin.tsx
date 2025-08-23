@@ -19,12 +19,16 @@ const Admin = () => {
 
   // Form state for new winner
   const [newWinner, setNewWinner] = useState<Omit<Winner, 'id'>>({ name: '', event: '', date: '', photo: '', year: '', isThisWeekWinner: false });
+  const [editingWinner, setEditingWinner] = useState<Winner | null>(null);
 
   // Form state for new activity
-  const [newActivity, setNewActivity] = useState<Omit<Activity, 'id'>>({ name: '', date: '', description: '', status: 'upcoming' });
+  const [newActivity, setNewActivity] = useState<Omit<Activity, 'id' | 'poster'>>({ name: '', date: '', description: '', status: 'upcoming' });
+  const [poster, setPoster] = useState('');
+  const [editingActivity, setEditingActivity] = useState<Activity | null>(null);
 
   // Form state for new gallery image
   const [newGalleryImage, setNewGalleryImage] = useState<Omit<GalleryImage, 'id'>>({ url: '', caption: '' });
+  const [editingGalleryImage, setEditingGalleryImage] = useState<GalleryImage | null>(null);
 
   const { dataChanged } = useData();
 
@@ -36,9 +40,19 @@ const Admin = () => {
 
   const handleAddWinner = (e: FormEvent) => {
     e.preventDefault();
-    DataService.addWinner(newWinner);
+    if (editingWinner) {
+      DataService.updateWinner({ ...newWinner, id: editingWinner.id });
+      setEditingWinner(null);
+    } else {
+      DataService.addWinner(newWinner);
+    }
     setNewWinner({ name: '', event: '', date: '', photo: '', year: '', isThisWeekWinner: false });
     triggerDataChange();
+  };
+
+  const handleEditWinner = (winner: Winner) => {
+    setEditingWinner(winner);
+    setNewWinner(winner);
   };
 
   const handleDeleteWinner = (id: string) => {
@@ -48,9 +62,23 @@ const Admin = () => {
 
   const handleAddActivity = (e: FormEvent) => {
     e.preventDefault();
-    DataService.addActivity(newActivity);
+    const activityData = { ...newActivity, poster };
+    if (editingActivity) {
+      DataService.updateActivity({ ...activityData, id: editingActivity.id });
+      setEditingActivity(null);
+    } else {
+      DataService.addActivity(activityData);
+    }
     setNewActivity({ name: '', date: '', description: '', status: 'upcoming' });
+    setPoster('');
     triggerDataChange();
+  };
+
+  const handleEditActivity = (activity: Activity) => {
+    setEditingActivity(activity);
+    const { poster, ...rest } = activity;
+    setNewActivity(rest);
+    setPoster(poster || '');
   };
 
   const handleDeleteActivity = (id: string) => {
@@ -60,9 +88,19 @@ const Admin = () => {
 
   const handleAddGalleryImage = (e: FormEvent) => {
     e.preventDefault();
-    DataService.addGalleryImage(newGalleryImage);
+    if (editingGalleryImage) {
+      DataService.updateGalleryImage({ ...newGalleryImage, id: editingGalleryImage.id });
+      setEditingGalleryImage(null);
+    } else {
+      DataService.addGalleryImage(newGalleryImage);
+    }
     setNewGalleryImage({ url: '', caption: '' });
     triggerDataChange();
+  };
+
+  const handleEditGalleryImage = (image: GalleryImage) => {
+    setEditingGalleryImage(image);
+    setNewGalleryImage(image);
   };
 
   const handleDeleteGalleryImage = (id: string) => {
@@ -86,7 +124,7 @@ const Admin = () => {
             </CardHeader>
             <CardContent>
               <div className="mb-8">
-                <h3 className="text-2xl font-semibold mb-4">Add New Winner</h3>
+                <h3 className="text-2xl font-semibold mb-4">{editingWinner ? 'Edit Winner' : 'Add New Winner'}</h3>
                 <form onSubmit={handleAddWinner} className="space-y-4">
                   <div>
                     <Label htmlFor="winner-name">Name</Label>
@@ -112,7 +150,12 @@ const Admin = () => {
                     <Checkbox id="isThisWeekWinner" checked={newWinner.isThisWeekWinner} onCheckedChange={checked => setNewWinner({ ...newWinner, isThisWeekWinner: !!checked })} />
                     <Label htmlFor="isThisWeekWinner">This Week's Winner</Label>
                   </div>
-                  <Button type="submit">Add Winner</Button>
+                  <div className="flex space-x-2">
+                    <Button type="submit">{editingWinner ? 'Update Winner' : 'Add Winner'}</Button>
+                    {editingWinner && (
+                      <Button variant="outline" onClick={() => { setEditingWinner(null); setNewWinner({ name: '', event: '', date: '', photo: '', year: '', isThisWeekWinner: false }); }}>Cancel</Button>
+                    )}
+                  </div>
                 </form>
               </div>
               <div>
@@ -124,6 +167,7 @@ const Admin = () => {
                       <p className="text-sm text-muted-foreground">{winner.event} - {winner.year}</p>
                     </div>
                     <div>
+                      <Button variant="outline" size="sm" className="mr-2" onClick={() => handleEditWinner(winner)}>Edit</Button>
                       <Button variant="destructive" size="sm" onClick={() => handleDeleteWinner(winner.id)}>Delete</Button>
                     </div>
                   </div>
@@ -139,7 +183,7 @@ const Admin = () => {
             </CardHeader>
             <CardContent>
               <div className="mb-8">
-                <h3 className="text-2xl font-semibold mb-4">Add New Activity</h3>
+                <h3 className="text-2xl font-semibold mb-4">{editingActivity ? 'Edit Activity' : 'Add New Activity'}</h3>
                 <form onSubmit={handleAddActivity} className="space-y-4">
                   <div>
                     <Label htmlFor="activity-name">Name</Label>
@@ -154,6 +198,10 @@ const Admin = () => {
                     <Textarea id="activity-description" value={newActivity.description} onChange={e => setNewActivity({ ...newActivity, description: e.target.value })} />
                   </div>
                   <div>
+                    <Label htmlFor="activity-poster">Poster URL</Label>
+                    <Input id="activity-poster" value={poster} onChange={e => setPoster(e.target.value)} />
+                  </div>
+                  <div>
                     <Label htmlFor="activity-status">Status</Label>
                     <Select value={newActivity.status} onValueChange={(value: 'upcoming' | 'completed') => setNewActivity({ ...newActivity, status: value })}>
                       <SelectTrigger>
@@ -165,7 +213,12 @@ const Admin = () => {
                       </SelectContent>
                     </Select>
                   </div>
-                  <Button type="submit">Add Activity</Button>
+                  <div className="flex space-x-2">
+                    <Button type="submit">{editingActivity ? 'Update Activity' : 'Add Activity'}</Button>
+                    {editingActivity && (
+                      <Button variant="outline" onClick={() => { setEditingActivity(null); setNewActivity({ name: '', date: '', description: '', status: 'upcoming' }); setPoster(''); }}>Cancel</Button>
+                    )}
+                  </div>
                 </form>
               </div>
               <div>
@@ -177,6 +230,7 @@ const Admin = () => {
                       <p className="text-sm text-muted-foreground">{activity.status}</p>
                     </div>
                     <div>
+                      <Button variant="outline" size="sm" className="mr-2" onClick={() => handleEditActivity(activity)}>Edit</Button>
                       <Button variant="destructive" size="sm" onClick={() => handleDeleteActivity(activity.id)}>Delete</Button>
                     </div>
                   </div>
@@ -192,7 +246,7 @@ const Admin = () => {
             </CardHeader>
             <CardContent>
               <div className="mb-8">
-                <h3 className="text-2xl font-semibold mb-4">Add New Gallery Image</h3>
+                <h3 className="text-2xl font-semibold mb-4">{editingGalleryImage ? 'Edit Gallery Image' : 'Add New Gallery Image'}</h3>
                 <form onSubmit={handleAddGalleryImage} className="space-y-4">
                   <div>
                     <Label htmlFor="gallery-url">Image URL</Label>
@@ -202,7 +256,12 @@ const Admin = () => {
                     <Label htmlFor="gallery-caption">Caption</Label>
                     <Input id="gallery-caption" value={newGalleryImage.caption} onChange={e => setNewGalleryImage({ ...newGalleryImage, caption: e.target.value })} />
                   </div>
-                  <Button type="submit">Add Image</Button>
+                  <div className="flex space-x-2">
+                    <Button type="submit">{editingGalleryImage ? 'Update Image' : 'Add Image'}</Button>
+                    {editingGalleryImage && (
+                      <Button variant="outline" onClick={() => { setEditingGalleryImage(null); setNewGalleryImage({ url: '', caption: '' }); }}>Cancel</Button>
+                    )}
+                  </div>
                 </form>
               </div>
               <div>
@@ -214,6 +273,7 @@ const Admin = () => {
                       <p>{image.caption}</p>
                     </div>
                     <div>
+                      <Button variant="outline" size="sm" className="mr-2" onClick={() => handleEditGalleryImage(image)}>Edit</Button>
                       <Button variant="destructive" size="sm" onClick={() => handleDeleteGalleryImage(image.id)}>Delete</Button>
                     </div>
                   </div>

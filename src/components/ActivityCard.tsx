@@ -11,11 +11,11 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
   
   return (
     <div className="bg-card rounded-lg shadow-card hover:shadow-elevated transition-all duration-300 overflow-hidden group">
-      {activity.poster && (
-        <div className="h-48 bg-gradient-card relative overflow-hidden">
-          <div className="absolute inset-0 bg-primary/10 flex items-center justify-center">
-            <div className="text-primary/60 text-sm font-medium">Event Poster</div>
-          </div>
+      {activity.poster ? (
+        <img key={activity.poster} src={activity.poster} alt={activity.name} className="h-48 w-full object-cover" />
+      ) : (
+        <div className="h-48 bg-gradient-card flex items-center justify-center">
+          <span className="text-muted-foreground">No Poster</span>
         </div>
       )}
       
