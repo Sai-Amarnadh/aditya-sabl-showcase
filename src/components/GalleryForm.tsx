@@ -11,31 +11,24 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
 
 const formSchema = z.object({
-  title: z.string().min(2, {
-    message: 'Title must be at least 2 characters.',
-  }),
-  description: z.string().min(10, {
-    message: 'Description must be at least 10 characters.',
-  }),
+  caption: z.string().optional(),
   image: z.any().refine((files) => files?.length === 1, 'Image is required.'),
 });
 
-const EntryForm: React.FC = () => {
+const GalleryForm: React.FC = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: '',
-      description: '',
+      caption: '',
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    alert('Form submitted! Check the console for the data.');
+    alert('Image submitted! Check the console for the data.');
     form.reset();
   }
 
@@ -46,29 +39,12 @@ const EntryForm: React.FC = () => {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
-              name="title"
+              name="caption"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Title</FormLabel>
+                  <FormLabel>Caption (Optional)</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter the title" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Enter the description"
-                      className="resize-none"
-                      {...field}
-                    />
+                    <Input placeholder="Enter a caption" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -91,7 +67,7 @@ const EntryForm: React.FC = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
+            <Button type="submit">Upload Image</Button>
           </form>
         </Form>
       </CardContent>
@@ -99,4 +75,4 @@ const EntryForm: React.FC = () => {
   );
 };
 
-export default EntryForm;
+export default GalleryForm;
