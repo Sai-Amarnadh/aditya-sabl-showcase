@@ -32,6 +32,9 @@ const WinnerCard = ({ winner, featured = false }: WinnerCardProps) => {
             <h3 className="font-semibold text-card-foreground group-hover:text-primary transition-colors">
               {winner.name}
             </h3>
+            {winner.rollNumber && (
+              <p className="text-sm text-muted-foreground">{winner.rollNumber}</p>
+            )}
             <p className="text-primary font-medium text-sm">{winner.event}</p>
             <div className="flex items-center text-muted-foreground text-xs mt-1">
               <Calendar className="h-3 w-3 mr-1" />

@@ -18,7 +18,7 @@ const Admin = () => {
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
 
   // Form state for new winner
-  const [newWinner, setNewWinner] = useState<Omit<Winner, 'id'>>({ name: '', event: '', date: '', photo: '', year: '', isThisWeekWinner: false });
+  const [newWinner, setNewWinner] = useState<Omit<Winner, 'id'>>({ name: '', rollNumber: '', event: '', date: '', photo: '', year: '', isThisWeekWinner: false });
   const [editingWinner, setEditingWinner] = useState<Winner | null>(null);
 
   // Form state for new activity
@@ -48,7 +48,7 @@ const Admin = () => {
     } else {
       DataService.addWinner(newWinner);
     }
-    setNewWinner({ name: '', event: '', date: '', photo: '', year: '', isThisWeekWinner: false });
+    setNewWinner({ name: '', rollNumber: '', event: '', date: '', photo: '', year: '', isThisWeekWinner: false });
     triggerDataChange();
   };
 
@@ -137,6 +137,10 @@ const Admin = () => {
                     <Input id="winner-name" value={newWinner.name} onChange={e => setNewWinner({ ...newWinner, name: e.target.value })} />
                   </div>
                   <div>
+                    <Label htmlFor="winner-rollNumber">Roll Number</Label>
+                    <Input id="winner-rollNumber" value={newWinner.rollNumber} onChange={e => setNewWinner({ ...newWinner, rollNumber: e.target.value })} />
+                  </div>
+                  <div>
                     <Label htmlFor="winner-event">Event</Label>
                     <Input id="winner-event" value={newWinner.event} onChange={e => setNewWinner({ ...newWinner, event: e.target.value })} />
                   </div>
@@ -159,7 +163,7 @@ const Admin = () => {
                   <div className="flex space-x-2">
                     <Button type="submit">{editingWinner ? 'Update Winner' : 'Add Winner'}</Button>
                     {editingWinner && (
-                      <Button variant="outline" onClick={() => { setEditingWinner(null); setNewWinner({ name: '', event: '', date: '', photo: '', year: '', isThisWeekWinner: false }); }}>Cancel</Button>
+                      <Button variant="outline" onClick={() => { setEditingWinner(null); setNewWinner({ name: '', rollNumber: '', event: '', date: '', photo: '', year: '', isThisWeekWinner: false }); }}>Cancel</Button>
                     )}
                   </div>
                 </form>

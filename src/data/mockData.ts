@@ -1,6 +1,7 @@
 export interface Winner {
   id: string;
   name: string;
+  rollNumber?: string;
   event: string;
   date: string;
   photo: string;
