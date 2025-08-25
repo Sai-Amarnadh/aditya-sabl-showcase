@@ -10,11 +10,24 @@ const Winners = () => {
   const [winners, setWinners] = useState<Winner[]>([]);
   const [selectedYear, setSelectedYear] = useState<string>('all');
   const [selectedEvent, setSelectedEvent] = useState<string>('all');
+  const [loading, setLoading] = useState(true);
 
   const { dataChanged } = useData();
 
   useEffect(() => {
-    setWinners(getWinners());
+    const fetchWinners = async () => {
+      setLoading(true);
+      try {
+        const winnersData = await getWinners();
+        setWinners(winnersData);
+      } catch (error) {
+        console.error('Error fetching winners:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchWinners();
   }, [dataChanged]);
 
   const years = Array.from(new Set(winners.map(w => w.year))).sort().reverse();
@@ -120,7 +133,22 @@ const Winners = () => {
         </div>
 
         {/* Winners Grid */}
-        {filteredWinners.length > 0 ? (
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {Array.from({ length: 6 }).map((_, index) => (
+              <div key={index} className="bg-card rounded-lg p-6 shadow-card animate-pulse">
+                <div className="flex items-center space-x-4">
+                  <div className="w-16 h-16 bg-muted rounded-full"></div>
+                  <div className="flex-1">
+                    <div className="h-4 bg-muted rounded mb-2"></div>
+                    <div className="h-3 bg-muted rounded mb-1"></div>
+                    <div className="h-3 bg-muted rounded"></div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : filteredWinners.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredWinners.map((winner) => (
               <WinnerCard key={winner.id} winner={winner} />

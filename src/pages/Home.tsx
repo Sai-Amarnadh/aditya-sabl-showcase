@@ -9,13 +9,24 @@ import universityBanner from '@/assets/university-banner.jpg';
 
 const Home = () => {
   const [thisWeekWinners, setThisWeekWinners] = useState<Winner[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const { dataChanged } = useData();
 
   useEffect(() => {
-    console.log('Home page re-rendering');
-    const allWinners = getWinners();
-    setThisWeekWinners(allWinners.filter(w => w.isThisWeekWinner));
+    const fetchWinners = async () => {
+      setLoading(true);
+      try {
+        const allWinners = await getWinners();
+        setThisWeekWinners(allWinners.filter(w => w.isThisWeekWinner));
+      } catch (error) {
+        console.error('Error fetching winners:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchWinners();
   }, [dataChanged]);
 
   return (
@@ -59,9 +70,30 @@ const Home = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-8">
-            {thisWeekWinners.map((winner) => (
-              <WinnerCard key={winner.id} winner={winner} featured={true} />
-            ))}
+            {loading ? (
+              // Loading skeleton
+              Array.from({ length: 3 }).map((_, index) => (
+                <div key={index} className="bg-card rounded-lg p-6 shadow-card animate-pulse">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-16 h-16 bg-muted rounded-full"></div>
+                    <div className="flex-1">
+                      <div className="h-4 bg-muted rounded mb-2"></div>
+                      <div className="h-3 bg-muted rounded mb-1"></div>
+                      <div className="h-3 bg-muted rounded"></div>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : thisWeekWinners.length > 0 ? (
+              thisWeekWinners.map((winner) => (
+                <WinnerCard key={winner.id} winner={winner} featured={true} />
+              ))
+            ) : (
+              <div className="col-span-3 text-center py-8">
+                <Trophy className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                <p className="text-muted-foreground">No winners selected for this week yet.</p>
+              </div>
+            )}
           </div>
           
           <div className="text-center">

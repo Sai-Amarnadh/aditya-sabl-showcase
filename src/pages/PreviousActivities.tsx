@@ -6,12 +6,24 @@ import { History, Trophy, Users, Camera } from 'lucide-react';
 
 const PreviousActivities = () => {
   const [completedActivities, setCompletedActivities] = useState<Activity[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const { dataChanged } = useData();
 
   useEffect(() => {
-    const allActivities = getActivities();
-    setCompletedActivities(allActivities.filter(activity => activity.status === 'completed'));
+    const fetchActivities = async () => {
+      setLoading(true);
+      try {
+        const allActivities = await getActivities();
+        setCompletedActivities(allActivities.filter(activity => activity.status === 'completed'));
+      } catch (error) {
+        console.error('Error fetching activities:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchActivities();
   }, [dataChanged]);
 
   const totalPhotos = completedActivities.reduce((sum, activity) => sum + (activity.photos?.length || 0), 0);
@@ -68,13 +80,29 @@ const PreviousActivities = () => {
         {/* Activities Timeline */}
         <div className="mb-8">
           <h2 className="text-2xl font-semibold text-foreground mb-6 text-center">Event Timeline</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {completedActivities
-              .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-              .map((activity) => (
-                <ActivityCard key={activity.id} activity={activity} />
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <div key={index} className="bg-card rounded-lg shadow-card animate-pulse overflow-hidden">
+                  <div className="h-48 bg-muted"></div>
+                  <div className="p-6">
+                    <div className="h-6 bg-muted rounded mb-3"></div>
+                    <div className="h-4 bg-muted rounded mb-2"></div>
+                    <div className="h-4 bg-muted rounded mb-4"></div>
+                    <div className="h-8 bg-muted rounded"></div>
+                  </div>
+                </div>
               ))}
-          </div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {completedActivities
+                .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                .map((activity) => (
+                  <ActivityCard key={activity.id} activity={activity} />
+                ))}
+            </div>
+          )}
         </div>
 
         {/* Success Stories */}

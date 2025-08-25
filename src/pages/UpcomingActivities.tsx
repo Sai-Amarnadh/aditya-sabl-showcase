@@ -6,12 +6,24 @@ import { Calendar, Clock, MapPin } from 'lucide-react';
 
 const UpcomingActivities = () => {
   const [upcomingActivities, setUpcomingActivities] = useState<Activity[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const { dataChanged } = useData();
 
   useEffect(() => {
-    const allActivities = getActivities();
-    setUpcomingActivities(allActivities.filter(activity => activity.status === 'upcoming'));
+    const fetchActivities = async () => {
+      setLoading(true);
+      try {
+        const allActivities = await getActivities();
+        setUpcomingActivities(allActivities.filter(activity => activity.status === 'upcoming'));
+      } catch (error) {
+        console.error('Error fetching activities:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchActivities();
   }, [dataChanged]);
 
   return (
@@ -56,7 +68,21 @@ const UpcomingActivities = () => {
         </div>
 
         {/* Activities Grid */}
-        {upcomingActivities.length > 0 ? (
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <div key={index} className="bg-card rounded-lg shadow-card animate-pulse overflow-hidden">
+                <div className="h-48 bg-muted"></div>
+                <div className="p-6">
+                  <div className="h-6 bg-muted rounded mb-3"></div>
+                  <div className="h-4 bg-muted rounded mb-2"></div>
+                  <div className="h-4 bg-muted rounded mb-4"></div>
+                  <div className="h-8 bg-muted rounded"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : upcomingActivities.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {upcomingActivities.map((activity) => (
               <ActivityCard key={`${activity.id}-${activity.poster}`} activity={activity} />

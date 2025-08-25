@@ -42,14 +42,22 @@ const Admin = () => {
 
   const handleAddWinner = (e: FormEvent) => {
     e.preventDefault();
-    if (editingWinner) {
-      DataService.updateWinner({ ...newWinner, id: editingWinner.id });
-      setEditingWinner(null);
-    } else {
-      DataService.addWinner(newWinner);
-    }
-    setNewWinner({ name: '', rollNumber: '', event: '', date: '', photo: '', year: '', isThisWeekWinner: false });
-    triggerDataChange();
+    const submitWinner = async () => {
+      try {
+        if (editingWinner) {
+          await DataService.updateWinner({ ...newWinner, id: editingWinner.id });
+          setEditingWinner(null);
+        } else {
+          await DataService.addWinner(newWinner);
+        }
+        setNewWinner({ name: '', rollNumber: '', event: '', date: '', photo: '', year: '', isThisWeekWinner: false });
+        triggerDataChange();
+      } catch (error) {
+        console.error('Error saving winner:', error);
+      }
+    };
+    
+    submitWinner();
   };
 
   const handleEditWinner = (winner: Winner) => {
@@ -58,24 +66,40 @@ const Admin = () => {
   };
 
   const handleDeleteWinner = (id: string) => {
-    DataService.deleteWinner(id);
-    triggerDataChange();
-  }
+    const deleteWinner = async () => {
+      try {
+        await DataService.deleteWinner(id);
+        triggerDataChange();
+      } catch (error) {
+        console.error('Error deleting winner:', error);
+      }
+    };
+    
+    deleteWinner();
+  };
 
   const handleAddActivity = (e: FormEvent) => {
     e.preventDefault();
-    const activityData = { ...newActivity, poster, details, photos: photos.split('\n').filter(p => p) };
-    if (editingActivity) {
-      DataService.updateActivity({ ...activityData, id: editingActivity.id });
-      setEditingActivity(null);
-    } else {
-      DataService.addActivity(activityData);
-    }
-    setNewActivity({ name: '', date: '', description: '', status: 'upcoming' });
-    setPoster('');
-    setDetails('');
-    setPhotos('');
-    triggerDataChange();
+    const submitActivity = async () => {
+      try {
+        const activityData = { ...newActivity, poster, details, photos: photos.split('\n').filter(p => p) };
+        if (editingActivity) {
+          await DataService.updateActivity({ ...activityData, id: editingActivity.id });
+          setEditingActivity(null);
+        } else {
+          await DataService.addActivity(activityData);
+        }
+        setNewActivity({ name: '', date: '', description: '', status: 'upcoming' });
+        setPoster('');
+        setDetails('');
+        setPhotos('');
+        triggerDataChange();
+      } catch (error) {
+        console.error('Error saving activity:', error);
+      }
+    };
+    
+    submitActivity();
   };
 
   const handleEditActivity = (activity: Activity) => {
@@ -88,20 +112,36 @@ const Admin = () => {
   };
 
   const handleDeleteActivity = (id: string) => {
-    DataService.deleteActivity(id);
-    triggerDataChange();
-  }
+    const deleteActivity = async () => {
+      try {
+        await DataService.deleteActivity(id);
+        triggerDataChange();
+      } catch (error) {
+        console.error('Error deleting activity:', error);
+      }
+    };
+    
+    deleteActivity();
+  };
 
   const handleAddGalleryImage = (e: FormEvent) => {
     e.preventDefault();
-    if (editingGalleryImage) {
-      DataService.updateGalleryImage({ ...newGalleryImage, id: editingGalleryImage.id });
-      setEditingGalleryImage(null);
-    } else {
-      DataService.addGalleryImage(newGalleryImage);
-    }
-    setNewGalleryImage({ url: '', caption: '' });
-    triggerDataChange();
+    const submitGalleryImage = async () => {
+      try {
+        if (editingGalleryImage) {
+          await DataService.updateGalleryImage({ ...newGalleryImage, id: editingGalleryImage.id });
+          setEditingGalleryImage(null);
+        } else {
+          await DataService.addGalleryImage(newGalleryImage);
+        }
+        setNewGalleryImage({ url: '', caption: '' });
+        triggerDataChange();
+      } catch (error) {
+        console.error('Error saving gallery image:', error);
+      }
+    };
+    
+    submitGalleryImage();
   };
 
   const handleEditGalleryImage = (image: GalleryImage) => {
@@ -110,9 +150,17 @@ const Admin = () => {
   };
 
   const handleDeleteGalleryImage = (id: string) => {
-    DataService.deleteGalleryImage(id);
-    triggerDataChange();
-  }
+    const deleteGalleryImage = async () => {
+      try {
+        await DataService.deleteGalleryImage(id);
+        triggerDataChange();
+      } catch (error) {
+        console.error('Error deleting gallery image:', error);
+      }
+    };
+    
+    deleteGalleryImage();
+  };
 
   return (
     <div className="container mx-auto px-4 py-12">

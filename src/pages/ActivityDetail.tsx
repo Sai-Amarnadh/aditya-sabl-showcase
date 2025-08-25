@@ -6,16 +6,50 @@ import { Activity } from '@/lib/data-service';
 const ActivityDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [activity, setActivity] = useState<Activity | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (id) {
-      const allActivities = getActivity(id);
-      setActivity(allActivities);
-    }
+    const fetchActivity = async () => {
+      if (id) {
+        setLoading(true);
+        try {
+          const activityData = await getActivity(id);
+          setActivity(activityData || null);
+        } catch (error) {
+          console.error('Error fetching activity:', error);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+    
+    fetchActivity();
   }, [id]);
 
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 py-12">
+        <div className="animate-pulse">
+          <div className="h-8 bg-muted rounded mb-4"></div>
+          <div className="h-4 bg-muted rounded mb-8 w-1/3"></div>
+          <div className="h-96 bg-muted rounded mb-8"></div>
+          <div className="space-y-4">
+            <div className="h-4 bg-muted rounded"></div>
+            <div className="h-4 bg-muted rounded"></div>
+            <div className="h-4 bg-muted rounded w-2/3"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (!activity) {
-    return <div>Activity not found</div>;
+    return (
+      <div className="container mx-auto px-4 py-12 text-center">
+        <h1 className="text-2xl font-bold mb-4">Activity not found</h1>
+        <p className="text-muted-foreground">The activity you're looking for doesn't exist.</p>
+      </div>
+    );
   }
 
   return (

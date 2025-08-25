@@ -12,11 +12,24 @@ import {
 
 const Gallery = () => {
   const [photos, setPhotos] = useState<GalleryImage[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const { dataChanged } = useData();
 
   useEffect(() => {
-    setPhotos(getGalleryImages());
+    const fetchGallery = async () => {
+      setLoading(true);
+      try {
+        const galleryData = await getGalleryImages();
+        setPhotos(galleryData);
+      } catch (error) {
+        console.error('Error fetching gallery:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchGallery();
   }, [dataChanged]);
 
   return (
@@ -53,7 +66,18 @@ const Gallery = () => {
         </div>
 
         {/* Photo Grid */}
-        {photos.length > 0 ? (
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {Array.from({ length: 8 }).map((_, index) => (
+              <div key={index} className="bg-card rounded-lg overflow-hidden shadow-card animate-pulse">
+                <div className="aspect-square bg-muted"></div>
+                <div className="p-4">
+                  <div className="h-4 bg-muted rounded"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : photos.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {photos.map((photo) => (
               <Dialog key={photo.id}>
