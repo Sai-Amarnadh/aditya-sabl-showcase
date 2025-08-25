@@ -1,4 +1,4 @@
-import { supabase } from './supabase';
+import { supabase, type Database } from './supabase';
 
 // Types
 export interface Winner {
@@ -29,8 +29,12 @@ export interface GalleryImage {
   caption: string;
 }
 
+type WinnerRow = Database['public']['Tables']['winners']['Row'];
+type ActivityRow = Database['public']['Tables']['previous_activities']['Row'] | Database['public']['Tables']['upcoming_activities']['Row'];
+type GalleryRow = Database['public']['Tables']['gallery']['Row'];
+
 // Helper function to transform database row to Winner
-const transformWinnerFromDB = (row: any): Winner => ({
+const transformWinnerFromDB = (row: WinnerRow): Winner => ({
   id: row.id.toString(),
   name: row.name,
   rollNumber: row.roll_number,
@@ -53,14 +57,14 @@ const transformWinnerToDB = (winner: Omit<Winner, 'id'>) => ({
 });
 
 // Helper function to transform database row to Activity
-const transformActivityFromDB = (row: any, status: 'upcoming' | 'completed'): Activity => ({
+const transformActivityFromDB = (row: ActivityRow, status: 'upcoming' | 'completed'): Activity => ({
   id: row.id.toString(),
   name: row.title,
   date: row.activity_date,
   description: row.description || '',
   details: row.details,
   poster: row.poster_url,
-  photos: row.photos || [],
+  photos: 'photos' in row ? row.photos || [] : [],
   status,
 });
 
@@ -75,7 +79,7 @@ const transformActivityToDB = (activity: Omit<Activity, 'id'>) => ({
 });
 
 // Helper function to transform database row to GalleryImage
-const transformGalleryFromDB = (row: any): GalleryImage => ({
+const transformGalleryFromDB = (row: GalleryRow): GalleryImage => ({
   id: row.id.toString(),
   url: row.image_url,
   caption: row.title || '',
