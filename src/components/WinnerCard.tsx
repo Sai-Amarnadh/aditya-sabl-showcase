@@ -1,4 +1,4 @@
-import { Winner } from '@/data/mockData';
+import { Winner } from '@/lib/data-service';
 import { Trophy, Calendar } from 'lucide-react';
 
 interface WinnerCardProps {
@@ -14,9 +14,13 @@ const WinnerCard = ({ winner, featured = false }: WinnerCardProps) => {
       <div className="p-6">
         <div className="flex items-center space-x-4">
           <div className="relative">
-            <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center text-primary-foreground font-bold text-lg">
-              {winner.name.split(' ').map(n => n[0]).join('')}
-            </div>
+            {winner.photo ? (
+              <img src={winner.photo} alt={winner.name} className="w-16 h-16 rounded-full object-cover" />
+            ) : (
+              <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center text-primary-foreground font-bold text-lg">
+                {winner.name.split(' ').map(n => n[0]).join('')}
+              </div>
+            )}
             {featured && (
               <div className="absolute -top-1 -right-1 bg-primary rounded-full p-1">
                 <Trophy className="h-3 w-3 text-primary-foreground" />
@@ -28,6 +32,9 @@ const WinnerCard = ({ winner, featured = false }: WinnerCardProps) => {
             <h3 className="font-semibold text-card-foreground group-hover:text-primary transition-colors">
               {winner.name}
             </h3>
+            {winner.rollNumber && (
+              <p className="text-sm text-muted-foreground">{winner.rollNumber}</p>
+            )}
             <p className="text-primary font-medium text-sm">{winner.event}</p>
             <div className="flex items-center text-muted-foreground text-xs mt-1">
               <Calendar className="h-3 w-3 mr-1" />

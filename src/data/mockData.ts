@@ -1,10 +1,12 @@
 export interface Winner {
   id: string;
   name: string;
+  rollNumber?: string;
   event: string;
   date: string;
   photo: string;
   year: string;
+  isThisWeekWinner?: boolean;
 }
 
 export interface Activity {
@@ -12,6 +14,7 @@ export interface Activity {
   name: string;
   date: string;
   description: string;
+  details?: string;
   poster?: string;
   photos?: string[];
   status: 'upcoming' | 'completed';
@@ -24,7 +27,8 @@ export const winners: Winner[] = [
     event: 'Code Quest 2024',
     date: '2024-01-15',
     photo: '/api/placeholder/150/150',
-    year: '2024'
+    year: '2024',
+    isThisWeekWinner: true
   },
   {
     id: '2',
@@ -32,7 +36,8 @@ export const winners: Winner[] = [
     event: 'Algorithm Championship',
     date: '2024-01-10',
     photo: '/api/placeholder/150/150',
-    year: '2024'
+    year: '2024',
+    isThisWeekWinner: true
   },
   {
     id: '3',
@@ -40,7 +45,8 @@ export const winners: Winner[] = [
     event: 'Web Design Competition',
     date: '2024-01-08',
     photo: '/api/placeholder/150/150',
-    year: '2024'
+    year: '2024',
+    isThisWeekWinner: true
   },
   {
     id: '4',

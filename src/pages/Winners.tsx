@@ -1,13 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import WinnerCard from '@/components/WinnerCard';
-import { winners } from '@/data/mockData';
+import { getWinners, Winner } from '@/lib/data-service';
+import { useData } from '@/contexts/DataContext';
 import { Trophy, Filter, Calendar, Award } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const Winners = () => {
+  const [winners, setWinners] = useState<Winner[]>([]);
   const [selectedYear, setSelectedYear] = useState<string>('all');
   const [selectedEvent, setSelectedEvent] = useState<string>('all');
+
+  const { dataChanged } = useData();
+
+  useEffect(() => {
+    setWinners(getWinners());
+  }, [dataChanged]);
 
   const years = Array.from(new Set(winners.map(w => w.year))).sort().reverse();
   const events = Array.from(new Set(winners.map(w => w.event))).sort();

@@ -1,11 +1,23 @@
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import WinnerCard from '@/components/WinnerCard';
-import { thisWeekWinners } from '@/data/mockData';
+import { getWinners, Winner } from '@/lib/data-service';
+import { useData } from '@/contexts/DataContext';
 import { Calendar, History, Trophy, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import universityBanner from '@/assets/university-banner.jpg';
 
 const Home = () => {
+  const [thisWeekWinners, setThisWeekWinners] = useState<Winner[]>([]);
+
+  const { dataChanged } = useData();
+
+  useEffect(() => {
+    console.log('Home page re-rendering');
+    const allWinners = getWinners();
+    setThisWeekWinners(allWinners.filter(w => w.isThisWeekWinner));
+  }, [dataChanged]);
+
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}

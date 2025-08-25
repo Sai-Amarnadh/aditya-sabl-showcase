@@ -1,4 +1,5 @@
-import { Activity } from '@/data/mockData';
+import { Activity } from '@/lib/data-service';
+import { Link } from 'react-router-dom';
 import { Calendar, MapPin, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -10,16 +11,16 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
   const isUpcoming = activity.status === 'upcoming';
   
   return (
-    <div className="bg-card rounded-lg shadow-card hover:shadow-elevated transition-all duration-300 overflow-hidden group">
-      {activity.poster && (
-        <div className="h-48 bg-gradient-card relative overflow-hidden">
-          <div className="absolute inset-0 bg-primary/10 flex items-center justify-center">
-            <div className="text-primary/60 text-sm font-medium">Event Poster</div>
-          </div>
+    <div className="bg-card rounded-lg shadow-card hover:shadow-elevated transition-all duration-300 overflow-hidden group flex flex-col">
+      {activity.poster ? (
+        <img key={activity.poster} src={activity.poster} alt={activity.name} className="h-48 w-full object-cover" />
+      ) : (
+        <div className="h-48 bg-gradient-card flex items-center justify-center">
+          <span className="text-muted-foreground">No Poster</span>
         </div>
       )}
       
-      <div className="p-6">
+      <div className="p-6 flex flex-col flex-grow">
         <div className="flex items-start justify-between mb-3">
           <h3 className="text-xl font-bold text-card-foreground group-hover:text-primary transition-colors">
             {activity.name}
@@ -43,7 +44,7 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
           })}
         </div>
         
-        <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
+        <p className="text-muted-foreground text-sm mb-4 line-clamp-3 h-20 flex-grow">
           {activity.description}
         </p>
         
@@ -54,13 +55,27 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
           </div>
         )}
         
-        <Button 
-          variant={isUpcoming ? "default" : "outline"} 
-          size="sm" 
-          className="w-full"
-        >
-          {isUpcoming ? 'Learn More' : 'View Photos'}
-        </Button>
+        {isUpcoming ? (
+          <Link to={`/activity/${activity.id}`}>
+            <Button
+              variant="default"
+              size="sm"
+              className="w-full mt-auto"
+            >
+              Learn More
+            </Button>
+          </Link>
+        ) : (
+          <Link to={`/activity/${activity.id}/photos`}>
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full mt-auto"
+            >
+              View Photos
+            </Button>
+          </Link>
+        )}
       </div>
     </div>
   );

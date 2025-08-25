@@ -1,9 +1,19 @@
+import { useState, useEffect } from 'react';
 import ActivityCard from '@/components/ActivityCard';
-import { activities } from '@/data/mockData';
+import { getActivities, Activity } from '@/lib/data-service';
+import { useData } from '@/contexts/DataContext';
 import { History, Trophy, Users, Camera } from 'lucide-react';
 
 const PreviousActivities = () => {
-  const completedActivities = activities.filter(activity => activity.status === 'completed');
+  const [completedActivities, setCompletedActivities] = useState<Activity[]>([]);
+
+  const { dataChanged } = useData();
+
+  useEffect(() => {
+    const allActivities = getActivities();
+    setCompletedActivities(allActivities.filter(activity => activity.status === 'completed'));
+  }, [dataChanged]);
+
   const totalPhotos = completedActivities.reduce((sum, activity) => sum + (activity.photos?.length || 0), 0);
 
   return (
