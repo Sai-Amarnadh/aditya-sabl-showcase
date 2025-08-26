@@ -35,9 +35,22 @@ const Admin = () => {
   const { dataChanged } = useData();
 
   useEffect(() => {
-    setWinners(DataService.getWinners());
-    setActivities(DataService.getActivities());
-    setGalleryImages(DataService.getGalleryImages());
+    const fetchData = async () => {
+      try {
+        const [winners, activities, galleryImages] = await Promise.all([
+          DataService.getWinners(),
+          DataService.getActivities(),
+          DataService.getGalleryImages(),
+        ]);
+        setWinners(winners);
+        setActivities(activities);
+        setGalleryImages(galleryImages);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
   }, [dataChanged]);
 
   const handleAddWinner = (e: FormEvent) => {
