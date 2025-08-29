@@ -6,7 +6,7 @@ def main():
         page = browser.new_page()
 
         # Navigate to the admin page with the correct hash-based URL and port
-        page.goto("http://localhost:8080/#/admin")
+        page.goto("http://localhost:8082/#/admin")
 
         # Wait for the page to load, specifically for the "Manage Winners" tab
         expect(page.get_by_role("tab", name="Manage Winners")).to_be_visible()
