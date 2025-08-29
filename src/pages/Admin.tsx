@@ -58,18 +58,25 @@ const Admin = () => {
     fetchData();
   }, [dataChanged]);
 
+  const fileToArrayBuffer = (file: File): Promise<ArrayBuffer> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsArrayBuffer(file);
+      reader.onload = () => resolve(reader.result as ArrayBuffer);
+      reader.onerror = error => reject(error);
+    });
+  };
+
   const handleAddWinner = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      let photoUrl = editingWinner?.photo || '';
+      let photoData: string | ArrayBuffer = editingWinner?.photo || '';
 
       if (newWinner.photo && newWinner.photo instanceof File) {
-        const uploadedUrl = await DataService.uploadImage(newWinner.photo, 'winners_photos');
-        if (!uploadedUrl) throw new Error('Image upload failed');
-        photoUrl = uploadedUrl;
+        photoData = await fileToArrayBuffer(newWinner.photo);
       }
 
-      const winnerData = { ...newWinner, photo: photoUrl };
+      const winnerData = { ...newWinner, photo: photoData };
 
       if (editingWinner) {
         await DataService.updateWinner({ ...winnerData, id: editingWinner.id });
@@ -105,21 +112,18 @@ const Admin = () => {
   const handleAddActivity = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      let posterUrl = editingActivity?.poster || '';
+      let posterData: string | ArrayBuffer = editingActivity?.poster || '';
       if (newActivity.poster && newActivity.poster instanceof File) {
-        const uploadedUrl = await DataService.uploadImage(newActivity.poster, 'activity_posters');
-        if (!uploadedUrl) throw new Error('Poster upload failed');
-        posterUrl = uploadedUrl;
+        posterData = await fileToArrayBuffer(newActivity.poster);
       }
 
-      let photoUrls: string[] = editingActivity?.photos || [];
+      let photosData: (string | ArrayBuffer)[] = editingActivity?.photos || [];
       if (newActivity.photos && newActivity.photos instanceof FileList) {
-        const uploadPromises = Array.from(newActivity.photos).map(file => DataService.uploadImage(file, 'gallery_images'));
-        const uploadedUrls = await Promise.all(uploadPromises);
-        photoUrls = uploadedUrls.filter((url): url is string => url !== null);
+        const uploadPromises = Array.from(newActivity.photos).map(file => fileToArrayBuffer(file));
+        photosData = await Promise.all(uploadPromises);
       }
 
-      const activityData = { ...newActivity, poster: posterUrl, photos: photoUrls };
+      const activityData = { ...newActivity, poster: posterData, photos: photosData };
 
       if (editingActivity) {
         await DataService.updateActivity({ ...activityData, id: editingActivity.id });
@@ -155,14 +159,12 @@ const Admin = () => {
   const handleAddGalleryImage = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      let imageUrl = editingGalleryImage?.url || '';
+      let imageData: string | ArrayBuffer = editingGalleryImage?.url || '';
       if (newGalleryImage.url && newGalleryImage.url instanceof File) {
-        const uploadedUrl = await DataService.uploadImage(newGalleryImage.url, 'gallery_images');
-        if (!uploadedUrl) throw new Error('Image upload failed');
-        imageUrl = uploadedUrl;
+        imageData = await fileToArrayBuffer(newGalleryImage.url);
       }
 
-      const galleryImageData = { ...newGalleryImage, url: imageUrl };
+      const galleryImageData = { ...newGalleryImage, url: imageData };
 
       if (editingGalleryImage) {
         await DataService.updateGalleryImage({ ...galleryImageData, id: editingGalleryImage.id });
@@ -238,7 +240,7 @@ const Admin = () => {
                     <Input id="winner-photo" type="file" onChange={(e: ChangeEvent<HTMLInputElement>) => setNewWinner({ ...newWinner, photo: e.target.files ? e.target.files[0] : null })} />
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Checkbox id="isThisWeekWinner" checked={newWinner.isThisWeekWinner} onCheckedChange={(checked: boolean) => setNewWinner({ ...newWinner, isThisWeekWinner: !!checked })} />
+                    <Checkbox id="isThisWeekWinner" checked={newWinner.isThisWeekWinner} onCheckedChange={checked => setNewWinner({ ...newWinner, isThisWeekWinner: !!checked })} />
                     <Label htmlFor="isThisWeekWinner">This Week's Winner</Label>
                   </div>
                   <div className="flex space-x-2">

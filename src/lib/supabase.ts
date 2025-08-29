@@ -20,7 +20,7 @@ export interface Database {
           roll_number: string | null;
           event: string;
           date: string;
-          photo_url: string | null;
+          photo_data: string | null;
           year: string;
           is_week_winner: boolean | null;
           created_at: string | null;
@@ -31,7 +31,7 @@ export interface Database {
           roll_number?: string | null;
           event: string;
           date: string;
-          photo_url?: string | null;
+          photo_data?: string | null;
           year?: string;
           is_week_winner?: boolean | null;
           created_at?: string | null;
@@ -42,7 +42,7 @@ export interface Database {
           roll_number?: string | null;
           event?: string;
           date?: string;
-          photo_url?: string | null;
+          photo_data?: string | null;
           year?: string;
           is_week_winner?: boolean | null;
           created_at?: string | null;
@@ -54,7 +54,7 @@ export interface Database {
           title: string;
           description: string | null;
           activity_date: string;
-          poster_url: string | null;
+          poster_data: string | null;
           details: string | null;
           created_at: string | null;
         };
@@ -63,7 +63,7 @@ export interface Database {
           title: string;
           description?: string | null;
           activity_date: string;
-          poster_url?: string | null;
+          poster_data?: string | null;
           details?: string | null;
           created_at?: string | null;
         };
@@ -72,7 +72,7 @@ export interface Database {
           title?: string;
           description?: string | null;
           activity_date?: string;
-          poster_url?: string | null;
+          poster_data?: string | null;
           details?: string | null;
           created_at?: string | null;
         };
@@ -83,9 +83,9 @@ export interface Database {
           title: string;
           description: string | null;
           activity_date: string;
-          poster_url: string | null;
+          poster_data: string | null;
           details: string | null;
-          photos: string[] | null;
+          photos_data: string[] | null;
           created_at: string | null;
         };
         Insert: {
@@ -93,9 +93,9 @@ export interface Database {
           title: string;
           description?: string | null;
           activity_date: string;
-          poster_url?: string | null;
+          poster_data?: string | null;
           details?: string | null;
-          photos?: string[] | null;
+          photos_data?: string[] | null;
           created_at?: string | null;
         };
         Update: {
@@ -103,9 +103,9 @@ export interface Database {
           title?: string;
           description?: string | null;
           activity_date?: string;
-          poster_url?: string | null;
+          poster_data?: string | null;
           details?: string | null;
-          photos?: string[] | null;
+          photos_data?: string[] | null;
           created_at?: string | null;
         };
       };
@@ -113,19 +113,19 @@ export interface Database {
         Row: {
           id: number;
           title: string | null;
-          image_url: string;
+          image_data: string;
           uploaded_at: string | null;
         };
         Insert: {
           id?: number;
           title?: string | null;
-          image_url: string;
+          image_data: string;
           uploaded_at?: string | null;
         };
         Update: {
           id?: number;
           title?: string | null;
-          image_url?: string;
+          image_data?: string;
           uploaded_at?: string | null;
         };
       };
