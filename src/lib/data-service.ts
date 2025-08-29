@@ -155,6 +155,29 @@ export const deleteWinner = async (id: string): Promise<boolean> => {
   }
 };
 
+// --- Storage ---
+export const uploadImage = async (file: File, bucket: string): Promise<string | null> => {
+  try {
+    const fileName = `${Date.now()}_${file.name}`;
+    const { data, error } = await supabase.storage
+      .from(bucket)
+      .upload(fileName, file);
+
+    if (error) {
+      throw error;
+    }
+
+    const { data: publicUrlData } = supabase.storage
+      .from(bucket)
+      .getPublicUrl(data.path);
+
+    return publicUrlData.publicUrl;
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    return null;
+  }
+};
+
 // --- Activities ---
 export const getActivities = async (): Promise<Activity[]> => {
   try {

@@ -1,4 +1,4 @@
-import { useState, useEffect, FormEvent } from 'react';
+import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -11,6 +11,11 @@ import * as DataService from '@/lib/data-service';
 import { Winner, Activity, GalleryImage } from '@/lib/data-service';
 import { useData } from '@/contexts/DataContext';
 
+// Define new types for form state to handle file uploads
+type WinnerFormState = Omit<Winner, 'id' | 'photo'> & { photo: File | string | null };
+type ActivityFormState = Omit<Activity, 'id' | 'poster' | 'photos'> & { poster: File | string | null; photos: FileList | string[] | null };
+type GalleryImageFormState = Omit<GalleryImage, 'id' | 'url'> & { url: File | string | null };
+
 const Admin = () => {
   const { triggerDataChange } = useData();
   const [winners, setWinners] = useState<Winner[]>([]);
@@ -18,18 +23,18 @@ const Admin = () => {
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
 
   // Form state for new winner
-  const [newWinner, setNewWinner] = useState<Omit<Winner, 'id'>>({ name: '', rollNumber: '', event: '', date: '', photo: '', year: '', isThisWeekWinner: false });
+  const initialWinnerState: WinnerFormState = { name: '', rollNumber: '', event: '', date: '', photo: null, year: '', isThisWeekWinner: false };
+  const [newWinner, setNewWinner] = useState<WinnerFormState>(initialWinnerState);
   const [editingWinner, setEditingWinner] = useState<Winner | null>(null);
 
   // Form state for new activity
-  const [newActivity, setNewActivity] = useState<Omit<Activity, 'id' | 'poster' | 'details' | 'photos'>>({ name: '', date: '', description: '', status: 'upcoming' });
-  const [poster, setPoster] = useState('');
-  const [details, setDetails] = useState('');
-  const [photos, setPhotos] = useState('');
+  const initialActivityState: ActivityFormState = { name: '', date: '', description: '', status: 'upcoming', details: '', poster: null, photos: null };
+  const [newActivity, setNewActivity] = useState<ActivityFormState>(initialActivityState);
   const [editingActivity, setEditingActivity] = useState<Activity | null>(null);
 
   // Form state for new gallery image
-  const [newGalleryImage, setNewGalleryImage] = useState<Omit<GalleryImage, 'id'>>({ url: '', caption: '' });
+  const initialGalleryImageState: GalleryImageFormState = { url: null, caption: '' };
+  const [newGalleryImage, setNewGalleryImage] = useState<GalleryImageFormState>(initialGalleryImageState);
   const [editingGalleryImage, setEditingGalleryImage] = useState<GalleryImage | null>(null);
 
   const { dataChanged } = useData();
@@ -37,14 +42,14 @@ const Admin = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [winners, activities, galleryImages] = await Promise.all([
+        const [winnersData, activitiesData, galleryImagesData] = await Promise.all([
           DataService.getWinners(),
           DataService.getActivities(),
           DataService.getGalleryImages(),
         ]);
-        setWinners(winners);
-        setActivities(activities);
-        setGalleryImages(galleryImages);
+        setWinners(winnersData);
+        setActivities(activitiesData);
+        setGalleryImages(galleryImagesData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -53,29 +58,35 @@ const Admin = () => {
     fetchData();
   }, [dataChanged]);
 
-  const handleAddWinner = (e: FormEvent) => {
+  const handleAddWinner = async (e: FormEvent) => {
     e.preventDefault();
-    const submitWinner = async () => {
-      try {
-        if (editingWinner) {
-          await DataService.updateWinner({ ...newWinner, id: editingWinner.id });
-          setEditingWinner(null);
-        } else {
-          await DataService.addWinner(newWinner);
-        }
-        setNewWinner({ name: '', rollNumber: '', event: '', date: '', photo: '', year: '', isThisWeekWinner: false });
-        triggerDataChange();
-      } catch (error) {
-        console.error('Error saving winner:', error);
+    try {
+      let photoUrl = editingWinner?.photo || '';
+
+      if (newWinner.photo && newWinner.photo instanceof File) {
+        const uploadedUrl = await DataService.uploadImage(newWinner.photo, 'winners_photos');
+        if (!uploadedUrl) throw new Error('Image upload failed');
+        photoUrl = uploadedUrl;
       }
-    };
-    
-    submitWinner();
+
+      const winnerData = { ...newWinner, photo: photoUrl };
+
+      if (editingWinner) {
+        await DataService.updateWinner({ ...winnerData, id: editingWinner.id });
+        setEditingWinner(null);
+      } else {
+        await DataService.addWinner(winnerData);
+      }
+      setNewWinner(initialWinnerState);
+      triggerDataChange();
+    } catch (error) {
+      console.error('Error saving winner:', error);
+    }
   };
 
   const handleEditWinner = (winner: Winner) => {
     setEditingWinner(winner);
-    setNewWinner(winner);
+    setNewWinner({ ...winner, photo: winner.photo || null });
   };
 
   const handleDeleteWinner = (id: string) => {
@@ -91,37 +102,41 @@ const Admin = () => {
     deleteWinner();
   };
 
-  const handleAddActivity = (e: FormEvent) => {
+  const handleAddActivity = async (e: FormEvent) => {
     e.preventDefault();
-    const submitActivity = async () => {
-      try {
-        const activityData = { ...newActivity, poster, details, photos: photos.split('\n').filter(p => p) };
-        if (editingActivity) {
-          await DataService.updateActivity({ ...activityData, id: editingActivity.id });
-          setEditingActivity(null);
-        } else {
-          await DataService.addActivity(activityData);
-        }
-        setNewActivity({ name: '', date: '', description: '', status: 'upcoming' });
-        setPoster('');
-        setDetails('');
-        setPhotos('');
-        triggerDataChange();
-      } catch (error) {
-        console.error('Error saving activity:', error);
+    try {
+      let posterUrl = editingActivity?.poster || '';
+      if (newActivity.poster && newActivity.poster instanceof File) {
+        const uploadedUrl = await DataService.uploadImage(newActivity.poster, 'activity_posters');
+        if (!uploadedUrl) throw new Error('Poster upload failed');
+        posterUrl = uploadedUrl;
       }
-    };
-    
-    submitActivity();
+
+      let photoUrls: string[] = editingActivity?.photos || [];
+      if (newActivity.photos && newActivity.photos instanceof FileList) {
+        const uploadPromises = Array.from(newActivity.photos).map(file => DataService.uploadImage(file, 'gallery_images'));
+        const uploadedUrls = await Promise.all(uploadPromises);
+        photoUrls = uploadedUrls.filter((url): url is string => url !== null);
+      }
+
+      const activityData = { ...newActivity, poster: posterUrl, photos: photoUrls };
+
+      if (editingActivity) {
+        await DataService.updateActivity({ ...activityData, id: editingActivity.id });
+        setEditingActivity(null);
+      } else {
+        await DataService.addActivity(activityData);
+      }
+      setNewActivity(initialActivityState);
+      triggerDataChange();
+    } catch (error) {
+      console.error('Error saving activity:', error);
+    }
   };
 
   const handleEditActivity = (activity: Activity) => {
     setEditingActivity(activity);
-    const { poster, details, photos, ...rest } = activity;
-    setNewActivity(rest);
-    setPoster(poster || '');
-    setDetails(details || '');
-    setPhotos(photos?.join('\n') || '');
+    setNewActivity({ ...activity, poster: activity.poster || null, photos: activity.photos || [] });
   };
 
   const handleDeleteActivity = (id: string) => {
@@ -137,29 +152,34 @@ const Admin = () => {
     deleteActivity();
   };
 
-  const handleAddGalleryImage = (e: FormEvent) => {
+  const handleAddGalleryImage = async (e: FormEvent) => {
     e.preventDefault();
-    const submitGalleryImage = async () => {
-      try {
-        if (editingGalleryImage) {
-          await DataService.updateGalleryImage({ ...newGalleryImage, id: editingGalleryImage.id });
-          setEditingGalleryImage(null);
-        } else {
-          await DataService.addGalleryImage(newGalleryImage);
-        }
-        setNewGalleryImage({ url: '', caption: '' });
-        triggerDataChange();
-      } catch (error) {
-        console.error('Error saving gallery image:', error);
+    try {
+      let imageUrl = editingGalleryImage?.url || '';
+      if (newGalleryImage.url && newGalleryImage.url instanceof File) {
+        const uploadedUrl = await DataService.uploadImage(newGalleryImage.url, 'gallery_images');
+        if (!uploadedUrl) throw new Error('Image upload failed');
+        imageUrl = uploadedUrl;
       }
-    };
-    
-    submitGalleryImage();
+
+      const galleryImageData = { ...newGalleryImage, url: imageUrl };
+
+      if (editingGalleryImage) {
+        await DataService.updateGalleryImage({ ...galleryImageData, id: editingGalleryImage.id });
+        setEditingGalleryImage(null);
+      } else {
+        await DataService.addGalleryImage(galleryImageData);
+      }
+      setNewGalleryImage(initialGalleryImageState);
+      triggerDataChange();
+    } catch (error) {
+      console.error('Error saving gallery image:', error);
+    }
   };
 
   const handleEditGalleryImage = (image: GalleryImage) => {
     setEditingGalleryImage(image);
-    setNewGalleryImage(image);
+    setNewGalleryImage({ ...image, url: image.url || null });
   };
 
   const handleDeleteGalleryImage = (id: string) => {
@@ -214,17 +234,17 @@ const Admin = () => {
                     <Input id="winner-year" value={newWinner.year} onChange={e => setNewWinner({ ...newWinner, year: e.target.value })} />
                   </div>
                   <div>
-                    <Label htmlFor="winner-photo">Photo URL</Label>
-                    <Input id="winner-photo" value={newWinner.photo} onChange={e => setNewWinner({ ...newWinner, photo: e.target.value })} />
+                    <Label htmlFor="winner-photo">Photo</Label>
+                    <Input id="winner-photo" type="file" onChange={(e: ChangeEvent<HTMLInputElement>) => setNewWinner({ ...newWinner, photo: e.target.files ? e.target.files[0] : null })} />
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Checkbox id="isThisWeekWinner" checked={newWinner.isThisWeekWinner} onCheckedChange={checked => setNewWinner({ ...newWinner, isThisWeekWinner: !!checked })} />
+                    <Checkbox id="isThisWeekWinner" checked={newWinner.isThisWeekWinner} onCheckedChange={(checked: boolean) => setNewWinner({ ...newWinner, isThisWeekWinner: !!checked })} />
                     <Label htmlFor="isThisWeekWinner">This Week's Winner</Label>
                   </div>
                   <div className="flex space-x-2">
                     <Button type="submit">{editingWinner ? 'Update Winner' : 'Add Winner'}</Button>
                     {editingWinner && (
-                      <Button variant="outline" onClick={() => { setEditingWinner(null); setNewWinner({ name: '', rollNumber: '', event: '', date: '', photo: '', year: '', isThisWeekWinner: false }); }}>Cancel</Button>
+                      <Button variant="outline" onClick={() => { setEditingWinner(null); setNewWinner(initialWinnerState); }}>Cancel</Button>
                     )}
                   </div>
                 </form>
@@ -270,15 +290,15 @@ const Admin = () => {
                   </div>
                   <div>
                     <Label htmlFor="activity-details">Details</Label>
-                    <Textarea id="activity-details" value={details} onChange={e => setDetails(e.target.value)} />
+                    <Textarea id="activity-details" value={newActivity.details || ''} onChange={e => setNewActivity({ ...newActivity, details: e.target.value })} />
                   </div>
                   <div>
-                    <Label htmlFor="activity-photos">Photo URLs (one per line)</Label>
-                    <Textarea id="activity-photos" value={photos} onChange={e => setPhotos(e.target.value)} />
+                    <Label htmlFor="activity-photos">Activity Photos</Label>
+                    <Input id="activity-photos" type="file" multiple onChange={(e: ChangeEvent<HTMLInputElement>) => setNewActivity({ ...newActivity, photos: e.target.files })} />
                   </div>
                   <div>
-                    <Label htmlFor="activity-poster">Poster URL</Label>
-                    <Input id="activity-poster" value={poster} onChange={e => setPoster(e.target.value)} />
+                    <Label htmlFor="activity-poster">Poster</Label>
+                    <Input id="activity-poster" type="file" onChange={(e: ChangeEvent<HTMLInputElement>) => setNewActivity({ ...newActivity, poster: e.target.files ? e.target.files[0] : null })} />
                   </div>
                   <div>
                     <Label htmlFor="activity-status">Status</Label>
@@ -295,7 +315,7 @@ const Admin = () => {
                   <div className="flex space-x-2">
                     <Button type="submit">{editingActivity ? 'Update Activity' : 'Add Activity'}</Button>
                     {editingActivity && (
-                      <Button variant="outline" onClick={() => { setEditingActivity(null); setNewActivity({ name: '', date: '', description: '', status: 'upcoming' }); setPoster(''); setDetails(''); setPhotos(''); }}>Cancel</Button>
+                      <Button variant="outline" onClick={() => { setEditingActivity(null); setNewActivity(initialActivityState); }}>Cancel</Button>
                     )}
                   </div>
                 </form>
@@ -328,8 +348,8 @@ const Admin = () => {
                 <h3 className="text-2xl font-semibold mb-4">{editingGalleryImage ? 'Edit Gallery Image' : 'Add New Gallery Image'}</h3>
                 <form onSubmit={handleAddGalleryImage} className="space-y-4">
                   <div>
-                    <Label htmlFor="gallery-url">Image URL</Label>
-                    <Input id="gallery-url" value={newGalleryImage.url} onChange={e => setNewGalleryImage({ ...newGalleryImage, url: e.target.value })} />
+                    <Label htmlFor="gallery-url">Image</Label>
+                    <Input id="gallery-url" type="file" onChange={(e: ChangeEvent<HTMLInputElement>) => setNewGalleryImage({ ...newGalleryImage, url: e.target.files ? e.target.files[0] : null })} />
                   </div>
                   <div>
                     <Label htmlFor="gallery-caption">Caption</Label>
@@ -338,7 +358,7 @@ const Admin = () => {
                   <div className="flex space-x-2">
                     <Button type="submit">{editingGalleryImage ? 'Update Image' : 'Add Image'}</Button>
                     {editingGalleryImage && (
-                      <Button variant="outline" onClick={() => { setEditingGalleryImage(null); setNewGalleryImage({ url: '', caption: '' }); }}>Cancel</Button>
+                      <Button variant="outline" onClick={() => { setEditingGalleryImage(null); setNewGalleryImage(initialGalleryImageState); }}>Cancel</Button>
                     )}
                   </div>
                 </form>
