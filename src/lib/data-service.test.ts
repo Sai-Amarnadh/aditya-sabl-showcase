@@ -27,7 +27,7 @@ describe('DataService', () => {
           roll_number: '12345',
           event: 'Test Event',
           date: '2025-01-01',
-          photo_url: 'http://example.com/photo.jpg',
+          photo_data: 'base64encodedstring',
           year: '2025',
           is_week_winner: true,
           created_at: '2025-01-01T00:00:00.000Z'
@@ -51,7 +51,7 @@ describe('DataService', () => {
         rollNumber: '12345',
         event: 'Test Event',
         date: '2025-01-01',
-        photo: 'http://example.com/photo.jpg',
+        photo: 'data:image/jpeg;base64,base64encodedstring',
         year: '2025',
         isThisWeekWinner: true,
       });
@@ -65,11 +65,11 @@ describe('DataService', () => {
         rollNumber: '67890',
         event: 'New Event',
         date: '2025-02-01',
-        photo: 'http://example.com/new.jpg',
+        photo: 'base64encodedstring',
         year: '2025',
         isThisWeekWinner: false,
       };
-      const mockInsertedWinner = { id: 2, ...newWinner, created_at: '2025-02-01T00:00:00.000Z', roll_number: '67890', photo_url: 'http://example.com/new.jpg', is_week_winner: false};
+      const mockInsertedWinner = { id: 2, ...newWinner, created_at: '2025-02-01T00:00:00.000Z', roll_number: '67890', photo_data: 'base64encodedstring', is_week_winner: false};
 
       const singleMock = vi.fn().mockResolvedValue({ data: mockInsertedWinner, error: null });
       const selectMock = vi.fn().mockReturnValue({ single: singleMock });
@@ -87,14 +87,15 @@ describe('DataService', () => {
           roll_number: '67890',
           event: 'New Event',
           date: '2025-02-01',
-          photo_url: 'http://example.com/new.jpg',
+          photo_data: 'base64encodedstring',
           year: '2025',
           is_week_winner: false,
         },
       ]);
       expect(result).toEqual({
         id: '2',
-        ...newWinner
+        ...newWinner,
+        photo: 'data:image/jpeg;base64,base64encodedstring'
       });
     });
   });
@@ -107,11 +108,11 @@ describe('DataService', () => {
         rollNumber: '12345',
         event: 'Updated Event',
         date: '2025-01-15',
-        photo: 'http://example.com/updated.jpg',
+        photo: 'base64encodedstring',
         year: '2025',
         isThisWeekWinner: true,
       };
-      const mockUpdatedWinner = { ...updatedWinner, id: 1, roll_number: '12345', photo_url: 'http://example.com/updated.jpg', is_week_winner: true };
+      const mockUpdatedWinner = { ...updatedWinner, id: 1, roll_number: '12345', photo_data: 'base64encodedstring', is_week_winner: true };
 
       const singleMock = vi.fn().mockResolvedValue({ data: mockUpdatedWinner, error: null });
       const selectMock = vi.fn().mockReturnValue({ single: singleMock });
@@ -129,12 +130,12 @@ describe('DataService', () => {
         roll_number: '12345',
         event: 'Updated Event',
         date: '2025-01-15',
-        photo_url: 'http://example.com/updated.jpg',
+        photo_data: 'base64encodedstring',
         year: '2025',
         is_week_winner: true,
       });
       expect(eqMock).toHaveBeenCalledWith('id', 1);
-      expect(result).toEqual(updatedWinner);
+      expect(result).toEqual({ ...updatedWinner, photo: 'data:image/jpeg;base64,base64encodedstring' });
     });
   });
 
@@ -158,10 +159,10 @@ describe('DataService', () => {
   describe('getActivities', () => {
     it('should fetch and transform upcoming and completed activities', async () => {
       const mockUpcoming = [
-        { id: 1, title: 'Upcoming Activity', activity_date: '2025-03-01', description: 'Desc', details: 'Details', poster_url: 'poster.jpg', photos: ['photo1.jpg'] }
+        { id: 1, title: 'Upcoming Activity', activity_date: '2025-03-01', description: 'Desc', details: 'Details', poster_data: 'poster.jpg', photos_data: ['photo1.jpg'] }
       ];
       const mockPrevious = [
-        { id: 2, title: 'Previous Activity', activity_date: '2025-02-01', description: 'Desc', details: 'Details', poster_url: 'poster.jpg', photos: ['photo2.jpg'] }
+        { id: 2, title: 'Previous Activity', activity_date: '2025-02-01', description: 'Desc', details: 'Details', poster_data: 'poster.jpg', photos_data: ['photo2.jpg'] }
       ];
 
       const orderUpcomingMock = vi.fn().mockResolvedValue({ data: mockUpcoming, error: null });
@@ -227,7 +228,9 @@ describe('DataService', () => {
     it('should delete an activity', async () => {
       const eqMock = vi.fn().mockResolvedValue({ error: null });
       const deleteMock = vi.fn().mockReturnValue({ eq: eqMock });
-      supabase.from = vi.fn().mockReturnValue({ delete: deleteMock });
+      supabase.from = vi.fn().mockReturnValue({
+        delete: deleteMock,
+      });
 
       const result = await DataService.deleteActivity('1');
       expect(supabase.from).toHaveBeenCalledWith('upcoming_activities');
@@ -237,7 +240,7 @@ describe('DataService', () => {
 
   describe('getGalleryImages', () => {
     it('should fetch and transform gallery images', async () => {
-      const mockImages = [{ id: 1, image_url: 'image.jpg', title: 'Caption', uploaded_at: '2025-01-01' }];
+      const mockImages = [{ id: 1, image_data: 'image.jpg', title: 'Caption', uploaded_at: '2025-01-01' }];
       const orderMock = vi.fn().mockResolvedValue({ data: mockImages, error: null });
       supabase.from = vi.fn().mockReturnValue({ select: vi.fn().mockReturnValue({ order: orderMock }) });
 
@@ -251,7 +254,7 @@ describe('DataService', () => {
   describe('addGalleryImage', () => {
     it('should add a new gallery image', async () => {
       const newImage = { url: 'new.jpg', caption: 'New Caption' };
-      const mockImage = { id: 2, image_url: 'new.jpg', title: 'New Caption' };
+      const mockImage = { id: 2, image_data: 'new.jpg', title: 'New Caption' };
       const singleMock = vi.fn().mockResolvedValue({ data: mockImage, error: null });
       const selectMock = vi.fn().mockReturnValue({ single: singleMock });
       const insertMock = vi.fn().mockReturnValue({ select: selectMock });
@@ -266,7 +269,7 @@ describe('DataService', () => {
   describe('updateGalleryImage', () => {
     it('should update a gallery image', async () => {
       const updatedImage = { id: '1', url: 'updated.jpg', caption: 'Updated Caption' };
-      const mockImage = { id: 1, image_url: 'updated.jpg', title: 'Updated Caption' };
+      const mockImage = { id: 1, image_data: 'updated.jpg', title: 'Updated Caption' };
       const singleMock = vi.fn().mockResolvedValue({ data: mockImage, error: null });
       const selectMock = vi.fn().mockReturnValue({ single: singleMock });
       const eqMock = vi.fn().mockReturnValue({ select: selectMock });
@@ -283,7 +286,9 @@ describe('DataService', () => {
     it('should delete a gallery image', async () => {
       const eqMock = vi.fn().mockResolvedValue({ error: null });
       const deleteMock = vi.fn().mockReturnValue({ eq: eqMock });
-      supabase.from = vi.fn().mockReturnValue({ delete: deleteMock });
+      supabase.from = vi.fn().mockReturnValue({
+        delete: deleteMock,
+      });
 
       const result = await DataService.deleteGalleryImage('1');
       expect(supabase.from).toHaveBeenCalledWith('gallery');

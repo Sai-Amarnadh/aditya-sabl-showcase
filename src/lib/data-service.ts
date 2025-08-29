@@ -33,6 +33,12 @@ type WinnerRow = Database['public']['Tables']['winners']['Row'];
 type ActivityRow = Database['public']['Tables']['previous_activities']['Row'] | Database['public']['Tables']['upcoming_activities']['Row'];
 type GalleryRow = Database['public']['Tables']['gallery']['Row'];
 
+// Helper function to convert bytea to data URL
+const toDataURL = (data: string, type: string = 'image/jpeg') => {
+  if (!data) return '';
+  return `data:${type};base64,${data}`;
+}
+
 // Helper function to transform database row to Winner
 const transformWinnerFromDB = (row: WinnerRow): Winner => ({
   id: row.id.toString(),
@@ -40,7 +46,7 @@ const transformWinnerFromDB = (row: WinnerRow): Winner => ({
   rollNumber: row.roll_number,
   event: row.event,
   date: row.date,
-  photo: row.photo_url || '',
+  photo: toDataURL(row.photo_data),
   year: row.year,
   isThisWeekWinner: row.is_week_winner || false,
 });
@@ -51,7 +57,7 @@ const transformWinnerToDB = (winner: Omit<Winner, 'id'>) => ({
   roll_number: winner.rollNumber || null,
   event: winner.event,
   date: winner.date,
-  photo_url: winner.photo || null,
+  photo_data: winner.photo || null,
   year: winner.year,
   is_week_winner: winner.isThisWeekWinner || false,
 });
@@ -63,8 +69,8 @@ const transformActivityFromDB = (row: ActivityRow, status: 'upcoming' | 'complet
   date: row.activity_date,
   description: row.description || '',
   details: row.details,
-  poster: row.poster_url,
-  photos: 'photos' in row ? row.photos || [] : [],
+  poster: toDataURL(row.poster_data),
+  photos: 'photos_data' in row && row.photos_data ? row.photos_data.map(p => toDataURL(p)) : [],
   status,
 });
 
@@ -74,20 +80,20 @@ const transformActivityToDB = (activity: Omit<Activity, 'id'>) => ({
   activity_date: activity.date,
   description: activity.description || null,
   details: activity.details || null,
-  poster_url: activity.poster || null,
-  photos: activity.photos || null,
+  poster_data: activity.poster || null,
+  photos_data: activity.photos || null,
 });
 
 // Helper function to transform database row to GalleryImage
 const transformGalleryFromDB = (row: GalleryRow): GalleryImage => ({
   id: row.id.toString(),
-  url: row.image_url,
+  url: toDataURL(row.image_data),
   caption: row.title || '',
 });
 
 // Helper function to transform GalleryImage to database format
 const transformGalleryToDB = (image: Omit<GalleryImage, 'id'>) => ({
-  image_url: image.url,
+  image_data: image.url,
   title: image.caption || null,
 });
 
@@ -152,29 +158,6 @@ export const deleteWinner = async (id: string): Promise<boolean> => {
   } catch (error) {
     console.error('Error deleting winner:', error);
     return false;
-  }
-};
-
-// --- Storage ---
-export const uploadImage = async (file: File, bucket: string): Promise<string | null> => {
-  try {
-    const fileName = `${Date.now()}_${file.name}`;
-    const { data, error } = await supabase.storage
-      .from(bucket)
-      .upload(fileName, file);
-
-    if (error) {
-      throw error;
-    }
-
-    const { data: publicUrlData } = supabase.storage
-      .from(bucket)
-      .getPublicUrl(data.path);
-
-    return publicUrlData.publicUrl;
-  } catch (error) {
-    console.error('Error uploading image:', error);
-    return null;
   }
 };
 
