@@ -34,7 +34,7 @@ type ActivityRow = Database['public']['Tables']['previous_activities']['Row'] | 
 type GalleryRow = Database['public']['Tables']['gallery']['Row'];
 
 // Helper function to convert bytea to data URL
-const toDataURL = (data: string, type: string = 'image/jpeg') => {
+const toDataURL = (data: string | null, type: string = 'image/jpeg') => {
   if (!data) return '';
   return `data:${type};base64,${data}`;
 }
@@ -52,12 +52,12 @@ const transformWinnerFromDB = (row: WinnerRow): Winner => ({
 });
 
 // Helper function to transform Winner to database format
-const transformWinnerToDB = (winner: Omit<Winner, 'id'>) => ({
+const transformWinnerToDB = (winner: Omit<Winner, 'id' | 'photo'> & { photo: string | ArrayBuffer | null }) => ({
   name: winner.name,
   roll_number: winner.rollNumber || null,
   event: winner.event,
   date: winner.date,
-  photo_data: winner.photo || null,
+  photo_data: winner.photo,
   year: winner.year,
   is_week_winner: winner.isThisWeekWinner || false,
 });
@@ -75,13 +75,13 @@ const transformActivityFromDB = (row: ActivityRow, status: 'upcoming' | 'complet
 });
 
 // Helper function to transform Activity to database format
-const transformActivityToDB = (activity: Omit<Activity, 'id'>) => ({
+const transformActivityToDB = (activity: Omit<Activity, 'id' | 'photos' | 'poster'> & { poster: string | ArrayBuffer | null, photos: (string | ArrayBuffer)[] | null }) => ({
   title: activity.name,
   activity_date: activity.date,
   description: activity.description || null,
   details: activity.details || null,
-  poster_data: activity.poster || null,
-  photos_data: activity.photos || null,
+  poster_data: activity.poster,
+  photos_data: activity.photos,
 });
 
 // Helper function to transform database row to GalleryImage
@@ -92,7 +92,7 @@ const transformGalleryFromDB = (row: GalleryRow): GalleryImage => ({
 });
 
 // Helper function to transform GalleryImage to database format
-const transformGalleryToDB = (image: Omit<GalleryImage, 'id'>) => ({
+const transformGalleryToDB = (image: Omit<GalleryImage, 'id' | 'url'> & { url: string | ArrayBuffer | null }) => ({
   image_data: image.url,
   title: image.caption || null,
 });
@@ -221,7 +221,7 @@ export const addActivity = async (activity: Omit<Activity, 'id'>): Promise<Activ
     const table = activity.status === 'upcoming' ? 'upcoming_activities' : 'previous_activities';
     const { data, error } = await supabase
       .from(table)
-      .insert([transformActivityToDB(activity)])
+      .insert([transformActivityToDB(activity as any)])
       .select()
       .single();
 
@@ -238,7 +238,7 @@ export const updateActivity = async (activity: Activity): Promise<Activity | nul
     const table = activity.status === 'upcoming' ? 'upcoming_activities' : 'previous_activities';
     const { data, error } = await supabase
       .from(table)
-      .update(transformActivityToDB(activity))
+      .update(transformActivityToDB(activity as any))
       .eq('id', parseInt(activity.id))
       .select()
       .single();
@@ -295,7 +295,7 @@ export const addGalleryImage = async (image: Omit<GalleryImage, 'id'>): Promise<
   try {
     const { data, error } = await supabase
       .from('gallery')
-      .insert([transformGalleryToDB(image)])
+      .insert([transformGalleryToDB(image as any)])
       .select()
       .single();
 
@@ -311,7 +311,7 @@ export const updateGalleryImage = async (image: GalleryImage): Promise<GalleryIm
   try {
     const { data, error } = await supabase
       .from('gallery')
-      .update(transformGalleryToDB(image))
+      .update(transformGalleryToDB(image as any))
       .eq('id', parseInt(image.id))
       .select()
       .single();

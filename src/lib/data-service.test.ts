@@ -69,7 +69,7 @@ describe('DataService', () => {
         year: '2025',
         isThisWeekWinner: false,
       };
-      const mockInsertedWinner = { id: 2, ...newWinner, created_at: '2025-02-01T00:00:00.000Z', roll_number: '67890', photo_data: 'base64encodedstring', is_week_winner: false};
+      const mockInsertedWinner = { id: 2, name: 'New Winner', roll_number: '67890', event: 'New Event', date: '2025-02-01', photo_data: 'base64encodedstring', year: '2025', is_week_winner: false, created_at: '2025-02-01T00:00:00.000Z' };
 
       const singleMock = vi.fn().mockResolvedValue({ data: mockInsertedWinner, error: null });
       const selectMock = vi.fn().mockReturnValue({ single: singleMock });
@@ -94,8 +94,13 @@ describe('DataService', () => {
       ]);
       expect(result).toEqual({
         id: '2',
-        ...newWinner,
-        photo: 'data:image/jpeg;base64,base64encodedstring'
+        name: 'New Winner',
+        rollNumber: '67890',
+        event: 'New Event',
+        date: '2025-02-01',
+        photo: 'data:image/jpeg;base64,base64encodedstring',
+        year: '2025',
+        isThisWeekWinner: false,
       });
     });
   });
