@@ -58,25 +58,18 @@ const Admin = () => {
     fetchData();
   }, [dataChanged]);
 
-  const fileToArrayBuffer = (file: File): Promise<ArrayBuffer> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsArrayBuffer(file);
-      reader.onload = () => resolve(reader.result as ArrayBuffer);
-      reader.onerror = error => reject(error);
-    });
-  };
-
   const handleAddWinner = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      let photoData: string | ArrayBuffer = editingWinner?.photo || '';
+      let photoUrl = editingWinner?.photo || '';
 
       if (newWinner.photo && newWinner.photo instanceof File) {
-        photoData = await fileToArrayBuffer(newWinner.photo);
+        const uploadedUrl = await DataService.uploadImage(newWinner.photo, 'winner-photos');
+        if (!uploadedUrl) throw new Error('Image upload failed');
+        photoUrl = uploadedUrl;
       }
 
-      const winnerData = { ...newWinner, photo: photoData };
+      const winnerData = { ...newWinner, photo: photoUrl };
 
       if (editingWinner) {
         await DataService.updateWinner({ ...winnerData, id: editingWinner.id });
@@ -84,7 +77,7 @@ const Admin = () => {
       } else {
         await DataService.addWinner(winnerData);
       }
-      setNewWinner(initialWinnerState);
+      setNewWinner({ name: '', rollNumber: '', event: '', date: '', photo: '', year: '', isThisWeekWinner: false });
       triggerDataChange();
     } catch (error) {
       console.error('Error saving winner:', error);
@@ -93,7 +86,7 @@ const Admin = () => {
 
   const handleEditWinner = (winner: Winner) => {
     setEditingWinner(winner);
-    setNewWinner({ ...winner, photo: winner.photo || null });
+    setNewWinner(winner);
   };
 
   const handleDeleteWinner = (id: string) => {
@@ -112,18 +105,21 @@ const Admin = () => {
   const handleAddActivity = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      let posterData: string | ArrayBuffer = editingActivity?.poster || '';
-      if (newActivity.poster && newActivity.poster instanceof File) {
-        posterData = await fileToArrayBuffer(newActivity.poster);
+      let posterUrl = editingActivity?.poster || '';
+      if (newActivity.poster instanceof File) {
+        const uploadedUrl = await DataService.uploadImage(newActivity.poster, 'activity-posters');
+        if (!uploadedUrl) throw new Error("Poster image upload failed");
+        posterUrl = uploadedUrl;
       }
 
-      let photosData: (string | ArrayBuffer)[] = editingActivity?.photos || [];
-      if (newActivity.photos && newActivity.photos instanceof FileList) {
-        const uploadPromises = Array.from(newActivity.photos).map(file => fileToArrayBuffer(file));
-        photosData = await Promise.all(uploadPromises);
+      let photoUrls: string[] = editingActivity?.photos || [];
+      if (newActivity.photos instanceof FileList) {
+        const uploadPromises = Array.from(newActivity.photos).map(file => DataService.uploadImage(file, 'gallery_images'));
+        const uploadedUrls = await Promise.all(uploadPromises);
+        photoUrls = uploadedUrls.filter((url): url is string => url !== null);
       }
 
-      const activityData = { ...newActivity, poster: posterData, photos: photosData };
+      const activityData = { ...newActivity, poster: posterUrl, details: newActivity.details, photos: photoUrls };
 
       if (editingActivity) {
         await DataService.updateActivity({ ...activityData, id: editingActivity.id });
@@ -140,7 +136,7 @@ const Admin = () => {
 
   const handleEditActivity = (activity: Activity) => {
     setEditingActivity(activity);
-    setNewActivity({ ...activity, poster: activity.poster || null, photos: activity.photos || [] });
+    setNewActivity({ ...activity, poster: activity.poster || null, photos: activity.photos || [], details: activity.details || '' });
   };
 
   const handleDeleteActivity = (id: string) => {
@@ -159,12 +155,13 @@ const Admin = () => {
   const handleAddGalleryImage = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      let imageData: string | ArrayBuffer = editingGalleryImage?.url || '';
-      if (newGalleryImage.url && newGalleryImage.url instanceof File) {
-        imageData = await fileToArrayBuffer(newGalleryImage.url);
+      let imageUrl = editingGalleryImage?.url || '';
+      if (newGalleryImage.url instanceof File) {
+        imageUrl = await DataService.uploadImage(newGalleryImage.url, 'gallery_images');
+        if (!imageUrl) throw new Error('Image upload failed');
       }
 
-      const galleryImageData = { ...newGalleryImage, url: imageData };
+      const galleryImageData = { ...newGalleryImage, url: imageUrl };
 
       if (editingGalleryImage) {
         await DataService.updateGalleryImage({ ...galleryImageData, id: editingGalleryImage.id });
@@ -240,7 +237,7 @@ const Admin = () => {
                     <Input id="winner-photo" type="file" onChange={(e: ChangeEvent<HTMLInputElement>) => setNewWinner({ ...newWinner, photo: e.target.files ? e.target.files[0] : null })} />
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Checkbox id="isThisWeekWinner" checked={newWinner.isThisWeekWinner} onCheckedChange={checked => setNewWinner({ ...newWinner, isThisWeekWinner: !!checked })} />
+                    <Checkbox id="isThisWeekWinner" checked={newWinner.isThisWeekWinner} onCheckedChange={(checked) => setNewWinner({ ...newWinner, isThisWeekWinner: !!checked })} />
                     <Label htmlFor="isThisWeekWinner">This Week's Winner</Label>
                   </div>
                   <div className="flex space-x-2">
@@ -259,7 +256,8 @@ const Admin = () => {
                       <p className="font-bold">{winner.name}</p>
                       <p className="text-sm text-muted-foreground">{winner.event} - {winner.year}</p>
                     </div>
-                    <div>
+                    <div className="flex items-center">
+                      {winner.photo && <img src={winner.photo} alt={winner.name} className="h-10 w-10 object-cover rounded-full mr-4" />}
                       <Button variant="outline" size="sm" className="mr-2" onClick={() => handleEditWinner(winner)}>Edit</Button>
                       <Button variant="destructive" size="sm" onClick={() => handleDeleteWinner(winner.id)}>Delete</Button>
                     </div>
