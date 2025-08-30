@@ -107,7 +107,7 @@ const Admin = () => {
     try {
       let posterUrl = editingActivity?.poster || '';
       if (newActivity.poster instanceof File) {
-        const uploadedUrl = await DataService.uploadImage(newActivity.poster, 'activity-posters');
+        const uploadedUrl = await DataService.uploadImage(newActivity.poster, 'activity_posters');
         if (!uploadedUrl) throw new Error("Poster image upload failed");
         posterUrl = uploadedUrl;
       }
