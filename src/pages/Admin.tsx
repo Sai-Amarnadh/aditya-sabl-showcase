@@ -1,5 +1,6 @@
 
 import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
+import AdminLogin from '@/components/AdminLogin';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -18,6 +19,7 @@ type ActivityFormState = Omit<Activity, 'id' | 'poster' | 'photos'> & { poster: 
 type GalleryImageFormState = Omit<GalleryImage, 'id' | 'url'> & { url: File | string | null };
 
 const Admin = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { triggerDataChange } = useData();
   const [winners, setWinners] = useState<Winner[]>([]);
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -206,9 +208,26 @@ const Admin = () => {
     deleteGalleryImage();
   };
 
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
+
+  if (!isLoggedIn) {
+    return <AdminLogin onLogin={handleLogin} />;
+  }
+
   return (
     <div className="container mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold text-center mb-12">Admin Panel</h1>
+      <div className="flex justify-between items-center mb-12">
+        <h1 className="text-4xl font-bold">Admin Panel</h1>
+        <Button variant="outline" onClick={handleLogout}>
+          Logout
+        </Button>
+      </div>
       <Tabs defaultValue="winners">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="winners">Manage Winners</TabsTrigger>
