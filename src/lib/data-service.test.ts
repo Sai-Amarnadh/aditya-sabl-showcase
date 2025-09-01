@@ -93,7 +93,7 @@ describe('DataService', () => {
           event: 'New Event',
           date: '2025-02-01',
           photo_url: 'http://example.com/new.jpg',
-          year: '2025',
+          year: 2025,
           is_week_winner: false,
         },
       ]);
@@ -135,7 +135,7 @@ describe('DataService', () => {
         event: 'Updated Event',
         date: '2025-01-15',
         photo_url: 'http://example.com/updated.jpg',
-        year: '2025',
+        year: 2025,
         is_week_winner: true,
       });
       expect(eqMock).toHaveBeenCalledWith('id', 1);
