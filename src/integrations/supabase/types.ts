@@ -17,19 +17,19 @@ export type Database = {
       gallery: {
         Row: {
           id: number
-          image_data: string | null
+          image_url: string | null
           title: string | null
           uploaded_at: string | null
         }
         Insert: {
           id?: never
-          image_data?: string | null
+          image_url?: string | null
           title?: string | null
           uploaded_at?: string | null
         }
         Update: {
           id?: never
-          image_data?: string | null
+          image_url?: string | null
           title?: string | null
           uploaded_at?: string | null
         }
@@ -41,7 +41,8 @@ export type Database = {
           created_at: string | null
           description: string | null
           id: number
-          image_data: string | null
+          photos: string[] | null
+          poster_url: string | null
           title: string
         }
         Insert: {
@@ -49,7 +50,8 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           id?: never
-          image_data?: string | null
+          photos?: string[] | null
+          poster_url?: string | null
           title: string
         }
         Update: {
@@ -57,7 +59,8 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           id?: never
-          image_data?: string | null
+          photos?: string[] | null
+          poster_url?: string | null
           title?: string
         }
         Relationships: []
@@ -70,6 +73,7 @@ export type Database = {
           details: string | null
           id: number
           image_url: string | null
+          poster_url: string | null
           title: string
         }
         Insert: {
@@ -79,6 +83,7 @@ export type Database = {
           details?: string | null
           id?: number
           image_url?: string | null
+          poster_url?: string | null
           title: string
         }
         Update: {
@@ -88,6 +93,7 @@ export type Database = {
           details?: string | null
           id?: number
           image_url?: string | null
+          poster_url?: string | null
           title?: string
         }
         Relationships: []

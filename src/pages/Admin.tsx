@@ -157,8 +157,9 @@ const Admin = () => {
     try {
       let imageUrl = editingGalleryImage?.url || '';
       if (newGalleryImage.url instanceof File) {
-        imageUrl = await DataService.uploadImage(newGalleryImage.url, 'gallery_images');
-        if (!imageUrl) throw new Error('Image upload failed');
+        const uploadedUrl = await DataService.uploadImage(newGalleryImage.url, 'gallery_images');
+        if (!uploadedUrl) throw new Error('Image upload failed');
+        imageUrl = uploadedUrl;
       }
 
       const galleryImageData = { ...newGalleryImage, url: imageUrl };
