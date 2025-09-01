@@ -63,8 +63,8 @@ const transformActivityFromDB = (row: ActivityRow, status: 'upcoming' | 'complet
   date: row.activity_date,
   description: row.description || '',
   details: row.details,
-  poster: row.poster_url,
-  photos: 'photos' in row ? row.photos || [] : [],
+  poster: status === 'upcoming' ? (row as any).image_url : undefined,
+  photos: status === 'completed' && 'image_data' in row ? [] : [], // Will handle image_data separately
   status,
 });
 
@@ -74,22 +74,31 @@ const transformActivityToDB = (activity: Omit<Activity, 'id'>) => ({
   activity_date: activity.date,
   description: activity.description || null,
   details: activity.details || null,
-  poster_url: activity.poster || null,
-  photos: activity.photos || null,
+  ...(activity.status === 'upcoming' ? { image_url: activity.poster || null } : {}),
 });
 
 // Helper function to transform database row to GalleryImage
 const transformGalleryFromDB = (row: GalleryRow): GalleryImage => ({
   id: row.id.toString(),
-  url: row.image_url,
+  url: row.image_data ? `data:image/jpeg;base64,${btoa(String.fromCharCode(...new Uint8Array(row.image_data)))}` : '',
   caption: row.title || '',
 });
 
-// Helper function to transform GalleryImage to database format
-const transformGalleryToDB = (image: Omit<GalleryImage, 'id'>) => ({
-  image_url: image.url,
-  title: image.caption || null,
-});
+// Helper function to transform GalleryImage to database format for insertion
+const transformGalleryToDB = async (image: Omit<GalleryImage, 'id'>, imageFile?: File) => {
+  let imageData = null;
+  
+  if (imageFile) {
+    // Convert file to bytea
+    const arrayBuffer = await imageFile.arrayBuffer();
+    imageData = new Uint8Array(arrayBuffer);
+  }
+  
+  return {
+    image_data: imageData,
+    title: image.caption || null,
+  };
+};
 
 // --- Winners ---
 export const getWinners = async (): Promise<Winner[]> => {
@@ -308,11 +317,12 @@ export const getGalleryImages = async (): Promise<GalleryImage[]> => {
   }
 };
 
-export const addGalleryImage = async (image: Omit<GalleryImage, 'id'>): Promise<GalleryImage | null> => {
+export const addGalleryImage = async (image: Omit<GalleryImage, 'id'>, imageFile?: File): Promise<GalleryImage | null> => {
   try {
+    const transformedData = await transformGalleryToDB(image, imageFile);
     const { data, error } = await supabase
       .from('gallery')
-      .insert([transformGalleryToDB(image)])
+      .insert([transformedData])
       .select()
       .single();
 
@@ -324,11 +334,12 @@ export const addGalleryImage = async (image: Omit<GalleryImage, 'id'>): Promise<
   }
 };
 
-export const updateGalleryImage = async (image: GalleryImage): Promise<GalleryImage | null> => {
+export const updateGalleryImage = async (image: GalleryImage, imageFile?: File): Promise<GalleryImage | null> => {
   try {
+    const transformedData = await transformGalleryToDB(image, imageFile);
     const { data, error } = await supabase
       .from('gallery')
-      .update(transformGalleryToDB(image))
+      .update(transformedData)
       .eq('id', parseInt(image.id))
       .select()
       .single();
