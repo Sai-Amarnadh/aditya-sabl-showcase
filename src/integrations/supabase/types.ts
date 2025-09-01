@@ -40,6 +40,7 @@ export type Database = {
           activity_date: string
           created_at: string | null
           description: string | null
+          details: string | null
           id: number
           photos: string[] | null
           poster_url: string | null
@@ -49,6 +50,7 @@ export type Database = {
           activity_date: string
           created_at?: string | null
           description?: string | null
+          details?: string | null
           id?: never
           photos?: string[] | null
           poster_url?: string | null
@@ -58,6 +60,7 @@ export type Database = {
           activity_date?: string
           created_at?: string | null
           description?: string | null
+          details?: string | null
           id?: never
           photos?: string[] | null
           poster_url?: string | null
