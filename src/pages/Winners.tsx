@@ -11,17 +11,20 @@ const Winners = () => {
   const [selectedYear, setSelectedYear] = useState<string>('all');
   const [selectedEvent, setSelectedEvent] = useState<string>('all');
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const { dataChanged } = useData();
 
   useEffect(() => {
     const fetchWinners = async () => {
       setLoading(true);
+      setError(null);
       try {
         const winnersData = await getWinners();
         setWinners(winnersData);
-      } catch (error) {
-        console.error('Error fetching winners:', error);
+      } catch (err) {
+        console.error('Error fetching winners:', err);
+        setError(err instanceof Error ? err.message : 'An unknown error occurred.');
       } finally {
         setLoading(false);
       }
@@ -131,6 +134,17 @@ const Winners = () => {
             {selectedEvent !== 'all' && ` in ${selectedEvent}`}
           </p>
         </div>
+
+        {/* Error Message */}
+        {error && (
+          <div className="bg-destructive/10 border border-destructive/20 text-destructive rounded-lg p-6 mb-8 text-center">
+            <h3 className="font-semibold mb-2">Failed to Load Winners</h3>
+            <p className="text-sm">{error}</p>
+            <p className="text-xs mt-2 text-muted-foreground">
+              This might be due to a network issue or a problem with the server. Please try again later.
+            </p>
+          </div>
+        )}
 
         {/* Winners Grid */}
         {loading ? (
