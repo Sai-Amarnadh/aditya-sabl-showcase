@@ -1,3 +1,4 @@
+
 import { supabase, type Database } from './supabase';
 
 // Types
@@ -30,18 +31,19 @@ export interface GalleryImage {
 }
 
 type WinnerRow = Database['public']['Tables']['winners']['Row'];
-type ActivityRow = Database['public']['Tables']['previous_activities']['Row'] | Database['public']['Tables']['upcoming_activities']['Row'];
+type UpcomingActivityRow = Database['public']['Tables']['upcoming_activities']['Row'];
+type PreviousActivityRow = Database['public']['Tables']['previous_activities']['Row'];
 type GalleryRow = Database['public']['Tables']['gallery']['Row'];
 
 // Helper function to transform database row to Winner
 const transformWinnerFromDB = (row: WinnerRow): Winner => ({
   id: row.id.toString(),
   name: row.name,
-  rollNumber: row.roll_number,
+  rollNumber: row.roll_number || undefined,
   event: row.event,
   date: row.date,
   photo: row.photo_url || '',
-  year: row.year,
+  year: row.year?.toString() || '',
   isThisWeekWinner: row.is_week_winner || false,
 });
 
@@ -52,24 +54,33 @@ const transformWinnerToDB = (winner: Omit<Winner, 'id'>) => ({
   event: winner.event,
   date: winner.date,
   photo_url: winner.photo || null,
-  year: winner.year,
+  year: winner.year ? parseInt(winner.year) : null,
   is_week_winner: winner.isThisWeekWinner || false,
 });
 
 // Helper function to transform database row to Activity
-const transformActivityFromDB = (row: ActivityRow, status: 'upcoming' | 'completed'): Activity => ({
+const transformActivityFromDB = (row: UpcomingActivityRow | PreviousActivityRow, status: 'upcoming' | 'completed'): Activity => ({
   id: row.id.toString(),
   name: row.title,
   date: row.activity_date,
   description: row.description || '',
-  details: row.details,
-  poster: row.poster_url,
+  details: row.details || undefined,
+  poster: row.poster_url || undefined,
   photos: 'photos' in row ? row.photos || [] : [],
   status,
 });
 
-// Helper function to transform Activity to database format
-const transformActivityToDB = (activity: Omit<Activity, 'id'>) => ({
+// Helper function to transform Activity to database format for upcoming activities
+const transformActivityToUpcomingDB = (activity: Omit<Activity, 'id'>) => ({
+  title: activity.name,
+  activity_date: activity.date,
+  description: activity.description || null,
+  details: activity.details || null,
+  poster_url: activity.poster || null,
+});
+
+// Helper function to transform Activity to database format for previous activities
+const transformActivityToPreviousDB = (activity: Omit<Activity, 'id'>) => ({
   title: activity.name,
   activity_date: activity.date,
   description: activity.description || null,
@@ -81,7 +92,7 @@ const transformActivityToDB = (activity: Omit<Activity, 'id'>) => ({
 // Helper function to transform database row to GalleryImage
 const transformGalleryFromDB = (row: GalleryRow): GalleryImage => ({
   id: row.id.toString(),
-  url: row.image_url,
+  url: row.image_url || '',
   caption: row.title || '',
 });
 
@@ -209,7 +220,7 @@ export const getActivity = async (id: string): Promise<Activity | undefined> => 
       .from('upcoming_activities')
       .select('*')
       .eq('id', parseInt(id))
-      .single();
+      .maybeSingle();
 
     if (upcomingData) {
       return transformActivityFromDB(upcomingData, 'upcoming');
@@ -220,7 +231,7 @@ export const getActivity = async (id: string): Promise<Activity | undefined> => 
       .from('previous_activities')
       .select('*')
       .eq('id', parseInt(id))
-      .single();
+      .maybeSingle();
 
     if (previousData) {
       return transformActivityFromDB(previousData, 'completed');
@@ -235,15 +246,25 @@ export const getActivity = async (id: string): Promise<Activity | undefined> => 
 
 export const addActivity = async (activity: Omit<Activity, 'id'>): Promise<Activity | null> => {
   try {
-    const table = activity.status === 'upcoming' ? 'upcoming_activities' : 'previous_activities';
-    const { data, error } = await supabase
-      .from(table)
-      .insert([transformActivityToDB(activity)])
-      .select()
-      .single();
+    if (activity.status === 'upcoming') {
+      const { data, error } = await supabase
+        .from('upcoming_activities')
+        .insert([transformActivityToUpcomingDB(activity)])
+        .select()
+        .single();
 
-    if (error) throw error;
-    return data ? transformActivityFromDB(data, activity.status) : null;
+      if (error) throw error;
+      return data ? transformActivityFromDB(data, 'upcoming') : null;
+    } else {
+      const { data, error } = await supabase
+        .from('previous_activities')
+        .insert([transformActivityToPreviousDB(activity)])
+        .select()
+        .single();
+
+      if (error) throw error;
+      return data ? transformActivityFromDB(data, 'completed') : null;
+    }
   } catch (error) {
     console.error('Error adding activity:', error);
     return null;
@@ -252,16 +273,27 @@ export const addActivity = async (activity: Omit<Activity, 'id'>): Promise<Activ
 
 export const updateActivity = async (activity: Activity): Promise<Activity | null> => {
   try {
-    const table = activity.status === 'upcoming' ? 'upcoming_activities' : 'previous_activities';
-    const { data, error } = await supabase
-      .from(table)
-      .update(transformActivityToDB(activity))
-      .eq('id', parseInt(activity.id))
-      .select()
-      .single();
+    if (activity.status === 'upcoming') {
+      const { data, error } = await supabase
+        .from('upcoming_activities')
+        .update(transformActivityToUpcomingDB(activity))
+        .eq('id', parseInt(activity.id))
+        .select()
+        .single();
 
-    if (error) throw error;
-    return data ? transformActivityFromDB(data, activity.status) : null;
+      if (error) throw error;
+      return data ? transformActivityFromDB(data, 'upcoming') : null;
+    } else {
+      const { data, error } = await supabase
+        .from('previous_activities')
+        .update(transformActivityToPreviousDB(activity))
+        .eq('id', parseInt(activity.id))
+        .select()
+        .single();
+
+      if (error) throw error;
+      return data ? transformActivityFromDB(data, 'completed') : null;
+    }
   } catch (error) {
     console.error('Error updating activity:', error);
     return null;

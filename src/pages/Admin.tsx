@@ -1,3 +1,4 @@
+
 import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -77,7 +78,7 @@ const Admin = () => {
       } else {
         await DataService.addWinner(winnerData);
       }
-      setNewWinner({ name: '', rollNumber: '', event: '', date: '', photo: '', year: '', isThisWeekWinner: false });
+      setNewWinner(initialWinnerState);
       triggerDataChange();
     } catch (error) {
       console.error('Error saving winner:', error);
@@ -86,7 +87,7 @@ const Admin = () => {
 
   const handleEditWinner = (winner: Winner) => {
     setEditingWinner(winner);
-    setNewWinner(winner);
+    setNewWinner({ ...winner, photo: winner.photo });
   };
 
   const handleDeleteWinner = (id: string) => {
@@ -119,7 +120,12 @@ const Admin = () => {
         photoUrls = uploadedUrls.filter((url): url is string => url !== null);
       }
 
-      const activityData = { ...newActivity, poster: posterUrl, details: newActivity.details, photos: photoUrls };
+      const activityData = { 
+        ...newActivity, 
+        poster: posterUrl || undefined, 
+        details: newActivity.details || undefined, 
+        photos: photoUrls.length > 0 ? photoUrls : undefined 
+      };
 
       if (editingActivity) {
         await DataService.updateActivity({ ...activityData, id: editingActivity.id });
@@ -136,7 +142,12 @@ const Admin = () => {
 
   const handleEditActivity = (activity: Activity) => {
     setEditingActivity(activity);
-    setNewActivity({ ...activity, poster: activity.poster || null, photos: activity.photos || [], details: activity.details || '' });
+    setNewActivity({ 
+      ...activity, 
+      poster: activity.poster || null, 
+      photos: activity.photos || [], 
+      details: activity.details || '' 
+    });
   };
 
   const handleDeleteActivity = (id: string) => {
@@ -179,7 +190,7 @@ const Admin = () => {
 
   const handleEditGalleryImage = (image: GalleryImage) => {
     setEditingGalleryImage(image);
-    setNewGalleryImage({ ...image, url: image.url || null });
+    setNewGalleryImage({ ...image, url: image.url });
   };
 
   const handleDeleteGalleryImage = (id: string) => {
@@ -327,9 +338,10 @@ const Admin = () => {
                   <div key={activity.id} className="flex items-center justify-between p-4 border rounded-lg mb-2">
                     <div>
                       <p className="font-bold">{activity.name}</p>
-                      <p className="text-sm text-muted-foreground">{activity.status}</p>
+                      <p className="text-sm text-muted-foreground">{activity.status} - {activity.date}</p>
                     </div>
-                    <div>
+                    <div className="flex items-center">
+                      {activity.poster && <img src={activity.poster} alt={activity.name} className="h-10 w-10 object-cover rounded mr-4" />}
                       <Button variant="outline" size="sm" className="mr-2" onClick={() => handleEditActivity(activity)}>Edit</Button>
                       <Button variant="destructive" size="sm" onClick={() => handleDeleteActivity(activity.id)}>Delete</Button>
                     </div>
@@ -350,7 +362,7 @@ const Admin = () => {
                 <form onSubmit={handleAddGalleryImage} className="space-y-4">
                   <div>
                     <Label htmlFor="gallery-url">Image</Label>
-                    <Input id="gallery-url" type="file" onChange={(e: ChangeEvent<HTMLInputElement>) => setNewGalleryImage({ ...newGalleryImage, url: e.target.files ? e.target.files[0] : null })} />
+                    <Input id="gallery-url" type="file" accept="image/*" onChange={(e: ChangeEvent<HTMLInputElement>) => setNewGalleryImage({ ...newGalleryImage, url: e.target.files ? e.target.files[0] : null })} />
                   </div>
                   <div>
                     <Label htmlFor="gallery-caption">Caption</Label>
@@ -369,7 +381,7 @@ const Admin = () => {
                 {galleryImages.map(image => (
                   <div key={image.id} className="flex items-center justify-between p-4 border rounded-lg mb-2">
                     <div className="flex items-center">
-                      <img src={image.url} alt={image.caption} className="h-16 w-16 object-cover rounded-md mr-4"/>
+                      {image.url && <img src={image.url} alt={image.caption} className="h-16 w-16 object-cover rounded-md mr-4"/>}
                       <p>{image.caption}</p>
                     </div>
                     <div>
