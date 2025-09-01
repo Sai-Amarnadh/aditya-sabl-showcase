@@ -1,8 +1,8 @@
 import { describe, it, expect, vi } from 'vitest';
 import * as DataService from './data-service';
-import { supabase } from './supabase';
+import { supabase } from '@/integrations/supabase/client';
 
-vi.mock('./supabase', () => {
+vi.mock('@/integrations/supabase/client', () => {
   return {
     supabase: {
       storage: {

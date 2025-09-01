@@ -1,5 +1,6 @@
 
-import { supabase, type Database } from './supabase';
+import { supabase } from '@/integrations/supabase/client';
+import type { Database } from '@/integrations/supabase/types';
 
 // Types
 export interface Winner {
@@ -64,7 +65,7 @@ const transformActivityFromDB = (row: UpcomingActivityRow | PreviousActivityRow,
   name: row.title,
   date: row.activity_date,
   description: row.description || '',
-  details: row.details || undefined,
+  details: ('details' in row ? row.details : undefined) || undefined,
   poster: row.poster_url || undefined,
   photos: 'photos' in row ? row.photos || [] : [],
   status,
