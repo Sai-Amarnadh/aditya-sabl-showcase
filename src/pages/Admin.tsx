@@ -18,6 +18,11 @@ type ActivityFormState = Omit<Activity, 'id' | 'poster' | 'photos'> & { poster: 
 type GalleryImageFormState = Omit<GalleryImage, 'id' | 'url'> & { url: File | string | null };
 
 const Admin = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
   const { triggerDataChange } = useData();
   const [winners, setWinners] = useState<Winner[]>([]);
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -41,23 +46,35 @@ const Admin = () => {
   const { dataChanged } = useData();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [winnersData, activitiesData, galleryImagesData] = await Promise.all([
-          DataService.getWinners(),
-          DataService.getActivities(),
-          DataService.getGalleryImages(),
-        ]);
-        setWinners(winnersData);
-        setActivities(activitiesData);
-        setGalleryImages(galleryImagesData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+    if (isAuthenticated) {
+      const fetchData = async () => {
+        try {
+          const [winnersData, activitiesData, galleryImagesData] = await Promise.all([
+            DataService.getWinners(),
+            DataService.getActivities(),
+            DataService.getGalleryImages(),
+          ]);
+          setWinners(winnersData);
+          setActivities(activitiesData);
+          setGalleryImages(galleryImagesData);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
 
-    fetchData();
-  }, [dataChanged]);
+      fetchData();
+    }
+  }, [isAuthenticated, dataChanged]);
+
+  const handleLogin = (e: FormEvent) => {
+    e.preventDefault();
+    if (email === 'admin@adityasabl.com' && password === '1122') {
+      setIsAuthenticated(true);
+      setError('');
+    } else {
+      setError('Invalid credentials');
+    }
+  };
 
   const handleAddWinner = async (e: FormEvent) => {
     e.preventDefault();
@@ -70,7 +87,7 @@ const Admin = () => {
         photoUrl = uploadedUrl;
       }
 
-      const winnerData = { ...newWinner, photo: photoUrl };
+      const winnerData = { ...newWinner, photo: photoUrl, year: parseInt(newWinner.year) };
 
       if (editingWinner) {
         await DataService.updateWinner({ ...winnerData, id: editingWinner.id });
@@ -87,7 +104,7 @@ const Admin = () => {
 
   const handleEditWinner = (winner: Winner) => {
     setEditingWinner(winner);
-    setNewWinner({ ...winner, photo: winner.photo });
+    setNewWinner({ ...winner, photo: winner.photo, year: winner.year });
   };
 
   const handleDeleteWinner = (id: string) => {
@@ -205,6 +222,48 @@ const Admin = () => {
     
     deleteGalleryImage();
   };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <Card className="w-full max-w-md mx-4 sm:mx-0 animate-fade-in-down">
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold text-center">Admin Login</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="admin@adityasabl.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="transition-shadow duration-300 focus:shadow-outline"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="1122"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="transition-shadow duration-300 focus:shadow-outline"
+                />
+              </div>
+              {error && <p className="text-red-500 text-sm text-center animate-shake">{error}</p>}
+              <Button type="submit" className="w-full transition-transform duration-300 hover:scale-105">
+                Login
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-12">

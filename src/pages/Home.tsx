@@ -5,7 +5,7 @@ import { getWinners, Winner } from '@/lib/data-service';
 import { useData } from '@/contexts/DataContext';
 import { Calendar, History, Trophy, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import universityBanner from '@/assets/university-banner.jpg';
+// import universityBanner from '@/assets/university-banner.jpg';
 
 const Home = () => {
   const [thisWeekWinners, setThisWeekWinners] = useState<Winner[]>([]);
@@ -33,10 +33,10 @@ const Home = () => {
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="relative h-[500px] flex items-center justify-center bg-gradient-hero overflow-hidden">
-        <div 
+        {/* <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
           style={{ backgroundImage: `url(${universityBanner})` }}
-        />
+        /> */}
         <div className="relative z-10 text-center text-primary-foreground px-4">
         <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in">
   <span style={{ color: "#F2722C" }}>ADITYA</span> UNIVERSITY
