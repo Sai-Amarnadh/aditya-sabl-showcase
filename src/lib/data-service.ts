@@ -38,13 +38,13 @@ type GalleryRow = Database['public']['Tables']['gallery']['Row'];
 
 // Helper function to transform database row to Winner
 const transformWinnerFromDB = (row: WinnerRow): Winner => ({
-  id: row.id.toString(),
-  name: row.name,
+  id: String(row.id || ''),
+  name: row.name || 'Unknown Name',
   rollNumber: row.roll_number || undefined,
-  event: row.event,
-  date: row.date,
+  event: row.event || 'Unknown Event',
+  date: row.date || new Date().toISOString(),
   photo: row.photo_url || '',
-  year: row.year?.toString() || '',
+  year: String(row.year || new Date().getFullYear()),
   isThisWeekWinner: row.is_week_winner || false,
 });
 
@@ -105,18 +105,17 @@ const transformGalleryToDB = (image: Omit<GalleryImage, 'id'>) => ({
 
 // --- Winners ---
 export const getWinners = async (): Promise<Winner[]> => {
-  try {
-    const { data, error } = await supabase
-      .from('winners')
-      .select('*')
-      .order('created_at', { ascending: false });
+  const { data, error } = await supabase
+    .from('winners')
+    .select('*')
+    .order('created_at', { ascending: false });
 
-    if (error) throw error;
-    return data?.map(transformWinnerFromDB) || [];
-  } catch (error) {
+  if (error) {
     console.error('Error fetching winners:', error);
-    return [];
+    throw new Error(error.message);
   }
+
+  return data?.map(transformWinnerFromDB).filter(winner => winner.id) || [];
 };
 
 export const addWinner = async (winner: Omit<Winner, 'id'>): Promise<Winner | null> => {
