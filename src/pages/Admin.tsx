@@ -29,7 +29,7 @@ const Admin = () => {
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
 
   // Form state for new winner
-  const initialWinnerState: WinnerFormState = { name: '', rollNumber: '', event: '', date: '', photo: null, year: '', isThisWeekWinner: false };
+  const initialWinnerState: WinnerFormState = { name: '', rollNumber: '', event: '', date: '', photo: null, year: '', isThisWeekWinner: false, position: 1, activityType: 'Activity 1', weekNumber: undefined };
   const [newWinner, setNewWinner] = useState<WinnerFormState>(initialWinnerState);
   const [editingWinner, setEditingWinner] = useState<Winner | null>(null);
 
@@ -87,7 +87,7 @@ const Admin = () => {
         photoUrl = uploadedUrl;
       }
 
-      const winnerData = { ...newWinner, photo: photoUrl, year: parseInt(newWinner.year) };
+      const winnerData = { ...newWinner, photo: photoUrl };
 
       if (editingWinner) {
         await DataService.updateWinner({ ...winnerData, id: editingWinner.id });
@@ -104,7 +104,14 @@ const Admin = () => {
 
   const handleEditWinner = (winner: Winner) => {
     setEditingWinner(winner);
-    setNewWinner({ ...winner, photo: winner.photo, year: winner.year });
+    setNewWinner({ 
+      ...winner, 
+      photo: winner.photo, 
+      year: winner.year,
+      position: winner.position || 1,
+      activityType: winner.activityType || 'Activity 1',
+      weekNumber: winner.weekNumber
+    });
   };
 
   const handleDeleteWinner = (id: string) => {
@@ -302,6 +309,41 @@ const Admin = () => {
                    <div>
                     <Label htmlFor="winner-year">Year</Label>
                     <Input id="winner-year" value={newWinner.year} onChange={e => setNewWinner({ ...newWinner, year: e.target.value })} />
+                  </div>
+                  <div>
+                    <Label htmlFor="winner-position">Position</Label>
+                    <Select value={String(newWinner.position)} onValueChange={(value) => setNewWinner({ ...newWinner, position: parseInt(value) })}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="1">1st Place</SelectItem>
+                        <SelectItem value="2">2nd Place</SelectItem>
+                        <SelectItem value="3">3rd Place</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label htmlFor="winner-activityType">Activity Type</Label>
+                    <Select value={newWinner.activityType} onValueChange={(value) => setNewWinner({ ...newWinner, activityType: value })}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Activity 1">Activity 1</SelectItem>
+                        <SelectItem value="Activity 2">Activity 2</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label htmlFor="winner-weekNumber">Week Number</Label>
+                    <Input 
+                      id="winner-weekNumber" 
+                      type="number" 
+                      placeholder="Enter week number" 
+                      value={newWinner.weekNumber || ''} 
+                      onChange={e => setNewWinner({ ...newWinner, weekNumber: e.target.value ? parseInt(e.target.value) : undefined })} 
+                    />
                   </div>
                   <div>
                     <Label htmlFor="winner-photo">Photo</Label>

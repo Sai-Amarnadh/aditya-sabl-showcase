@@ -35,7 +35,21 @@ const WinnerCard = ({ winner, featured = false }: WinnerCardProps) => {
             {winner.rollNumber && (
               <p className="text-sm text-muted-foreground">{winner.rollNumber}</p>
             )}
-            <p className="text-primary font-medium text-sm">{winner.event}</p>
+            <div className="flex items-center gap-2">
+              <p className="text-primary font-medium text-sm">{winner.event}</p>
+              {winner.position && (
+                <span className={`text-xs px-2 py-1 rounded-full font-medium ${
+                  winner.position === 1 ? 'bg-yellow-100 text-yellow-800' :
+                  winner.position === 2 ? 'bg-gray-100 text-gray-800' :
+                  'bg-amber-100 text-amber-800'
+                }`}>
+                  {winner.position === 1 ? '🥇' : winner.position === 2 ? '🥈' : '🥉'} {winner.position === 1 ? '1st' : winner.position === 2 ? '2nd' : '3rd'}
+                </span>
+              )}
+            </div>
+            {winner.activityType && winner.weekNumber && (
+              <p className="text-xs text-muted-foreground">{winner.activityType} • Week {winner.weekNumber}</p>
+            )}
             <div className="flex items-center text-muted-foreground text-xs mt-1">
               <Calendar className="h-3 w-3 mr-1" />
               {new Date(winner.date).toLocaleDateString('en-US', { 

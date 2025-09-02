@@ -163,11 +163,40 @@ const Winners = () => {
             ))}
           </div>
         ) : filteredWinners.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredWinners.map((winner) => (
-              <WinnerCard key={winner.id} winner={winner} />
-            ))}
-          </div>
+          <>
+            {/* Group winners by week and activity type for current week winners */}
+            {filteredWinners.some(w => w.isThisWeekWinner) && (
+              <div className="mb-8">
+                <h3 className="text-xl font-semibold mb-4 text-center">🏆 This Week's Winners</h3>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                  {['Activity 1', 'Activity 2'].map(activityType => {
+                    const weekWinners = filteredWinners
+                      .filter(w => w.isThisWeekWinner && w.activityType === activityType)
+                      .sort((a, b) => (a.position || 1) - (b.position || 1));
+                    
+                    if (weekWinners.length === 0) return null;
+                    
+                    return (
+                      <div key={activityType} className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-lg p-6 border border-primary/20">
+                        <h4 className="text-lg font-semibold mb-4 text-center text-primary">{activityType}</h4>
+                        <div className="space-y-3">
+                          {weekWinners.map((winner) => (
+                            <WinnerCard key={winner.id} winner={winner} featured={winner.position === 1} />
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredWinners.filter(w => !w.isThisWeekWinner).map((winner) => (
+                <WinnerCard key={winner.id} winner={winner} />
+              ))}
+            </div>
+          </>
         ) : (
           <div className="text-center py-16">
             <div className="w-24 h-24 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">

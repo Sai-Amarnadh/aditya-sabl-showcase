@@ -103,6 +103,7 @@ export type Database = {
       }
       winners: {
         Row: {
+          activity_type: string | null
           created_at: string | null
           date: string
           event: string
@@ -110,10 +111,13 @@ export type Database = {
           is_week_winner: boolean | null
           name: string
           photo_url: string | null
+          position: number | null
           roll_number: string
+          week_number: number | null
           year: number | null
         }
         Insert: {
+          activity_type?: string | null
           created_at?: string | null
           date: string
           event: string
@@ -121,10 +125,13 @@ export type Database = {
           is_week_winner?: boolean | null
           name: string
           photo_url?: string | null
+          position?: number | null
           roll_number: string
+          week_number?: number | null
           year?: number | null
         }
         Update: {
+          activity_type?: string | null
           created_at?: string | null
           date?: string
           event?: string
@@ -132,7 +139,9 @@ export type Database = {
           is_week_winner?: boolean | null
           name?: string
           photo_url?: string | null
+          position?: number | null
           roll_number?: string
+          week_number?: number | null
           year?: number | null
         }
         Relationships: []

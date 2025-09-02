@@ -12,6 +12,9 @@ export interface Winner {
   photo: string;
   year: string;
   isThisWeekWinner?: boolean;
+  position?: number;
+  activityType?: string;
+  weekNumber?: number;
 }
 
 export interface Activity {
@@ -46,17 +49,23 @@ const transformWinnerFromDB = (row: WinnerRow): Winner => ({
   photo: row.photo_url || '',
   year: String(row.year || new Date().getFullYear()),
   isThisWeekWinner: row.is_week_winner || false,
+  position: row.position || 1,
+  activityType: row.activity_type || 'General',
+  weekNumber: row.week_number || undefined,
 });
 
 // Helper function to transform Winner to database format
-const transformWinnerToDB = (winner: Omit<Winner, 'id'>) => ({
+const transformWinnerToDB = (winner: Omit<Winner, 'id'>): Omit<WinnerRow, 'id' | 'created_at'> => ({
   name: winner.name,
-  roll_number: winner.rollNumber || null,
+  roll_number: winner.rollNumber || '',
   event: winner.event,
   date: winner.date,
-  photo_url: winner.photo || null,
-  year: winner.year ? parseInt(winner.year) : null,
+  photo_url: winner.photo,
+  year: parseInt(winner.year) || new Date().getFullYear(),
   is_week_winner: winner.isThisWeekWinner || false,
+  position: winner.position || 1,
+  activity_type: winner.activityType || 'General',
+  week_number: winner.weekNumber || null,
 });
 
 // Helper function to transform database row to Activity
