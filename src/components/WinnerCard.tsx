@@ -1,5 +1,5 @@
 import { Winner } from '@/lib/data-service';
-import { Trophy, Calendar } from 'lucide-react';
+import { Trophy, Calendar, Medal } from 'lucide-react';
 
 interface WinnerCardProps {
   winner: Winner;
@@ -7,6 +7,20 @@ interface WinnerCardProps {
 }
 
 const WinnerCard = ({ winner, featured = false }: WinnerCardProps) => {
+  const getPositionIcon = (position?: number) => {
+    if (position === 1) return <Trophy className="h-3 w-3 text-yellow-500" />;
+    if (position === 2) return <Medal className="h-3 w-3 text-gray-400" />;
+    if (position === 3) return <Medal className="h-3 w-3 text-amber-600" />;
+    return null;
+  };
+
+  const getPositionText = (position?: number) => {
+    if (position === 1) return '1st Place';
+    if (position === 2) return '2nd Place';
+    if (position === 3) return '3rd Place';
+    return '';
+  };
+
   return (
     <div className={`bg-card rounded-lg shadow-card hover:shadow-elevated transition-all duration-300 overflow-hidden group ${
       featured ? 'border-2 border-primary/20' : ''
@@ -35,29 +49,35 @@ const WinnerCard = ({ winner, featured = false }: WinnerCardProps) => {
             {winner.rollNumber && (
               <p className="text-sm text-muted-foreground">{winner.rollNumber}</p>
             )}
-            <div className="flex items-center gap-2">
-              <p className="text-primary font-medium text-sm">{winner.event}</p>
+            <p className="text-primary font-medium text-sm">{winner.event}</p>
+            
+            <div className="flex items-center justify-between text-xs mt-1">
+              <div className="flex items-center text-muted-foreground">
+                <Calendar className="h-3 w-3 mr-1" />
+                {new Date(winner.date).toLocaleDateString('en-US', { 
+                  month: 'short', 
+                  day: 'numeric', 
+                  year: 'numeric' 
+                })}
+              </div>
               {winner.position && (
-                <span className={`text-xs px-2 py-1 rounded-full font-medium ${
-                  winner.position === 1 ? 'bg-yellow-100 text-yellow-800' :
-                  winner.position === 2 ? 'bg-gray-100 text-gray-800' :
-                  'bg-amber-100 text-amber-800'
-                }`}>
-                  {winner.position === 1 ? '🥇' : winner.position === 2 ? '🥈' : '🥉'} {winner.position === 1 ? '1st' : winner.position === 2 ? '2nd' : '3rd'}
-                </span>
+                <div className="flex items-center text-primary font-medium">
+                  {getPositionIcon(winner.position)}
+                  <span className="ml-1">{getPositionText(winner.position)}</span>
+                </div>
               )}
             </div>
-            {winner.activityType && winner.weekNumber && (
-              <p className="text-xs text-muted-foreground">{winner.activityType} • Week {winner.weekNumber}</p>
-            )}
-            <div className="flex items-center text-muted-foreground text-xs mt-1">
-              <Calendar className="h-3 w-3 mr-1" />
-              {new Date(winner.date).toLocaleDateString('en-US', { 
-                month: 'short', 
-                day: 'numeric', 
-                year: 'numeric' 
-              })}
-            </div>
+            
+            {(winner.activityType && winner.activityType !== 'General') || winner.weekNumber ? (
+              <div className="text-xs text-muted-foreground mt-1">
+                {winner.activityType && winner.activityType !== 'General' && (
+                  <span className="bg-secondary/50 px-2 py-1 rounded mr-2">{winner.activityType}</span>
+                )}
+                {winner.weekNumber && (
+                  <span className="bg-primary/10 text-primary px-2 py-1 rounded">Week {winner.weekNumber}</span>
+                )}
+              </div>
+            ) : null}
           </div>
         </div>
       </div>

@@ -366,9 +366,10 @@ const Admin = () => {
                 {winners.map(winner => (
                   <div key={winner.id} className="flex items-center justify-between p-4 border rounded-lg mb-2">
                     <div>
-                      <p className="font-bold">{winner.name}</p>
-                      <p className="text-sm text-muted-foreground">{winner.event} - {winner.year}</p>
-                    </div>
+                       <p className="font-bold">{winner.name}</p>
+                       <p className="text-sm text-muted-foreground">{winner.event} - {winner.year}</p>
+                       <p className="text-xs text-muted-foreground">{winner.activityType} - {winner.position === 1 ? '1st' : winner.position === 2 ? '2nd' : '3rd'} Place - Week {winner.weekNumber}</p>
+                     </div>
                     <div className="flex items-center">
                       {winner.photo && <img src={winner.photo} alt={winner.name} className="h-10 w-10 object-cover rounded-full mr-4" />}
                       <Button variant="outline" size="sm" className="mr-2" onClick={() => handleEditWinner(winner)}>Edit</Button>

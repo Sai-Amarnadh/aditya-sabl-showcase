@@ -13,6 +13,7 @@ import ActivityDetail from "./pages/ActivityDetail";
 import ActivityPhotos from "./pages/ActivityPhotos";
 import PreviousActivities from "./pages/PreviousActivities";
 import Winners from "./pages/Winners";
+import WeeklyWinners from "./pages/WeeklyWinners";
 import Gallery from "./pages/Gallery";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
@@ -49,6 +50,7 @@ const App = () => {
               <Route path="/activity/:id/photos" element={<ActivityPhotos />} />
                 <Route path="/previous" element={<PreviousActivities />} />
                 <Route path="/winners" element={<Winners />} />
+                <Route path="/weekly-winners" element={<WeeklyWinners />} />
                 <Route path="/gallery" element={<Gallery />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="*" element={<NotFound />} />
