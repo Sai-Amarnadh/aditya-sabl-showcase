@@ -1,6 +1,7 @@
 
 import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import { Button } from '@/components/ui/button';
+import PageLoader from '@/components/PageLoader';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
@@ -22,6 +23,7 @@ const Admin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const { triggerDataChange } = useData();
   const [winners, setWinners] = useState<Winner[]>([]);
@@ -78,6 +80,7 @@ const Admin = () => {
 
   const handleAddWinner = async (e: FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       let photoUrl = editingWinner?.photo || '';
 
@@ -99,6 +102,8 @@ const Admin = () => {
       triggerDataChange();
     } catch (error) {
       console.error('Error saving winner:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -114,21 +119,21 @@ const Admin = () => {
     });
   };
 
-  const handleDeleteWinner = (id: string) => {
-    const deleteWinner = async () => {
-      try {
-        await DataService.deleteWinner(id);
-        triggerDataChange();
-      } catch (error) {
-        console.error('Error deleting winner:', error);
-      }
-    };
-    
-    deleteWinner();
+  const handleDeleteWinner = async (id: string) => {
+    setIsLoading(true);
+    try {
+      await DataService.deleteWinner(id);
+      triggerDataChange();
+    } catch (error) {
+      console.error('Error deleting winner:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleAddActivity = async (e: FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       let posterUrl = editingActivity?.poster || '';
       if (newActivity.poster instanceof File) {
@@ -161,6 +166,8 @@ const Admin = () => {
       triggerDataChange();
     } catch (error) {
       console.error('Error saving activity:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -174,21 +181,21 @@ const Admin = () => {
     });
   };
 
-  const handleDeleteActivity = (id: string) => {
-    const deleteActivity = async () => {
-      try {
-        await DataService.deleteActivity(id);
-        triggerDataChange();
-      } catch (error) {
-        console.error('Error deleting activity:', error);
-      }
-    };
-    
-    deleteActivity();
+  const handleDeleteActivity = async (id: string) => {
+    setIsLoading(true);
+    try {
+      await DataService.deleteActivity(id);
+      triggerDataChange();
+    } catch (error) {
+      console.error('Error deleting activity:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleAddGalleryImage = async (e: FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       let imageUrl = editingGalleryImage?.url || '';
       if (newGalleryImage.url instanceof File) {
@@ -209,6 +216,8 @@ const Admin = () => {
       triggerDataChange();
     } catch (error) {
       console.error('Error saving gallery image:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -217,17 +226,16 @@ const Admin = () => {
     setNewGalleryImage({ ...image, url: image.url });
   };
 
-  const handleDeleteGalleryImage = (id: string) => {
-    const deleteGalleryImage = async () => {
-      try {
-        await DataService.deleteGalleryImage(id);
-        triggerDataChange();
-      } catch (error) {
-        console.error('Error deleting gallery image:', error);
-      }
-    };
-    
-    deleteGalleryImage();
+  const handleDeleteGalleryImage = async (id: string) => {
+    setIsLoading(true);
+    try {
+      await DataService.deleteGalleryImage(id);
+      triggerDataChange();
+    } catch (error) {
+      console.error('Error deleting gallery image:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (!isAuthenticated) {
@@ -274,6 +282,7 @@ const Admin = () => {
 
   return (
     <div className="container mx-auto px-4 py-12">
+      {isLoading && <PageLoader />}
       <h1 className="text-4xl font-bold text-center mb-12">Admin Panel</h1>
       <Tabs defaultValue="winners">
         <TabsList className="grid w-full grid-cols-3">
