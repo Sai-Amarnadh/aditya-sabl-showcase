@@ -12,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import * as DataService from '@/lib/data-service';
 import { Winner, Activity, GalleryImage } from '@/lib/data-service';
 import { useData } from '@/contexts/DataContext';
+import ActivityPhotoManager from '@/components/ActivityPhotoManager';
 
 // Define new types for form state to handle file uploads
 type WinnerFormState = Omit<Winner, 'id' | 'photo'> & { photo: File | string | null };

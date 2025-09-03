@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getActivity } from '@/lib/data-service';
 import { Activity } from '@/lib/data-service';
+import { Camera } from 'lucide-react';
 
 const ActivityPhotos = () => {
   const { id } = useParams<{ id: string }>();
@@ -54,13 +55,35 @@ const ActivityPhotos = () => {
 
   return (
     <div className="container mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold mb-4">{activity.name} - Photos</h1>
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold mb-2">{activity.name}</h1>
+        <p className="text-muted-foreground">Photo Gallery</p>
+      </div>
+      
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {activity.photos?.map((photo, index) => (
-          <div key={index} className="bg-card rounded-lg overflow-hidden shadow-card">
-            <img src={photo} alt={`${activity.name} photo ${index + 1}`} className="w-full h-48 object-cover" />
+        {activity.photos && activity.photos.length > 0 ? (
+          activity.photos.map((photo, index) => (
+            <div key={index} className="group relative overflow-hidden rounded-lg bg-card shadow-card hover:shadow-elevated transition-all duration-300">
+              <img 
+                src={photo} 
+                alt={`${activity.name} photo ${index + 1}`}
+                className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+              <div className="absolute bottom-2 right-2 bg-background/80 backdrop-blur-sm px-2 py-1 rounded text-xs text-foreground">
+                {index + 1} / {activity.photos.length}
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="col-span-full text-center py-16">
+            <Camera className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-foreground mb-2">No Photos Yet</h3>
+            <p className="text-muted-foreground">
+              Photos from this activity haven't been uploaded yet. Check back soon!
+            </p>
           </div>
-        ))}
+        )}
       </div>
     </div>
   );
