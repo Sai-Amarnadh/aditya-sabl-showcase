@@ -68,7 +68,7 @@ const Admin = () => {
 
   const handleLogin = (e: FormEvent) => {
     e.preventDefault();
-    if (email === 'admin@adityasabl.com' && password === '1122') {
+    if (email === 'User Email' && password === 'Password') {
       setIsAuthenticated(true);
       setError('');
     } else {
