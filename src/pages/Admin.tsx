@@ -24,6 +24,9 @@ const Admin = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [winnerLoading, setWinnerLoading] = useState(false);
+  const [activityLoading, setActivityLoading] = useState(false);
+  const [galleryLoading, setGalleryLoading] = useState(false);
 
   const { triggerDataChange } = useData();
   const [winners, setWinners] = useState<Winner[]>([]);

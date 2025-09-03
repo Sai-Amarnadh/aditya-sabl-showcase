@@ -85,9 +85,11 @@ const Home = () => {
                 </div>
               ))
             ) : thisWeekWinners.length > 0 ? (
-              thisWeekWinners.map((winner) => (
-                <WinnerCard key={winner.id} winner={winner} featured={true} />
-              ))
+              thisWeekWinners
+                .sort((a, b) => (a.position || 1) - (b.position || 1))
+                .map((winner) => (
+                  <WinnerCard key={winner.id} winner={winner} featured={true} />
+                ))
             ) : (
               <div className="col-span-3 text-center py-8">
                 <Trophy className="h-12 w-12 text-muted-foreground mx-auto mb-4" />

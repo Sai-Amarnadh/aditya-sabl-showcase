@@ -1,5 +1,6 @@
 import { Winner } from '@/lib/data-service';
-import { Trophy, Calendar, Medal } from 'lucide-react';
+import { Trophy, Calendar, Medal, ExternalLink } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface WinnerCardProps {
   winner: Winner;
