@@ -42,8 +42,36 @@ const PreviousActivities = () => {
           </p>
         </div>
 
+        {/* Activities Timeline */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-semibold text-foreground mb-6 text-center">Event Timeline</h2>
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <div key={index} className="bg-card rounded-lg shadow-card animate-pulse overflow-hidden">
+                  <div className="h-48 bg-muted"></div>
+                  <div className="p-6">
+                    <div className="h-6 bg-muted rounded mb-3"></div>
+                    <div className="h-4 bg-muted rounded mb-2"></div>
+                    <div className="h-4 bg-muted rounded mb-4"></div>
+                    <div className="h-8 bg-muted rounded"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {completedActivities
+                .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                .map((activity) => (
+                  <ActivityCard key={activity.id} activity={activity} />
+                ))}
+            </div>
+          )}
+        </div>
+
         {/* Achievement Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 my-12">
           <div className="bg-card rounded-lg p-6 shadow-card text-center">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
               <History className="h-6 w-6 text-primary" />
@@ -75,34 +103,6 @@ const PreviousActivities = () => {
             <div className="text-2xl font-bold text-card-foreground mb-1">{totalPhotos}</div>
             <div className="text-muted-foreground text-sm">Photos Captured</div>
           </div>
-        </div>
-
-        {/* Activities Timeline */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-semibold text-foreground mb-6 text-center">Event Timeline</h2>
-          {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {Array.from({ length: 6 }).map((_, index) => (
-                <div key={index} className="bg-card rounded-lg shadow-card animate-pulse overflow-hidden">
-                  <div className="h-48 bg-muted"></div>
-                  <div className="p-6">
-                    <div className="h-6 bg-muted rounded mb-3"></div>
-                    <div className="h-4 bg-muted rounded mb-2"></div>
-                    <div className="h-4 bg-muted rounded mb-4"></div>
-                    <div className="h-8 bg-muted rounded"></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {completedActivities
-                .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-                .map((activity) => (
-                  <ActivityCard key={activity.id} activity={activity} />
-                ))}
-            </div>
-          )}
         </div>
 
         {/* Success Stories */}

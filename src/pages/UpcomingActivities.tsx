@@ -40,33 +40,6 @@ const UpcomingActivities = () => {
           </p>
         </div>
 
-        {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <div className="bg-card rounded-lg p-6 shadow-card text-center">
-            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Calendar className="h-6 w-6 text-primary" />
-            </div>
-            <div className="text-2xl font-bold text-card-foreground mb-1">{upcomingActivities.length}</div>
-            <div className="text-muted-foreground text-sm">Upcoming Events</div>
-          </div>
-          
-          <div className="bg-card rounded-lg p-6 shadow-card text-center">
-            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Clock className="h-6 w-6 text-primary" />
-            </div>
-            <div className="text-2xl font-bold text-card-foreground mb-1">Next 30 Days</div>
-            <div className="text-muted-foreground text-sm">Activity Window</div>
-          </div>
-          
-          <div className="bg-card rounded-lg p-6 shadow-card text-center">
-            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
-              <MapPin className="h-6 w-6 text-primary" />
-            </div>
-            <div className="text-2xl font-bold text-card-foreground mb-1">CSE Campus</div>
-            <div className="text-muted-foreground text-sm">Event Location</div>
-          </div>
-        </div>
-
         {/* Activities Grid */}
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -97,6 +70,33 @@ const UpcomingActivities = () => {
             <p className="text-muted-foreground">Check back soon for new exciting events and competitions!</p>
           </div>
         )}
+
+        {/* Quick Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-12">
+          <div className="bg-card rounded-lg p-6 shadow-card text-center">
+            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+              <Calendar className="h-6 w-6 text-primary" />
+            </div>
+            <div className="text-2xl font-bold text-card-foreground mb-1">{upcomingActivities.length}</div>
+            <div className="text-muted-foreground text-sm">Upcoming Events</div>
+          </div>
+
+          <div className="bg-card rounded-lg p-6 shadow-card text-center">
+            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+              <Clock className="h-6 w-6 text-primary" />
+            </div>
+            <div className="text-2xl font-bold text-card-foreground mb-1">Next 30 Days</div>
+            <div className="text-muted-foreground text-sm">Activity Window</div>
+          </div>
+
+          <div className="bg-card rounded-lg p-6 shadow-card text-center">
+            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+              <MapPin className="h-6 w-6 text-primary" />
+            </div>
+            <div className="text-2xl font-bold text-card-foreground mb-1">CSE Campus</div>
+            <div className="text-muted-foreground text-sm">Event Location</div>
+          </div>
+        </div>
 
         {/* Call to Action */}
         <div className="mt-16 bg-gradient-primary rounded-2xl p-8 text-center text-primary-foreground">
