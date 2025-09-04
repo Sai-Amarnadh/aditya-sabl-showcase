@@ -109,6 +109,37 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Statistics Section */}
+      <section className="py-16 px-4">
+        <div className="container mx-auto">
+          <div className="bg-gradient-primary rounded-2xl p-8 md:p-12 text-primary-foreground">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold mb-4">SABL Impact</h2>
+              <p className="text-lg opacity-90">Measuring our success through student engagement and achievements</p>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+              <div>
+                <div className="text-4xl font-bold mb-2">50+</div>
+                <div className="text-sm opacity-80">Events Conducted</div>
+              </div>
+              <div>
+                <div className="text-4xl font-bold mb-2">500+</div>
+                <div className="text-sm opacity-80">Student Participants</div>
+              </div>
+              <div>
+                <div className="text-4xl font-bold mb-2">100+</div>
+                <div className="text-sm opacity-80">Winners Celebrated</div>
+              </div>
+              <div>
+                <div className="text-4xl font-bold mb-2">25+</div>
+                <div className="text-sm opacity-80">Industry Partners</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Quick Navigation Section */}
       <section className="py-16 bg-muted/30">
         <div className="container mx-auto px-4">
@@ -151,37 +182,6 @@ const Home = () => {
                 <p className="text-muted-foreground">Honor roll of all our winners and achievers</p>
               </div>
             </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Statistics Section */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto">
-          <div className="bg-gradient-primary rounded-2xl p-8 md:p-12 text-primary-foreground">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold mb-4">SABL Impact</h2>
-              <p className="text-lg opacity-90">Measuring our success through student engagement and achievements</p>
-            </div>
-            
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              <div>
-                <div className="text-4xl font-bold mb-2">50+</div>
-                <div className="text-sm opacity-80">Events Conducted</div>
-              </div>
-              <div>
-                <div className="text-4xl font-bold mb-2">500+</div>
-                <div className="text-sm opacity-80">Student Participants</div>
-              </div>
-              <div>
-                <div className="text-4xl font-bold mb-2">100+</div>
-                <div className="text-sm opacity-80">Winners Celebrated</div>
-              </div>
-              <div>
-                <div className="text-4xl font-bold mb-2">25+</div>
-                <div className="text-sm opacity-80">Industry Partners</div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
