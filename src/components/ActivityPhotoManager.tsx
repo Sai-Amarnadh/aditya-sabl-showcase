@@ -15,11 +15,14 @@ interface ActivityPhotoManagerProps {
 }
 
 const ActivityPhotoManager = ({ activity, onUpdate, isLoading, setIsLoading }: ActivityPhotoManagerProps) => {
-  const [newPhotos, setNewPhotos] = useState<FileList | null>(null);
+  const [newPhotos1, setNewPhotos1] = useState<FileList | null>(null);
+  const [newPhotos2, setNewPhotos2] = useState<FileList | null>(null);
+  const [newPhotos3, setNewPhotos3] = useState<FileList | null>(null);
+  const [newPhotos4, setNewPhotos4] = useState<FileList | null>(null);
   const { toast } = useToast();
 
-  const handleAddPhotos = async () => {
-    if (!newPhotos || newPhotos.length === 0) {
+  const handleAddPhotos = async (photoSet: FileList | null, setPhotoSet: (files: FileList | null) => void, inputId: string) => {
+    if (!photoSet || photoSet.length === 0) {
       toast({
         title: "No photos selected",
         description: "Please select photos to upload",
@@ -30,7 +33,7 @@ const ActivityPhotoManager = ({ activity, onUpdate, isLoading, setIsLoading }: A
 
     setIsLoading(true);
     try {
-      const uploadPromises = Array.from(newPhotos).map(file => uploadImage(file, 'gallery_images'));
+      const uploadPromises = Array.from(photoSet).map(file => uploadImage(file, 'gallery_images'));
       const uploadedUrls = await Promise.all(uploadPromises);
       const validUrls = uploadedUrls.filter((url): url is string => url !== null);
 
@@ -47,9 +50,9 @@ const ActivityPhotoManager = ({ activity, onUpdate, isLoading, setIsLoading }: A
       });
       
       onUpdate();
-      setNewPhotos(null);
+      setPhotoSet(null);
       // Reset the file input
-      const fileInput = document.getElementById(`photos-${activity.id}`) as HTMLInputElement;
+      const fileInput = document.getElementById(inputId) as HTMLInputElement;
       if (fileInput) fileInput.value = '';
     } catch (error) {
       console.error('Error adding photos:', error);
@@ -132,34 +135,114 @@ const ActivityPhotoManager = ({ activity, onUpdate, isLoading, setIsLoading }: A
             </div>
           )}
 
-          {/* Add New Photos */}
+          {/* Add New Photos - 4 Separate Upload Options */}
           <div className="border-t pt-4">
-            <div className="flex items-end gap-4">
-              <div className="flex-1">
-                <Label htmlFor={`photos-${activity.id}`}>Add New Photos</Label>
-                <Input
-                  id={`photos-${activity.id}`}
-                  type="file"
-                  multiple
-                  accept="image/*"
-                  onChange={(e: ChangeEvent<HTMLInputElement>) => setNewPhotos(e.target.files)}
-                  disabled={isLoading}
-                />
+            <h4 className="font-medium mb-4">Add New Photos (4 Upload Options)</h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Upload Option 1 */}
+              <div className="space-y-2">
+                <Label htmlFor={`photos1-${activity.id}`}>Upload Set 1</Label>
+                <div className="flex items-end gap-2">
+                  <Input
+                    id={`photos1-${activity.id}`}
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setNewPhotos1(e.target.files)}
+                    disabled={isLoading}
+                    className="flex-1"
+                  />
+                  <Button 
+                    onClick={() => handleAddPhotos(newPhotos1, setNewPhotos1, `photos1-${activity.id}`)}
+                    disabled={isLoading || !newPhotos1 || newPhotos1.length === 0}
+                    size="sm"
+                  >
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </div>
+                {newPhotos1 && newPhotos1.length > 0 && (
+                  <p className="text-xs text-muted-foreground">{newPhotos1.length} photo(s) selected</p>
+                )}
               </div>
-              <Button 
-                onClick={handleAddPhotos}
-                disabled={isLoading || !newPhotos || newPhotos.length === 0}
-                className="shrink-0"
-              >
-                <Plus className="h-4 w-4 mr-2" />
-                {isLoading ? 'Uploading...' : 'Add Photos'}
-              </Button>
+
+              {/* Upload Option 2 */}
+              <div className="space-y-2">
+                <Label htmlFor={`photos2-${activity.id}`}>Upload Set 2</Label>
+                <div className="flex items-end gap-2">
+                  <Input
+                    id={`photos2-${activity.id}`}
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setNewPhotos2(e.target.files)}
+                    disabled={isLoading}
+                    className="flex-1"
+                  />
+                  <Button 
+                    onClick={() => handleAddPhotos(newPhotos2, setNewPhotos2, `photos2-${activity.id}`)}
+                    disabled={isLoading || !newPhotos2 || newPhotos2.length === 0}
+                    size="sm"
+                  >
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </div>
+                {newPhotos2 && newPhotos2.length > 0 && (
+                  <p className="text-xs text-muted-foreground">{newPhotos2.length} photo(s) selected</p>
+                )}
+              </div>
+
+              {/* Upload Option 3 */}
+              <div className="space-y-2">
+                <Label htmlFor={`photos3-${activity.id}`}>Upload Set 3</Label>
+                <div className="flex items-end gap-2">
+                  <Input
+                    id={`photos3-${activity.id}`}
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setNewPhotos3(e.target.files)}
+                    disabled={isLoading}
+                    className="flex-1"
+                  />
+                  <Button 
+                    onClick={() => handleAddPhotos(newPhotos3, setNewPhotos3, `photos3-${activity.id}`)}
+                    disabled={isLoading || !newPhotos3 || newPhotos3.length === 0}
+                    size="sm"
+                  >
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </div>
+                {newPhotos3 && newPhotos3.length > 0 && (
+                  <p className="text-xs text-muted-foreground">{newPhotos3.length} photo(s) selected</p>
+                )}
+              </div>
+
+              {/* Upload Option 4 */}
+              <div className="space-y-2">
+                <Label htmlFor={`photos4-${activity.id}`}>Upload Set 4</Label>
+                <div className="flex items-end gap-2">
+                  <Input
+                    id={`photos4-${activity.id}`}
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setNewPhotos4(e.target.files)}
+                    disabled={isLoading}
+                    className="flex-1"
+                  />
+                  <Button 
+                    onClick={() => handleAddPhotos(newPhotos4, setNewPhotos4, `photos4-${activity.id}`)}
+                    disabled={isLoading || !newPhotos4 || newPhotos4.length === 0}
+                    size="sm"
+                  >
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </div>
+                {newPhotos4 && newPhotos4.length > 0 && (
+                  <p className="text-xs text-muted-foreground">{newPhotos4.length} photo(s) selected</p>
+                )}
+              </div>
             </div>
-            {newPhotos && newPhotos.length > 0 && (
-              <p className="text-xs text-muted-foreground mt-2">
-                {newPhotos.length} photo(s) selected
-              </p>
-            )}
           </div>
         </div>
       </CardContent>
