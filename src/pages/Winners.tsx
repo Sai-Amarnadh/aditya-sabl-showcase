@@ -61,27 +61,6 @@ const Winners = () => {
           </p>
         </div>
 
-        {/* Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <div className="bg-gradient-primary rounded-lg p-6 text-primary-foreground text-center">
-            <Trophy className="h-8 w-8 mx-auto mb-3" />
-            <div className="text-3xl font-bold mb-1">{winners.length}</div>
-            <div className="text-sm opacity-90">Total Winners</div>
-          </div>
-          
-          <div className="bg-card rounded-lg p-6 shadow-card text-center">
-            <Award className="h-8 w-8 mx-auto mb-3 text-primary" />
-            <div className="text-3xl font-bold text-card-foreground mb-1">{events.length}</div>
-            <div className="text-muted-foreground text-sm">Different Events</div>
-          </div>
-          
-          <div className="bg-card rounded-lg p-6 shadow-card text-center">
-            <Calendar className="h-8 w-8 mx-auto mb-3 text-primary" />
-            <div className="text-3xl font-bold text-card-foreground mb-1">{years.length}</div>
-            <div className="text-muted-foreground text-sm">Years of Excellence</div>
-          </div>
-        </div>
-
         {/* Filters */}
         <div className="bg-card rounded-lg p-6 shadow-card mb-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
@@ -209,6 +188,27 @@ const Winners = () => {
             <Button onClick={clearFilters}>Clear All Filters</Button>
           </div>
         )}
+
+        {/* Stats Overview */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-12">
+          <div className="bg-gradient-primary rounded-lg p-6 text-primary-foreground text-center">
+            <Trophy className="h-8 w-8 mx-auto mb-3" />
+            <div className="text-3xl font-bold mb-1">{winners.length}</div>
+            <div className="text-sm opacity-90">Total Winners</div>
+          </div>
+
+          <div className="bg-card rounded-lg p-6 shadow-card text-center">
+            <Award className="h-8 w-8 mx-auto mb-3 text-primary" />
+            <div className="text-3xl font-bold text-card-foreground mb-1">{events.length}</div>
+            <div className="text-muted-foreground text-sm">Different Events</div>
+          </div>
+
+          <div className="bg-card rounded-lg p-6 shadow-card text-center">
+            <Calendar className="h-8 w-8 mx-auto mb-3 text-primary" />
+            <div className="text-3xl font-bold text-card-foreground mb-1">{years.length}</div>
+            <div className="text-muted-foreground text-sm">Years of Excellence</div>
+          </div>
+        </div>
 
         {/* Achievement Highlights */}
         <div className="mt-16 bg-gradient-card rounded-2xl p-8">

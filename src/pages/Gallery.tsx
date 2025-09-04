@@ -46,25 +46,6 @@ const Gallery = () => {
           </p>
         </div>
 
-        {/* Gallery Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <div className="bg-card rounded-lg p-6 shadow-card text-center">
-            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Image className="h-6 w-6 text-primary" />
-            </div>
-            <div className="text-2xl font-bold text-card-foreground mb-1">{photos.length}</div>
-            <div className="text-muted-foreground text-sm">Total Photos</div>
-          </div>
-          
-          <div className="bg-card rounded-lg p-6 shadow-card text-center col-span-2">
-            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Grid className="h-6 w-6 text-primary" />
-            </div>
-            <div className="text-2xl font-bold text-card-foreground mb-1">A Growing Collection</div>
-            <div className="text-muted-foreground text-sm">New photos are added regularly</div>
-          </div>
-        </div>
-
         {/* Photo Grid */}
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -119,6 +100,25 @@ const Gallery = () => {
             </p>
           </div>
         )}
+
+        {/* Gallery Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-12">
+          <div className="bg-card rounded-lg p-6 shadow-card text-center">
+            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+              <Image className="h-6 w-6 text-primary" />
+            </div>
+            <div className="text-2xl font-bold text-card-foreground mb-1">{photos.length}</div>
+            <div className="text-muted-foreground text-sm">Total Photos</div>
+          </div>
+
+          <div className="bg-card rounded-lg p-6 shadow-card text-center col-span-2">
+            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+              <Grid className="h-6 w-6 text-primary" />
+            </div>
+            <div className="text-2xl font-bold text-card-foreground mb-1">A Growing Collection</div>
+            <div className="text-muted-foreground text-sm">New photos are added regularly</div>
+          </div>
+        </div>
       </div>
     </div>
   );
