@@ -69,16 +69,26 @@ const WinnerCard = ({ winner, featured = false }: WinnerCardProps) => {
               )}
             </div>
             
-            {(winner.activityType && winner.activityType !== 'General') || winner.weekNumber ? (
-              <div className="text-xs text-muted-foreground mt-1">
-                {winner.activityType && winner.activityType !== 'General' && (
-                  <span className="bg-secondary/50 px-2 py-1 rounded mr-2">{winner.activityType}</span>
-                )}
-                {winner.weekNumber && (
-                  <span className="bg-primary/10 text-primary px-2 py-1 rounded">Week {winner.weekNumber}</span>
-                )}
-              </div>
-            ) : null}
+            <div className="text-xs text-muted-foreground mt-1 flex flex-wrap gap-1">
+              {winner.activityType && winner.activityType !== 'General' && (
+                <Link 
+                  to="/previous"
+                  className="bg-secondary/50 hover:bg-secondary/70 px-2 py-1 rounded transition-colors inline-flex items-center"
+                >
+                  {winner.activityType}
+                  <ExternalLink className="h-2 w-2 ml-1" />
+                </Link>
+              )}
+              {winner.weekNumber && (
+                <Link 
+                  to="/weekly-winners"
+                  className="bg-primary/10 text-primary hover:bg-primary/20 px-2 py-1 rounded transition-colors inline-flex items-center"
+                >
+                  Week {winner.weekNumber}
+                  <ExternalLink className="h-2 w-2 ml-1" />
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </div>
