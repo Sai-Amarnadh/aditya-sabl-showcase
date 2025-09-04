@@ -5,9 +5,10 @@ import { Link } from 'react-router-dom';
 interface WinnerCardProps {
   winner: Winner;
   featured?: boolean;
+  onClick?: () => void;
 }
 
-const WinnerCard = ({ winner, featured = false }: WinnerCardProps) => {
+const WinnerCard = ({ winner, featured = false, onClick }: WinnerCardProps) => {
   const getPositionIcon = (position?: number) => {
     if (position === 1) return <Trophy className="h-3 w-3 text-yellow-500" />;
     if (position === 2) return <Medal className="h-3 w-3 text-gray-400" />;
@@ -23,9 +24,12 @@ const WinnerCard = ({ winner, featured = false }: WinnerCardProps) => {
   };
 
   return (
-    <div className={`bg-card rounded-lg shadow-card hover:shadow-elevated transition-all duration-300 overflow-hidden group ${
-      featured ? 'border-2 border-primary/20' : ''
-    }`}>
+    <div 
+      className={`bg-card rounded-lg shadow-card hover:shadow-elevated transition-all duration-300 overflow-hidden group ${
+        featured ? 'border-2 border-primary/20' : ''
+      } ${onClick ? 'cursor-pointer hover:scale-[1.02]' : ''}`}
+      onClick={onClick}
+    >
       <div className="p-6">
         <div className="flex items-center space-x-4">
           <div className="relative">

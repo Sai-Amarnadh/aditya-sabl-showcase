@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import WinnerCard from '@/components/WinnerCard';
+import WinnerDetailsModal from '@/components/WinnerDetailsModal';
 import { getWinners, Winner } from '@/lib/data-service';
 import { useData } from '@/contexts/DataContext';
 import { Calendar, History, Trophy, ArrowRight } from 'lucide-react';
@@ -10,8 +11,20 @@ import { Link } from 'react-router-dom';
 const Home = () => {
   const [thisWeekWinners, setThisWeekWinners] = useState<Winner[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedWinner, setSelectedWinner] = useState<Winner | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { dataChanged } = useData();
+
+  const handleWinnerClick = (winner: Winner) => {
+    setSelectedWinner(winner);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedWinner(null);
+  };
 
   useEffect(() => {
     const fetchWinners = async () => {
@@ -88,7 +101,12 @@ const Home = () => {
               thisWeekWinners
                 .sort((a, b) => (a.position || 1) - (b.position || 1))
                 .map((winner) => (
-                  <WinnerCard key={winner.id} winner={winner} featured={true} />
+                  <WinnerCard 
+                    key={winner.id} 
+                    winner={winner} 
+                    featured={true} 
+                    onClick={() => handleWinnerClick(winner)}
+                  />
                 ))
             ) : (
               <div className="col-span-3 text-center py-8">
@@ -185,6 +203,13 @@ const Home = () => {
           </div>
         </div>
       </section>
+      
+      {/* Winner Details Modal */}
+      <WinnerDetailsModal 
+        winner={selectedWinner}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
     </div>
   );
 };
