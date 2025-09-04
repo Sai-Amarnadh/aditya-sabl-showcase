@@ -2,8 +2,6 @@ import { Activity } from '@/lib/data-service';
 import { Link } from 'react-router-dom';
 import { Calendar, MapPin, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { AspectRatio } from '@/components/ui/aspect-ratio';
-
 interface ActivityCardProps {
   activity: Activity;
 }
@@ -14,13 +12,11 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
   return (
     <div className="bg-card rounded-lg shadow-card hover:shadow-elevated transition-all duration-300 overflow-hidden group flex flex-col">
       {activity.poster ? (
-        <AspectRatio ratio={4/5}>
-          <img key={activity.poster} src={activity.poster} alt={activity.name} className="w-full h-full object-cover" />
-        </AspectRatio>
+        <img key={activity.poster} src={activity.poster} alt={activity.name} className="w-full h-auto" />
       ) : (
-        <AspectRatio ratio={4/5} className="bg-gradient-card flex items-center justify-center">
+        <div className="h-48 bg-gradient-card flex items-center justify-center">
           <span className="text-muted-foreground">No Poster</span>
-        </AspectRatio>
+        </div>
       )}
       
       <div className="p-6 flex flex-col flex-grow">
