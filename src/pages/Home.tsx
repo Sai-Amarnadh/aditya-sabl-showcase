@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import WinnerCard from '@/components/WinnerCard';
 import WinnerDetailsModal from '@/components/WinnerDetailsModal';
@@ -6,7 +6,9 @@ import { getWinners, Winner } from '@/lib/data-service';
 import { useData } from '@/contexts/DataContext';
 import { Calendar, History, Trophy, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-// import universityBanner from '@/assets/university-banner.jpg';
+import Particles from "@tsparticles/react";
+import { loadFull } from "tsparticles";
+import type { Engine } from "tsparticles-engine";
 
 const Home = () => {
   const [thisWeekWinners, setThisWeekWinners] = useState<Winner[]>([]);
@@ -42,29 +44,88 @@ const Home = () => {
     fetchWinners();
   }, [dataChanged]);
 
+  const particlesInit = useCallback(async (engine: Engine) => {
+    await loadFull(engine);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative h-[500px] flex items-center justify-center overflow-hidden animate-gradient-simple">
-        {/* Simple Animated Background */}
-        <div className="absolute inset-0">
-          {/* Floating Circles */}
-          <div className="absolute top-20 left-16 w-12 h-12 circle-simple animate-float-simple"></div>
-          <div className="absolute top-32 right-20 w-8 h-8 circle-glow animate-circle-drift"></div>
-          <div className="absolute bottom-24 left-24 w-16 h-16 circle-simple animate-rotate-gentle"></div>
-          <div className="absolute bottom-40 right-16 w-10 h-10 circle-glow animate-float-simple" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute top-1/2 left-12 w-6 h-6 circle-simple animate-circle-drift" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute top-3/4 right-1/4 w-14 h-14 circle-glow animate-pulse-soft"></div>
-          
-          {/* Simple Geometric Shapes */}
-          <div className="absolute top-40 right-1/3 w-4 h-4 bg-primary-foreground/20 rotate-45 animate-rotate-gentle"></div>
-          <div className="absolute bottom-1/3 left-1/3 w-3 h-3 bg-primary-foreground/30 animate-pulse-soft"></div>
-        </div>
+      <section className="relative h-[500px] flex items-center justify-center overflow-hidden bg-primary">
+        <Particles
+            id="tsparticles"
+            init={particlesInit}
+            options={{
+                background: {
+                    color: {
+                        value: "transparent",
+                    },
+                },
+                fpsLimit: 60,
+                interactivity: {
+                    events: {
+                        onHover: {
+                            enable: true,
+                            mode: "repulse",
+                        },
+                        resize: true,
+                    },
+                    modes: {
+                        repulse: {
+                            distance: 100,
+                            duration: 0.4,
+                        },
+                    },
+                },
+                particles: {
+                    color: {
+                        value: "#ffffff",
+                    },
+                    links: {
+                        color: "#ffffff",
+                        distance: 150,
+                        enable: true,
+                        opacity: 0.2,
+                        width: 1,
+                    },
+                    collisions: {
+                        enable: true,
+                    },
+                    move: {
+                        direction: "none",
+                        enable: true,
+                        outModes: {
+                            default: "bounce",
+                        },
+                        random: false,
+                        speed: 1,
+                        straight: false,
+                    },
+                    number: {
+                        density: {
+                            enable: true,
+                            area: 800,
+                        },
+                        value: 80,
+                    },
+                    opacity: {
+                        value: 0.2,
+                    },
+                    shape: {
+                        type: "circle",
+                    },
+                    size: {
+                        value: { min: 1, max: 5 },
+                    },
+                },
+                detectRetina: true,
+            }}
+        />
 
         {/* Main Content */}
         <div className="relative z-10 text-center text-primary-foreground px-4">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in-up">
-            <span style={{ color: "#F2722C" }} className="animate-pulse-soft">ADITYA</span> UNIVERSITY
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in-up" style={{ textShadow: '0 0 10px rgba(255,255,255,0.7)' }}>
+            <span style={{ color: "#F2722C" }}>ADITYA</span> UNIVERSITY
           </h1>
 
           <h2 className="text-2xl md:text-3xl font-semibold mb-4 opacity-90 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>

@@ -11,14 +11,15 @@ const Register = () => {
   const { id } = useParams();
   const [activity, setActivity] = useState<Activity | null>(null);
   const [loading, setLoading] = useState(true);
+  const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
-    collegeId: '',
-    name: '',
-    rollNo: '',
-    branch: '',
-    phone: '',
-    section: '',
-    willing: '',
+    'entry.1431817837': '',
+    'entry.1901415838': '',
+    'entry.1067850696': '',
+    'entry.2123157265': '',
+    'entry.760150042': '',
+    'entry.579632687': '',
+    'entry.1117961937': '',
   });
 
   useEffect(() => {
@@ -40,52 +41,40 @@ const Register = () => {
   }, [id]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-    setFormData(prev => ({ ...prev, [id]: value }));
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleWillingChange = (value: string) => {
-    setFormData(prev => ({ ...prev, willing: value }));
+    setFormData(prev => ({ ...prev, 'entry.1117961937': value }));
   };
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-
-    const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfrmnZLkrHqqTdbu9mKFCnxvZ_9y-mLyWxGT7wGLerQm2_R3A/formResponse';
-    const formDataBody = new FormData();
-    formDataBody.append('entry.1431817837', formData.collegeId);
-    formDataBody.append('entry.1901415838', formData.name);
-    formDataBody.append('entry.1067850696', formData.rollNo);
-    formDataBody.append('entry.2123157265', formData.branch);
-    formDataBody.append('entry.760150042', formData.phone);
-    formDataBody.append('entry.579632687', formData.section);
-    formDataBody.append('entry.1117961937', formData.willing);
-
-    try {
-      await fetch(googleFormUrl, {
-        method: 'POST',
-        body: formDataBody,
-        mode: 'no-cors',
-      });
-      alert('Registration submitted successfully!');
-      // Optionally, reset form
-      setFormData({
-        collegeId: '',
-        name: '',
-        rollNo: '',
-        branch: '',
-        phone: '',
-        section: '',
-        willing: '',
-      });
-    } catch (error) {
-      console.error('Error submitting registration:', error);
-      alert('An error occurred while submitting the form. Please try again.');
-    }
+    setSubmitted(true);
+    // The form submission is handled by the form's action and target attributes.
   };
+
+  if (submitted) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center p-8">
+          <h2 className="text-2xl font-bold text-primary mb-4 animate-fade-in-up">Success is on the way!</h2>
+          <p className="text-lg text-muted-foreground animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            Your registration has been submitted. Be ready!
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center">
+      <iframe name="hidden_iframe" id="hidden_iframe" style={{ display: 'none' }} onLoad={() => {
+        if (submitted) {
+          // The form has been successfully submitted to the iframe
+        }
+      }}></iframe>
       <div className="container mx-auto px-4 py-12">
         <Card className="max-w-2xl mx-auto">
           <CardHeader>
@@ -101,34 +90,40 @@ const Register = () => {
             ) : !activity ? (
               <div className="text-center">Activity not found</div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form
+                action="https://docs.google.com/forms/d/e/1FAIpQLSfrmnZLkrHqqTdbu9mKFCnxvZ_9y-mLyWxGT7wGLerQm2_R3A/formResponse"
+                method="POST"
+                target="hidden_iframe"
+                onSubmit={handleSubmit}
+                className="space-y-6"
+              >
                 <div>
                   <Label htmlFor="collegeId">College Mail ID</Label>
-                  <Input id="collegeId" placeholder="john.doe@example.com" value={formData.collegeId} onChange={handleInputChange} />
+                  <Input name="entry.1431817837" id="collegeId" placeholder="john.doe@example.com" value={formData['entry.1431817837']} onChange={handleInputChange} />
                 </div>
                 <div>
                   <Label htmlFor="name">Name</Label>
-                  <Input id="name" placeholder="John Doe" value={formData.name} onChange={handleInputChange} />
+                  <Input name="entry.1901415838" id="name" placeholder="John Doe" value={formData['entry.1901415838']} onChange={handleInputChange} />
                 </div>
                 <div>
                   <Label htmlFor="rollNo">Roll No.</Label>
-                  <Input id="rollNo" placeholder="12345" value={formData.rollNo} onChange={handleInputChange} />
+                  <Input name="entry.1067850696" id="rollNo" placeholder="12345" value={formData['entry.1067850696']} onChange={handleInputChange} />
                 </div>
                 <div>
                   <Label htmlFor="branch">Branch</Label>
-                  <Input id="branch" placeholder="e.g., Computer Science" value={formData.branch} onChange={handleInputChange} />
+                  <Input name="entry.2123157265" id="branch" placeholder="e.g., Computer Science" value={formData['entry.2123157265']} onChange={handleInputChange} />
                 </div>
                 <div>
                   <Label htmlFor="phone">Phone Number</Label>
-                  <Input id="phone" type="tel" placeholder="+1234567890" value={formData.phone} onChange={handleInputChange} />
+                  <Input name="entry.760150042" id="phone" type="tel" placeholder="+1234567890" value={formData['entry.760150042']} onChange={handleInputChange} />
                 </div>
                 <div>
                   <Label htmlFor="section">Section</Label>
-                  <Input id="section" placeholder="A" value={formData.section} onChange={handleInputChange} />
+                  <Input name="entry.579632687" id="section" placeholder="A" value={formData['entry.579632687']} onChange={handleInputChange} />
                 </div>
                 <div>
                   <Label>Are you willing to participate?</Label>
-                  <RadioGroup onValueChange={handleWillingChange} value={formData.willing} className="flex space-x-4">
+                  <RadioGroup onValueChange={handleWillingChange} value={formData['entry.1117961937']} className="flex space-x-4">
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="Yes" id="willing-yes" />
                       <Label htmlFor="willing-yes">Yes</Label>
