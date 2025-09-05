@@ -45,75 +45,39 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative h-[500px] flex items-center justify-center overflow-hidden transform-3d animate-gradient-wave">
-        {/* Advanced Animated Background */}
+      <section className="relative h-[500px] flex items-center justify-center overflow-hidden animate-gradient-simple">
+        {/* Simple Animated Background */}
         <div className="absolute inset-0">
-          {/* Morphing Geometric Shapes */}
-          <div className="absolute top-16 left-12 w-20 h-20 geometric-shape animate-morph-shape" style={{ animationDelay: '0s' }}></div>
-          <div className="absolute top-28 right-16 w-16 h-16 geometric-shape animate-geometric-dance" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute bottom-24 left-16 w-12 h-12 geometric-shape animate-float-complex" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute bottom-36 right-12 w-24 h-24 geometric-shape animate-spiral-rotation" style={{ animationDelay: '3s' }}></div>
+          {/* Floating Circles */}
+          <div className="absolute top-20 left-16 w-12 h-12 circle-simple animate-float-simple"></div>
+          <div className="absolute top-32 right-20 w-8 h-8 circle-glow animate-circle-drift"></div>
+          <div className="absolute bottom-24 left-24 w-16 h-16 circle-simple animate-rotate-gentle"></div>
+          <div className="absolute bottom-40 right-16 w-10 h-10 circle-glow animate-float-simple" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute top-1/2 left-12 w-6 h-6 circle-simple animate-circle-drift" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-3/4 right-1/4 w-14 h-14 circle-glow animate-pulse-soft"></div>
           
-          {/* Advanced Code Matrix Elements */}
-          <div className="particle-advanced top-32 left-1/4">
-            <div className="particle-code animate-code-matrix" style={{ animationDelay: '0s' }}>
-              &lt;React/&gt;
-            </div>
-          </div>
-          <div className="particle-advanced bottom-32 right-1/4">
-            <div className="particle-code animate-code-matrix" style={{ animationDelay: '1.5s' }}>
-              {`{code}`}
-            </div>
-          </div>
-          <div className="particle-advanced top-1/2 left-16">
-            <div className="particle-code animate-code-matrix" style={{ animationDelay: '2.5s' }}>
-              function()
-            </div>
-          </div>
-          <div className="particle-advanced top-20 right-1/3">
-            <div className="particle-code animate-code-matrix" style={{ animationDelay: '3.5s' }}>
-              const AI =
-            </div>
-          </div>
-          
-          {/* Particle Trail System */}
-          <div className="particle-advanced top-1/4 left-1/3">
-            <div className="particle-trail animate-particle-trail" style={{ animationDelay: '0s' }}></div>
-          </div>
-          <div className="particle-advanced top-1/3 right-1/4">
-            <div className="particle-trail animate-particle-trail" style={{ animationDelay: '1s' }}></div>
-          </div>
-          <div className="particle-advanced bottom-1/4 left-1/4">
-            <div className="particle-trail animate-particle-trail" style={{ animationDelay: '2s' }}></div>
-          </div>
-          <div className="particle-advanced bottom-1/3 right-1/3">
-            <div className="particle-trail animate-particle-trail" style={{ animationDelay: '3s' }}></div>
-          </div>
-          <div className="particle-advanced top-1/2 left-1/2">
-            <div className="particle-trail animate-particle-trail" style={{ animationDelay: '1.5s' }}></div>
-          </div>
-          <div className="particle-advanced top-3/4 left-2/3">
-            <div className="particle-trail animate-particle-trail" style={{ animationDelay: '2.5s' }}></div>
-          </div>
+          {/* Simple Geometric Shapes */}
+          <div className="absolute top-40 right-1/3 w-4 h-4 bg-primary-foreground/20 rotate-45 animate-rotate-gentle"></div>
+          <div className="absolute bottom-1/3 left-1/3 w-3 h-3 bg-primary-foreground/30 animate-pulse-soft"></div>
         </div>
 
-        {/* Main Content with Enhanced Effects */}
+        {/* Main Content */}
         <div className="relative z-10 text-center text-primary-foreground px-4">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-slide-up transform-3d">
-            <span className="animate-text-glow animate-pulse-glow-advanced" style={{ color: "#F2722C" }}>ADITYA</span> UNIVERSITY
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in-up">
+            <span style={{ color: "#F2722C" }} className="animate-pulse-soft">ADITYA</span> UNIVERSITY
           </h1>
 
-          <h2 className="text-2xl md:text-3xl font-semibold mb-4 opacity-90 animate-slide-up hover-lift" style={{ animationDelay: '0.2s' }}>
+          <h2 className="text-2xl md:text-3xl font-semibold mb-4 opacity-90 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             CSE Department SABL Activities
           </h2>
-          <p className="text-lg md:text-xl mb-8 opacity-80 max-w-2xl mx-auto animate-slide-up" style={{ animationDelay: '0.4s' }}>
+          <p className="text-lg md:text-xl mb-8 opacity-80 max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
             Fostering innovation, creativity, and excellence in computer science education through engaging activities and competitions.
           </p>
-          <div className="animate-slide-up" style={{ animationDelay: '0.6s' }}>
-            <Button size="lg" variant="secondary" asChild className="hover-lift animate-pulse-glow-advanced transition-all duration-500">
+          <div className="animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+            <Button size="lg" variant="secondary" asChild className="hover:scale-105 transition-all duration-300">
               <Link to="/upcoming">
                 Explore Activities
-                <ArrowRight className="ml-2 h-5 w-5 animate-geometric-dance" />
+                <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
           </div>
