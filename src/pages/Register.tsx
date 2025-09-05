@@ -3,10 +3,9 @@ import { useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { getActivity, Activity } from '@/lib/data-service';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const Register = () => {
   const { id } = useParams();
@@ -19,7 +18,7 @@ const Register = () => {
     branch: '',
     phone: '',
     section: '',
-    willing: false,
+    willing: '',
   });
 
   useEffect(() => {
@@ -45,19 +44,44 @@ const Register = () => {
     setFormData(prev => ({ ...prev, [id]: value }));
   };
 
-  const handleCheckboxChange = (checked: boolean) => {
-    setFormData(prev => ({ ...prev, willing: checked }));
+  const handleWillingChange = (value: string) => {
+    setFormData(prev => ({ ...prev, willing: value }));
   };
 
-  const handleBranchChange = (value: string) => {
-    setFormData(prev => ({ ...prev, branch: value }));
-  };
-
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log('Registration Form Submitted:', formData);
-    // Here you would typically send the data to a server
-    alert('Registration submitted! Check the console for the data.');
+
+    const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfrmnZLkrHqqTdbu9mKFCnxvZ_9y-mLyWxGT7wGLerQm2_R3A/formResponse';
+    const formDataBody = new FormData();
+    formDataBody.append('entry.1431817837', formData.collegeId);
+    formDataBody.append('entry.1901415838', formData.name);
+    formDataBody.append('entry.1067850696', formData.rollNo);
+    formDataBody.append('entry.2123157265', formData.branch);
+    formDataBody.append('entry.760150042', formData.phone);
+    formDataBody.append('entry.579632687', formData.section);
+    formDataBody.append('entry.1117961937', formData.willing);
+
+    try {
+      await fetch(googleFormUrl, {
+        method: 'POST',
+        body: formDataBody,
+        mode: 'no-cors',
+      });
+      alert('Registration submitted successfully!');
+      // Optionally, reset form
+      setFormData({
+        collegeId: '',
+        name: '',
+        rollNo: '',
+        branch: '',
+        phone: '',
+        section: '',
+        willing: '',
+      });
+    } catch (error) {
+      console.error('Error submitting registration:', error);
+      alert('An error occurred while submitting the form. Please try again.');
+    }
   };
 
   return (
@@ -92,19 +116,7 @@ const Register = () => {
                 </div>
                 <div>
                   <Label htmlFor="branch">Branch</Label>
-                  <Select onValueChange={handleBranchChange} value={formData.branch}>
-                    <SelectTrigger id="branch">
-                      <SelectValue placeholder="Select your branch" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="cse">Computer Science</SelectItem>
-                      <SelectItem value="it">Information Technology</SelectItem>
-                      <SelectItem value="ece">Electronics & Communication</SelectItem>
-                      <SelectItem value="eee">Electrical & Electronics</SelectItem>
-                      <SelectItem value="mech">Mechanical</SelectItem>
-                      <SelectItem value="civil">Civil</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <Input id="branch" placeholder="e.g., Computer Science" value={formData.branch} onChange={handleInputChange} />
                 </div>
                 <div>
                   <Label htmlFor="phone">Phone Number</Label>
@@ -114,9 +126,18 @@ const Register = () => {
                   <Label htmlFor="section">Section</Label>
                   <Input id="section" placeholder="A" value={formData.section} onChange={handleInputChange} />
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="willing" checked={formData.willing} onCheckedChange={handleCheckboxChange} />
-                  <Label htmlFor="willing">Are you willing to participate?</Label>
+                <div>
+                  <Label>Are you willing to participate?</Label>
+                  <RadioGroup onValueChange={handleWillingChange} value={formData.willing} className="flex space-x-4">
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="Yes" id="willing-yes" />
+                      <Label htmlFor="willing-yes">Yes</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="No" id="willing-no" />
+                      <Label htmlFor="willing-no">No</Label>
+                    </div>
+                  </RadioGroup>
                 </div>
                 <Button type="submit" className="w-full">
                   Submit Registration
