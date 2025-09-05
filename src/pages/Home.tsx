@@ -51,14 +51,14 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative h-[500px] flex items-center justify-center overflow-hidden bg-primary">
+      <section className="relative h-[500px] flex items-center justify-center overflow-hidden">
         <Particles
             id="tsparticles"
             init={particlesInit}
             options={{
                 background: {
                     color: {
-                        value: "transparent",
+                        value: "#0d47a1",
                     },
                 },
                 fpsLimit: 60,
@@ -66,39 +66,41 @@ const Home = () => {
                     events: {
                         onHover: {
                             enable: true,
-                            mode: "repulse",
+                            mode: "bubble",
                         },
                         resize: true,
                     },
                     modes: {
-                        repulse: {
-                            distance: 100,
-                            duration: 0.4,
+                        bubble: {
+                            distance: 200,
+                            duration: 2,
+                            opacity: 0.8,
+                            size: 10,
                         },
                     },
                 },
                 particles: {
                     color: {
-                        value: "#ffffff",
+                        value: ["#ffffff", "#F2722C", "#FFD700"],
                     },
                     links: {
                         color: "#ffffff",
                         distance: 150,
-                        enable: true,
-                        opacity: 0.2,
+                        enable: false,
+                        opacity: 0.1,
                         width: 1,
                     },
                     collisions: {
-                        enable: true,
+                        enable: false,
                     },
                     move: {
                         direction: "none",
                         enable: true,
                         outModes: {
-                            default: "bounce",
+                            default: "out",
                         },
-                        random: false,
-                        speed: 1,
+                        random: true,
+                        speed: 2,
                         straight: false,
                     },
                     number: {
@@ -106,16 +108,26 @@ const Home = () => {
                             enable: true,
                             area: 800,
                         },
-                        value: 80,
+                        value: 50,
                     },
                     opacity: {
-                        value: 0.2,
+                        value: 0.5,
+                        random: {
+                          enable: true,
+                          minimumValue: 0.1,
+                        },
                     },
                     shape: {
-                        type: "circle",
+                        type: ["circle", "triangle", "star"],
                     },
                     size: {
-                        value: { min: 1, max: 5 },
+                        value: { min: 1, max: 8 },
+                         animation: {
+                          enable: true,
+                          speed: 5,
+                          minimumValue: 1,
+                          sync: false,
+                        },
                     },
                 },
                 detectRetina: true,
@@ -124,7 +136,7 @@ const Home = () => {
 
         {/* Main Content */}
         <div className="relative z-10 text-center text-primary-foreground px-4">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in-up" style={{ textShadow: '0 0 10px rgba(255,255,255,0.7)' }}>
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in-up">
             <span style={{ color: "#F2722C" }}>ADITYA</span> UNIVERSITY
           </h1>
 
