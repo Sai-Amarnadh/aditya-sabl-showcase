@@ -51,14 +51,14 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative h-[500px] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[500px] flex items-center justify-center overflow-hidden bg-primary">
         <Particles
             id="tsparticles"
             init={particlesInit}
             options={{
                 background: {
                     color: {
-                        value: "#0d47a1",
+                        value: "transparent",
                     },
                 },
                 fpsLimit: 60,
@@ -81,7 +81,7 @@ const Home = () => {
                 },
                 particles: {
                     color: {
-                        value: ["#ffffff", "#F2722C", "#FFD700"],
+                        value: ["#ffffff", "#F2722C", "#FFD700", "#2196f3", "#4caf50"],
                     },
                     links: {
                         color: "#ffffff",
