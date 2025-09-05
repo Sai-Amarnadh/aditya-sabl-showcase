@@ -58,7 +58,7 @@ const Home = () => {
             options={{
                 background: {
                     color: {
-                        value: "transparent",
+                        value: "#0d47a1",
                     },
                 },
                 fpsLimit: 60,
@@ -72,35 +72,31 @@ const Home = () => {
                     },
                     modes: {
                         bubble: {
-                            distance: 200,
+                            distance: 250,
                             duration: 2,
-                            opacity: 0.8,
-                            size: 10,
+                            size: 0,
+                            opacity: 0,
                         },
                     },
                 },
                 particles: {
                     color: {
-                        value: ["#ffffff", "#F2722C", "#FFD700", "#2196f3", "#4caf50"],
+                        value: ["#2196f3", "#ffffff", "#FFD700"],
                     },
                     links: {
-                        color: "#ffffff",
-                        distance: 150,
                         enable: false,
-                        opacity: 0.1,
-                        width: 1,
                     },
                     collisions: {
                         enable: false,
                     },
                     move: {
-                        direction: "none",
+                        direction: "top",
                         enable: true,
                         outModes: {
                             default: "out",
                         },
                         random: true,
-                        speed: 2,
+                        speed: 1,
                         straight: false,
                     },
                     number: {
@@ -108,7 +104,7 @@ const Home = () => {
                             enable: true,
                             area: 800,
                         },
-                        value: 50,
+                        value: 80,
                     },
                     opacity: {
                         value: 0.5,
@@ -118,15 +114,15 @@ const Home = () => {
                         },
                     },
                     shape: {
-                        type: ["circle", "triangle", "star"],
+                        type: "circle",
                     },
                     size: {
-                        value: { min: 1, max: 8 },
+                        value: { min: 1, max: 3 },
                          animation: {
                           enable: true,
-                          speed: 5,
-                          minimumValue: 1,
-                          sync: false,
+                          speed: 4,
+                          minimumValue: 0.3,
+                          sync: false
                         },
                     },
                 },
