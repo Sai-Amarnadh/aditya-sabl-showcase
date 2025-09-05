@@ -55,15 +55,18 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
         )}
         
         {isUpcoming ? (
-          <Link to={`/activity/${activity.id}`}>
-            <Button
-              variant="default"
-              size="sm"
-              className="w-full mt-auto"
-            >
-              Learn More
+          <div className="flex gap-2 mt-auto">
+            <Button asChild variant="default" size="sm" className="flex-1">
+              <Link to={`/activity/${activity.id}`}>
+                Learn More
+              </Link>
             </Button>
-          </Link>
+            <Button asChild variant="secondary" size="sm" className="flex-1">
+              <Link to={`/register/${activity.id}`}>
+                Register
+              </Link>
+            </Button>
+          </div>
         ) : (
           <Link to={`/activity/${activity.id}/photos`}>
             <Button

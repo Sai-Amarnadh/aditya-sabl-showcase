@@ -17,6 +17,7 @@ import WeeklyWinners from "./pages/WeeklyWinners";
 import Gallery from "./pages/Gallery";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
+import Register from "./pages/Register";
 
 const queryClient = new QueryClient();
 
@@ -53,6 +54,7 @@ const App = () => {
                 <Route path="/weekly-winners" element={<WeeklyWinners />} />
                 <Route path="/gallery" element={<Gallery />} />
                 <Route path="/admin" element={<Admin />} />
+                <Route path="/register/:id" element={<Register />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </div>
