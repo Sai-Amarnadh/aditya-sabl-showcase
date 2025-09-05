@@ -207,6 +207,66 @@ All colors MUST be HSL.
   }
 }
 
+/* Enhanced Float Animation with Rotation */
+@keyframes float-rotate {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-10px) rotate(120deg);
+  }
+  66% {
+    transform: translateY(-5px) rotate(240deg);
+  }
+}
+
+/* Morphing Shape Animation */
+@keyframes morph-shape {
+  0%, 100% {
+    border-radius: 50%;
+    transform: scale(1);
+  }
+  25% {
+    border-radius: 25%;
+    transform: scale(1.1);
+  }
+  50% {
+    border-radius: 10%;
+    transform: scale(0.9);
+  }
+  75% {
+    border-radius: 35%;
+    transform: scale(1.05);
+  }
+}
+
+/* Glowing Pulse */
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(249, 115, 44, 0.3);
+    opacity: 0.7;
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(249, 115, 44, 0.6), 0 0 30px rgba(249, 115, 44, 0.4);
+    opacity: 1;
+  }
+}
+
+/* Wave Motion */
+@keyframes wave-motion {
+  0%, 100% {
+    transform: translateX(0px) translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateX(15px) translateY(-8px) rotate(90deg);
+  }
+  50% {
+    transform: translateX(0px) translateY(-15px) rotate(180deg);
+  }
+  75% {
+    transform: translateX(-15px) translateY(-8px) rotate(270deg);
+  }
+}
 /* Simple Background Shift */
 @keyframes gradient-simple {
   0%, 100% {
@@ -245,6 +305,21 @@ All colors MUST be HSL.
   animation: pulse-soft 3s ease-in-out infinite;
 }
 
+.animate-float-rotate {
+  animation: float-rotate 6s ease-in-out infinite;
+}
+
+.animate-morph-shape {
+  animation: morph-shape 8s ease-in-out infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 4s ease-in-out infinite;
+}
+
+.animate-wave-motion {
+  animation: wave-motion 10s ease-in-out infinite;
+}
 .animate-gradient-simple {
   background: linear-gradient(135deg, hsl(var(--primary)), hsla(22, 93%, 56%, 0.8));
   background-size: 200% 200%;

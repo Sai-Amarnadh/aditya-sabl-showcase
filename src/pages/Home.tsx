@@ -6,9 +6,6 @@ import { getWinners, Winner } from '@/lib/data-service';
 import { useData } from '@/contexts/DataContext';
 import { Calendar, History, Trophy, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import Particles from "@tsparticles/react";
-import { loadFull } from "tsparticles";
-import type { Engine } from "tsparticles-engine";
 
 const Home = () => {
   const [thisWeekWinners, setThisWeekWinners] = useState<Winner[]>([]);
@@ -44,91 +41,32 @@ const Home = () => {
     fetchWinners();
   }, [dataChanged]);
 
-  const particlesInit = useCallback(async (engine: Engine) => {
-    await loadFull(engine);
-  }, []);
 
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative h-[500px] flex items-center justify-center overflow-hidden bg-primary">
-        <Particles
-            id="tsparticles"
-            init={particlesInit}
-            options={{
-                background: {
-                    color: {
-                        value: "#0d47a1",
-                    },
-                },
-                fpsLimit: 60,
-                interactivity: {
-                    events: {
-                        onHover: {
-                            enable: true,
-                            mode: "bubble",
-                        },
-                        resize: true,
-                    },
-                    modes: {
-                        bubble: {
-                            distance: 250,
-                            duration: 2,
-                            size: 0,
-                            opacity: 0,
-                        },
-                    },
-                },
-                particles: {
-                    color: {
-                        value: ["#2196f3", "#ffffff", "#FFD700"],
-                    },
-                    links: {
-                        enable: false,
-                    },
-                    collisions: {
-                        enable: false,
-                    },
-                    move: {
-                        direction: "top",
-                        enable: true,
-                        outModes: {
-                            default: "out",
-                        },
-                        random: true,
-                        speed: 1,
-                        straight: false,
-                    },
-                    number: {
-                        density: {
-                            enable: true,
-                            area: 800,
-                        },
-                        value: 80,
-                    },
-                    opacity: {
-                        value: 0.5,
-                        random: {
-                          enable: true,
-                          minimumValue: 0.1,
-                        },
-                    },
-                    shape: {
-                        type: "circle",
-                    },
-                    size: {
-                        value: { min: 1, max: 3 },
-                         animation: {
-                          enable: true,
-                          speed: 4,
-                          minimumValue: 0.3,
-                          sync: false
-                        },
-                    },
-                },
-                detectRetina: true,
-            }}
-        />
+      <section className="relative h-[500px] flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary via-primary-light to-accent">
+        {/* Animated Background Shapes */}
+        <div className="absolute inset-0 overflow-hidden">
+          {/* Floating Circles */}
+          <div className="absolute top-10 left-10 w-20 h-20 bg-white/10 rounded-full animate-float-simple"></div>
+          <div className="absolute top-32 right-20 w-16 h-16 bg-orange-400/20 rounded-full animate-circle-drift"></div>
+          <div className="absolute bottom-20 left-1/4 w-24 h-24 bg-yellow-300/15 rounded-full animate-pulse-soft"></div>
+          <div className="absolute top-1/2 right-10 w-12 h-12 bg-white/20 rounded-full animate-float-simple" style={{ animationDelay: '1s' }}></div>
+          
+          {/* Geometric Shapes */}
+          <div className="absolute top-20 left-1/3 w-8 h-8 bg-orange-400/25 rotate-45 animate-rotate-gentle"></div>
+          <div className="absolute bottom-32 right-1/3 w-10 h-10 bg-yellow-300/20 rotate-12 animate-pulse-soft" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute top-1/3 left-20 w-6 h-6 bg-white/30 rotate-45 animate-float-simple" style={{ animationDelay: '0.5s' }}></div>
+          
+          {/* Gradient Orbs */}
+          <div className="absolute top-16 right-1/4 w-32 h-32 bg-gradient-to-r from-orange-400/10 to-yellow-300/10 rounded-full blur-xl animate-circle-drift"></div>
+          <div className="absolute bottom-16 left-1/3 w-40 h-40 bg-gradient-to-r from-white/5 to-orange-400/5 rounded-full blur-2xl animate-pulse-soft"></div>
+          
+          {/* Animated Lines */}
+          <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse"></div>
+          <div className="absolute bottom-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-400/20 to-transparent animate-pulse" style={{ animationDelay: '1.5s' }}></div>
+        </div>
 
         {/* Main Content */}
         <div className="relative z-10 text-center text-primary-foreground px-4">
