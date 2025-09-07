@@ -1,7 +1,7 @@
 import { Winner } from '@/lib/data-service';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, Trophy, Medal, Award, User, BookOpen } from 'lucide-react';
+import { Calendar, Trophy, Medal, Award, User, BookOpen, X } from 'lucide-react';
 import { useEffect, useState, useCallback } from 'react';
 import Particles from '@tsparticles/react';
 import { loadFull } from 'tsparticles';
@@ -56,7 +56,7 @@ const WinnerDetailsModal = ({ winner, isOpen, onClose }: WinnerDetailsModalProps
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md w-[95%] sm:max-w-lg rounded-2xl overflow-hidden p-0">
+      <DialogContent className="max-w-md w-[95%] sm:max-w-lg rounded-2xl overflow-hidden p-0 border-0 bg-transparent">
         {isOpen && showParticles && (
           <Particles
             id="tsparticles"
@@ -144,7 +144,11 @@ const WinnerDetailsModal = ({ winner, isOpen, onClose }: WinnerDetailsModalProps
             className="absolute inset-0 z-0"
           />
         )}
-        <div className="relative z-10 bg-card/80 backdrop-blur-sm">
+        <div className="relative z-10 bg-card/80 backdrop-blur-sm rounded-2xl border">
+          <DialogClose className="absolute right-4 top-4 z-20 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+            <X className="h-4 w-4" />
+            <span className="sr-only">Close</span>
+          </DialogClose>
           <div className="p-6">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
