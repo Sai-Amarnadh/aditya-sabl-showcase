@@ -86,7 +86,9 @@ const Home = () => {
           </h1>
 
           <h2 className="text-2xl md:text-3xl font-semibold mb-4 opacity-90 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            CSE Department SABL Activities
+            Department of Computer Science and Engineering
+            <br />
+            SABL Activites
           </h2>
           <p className="text-lg md:text-xl mb-8 opacity-80 max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
             Fostering innovation, creativity, and excellence in computer science education through engaging activities and competitions.

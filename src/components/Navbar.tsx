@@ -24,7 +24,7 @@ const Navbar = () => {
               <h1 className="text-lg font-bold">
   <span className="text-[#F2722C]">ADITYA</span>{' '}
   <span className="text-primary">UNIVERSITY</span></h1>
-              <p className="text-sm text-muted-foreground">CSE Department SABL Activities</p>
+              <p className="text-sm text-muted-foreground">Department of Computer Science and Engineering SABL Activites</p>
             </div>
             <div className="sm:hidden">
               <h1 className="text-lg font-bold">
