@@ -59,6 +59,9 @@ describe('DataService', () => {
         photo: 'http://example.com/photo.jpg',
         year: '2025',
         isThisWeekWinner: true,
+        position: 1,
+        activityType: 'General',
+        weekNumber: undefined,
       });
     });
   });
@@ -73,6 +76,9 @@ describe('DataService', () => {
         photo: 'http://example.com/new.jpg',
         year: '2025',
         isThisWeekWinner: false,
+        position: 1,
+        activityType: 'General',
+        weekNumber: undefined,
       };
       const mockInsertedWinner = { id: 2, ...newWinner, created_at: '2025-02-01T00:00:00.000Z', roll_number: '67890', photo_url: 'http://example.com/new.jpg', is_week_winner: false};
 
@@ -95,6 +101,9 @@ describe('DataService', () => {
           photo_url: 'http://example.com/new.jpg',
           year: 2025,
           is_week_winner: false,
+          position: 1,
+          activity_type: 'General',
+          week_number: null,
         },
       ]);
       expect(result).toEqual({
@@ -115,6 +124,9 @@ describe('DataService', () => {
         photo: 'http://example.com/updated.jpg',
         year: '2025',
         isThisWeekWinner: true,
+        position: 1,
+        activityType: 'General',
+        weekNumber: undefined,
       };
       const mockUpdatedWinner = { ...updatedWinner, id: 1, roll_number: '12345', photo_url: 'http://example.com/updated.jpg', is_week_winner: true };
 
@@ -137,6 +149,9 @@ describe('DataService', () => {
         photo_url: 'http://example.com/updated.jpg',
         year: 2025,
         is_week_winner: true,
+        position: 1,
+        activity_type: 'General',
+        week_number: null,
       });
       expect(eqMock).toHaveBeenCalledWith('id', 1);
       expect(result).toEqual(updatedWinner);
