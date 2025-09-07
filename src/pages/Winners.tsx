@@ -146,7 +146,7 @@ const Winners = () => {
             {/* Group winners by week and activity type for current week winners */}
             {filteredWinners.some(w => w.isThisWeekWinner) && (
               <div className="mb-8">
-                <h3 className="text-xl font-semibold mb-4 text-center">🏆 This Week's Winners</h3>
+                <h3 className="text-xl font-semibold mb-4 text-center">🏆 Top Performers of the Week</h3>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                   {['Activity 1', 'Activity 2'].map(activityType => {
                     const weekWinners = filteredWinners
