@@ -29,6 +29,11 @@ const Register = () => {
         try {
           const currentActivity = await getActivity(id);
           setActivity(currentActivity || null);
+          
+          // If activity has a form link, redirect to it
+          if (currentActivity?.formLink) {
+            window.location.href = currentActivity.formLink;
+          }
         } catch (error) {
           console.error('Error fetching activity:', error);
         } finally {
@@ -89,6 +94,11 @@ const Register = () => {
               </div>
             ) : !activity ? (
               <div className="text-center">Activity not found</div>
+            ) : !activity.formLink ? (
+              <div className="text-center">
+                <p className="text-muted-foreground">No registration form available for this activity.</p>
+                <p className="text-sm text-muted-foreground mt-2">Please contact the organizers for registration details.</p>
+              </div>
             ) : (
               <form
                 action="https://docs.google.com/forms/d/e/1FAIpQLSfrmnZLkrHqqTdbu9mKFCnxvZ_9y-mLyWxGT7wGLerQm2_R3A/formResponse"

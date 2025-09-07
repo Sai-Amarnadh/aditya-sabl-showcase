@@ -26,6 +26,7 @@ export interface Activity {
   poster?: string;
   photos?: string[];
   status: 'upcoming' | 'completed';
+  formLink?: string;
 }
 
 export interface GalleryImage {
@@ -78,6 +79,7 @@ const transformActivityFromDB = (row: UpcomingActivityRow | PreviousActivityRow,
   poster: row.poster_url || undefined,
   photos: 'photos' in row ? row.photos || [] : [],
   status,
+  formLink: ('form_link' in row ? row.form_link : undefined) as string | undefined,
 });
 
 // Helper function to transform Activity to database format for upcoming activities
@@ -87,6 +89,7 @@ const transformActivityToUpcomingDB = (activity: Omit<Activity, 'id'>) => ({
   description: activity.description || null,
   details: activity.details || null,
   poster_url: activity.poster || null,
+  form_link: activity.formLink || null,
 });
 
 // Helper function to transform Activity to database format for previous activities
@@ -97,6 +100,7 @@ const transformActivityToPreviousDB = (activity: Omit<Activity, 'id'>) => ({
   details: activity.details || null,
   poster_url: activity.poster || null,
   photos: activity.photos || null,
+  form_link: activity.formLink || null,
 });
 
 // Helper function to transform database row to GalleryImage

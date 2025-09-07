@@ -40,7 +40,7 @@ const Admin = () => {
   const [editingWinner, setEditingWinner] = useState<Winner | null>(null);
 
   // Form state for new activity
-  const initialActivityState: ActivityFormState = { name: '', date: '', description: '', status: 'upcoming', details: '', poster: null, photos: null };
+  const initialActivityState: ActivityFormState = { name: '', date: '', description: '', status: 'upcoming', details: '', poster: null, photos: null, formLink: '' };
   const [newActivity, setNewActivity] = useState<ActivityFormState>(initialActivityState);
   const [editingActivity, setEditingActivity] = useState<Activity | null>(null);
 
@@ -181,7 +181,8 @@ const Admin = () => {
       ...activity, 
       poster: activity.poster || null, 
       photos: activity.photos || [], 
-      details: activity.details || '' 
+      details: activity.details || '',
+      formLink: activity.formLink || ''
     });
   };
 
@@ -438,6 +439,16 @@ const Admin = () => {
                         <SelectItem value="completed">Completed</SelectItem>
                       </SelectContent>
                     </Select>
+                  </div>
+                  <div>
+                    <Label htmlFor="activity-formLink">Registration Form Link</Label>
+                    <Input 
+                      id="activity-formLink" 
+                      type="url" 
+                      placeholder="https://forms.google.com/..." 
+                      value={newActivity.formLink || ''} 
+                      onChange={e => setNewActivity({ ...newActivity, formLink: e.target.value })} 
+                    />
                   </div>
                   <div className="flex space-x-2">
                     <Button type="submit">{editingActivity ? 'Update Activity' : 'Add Activity'}</Button>
