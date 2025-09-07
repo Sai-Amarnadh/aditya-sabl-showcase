@@ -1,7 +1,7 @@
 
 import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
+import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import PageLoader from '@/components/PageLoader';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
@@ -24,7 +24,6 @@ const Admin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const [winnerLoading, setWinnerLoading] = useState(false);
   const [activityLoading, setActivityLoading] = useState(false);
   const [galleryLoading, setGalleryLoading] = useState(false);
@@ -84,7 +83,7 @@ const Admin = () => {
 
   const handleAddWinner = async (e: FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    setWinnerLoading(true);
     try {
       let photoUrl = editingWinner?.photo || '';
 
@@ -107,7 +106,7 @@ const Admin = () => {
     } catch (error) {
       console.error('Error saving winner:', error);
     } finally {
-      setIsLoading(false);
+      setWinnerLoading(false);
     }
   };
 
@@ -124,20 +123,20 @@ const Admin = () => {
   };
 
   const handleDeleteWinner = async (id: string) => {
-    setIsLoading(true);
+    setWinnerLoading(true);
     try {
       await DataService.deleteWinner(id);
       triggerDataChange();
     } catch (error) {
       console.error('Error deleting winner:', error);
     } finally {
-      setIsLoading(false);
+      setWinnerLoading(false);
     }
   };
 
   const handleAddActivity = async (e: FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    setActivityLoading(true);
     try {
       let posterUrl = editingActivity?.poster || '';
       if (newActivity.poster instanceof File) {
@@ -171,7 +170,7 @@ const Admin = () => {
     } catch (error) {
       console.error('Error saving activity:', error);
     } finally {
-      setIsLoading(false);
+      setActivityLoading(false);
     }
   };
 
@@ -187,20 +186,20 @@ const Admin = () => {
   };
 
   const handleDeleteActivity = async (id: string) => {
-    setIsLoading(true);
+    setActivityLoading(true);
     try {
       await DataService.deleteActivity(id);
       triggerDataChange();
     } catch (error) {
       console.error('Error deleting activity:', error);
     } finally {
-      setIsLoading(false);
+      setActivityLoading(false);
     }
   };
 
   const handleAddGalleryImage = async (e: FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    setGalleryLoading(true);
     try {
       let imageUrl = editingGalleryImage?.url || '';
       if (newGalleryImage.url instanceof File) {
@@ -222,7 +221,7 @@ const Admin = () => {
     } catch (error) {
       console.error('Error saving gallery image:', error);
     } finally {
-      setIsLoading(false);
+      setGalleryLoading(false);
     }
   };
 
@@ -232,14 +231,14 @@ const Admin = () => {
   };
 
   const handleDeleteGalleryImage = async (id: string) => {
-    setIsLoading(true);
+    setGalleryLoading(true);
     try {
       await DataService.deleteGalleryImage(id);
       triggerDataChange();
     } catch (error) {
       console.error('Error deleting gallery image:', error);
     } finally {
-      setIsLoading(false);
+      setGalleryLoading(false);
     }
   };
 
@@ -287,7 +286,6 @@ const Admin = () => {
 
   return (
     <div className="container mx-auto px-4 py-12">
-      {isLoading && <PageLoader />}
       <h1 className="text-4xl font-bold text-center mb-12">Admin Panel</h1>
       <Tabs defaultValue="winners">
         <TabsList className="grid w-full grid-cols-3">
@@ -368,7 +366,10 @@ const Admin = () => {
                     <Label htmlFor="isThisWeekWinner">This Week's Winner</Label>
                   </div>
                   <div className="flex space-x-2">
-                    <Button type="submit">{editingWinner ? 'Update Winner' : 'Add Winner'}</Button>
+                    <Button type="submit" disabled={winnerLoading}>
+                      {winnerLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                      {editingWinner ? 'Update Winner' : 'Add Winner'}
+                    </Button>
                     {editingWinner && (
                       <Button variant="outline" onClick={() => { setEditingWinner(null); setNewWinner(initialWinnerState); }}>Cancel</Button>
                     )}
@@ -451,7 +452,10 @@ const Admin = () => {
                     />
                   </div>
                   <div className="flex space-x-2">
-                    <Button type="submit">{editingActivity ? 'Update Activity' : 'Add Activity'}</Button>
+                    <Button type="submit" disabled={activityLoading}>
+                      {activityLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                      {editingActivity ? 'Update Activity' : 'Add Activity'}
+                    </Button>
                     {editingActivity && (
                       <Button variant="outline" onClick={() => { setEditingActivity(null); setNewActivity(initialActivityState); }}>Cancel</Button>
                     )}
@@ -495,7 +499,10 @@ const Admin = () => {
                     <Input id="gallery-caption" value={newGalleryImage.caption} onChange={e => setNewGalleryImage({ ...newGalleryImage, caption: e.target.value })} />
                   </div>
                   <div className="flex space-x-2">
-                    <Button type="submit">{editingGalleryImage ? 'Update Image' : 'Add Image'}</Button>
+                    <Button type="submit" disabled={galleryLoading}>
+                      {galleryLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                      {editingGalleryImage ? 'Update Image' : 'Add Image'}
+                    </Button>
                     {editingGalleryImage && (
                       <Button variant="outline" onClick={() => { setEditingGalleryImage(null); setNewGalleryImage(initialGalleryImageState); }}>Cancel</Button>
                     )}

@@ -56,7 +56,7 @@ const WinnerDetailsModal = ({ winner, isOpen, onClose }: WinnerDetailsModalProps
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md w-[95%] sm:max-w-lg rounded-2xl overflow-hidden p-0 border-0 bg-transparent">
+      <DialogContent className="max-w-md w-[95%] sm:max-w-lg rounded-2xl p-0 border-0 bg-transparent">
         {isOpen && showParticles && (
           <Particles
             id="tsparticles"
