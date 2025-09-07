@@ -41,6 +41,7 @@ export type Database = {
           created_at: string | null
           description: string | null
           details: string | null
+          form_link: string | null
           id: number
           photos: string[] | null
           poster_url: string | null
@@ -51,6 +52,7 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           details?: string | null
+          form_link?: string | null
           id?: never
           photos?: string[] | null
           poster_url?: string | null
@@ -61,6 +63,7 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           details?: string | null
+          form_link?: string | null
           id?: never
           photos?: string[] | null
           poster_url?: string | null
@@ -74,6 +77,7 @@ export type Database = {
           created_at: string | null
           description: string | null
           details: string | null
+          form_link: string | null
           id: number
           image_url: string | null
           poster_url: string | null
@@ -84,6 +88,7 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           details?: string | null
+          form_link?: string | null
           id?: number
           image_url?: string | null
           poster_url?: string | null
@@ -94,6 +99,7 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           details?: string | null
+          form_link?: string | null
           id?: number
           image_url?: string | null
           poster_url?: string | null
