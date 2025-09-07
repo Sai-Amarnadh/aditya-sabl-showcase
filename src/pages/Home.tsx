@@ -107,7 +107,7 @@ const Home = () => {
         <div className="container mx-auto">
           <div className="text-center mb-8 md:mb-12 animate-fade-in">
             <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3 md:mb-4">
-              🏆 This Week's Winners
+              🏆 Top Performers of the Week
             </h2>
             <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto px-4">
               Celebrating our outstanding students who have excelled in recent SABL activities
