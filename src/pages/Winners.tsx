@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import WinnerCard from '@/components/WinnerCard';
+import WinnerDetailsModal from '@/components/WinnerDetailsModal';
 import { getWinners, Winner } from '@/lib/data-service';
 import { useData } from '@/contexts/DataContext';
 import { Trophy, Filter, Calendar, Award } from 'lucide-react';
@@ -12,8 +13,20 @@ const Winners = () => {
   const [selectedEvent, setSelectedEvent] = useState<string>('all');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedWinner, setSelectedWinner] = useState<Winner | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { dataChanged } = useData();
+
+  const handleWinnerClick = (winner: Winner) => {
+    setSelectedWinner(winner);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedWinner(null);
+  };
 
   useEffect(() => {
     const fetchWinners = async () => {
@@ -160,7 +173,7 @@ const Winners = () => {
                         <h4 className="text-lg font-semibold mb-4 text-center text-primary">{activityType}</h4>
                         <div className="space-y-3">
                           {weekWinners.map((winner) => (
-                            <WinnerCard key={winner.id} winner={winner} featured={winner.position === 1} />
+                            <WinnerCard key={winner.id} winner={winner} featured={winner.position === 1} onClick={() => handleWinnerClick(winner)} />
                           ))}
                         </div>
                       </div>
@@ -172,7 +185,7 @@ const Winners = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredWinners.filter(w => !w.isThisWeekWinner).map((winner) => (
-                <WinnerCard key={winner.id} winner={winner} />
+                <WinnerCard key={winner.id} winner={winner} onClick={() => handleWinnerClick(winner)} />
               ))}
             </div>
           </>
@@ -247,6 +260,11 @@ const Winners = () => {
           </div>
         </div>
       </div>
+      <WinnerDetailsModal
+        winner={selectedWinner}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
     </div>
   );
 };
