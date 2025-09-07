@@ -277,6 +277,40 @@ All colors MUST be HSL.
   }
 }
 
+/* Gentle Bounce Animation */
+@keyframes bounce-gentle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Morph with Rotation */
+@keyframes morph-gentle {
+  0%, 100% {
+    border-radius: 60% 40% 30% 70%;
+    transform: rotate(0deg);
+  }
+  50% {
+    border-radius: 30% 60% 70% 40%;
+    transform: rotate(180deg);
+  }
+}
+
+/* Twinkle Effect */
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
 .animate-fade-in-down {
   animation: fade-in-down 0.5s ease-out forwards;
 }
@@ -320,6 +354,18 @@ All colors MUST be HSL.
 .animate-wave-motion {
   animation: wave-motion 10s ease-in-out infinite;
 }
+.animate-bounce-gentle {
+  animation: bounce-gentle 2.5s ease-in-out infinite;
+}
+
+.animate-morph-gentle {
+  animation: morph-gentle 8s ease-in-out infinite;
+}
+
+.animate-twinkle {
+  animation: twinkle 1.5s ease-in-out infinite;
+}
+
 .animate-gradient-simple {
   background: linear-gradient(135deg, hsl(var(--primary)), hsla(22, 93%, 56%, 0.8));
   background-size: 200% 200%;
