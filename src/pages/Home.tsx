@@ -45,38 +45,47 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative min-h-[500px] md:h-[600px] flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary via-primary-light to-accent">
+      <section className="relative min-h-[500px] md:h-[600px] flex items-center justify-center overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-600/90 via-blue-600/90 to-teal-500/90">
+          <img 
+            src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" 
+            alt="Students collaborating" 
+            className="w-full h-full object-cover mix-blend-overlay"
+          />
+        </div>
+        
         {/* Enhanced Animated Background */}
         <div className="absolute inset-0 overflow-hidden">
           {/* Primary Floating Elements */}
-          <div className="absolute top-10 left-5 md:left-10 w-16 md:w-20 h-16 md:h-20 bg-white/10 rounded-full animate-float-simple"></div>
-          <div className="absolute top-20 md:top-32 right-10 md:right-20 w-12 md:w-16 h-12 md:h-16 bg-orange-400/20 rounded-full animate-circle-drift"></div>
-          <div className="absolute bottom-20 left-1/4 w-20 md:w-24 h-20 md:h-24 bg-yellow-300/15 rounded-full animate-pulse-soft"></div>
-          <div className="absolute top-1/2 right-5 md:right-10 w-10 md:w-12 h-10 md:h-12 bg-white/20 rounded-full animate-float-simple" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-10 left-5 md:left-10 w-16 md:w-20 h-16 md:h-20 bg-pink-400/20 rounded-full animate-float-simple"></div>
+          <div className="absolute top-20 md:top-32 right-10 md:right-20 w-12 md:w-16 h-12 md:h-16 bg-yellow-400/30 rounded-full animate-circle-drift"></div>
+          <div className="absolute bottom-20 left-1/4 w-20 md:w-24 h-20 md:h-24 bg-green-300/25 rounded-full animate-pulse-soft"></div>
+          <div className="absolute top-1/2 right-5 md:right-10 w-10 md:w-12 h-10 md:h-12 bg-purple-400/25 rounded-full animate-float-simple" style={{ animationDelay: '1s' }}></div>
           
           {/* Secondary Floating Elements */}
-          <div className="absolute top-1/3 left-10 md:left-20 w-8 md:w-10 h-8 md:h-10 bg-accent/15 rounded-full animate-bounce-gentle" style={{ animationDelay: '2.5s' }}></div>
-          <div className="absolute bottom-1/3 right-1/4 w-14 md:w-18 h-14 md:h-18 bg-primary-light/20 rounded-full animate-float-simple" style={{ animationDelay: '3s' }}></div>
+          <div className="absolute top-1/3 left-10 md:left-20 w-8 md:w-10 h-8 md:h-10 bg-cyan-400/20 rounded-full animate-bounce-gentle" style={{ animationDelay: '2.5s' }}></div>
+          <div className="absolute bottom-1/3 right-1/4 w-14 md:w-18 h-14 md:h-18 bg-indigo-400/25 rounded-full animate-float-simple" style={{ animationDelay: '3s' }}></div>
           
           {/* Geometric Shapes */}
-          <div className="absolute top-16 md:top-20 left-1/3 w-6 md:w-8 h-6 md:h-8 bg-orange-400/25 rotate-45 animate-rotate-gentle"></div>
-          <div className="absolute bottom-24 md:bottom-32 right-1/3 w-8 md:w-10 h-8 md:h-10 bg-yellow-300/20 rotate-12 animate-pulse-soft" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute top-1/3 left-16 md:left-20 w-4 md:w-6 h-4 md:h-6 bg-white/30 rotate-45 animate-float-simple" style={{ animationDelay: '0.5s' }}></div>
+          <div className="absolute top-16 md:top-20 left-1/3 w-6 md:w-8 h-6 md:h-8 bg-red-400/30 rotate-45 animate-rotate-gentle"></div>
+          <div className="absolute bottom-24 md:bottom-32 right-1/3 w-8 md:w-10 h-8 md:h-10 bg-emerald-400/25 rotate-12 animate-pulse-soft" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute top-1/3 left-16 md:left-20 w-4 md:w-6 h-4 md:h-6 bg-amber-400/35 rotate-45 animate-float-simple" style={{ animationDelay: '0.5s' }}></div>
           
           {/* Large Gradient Orbs */}
-          <div className="absolute top-8 md:top-16 right-1/4 w-24 md:w-32 h-24 md:h-32 bg-gradient-to-r from-orange-400/10 to-yellow-300/10 rounded-full blur-xl animate-circle-drift"></div>
-          <div className="absolute bottom-8 md:bottom-16 left-1/3 w-32 md:w-40 h-32 md:h-40 bg-gradient-to-r from-white/5 to-orange-400/5 rounded-full blur-2xl animate-pulse-soft"></div>
-          <div className="absolute top-1/2 left-1/2 w-28 md:w-36 h-28 md:h-36 bg-gradient-to-r from-accent/8 to-primary-light/8 rounded-full blur-2xl animate-morph-gentle" style={{ animationDelay: '1.5s' }}></div>
+          <div className="absolute top-8 md:top-16 right-1/4 w-24 md:w-32 h-24 md:h-32 bg-gradient-to-r from-rose-400/15 to-pink-400/15 rounded-full blur-xl animate-circle-drift"></div>
+          <div className="absolute bottom-8 md:bottom-16 left-1/3 w-32 md:w-40 h-32 md:h-40 bg-gradient-to-r from-violet-400/10 to-purple-400/10 rounded-full blur-2xl animate-pulse-soft"></div>
+          <div className="absolute top-1/2 left-1/2 w-28 md:w-36 h-28 md:h-36 bg-gradient-to-r from-teal-400/12 to-cyan-400/12 rounded-full blur-2xl animate-morph-gentle" style={{ animationDelay: '1.5s' }}></div>
           
           {/* Animated Lines and Gradients */}
-          <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse"></div>
-          <div className="absolute bottom-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-400/20 to-transparent animate-pulse" style={{ animationDelay: '1.5s' }}></div>
-          <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/15 to-transparent animate-pulse" style={{ animationDelay: '3s' }}></div>
+          <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-pink-400/25 to-transparent animate-pulse"></div>
+          <div className="absolute bottom-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-green-400/25 to-transparent animate-pulse" style={{ animationDelay: '1.5s' }}></div>
+          <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-400/20 to-transparent animate-pulse" style={{ animationDelay: '3s' }}></div>
           
           {/* Sparkle Effects */}
-          <div className="absolute top-12 left-1/2 w-2 h-2 bg-white/40 rounded-full animate-twinkle" style={{ animationDelay: '0.8s' }}></div>
-          <div className="absolute bottom-16 left-1/5 w-1.5 h-1.5 bg-yellow-300/50 rounded-full animate-twinkle" style={{ animationDelay: '2.2s' }}></div>
-          <div className="absolute top-1/3 right-1/5 w-2.5 h-2.5 bg-orange-400/40 rounded-full animate-twinkle" style={{ animationDelay: '4s' }}></div>
+          <div className="absolute top-12 left-1/2 w-2 h-2 bg-yellow-300/50 rounded-full animate-twinkle" style={{ animationDelay: '0.8s' }}></div>
+          <div className="absolute bottom-16 left-1/5 w-1.5 h-1.5 bg-pink-400/60 rounded-full animate-twinkle" style={{ animationDelay: '2.2s' }}></div>
+          <div className="absolute top-1/3 right-1/5 w-2.5 h-2.5 bg-cyan-400/50 rounded-full animate-twinkle" style={{ animationDelay: '4s' }}></div>
         </div>
 
         {/* Main Content */}
@@ -164,7 +173,7 @@ const Home = () => {
       {/* Statistics Section */}
       <section className="py-12 md:py-16 px-4 md:px-6">
         <div className="container mx-auto">
-          <div className="bg-gradient-primary rounded-xl md:rounded-2xl p-6 md:p-12 text-primary-foreground animate-fade-in">
+          <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-red-500 rounded-xl md:rounded-2xl p-6 md:p-12 text-white animate-fade-in">
             <div className="text-center mb-6 md:mb-8">
               <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">SABL Impact</h2>
               <p className="text-base md:text-lg opacity-90 px-4">Measuring our success through student engagement and achievements</p>
@@ -206,9 +215,9 @@ const Home = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto px-2 md:px-0">
             <Link to="/upcoming" className="group" onClick={() => setTimeout(() => window.scrollTo(0, 0), 100)}>
-              <div className="bg-card rounded-lg p-8 shadow-card hover:shadow-elevated transition-all duration-300 text-center group-hover:scale-105">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
-                  <Calendar className="h-8 w-8 text-primary" />
+              <div className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-lg p-8 shadow-card hover:shadow-elevated transition-all duration-300 text-center group-hover:scale-105 border border-blue-200">
+                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:from-blue-600 group-hover:to-indigo-700 transition-all">
+                  <Calendar className="h-8 w-8 text-white" />
                 </div>
                 <h3 className="text-xl font-semibold text-card-foreground mb-2">Upcoming Activities</h3>
                 <p className="text-muted-foreground">Discover exciting events and competitions coming soon</p>
@@ -216,9 +225,9 @@ const Home = () => {
             </Link>
             
             <Link to="/previous" className="group" onClick={() => setTimeout(() => window.scrollTo(0, 0), 100)}>
-              <div className="bg-card rounded-lg p-8 shadow-card hover:shadow-elevated transition-all duration-300 text-center group-hover:scale-105">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
-                  <History className="h-8 w-8 text-primary" />
+              <div className="bg-gradient-to-br from-green-50 to-emerald-100 rounded-lg p-8 shadow-card hover:shadow-elevated transition-all duration-300 text-center group-hover:scale-105 border border-green-200">
+                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:from-green-600 group-hover:to-emerald-700 transition-all">
+                  <History className="h-8 w-8 text-white" />
                 </div>
                 <h3 className="text-xl font-semibold text-card-foreground mb-2">Previous Activities</h3>
                 <p className="text-muted-foreground">Browse through our successful past events and achievements</p>
@@ -226,9 +235,9 @@ const Home = () => {
             </Link>
             
             <Link to="/winners" className="group" onClick={() => setTimeout(() => window.scrollTo(0, 0), 100)}>
-              <div className="bg-card rounded-lg p-8 shadow-card hover:shadow-elevated transition-all duration-300 text-center group-hover:scale-105">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
-                  <Trophy className="h-8 w-8 text-primary" />
+              <div className="bg-gradient-to-br from-yellow-50 to-orange-100 rounded-lg p-8 shadow-card hover:shadow-elevated transition-all duration-300 text-center group-hover:scale-105 border border-yellow-200">
+                <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:from-yellow-600 group-hover:to-orange-700 transition-all">
+                  <Trophy className="h-8 w-8 text-white" />
                 </div>
                 <h3 className="text-xl font-semibold text-card-foreground mb-2">Hall of Fame</h3>
                 <p className="text-muted-foreground">Honor roll of all our winners and achievers</p>
