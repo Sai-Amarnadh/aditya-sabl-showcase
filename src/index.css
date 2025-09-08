@@ -23,38 +23,38 @@ All colors MUST be HSL.
     --primary-light: 220 100% 45%;
     --primary-dark: 220 100% 25%;
 
-    --secondary: 210 20% 95%;
+    --secondary: 280 100% 95%;
     --secondary-foreground: 220 25% 25%;
 
-    --muted: 210 20% 96%;
+    --muted: 280 20% 96%;
     --muted-foreground: 220 15% 50%;
 
-    --accent: 220 100% 45%;
+    --accent: 280 100% 60%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 210 20% 90%;
-    --input: 210 20% 95%;
+    --border: 280 20% 90%;
+    --input: 280 20% 95%;
     --ring: 220 100% 34%;
 
     /* Academic Design Tokens */
     --university-blue: 220 100% 34%;
     --university-light-blue: 220 100% 45%;
-    --academic-gray: 220 15% 95%;
+    --academic-gray: 280 15% 95%;
     --text-primary: 220 25% 25%;
     --text-secondary: 220 15% 50%;
 
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-light)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-light)) 100%);
-    --gradient-card: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--secondary)) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(280, 100%, 60%), hsl(320, 100%, 70%));
+    --gradient-hero: linear-gradient(135deg, hsl(280, 100%, 60%) 0%, hsl(320, 100%, 70%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(280, 100%, 98%) 100%);
 
     /* Shadows */
-    --shadow-card: 0 4px 20px -4px hsl(var(--primary) / 0.1);
-    --shadow-elevated: 0 8px 30px -8px hsl(var(--primary) / 0.2);
-    --shadow-header: 0 2px 10px -2px hsl(var(--primary) / 0.1);
+    --shadow-card: 0 4px 20px -4px hsl(280, 100%, 60% / 0.15);
+    --shadow-elevated: 0 8px 30px -8px hsl(280, 100%, 60% / 0.25);
+    --shadow-header: 0 2px 10px -2px hsl(280, 100%, 60% / 0.15);
 
     --radius: 0.75rem;
 
