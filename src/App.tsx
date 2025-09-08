@@ -18,6 +18,7 @@ import Gallery from "./pages/Gallery";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
+import About from "./pages/About";
 
 const queryClient = new QueryClient();
 
@@ -55,6 +56,7 @@ const App = () => {
                 <Route path="/gallery" element={<Gallery />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/register/:id" element={<Register />} />
+                <Route path="/about" element={<About />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </div>
