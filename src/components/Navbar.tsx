@@ -16,35 +16,37 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-background border-b shadow-header sticky top-0 z-50">
+    <nav className="bg-white/95 backdrop-blur-md border-b border-blue-100 shadow-header sticky top-0 z-50 transition-all duration-300">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center space-x-3 flex-shrink-0">
+          <div className="flex items-center space-x-3 flex-shrink-0 animate-fade-in-down">
             <img src="/aditya-removebg-preview (1).png" alt="Aditya Logo" className="h-10 w-10 object-contain" />
             <div className="hidden sm:block">
               <h1 className="text-lg font-bold">
-  <span className="text-[#F2722C]">ADITYA</span>{' '}
-  <span className="text-primary">UNIVERSITY</span></h1>
+                <span className="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">ADITYA</span>{' '}
+                <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">UNIVERSITY</span>
+              </h1>
               <p className="text-sm text-muted-foreground">Department of Computer Science and Engineering SABL Activites</p>
             </div>
             <div className="sm:hidden">
               <h1 className="text-lg font-bold">
-                <span className="text-[#F2722C]">ADITYA</span>{' '}
-                <span className="text-primary">UNIVERSITY</span>
+                <span className="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">ADITYA</span>{' '}
+                <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">UNIVERSITY</span>
               </h1>
             </div>
           </div>
           
-          <div className="hidden lg:flex space-x-4 items-center">
+          <div className="hidden lg:flex items-center justify-center flex-1 max-w-4xl mx-8">
+            <div className="flex items-center justify-between w-full px-4">
             {navItems.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
                 className={({ isActive }) =>
-                  `flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 ${
+                  `navbar-item flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                     isActive
-                      ? 'text-white bg-gradient-to-r from-purple-500 to-pink-500 shadow-lg'
-                      : 'text-muted-foreground hover:text-primary hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:border hover:border-blue-200'
+                      ? 'text-white bg-gradient-to-r from-blue-500 to-purple-600 shadow-lg active'
+                      : 'text-gray-600 hover:text-blue-600 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50'
                   }`
                 }
               >
@@ -52,13 +54,14 @@ const Navbar = () => {
                 <span>{item.label}</span>
               </NavLink>
             ))}
+            </div>
           </div>
 
           {/* Mobile hamburger menu */}
           <div className="lg:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-muted-foreground hover:text-primary p-2 transition-colors duration-200 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 rounded-lg"
+              className="text-gray-600 hover:text-blue-600 p-2 transition-all duration-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 rounded-lg hover:scale-105"
               data-testid="mobile-menu-button"
             >
               {isMobileMenuOpen ? <X className="h-6 w-6" /> : (
@@ -72,7 +75,7 @@ const Navbar = () => {
       </div>
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden bg-gradient-to-r from-purple-50 to-pink-50 border-t border-purple-200">
+        <div className="lg:hidden bg-gradient-to-r from-blue-50 to-purple-50 border-t border-blue-200 animate-fade-in-down">
           <div className="container mx-auto px-4 py-4 space-y-2">
             {navItems.map((item) => (
               <NavLink
@@ -80,10 +83,10 @@ const Navbar = () => {
                 to={item.to}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={({ isActive }) =>
-                  `flex items-center space-x-2 px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 ${
+                  `flex items-center space-x-2 px-4 py-3 rounded-lg text-base font-medium transition-all duration-300 hover:scale-105 ${
                     isActive
-                      ? 'text-white bg-gradient-to-r from-purple-500 to-pink-500 shadow-lg'
-                      : 'text-muted-foreground hover:text-primary hover:bg-white hover:shadow-md'
+                      ? 'text-white bg-gradient-to-r from-blue-500 to-purple-600 shadow-lg'
+                      : 'text-gray-600 hover:text-blue-600 hover:bg-white hover:shadow-md'
                   }`
                 }
               >
