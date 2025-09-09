@@ -7,6 +7,43 @@ import { Trophy, Filter, Calendar, Award } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
+// Confetti component
+const ConfettiPiece = ({ color, left, delay }: { color: string; left: number; delay: number }) => (
+  <div
+    className="confetti-piece"
+    style={{
+      backgroundColor: color,
+      left: `${left}%`,
+      animationDelay: `${delay}s`,
+    }}
+  />
+);
+
+const ConfettiEffect = ({ show }: { show: boolean }) => {
+  if (!show) return null;
+
+  const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3', '#54a0ff'];
+  const pieces = Array.from({ length: 50 }, (_, i) => ({
+    id: i,
+    color: colors[Math.floor(Math.random() * colors.length)],
+    left: Math.random() * 100,
+    delay: Math.random() * 2,
+  }));
+
+  return (
+    <div className="fixed inset-0 pointer-events-none z-50">
+      {pieces.map((piece) => (
+        <ConfettiPiece
+          key={piece.id}
+          color={piece.color}
+          left={piece.left}
+          delay={piece.delay}
+        />
+      ))}
+    </div>
+  );
+};
+
 const Winners = () => {
   const [winners, setWinners] = useState<Winner[]>([]);
   const [selectedYear, setSelectedYear] = useState<string>('all');
@@ -15,12 +52,15 @@ const Winners = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedWinner, setSelectedWinner] = useState<Winner | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const { dataChanged } = useData();
 
   const handleWinnerClick = (winner: Winner) => {
     setSelectedWinner(winner);
     setIsModalOpen(true);
+    setShowConfetti(true);
+    setTimeout(() => setShowConfetti(false), 3000);
   };
 
   const handleCloseModal = () => {
@@ -61,13 +101,21 @@ const Winners = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background vibrant-bg-1 relative overflow-hidden">
+      {/* Decorative Elements */}
+      <div className="page-decoration decoration-circle w-20 h-20 top-10 left-10 animate-float-simple"></div>
+      <div className="page-decoration decoration-square w-16 h-16 top-20 right-20 animate-rotate-gentle"></div>
+      <div className="page-decoration decoration-circle w-12 h-12 bottom-32 left-1/4 animate-bounce-gentle" style={{ animationDelay: '1s' }}></div>
+      <div className="page-decoration decoration-triangle bottom-20 right-1/3" style={{ animationDelay: '2s' }}></div>
+      <div className="page-decoration decoration-circle w-24 h-24 top-1/2 right-10 animate-pulse-soft"></div>
+      <div className="page-decoration decoration-square w-8 h-8 bottom-1/4 left-16 animate-float-simple" style={{ animationDelay: '3s' }}></div>
+
       <div className="container mx-auto px-4 py-12">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 relative z-10">
           <div className="flex items-center justify-center mb-4">
             <Trophy className="h-8 w-8 text-primary mr-3" />
-            <h1 className="text-4xl font-bold text-foreground">Hall of Fame</h1>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent">Hall of Fame</h1>
           </div>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Celebrating the outstanding achievements of our students across various SABL activities and competitions.
@@ -75,7 +123,7 @@ const Winners = () => {
         </div>
 
         {/* Filters */}
-        <div className="bg-card rounded-lg p-6 shadow-card mb-8">
+        <div className="bg-card/80 backdrop-blur-sm rounded-lg p-6 shadow-card mb-8 border border-purple-200 relative z-10">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <div className="flex items-center gap-2">
               <Filter className="h-5 w-5 text-primary" />
@@ -119,7 +167,7 @@ const Winners = () => {
         </div>
 
         {/* Results Summary */}
-        <div className="mb-6">
+        <div className="mb-6 relative z-10">
           <p className="text-muted-foreground">
             Showing {filteredWinners.length} of {winners.length} winners
             {selectedYear !== 'all' && ` from ${selectedYear}`}
@@ -129,7 +177,7 @@ const Winners = () => {
 
         {/* Error Message */}
         {error && (
-          <div className="bg-destructive/10 border border-destructive/20 text-destructive rounded-lg p-6 mb-8 text-center">
+          <div className="bg-destructive/10 border border-destructive/20 text-destructive rounded-lg p-6 mb-8 text-center relative z-10">
             <h3 className="font-semibold mb-2">Failed to Load Winners</h3>
             <p className="text-sm">{error}</p>
             <p className="text-xs mt-2 text-muted-foreground">
@@ -139,6 +187,7 @@ const Winners = () => {
         )}
 
         {/* Winners Grid */}
+        <div className="relative z-10">
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {Array.from({ length: 6 }).map((_, index) => (
@@ -201,57 +250,58 @@ const Winners = () => {
             <Button onClick={clearFilters}>Clear All Filters</Button>
           </div>
         )}
+        </div>
 
         {/* Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-12 relative z-10">
           <div className="bg-gradient-primary rounded-lg p-6 text-primary-foreground text-center">
             <Trophy className="h-8 w-8 mx-auto mb-3" />
             <div className="text-3xl font-bold mb-1">{winners.length}</div>
             <div className="text-sm opacity-90">Total Winners</div>
           </div>
 
-          <div className="bg-card rounded-lg p-6 shadow-card text-center">
+          <div className="bg-gradient-to-br from-green-400 to-blue-500 rounded-lg p-6 shadow-card text-center text-white">
             <Award className="h-8 w-8 mx-auto mb-3 text-primary" />
-            <div className="text-3xl font-bold text-card-foreground mb-1">{events.length}</div>
-            <div className="text-muted-foreground text-sm">Different Events</div>
+            <div className="text-3xl font-bold mb-1">{events.length}</div>
+            <div className="text-white/90 text-sm">Different Events</div>
           </div>
 
-          <div className="bg-card rounded-lg p-6 shadow-card text-center">
+          <div className="bg-gradient-to-br from-pink-400 to-purple-500 rounded-lg p-6 shadow-card text-center text-white">
             <Calendar className="h-8 w-8 mx-auto mb-3 text-primary" />
-            <div className="text-3xl font-bold text-card-foreground mb-1">{years.length}</div>
-            <div className="text-muted-foreground text-sm">Years of Excellence</div>
+            <div className="text-3xl font-bold mb-1">{years.length}</div>
+            <div className="text-white/90 text-sm">Years of Excellence</div>
           </div>
         </div>
 
         {/* Achievement Highlights */}
-        <div className="mt-16 bg-gradient-card rounded-2xl p-8">
+        <div className="mt-16 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-2xl p-8 text-white relative z-10">
           <h2 className="text-2xl font-bold text-foreground mb-6 text-center">Achievement Highlights</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-card-foreground">Most Active Events</h3>
+              <h3 className="text-lg font-semibold text-white">Most Active Events</h3>
               {events.slice(0, 3).map(event => {
                 const eventWinners = winners.filter(w => w.event === event);
                 return (
-                  <div key={event} className="flex justify-between items-center p-3 bg-card rounded-lg shadow-sm">
-                    <span className="text-card-foreground">{event}</span>
-                    <span className="text-primary font-semibold">{eventWinners.length} winners</span>
+                  <div key={event} className="flex justify-between items-center p-3 bg-white/20 backdrop-blur-sm rounded-lg shadow-sm">
+                    <span className="text-white">{event}</span>
+                    <span className="text-yellow-300 font-semibold">{eventWinners.length} winners</span>
                   </div>
                 );
               })}
             </div>
             
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-card-foreground">Recent Achievements</h3>
+              <h3 className="text-lg font-semibold text-white">Recent Achievements</h3>
               {winners
                 .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                 .slice(0, 3)
                 .map(winner => (
-                  <div key={winner.id} className="flex justify-between items-center p-3 bg-card rounded-lg shadow-sm">
+                  <div key={winner.id} className="flex justify-between items-center p-3 bg-white/20 backdrop-blur-sm rounded-lg shadow-sm">
                     <div>
-                      <div className="text-card-foreground font-medium">{winner.name}</div>
-                      <div className="text-muted-foreground text-sm">{winner.event}</div>
+                      <div className="text-white font-medium">{winner.name}</div>
+                      <div className="text-white/80 text-sm">{winner.event}</div>
                     </div>
-                    <div className="text-primary text-sm">
+                    <div className="text-yellow-300 text-sm">
                       {new Date(winner.date).toLocaleDateString()}
                     </div>
                   </div>
@@ -260,6 +310,8 @@ const Winners = () => {
           </div>
         </div>
       </div>
+      
+      <ConfettiEffect show={showConfetti} />
       <WinnerDetailsModal
         winner={selectedWinner}
         isOpen={isModalOpen}

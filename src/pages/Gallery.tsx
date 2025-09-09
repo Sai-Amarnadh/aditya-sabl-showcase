@@ -33,13 +33,21 @@ const Gallery = () => {
   }, [dataChanged]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background vibrant-bg-1 relative overflow-hidden">
+      {/* Decorative Elements */}
+      <div className="page-decoration decoration-circle w-28 h-28 top-12 right-12 animate-float-simple"></div>
+      <div className="page-decoration decoration-square w-16 h-16 top-28 left-20 animate-rotate-gentle"></div>
+      <div className="page-decoration decoration-triangle bottom-28 right-1/4" style={{ animationDelay: '1s' }}></div>
+      <div className="page-decoration decoration-circle w-20 h-20 bottom-16 left-1/4 animate-bounce-gentle" style={{ animationDelay: '2s' }}></div>
+      <div className="page-decoration decoration-square w-12 h-12 top-1/2 left-12 animate-pulse-soft"></div>
+      <div className="page-decoration decoration-circle w-32 h-32 bottom-40 right-16 animate-morph-gentle"></div>
+
       <div className="container mx-auto px-4 py-12">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 relative z-10">
           <div className="flex items-center justify-center mb-4">
             <Image className="h-8 w-8 text-primary mr-3" />
-            <h1 className="text-4xl font-bold text-foreground">Photo Gallery</h1>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-teal-500 via-cyan-500 to-blue-500 bg-clip-text text-transparent">Photo Gallery</h1>
           </div>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Relive the memorable moments from our SABL activities through this curated collection of photos.
@@ -47,6 +55,7 @@ const Gallery = () => {
         </div>
 
         {/* Photo Grid */}
+        <div className="relative z-10">
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {Array.from({ length: 8 }).map((_, index) => (
@@ -100,23 +109,24 @@ const Gallery = () => {
             </p>
           </div>
         )}
+        </div>
 
         {/* Gallery Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-12">
-          <div className="bg-card rounded-lg p-6 shadow-card text-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-12 relative z-10">
+          <div className="bg-gradient-to-br from-purple-400 to-pink-500 rounded-lg p-6 shadow-card text-center text-white">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Image className="h-6 w-6 text-primary" />
+              <Image className="h-6 w-6 text-white" />
             </div>
-            <div className="text-2xl font-bold text-card-foreground mb-1">{photos.length}</div>
-            <div className="text-muted-foreground text-sm">Total Photos</div>
+            <div className="text-2xl font-bold mb-1">{photos.length}</div>
+            <div className="text-white/90 text-sm">Total Photos</div>
           </div>
 
-          <div className="bg-card rounded-lg p-6 shadow-card text-center col-span-2">
+          <div className="bg-gradient-to-br from-cyan-400 to-blue-500 rounded-lg p-6 shadow-card text-center col-span-2 text-white">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Grid className="h-6 w-6 text-primary" />
+              <Grid className="h-6 w-6 text-white" />
             </div>
-            <div className="text-2xl font-bold text-card-foreground mb-1">A Growing Collection</div>
-            <div className="text-muted-foreground text-sm">New photos are added regularly</div>
+            <div className="text-2xl font-bold mb-1">A Growing Collection</div>
+            <div className="text-white/90 text-sm">New photos are added regularly</div>
           </div>
         </div>
       </div>

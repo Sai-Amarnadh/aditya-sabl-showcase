@@ -372,6 +372,121 @@ All colors MUST be HSL.
   animation: gradient-simple 8s ease infinite;
 }
 
+/* Confetti Animation */
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+@keyframes confetti-wiggle {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
+  }
+}
+
+.confetti-piece {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  z-index: 9999;
+  pointer-events: none;
+  animation: confetti-fall 3s linear forwards, confetti-wiggle 0.5s ease-in-out infinite;
+}
+
+/* Vibrant Page Backgrounds */
+.vibrant-bg-1 {
+  background: linear-gradient(135deg, 
+    rgba(147, 51, 234, 0.1) 0%, 
+    rgba(219, 39, 119, 0.1) 25%, 
+    rgba(249, 115, 22, 0.1) 50%, 
+    rgba(34, 197, 94, 0.1) 75%, 
+    rgba(59, 130, 246, 0.1) 100%);
+  background-size: 400% 400%;
+  animation: gradient-simple 15s ease infinite;
+}
+
+.vibrant-bg-2 {
+  background: linear-gradient(45deg, 
+    rgba(236, 72, 153, 0.1) 0%, 
+    rgba(168, 85, 247, 0.1) 25%, 
+    rgba(14, 165, 233, 0.1) 50%, 
+    rgba(34, 197, 94, 0.1) 75%, 
+    rgba(251, 191, 36, 0.1) 100%);
+  background-size: 300% 300%;
+  animation: gradient-simple 12s ease infinite;
+}
+
+.vibrant-bg-3 {
+  background: linear-gradient(225deg, 
+    rgba(239, 68, 68, 0.1) 0%, 
+    rgba(245, 101, 101, 0.1) 25%, 
+    rgba(251, 146, 60, 0.1) 50%, 
+    rgba(34, 197, 94, 0.1) 75%, 
+    rgba(99, 102, 241, 0.1) 100%);
+  background-size: 350% 350%;
+  animation: gradient-simple 18s ease infinite;
+}
+
+/* Floating Elements for Pages */
+.page-decoration {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.decoration-circle {
+  border-radius: 50%;
+  background: linear-gradient(45deg, rgba(147, 51, 234, 0.2), rgba(219, 39, 119, 0.2));
+  animation: float-simple 6s ease-in-out infinite;
+}
+
+.decoration-square {
+  background: linear-gradient(45deg, rgba(34, 197, 94, 0.2), rgba(59, 130, 246, 0.2));
+  transform: rotate(45deg);
+  animation: rotate-gentle 20s linear infinite;
+}
+
+.decoration-triangle {
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 25px solid rgba(251, 191, 36, 0.3);
+  animation: bounce-gentle 4s ease-in-out infinite;
+}
+
+/* Pulsing Register Button */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(34, 197, 94, 0.5), 0 0 10px rgba(34, 197, 94, 0.3), 0 0 15px rgba(34, 197, 94, 0.2);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.8), 0 0 20px rgba(34, 197, 94, 0.6), 0 0 30px rgba(34, 197, 94, 0.4);
+    transform: scale(1.05);
+  }
+}
+
+.register-button-highlight {
+  animation: pulse-glow 2s ease-in-out infinite;
+  background: linear-gradient(45deg, #22c55e, #16a34a) !important;
+  color: white !important;
+  font-weight: bold !important;
+  border: none !important;
+}
+
 /* Simple Circle Styles */
 .circle-simple {
   border-radius: 50%;

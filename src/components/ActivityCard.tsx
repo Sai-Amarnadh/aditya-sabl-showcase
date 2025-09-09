@@ -61,7 +61,7 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
                 Learn More
               </Link>
             </Button>
-            <Button asChild variant="secondary" size="sm" className="flex-1">
+            <Button asChild variant="secondary" size="sm" className="flex-1 register-button-highlight">
               <Link to={`/register/${activity.id}`}>
                 Register
               </Link>

@@ -3,10 +3,18 @@ import { BookOpen, Users, Target, Award, Lightbulb, Rocket } from 'lucide-react'
 
 const About: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 vibrant-bg-2 relative overflow-hidden">
+      {/* Decorative Elements */}
+      <div className="page-decoration decoration-circle w-24 h-24 top-16 left-16 animate-float-simple"></div>
+      <div className="page-decoration decoration-square w-20 h-20 top-32 right-20 animate-rotate-gentle"></div>
+      <div className="page-decoration decoration-triangle bottom-32 left-1/3" style={{ animationDelay: '1s' }}></div>
+      <div className="page-decoration decoration-circle w-16 h-16 bottom-20 right-1/4 animate-bounce-gentle" style={{ animationDelay: '2s' }}></div>
+      <div className="page-decoration decoration-square w-14 h-14 top-1/2 left-12 animate-pulse-soft"></div>
+      <div className="page-decoration decoration-circle w-28 h-28 bottom-40 right-12 animate-morph-gentle"></div>
+
       <div className="container mx-auto px-4 py-12">
         {/* Hero Section */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 relative z-10">
           <div className="flex items-center justify-center mb-6">
             <BookOpen className="h-12 w-12 text-purple-600 mr-4" />
             <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
@@ -19,7 +27,7 @@ const About: React.FC = () => {
         </div>
 
         {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16 relative z-10">
           <div className="space-y-8">
             <div className="bg-white rounded-2xl p-8 shadow-xl border border-purple-100">
               <div className="flex items-center mb-6">
@@ -66,7 +74,7 @@ const About: React.FC = () => {
         </div>
 
         {/* Features Grid */}
-        <div className="mb-16">
+        <div className="mb-16 relative z-10">
           <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
             SABL Key Features
           </h2>
@@ -92,7 +100,7 @@ const About: React.FC = () => {
         </div>
 
         {/* Activities Gallery */}
-        <div className="mb-16">
+        <div className="mb-16 relative z-10">
           <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
             SABL Activities in Action
           </h2>
@@ -142,7 +150,7 @@ const About: React.FC = () => {
         </div>
 
         {/* Impact Section */}
-        <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-3xl p-12 text-white text-center shadow-2xl">
+        <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-3xl p-12 text-white text-center shadow-2xl relative z-10">
           <h2 className="text-4xl font-bold mb-6">SABL Impact</h2>
           <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
             Our SABL approach has transformed the learning experience, creating more engaged, confident, and skilled graduates 

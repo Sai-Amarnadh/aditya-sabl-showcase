@@ -27,13 +27,21 @@ const UpcomingActivities = () => {
   }, [dataChanged]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background vibrant-bg-2 relative overflow-hidden">
+      {/* Decorative Elements */}
+      <div className="page-decoration decoration-circle w-32 h-32 top-16 right-10 animate-float-simple"></div>
+      <div className="page-decoration decoration-square w-20 h-20 top-32 left-16 animate-rotate-gentle"></div>
+      <div className="page-decoration decoration-triangle bottom-40 right-1/4" style={{ animationDelay: '1s' }}></div>
+      <div className="page-decoration decoration-circle w-16 h-16 bottom-20 left-1/3 animate-bounce-gentle" style={{ animationDelay: '2s' }}></div>
+      <div className="page-decoration decoration-square w-12 h-12 top-1/2 right-1/3 animate-pulse-soft"></div>
+      <div className="page-decoration decoration-circle w-28 h-28 bottom-32 right-20 animate-morph-gentle"></div>
+
       <div className="container mx-auto px-4 py-12">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 relative z-10">
           <div className="flex items-center justify-center mb-4">
             <Calendar className="h-8 w-8 text-primary mr-3" />
-            <h1 className="text-4xl font-bold text-foreground">Upcoming Activities</h1>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Upcoming Activities</h1>
           </div>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Stay updated with our exciting upcoming SABL activities and competitions. Mark your calendars and get ready to participate!
@@ -41,6 +49,7 @@ const UpcomingActivities = () => {
         </div>
 
         {/* Activities Grid */}
+        <div className="relative z-10">
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {Array.from({ length: 3 }).map((_, index) => (
@@ -70,36 +79,37 @@ const UpcomingActivities = () => {
             <p className="text-muted-foreground">Check back soon for new exciting events and competitions!</p>
           </div>
         )}
+        </div>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-12">
-          <div className="bg-card rounded-lg p-6 shadow-card text-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-12 relative z-10">
+          <div className="bg-gradient-to-br from-cyan-400 to-blue-500 rounded-lg p-6 shadow-card text-center text-white">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Calendar className="h-6 w-6 text-primary" />
+              <Calendar className="h-6 w-6 text-white" />
             </div>
-            <div className="text-2xl font-bold text-card-foreground mb-1">{upcomingActivities.length}</div>
-            <div className="text-muted-foreground text-sm">Upcoming Events</div>
+            <div className="text-2xl font-bold mb-1">{upcomingActivities.length}</div>
+            <div className="text-white/90 text-sm">Upcoming Events</div>
           </div>
 
-          <div className="bg-card rounded-lg p-6 shadow-card text-center">
+          <div className="bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg p-6 shadow-card text-center text-white">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Clock className="h-6 w-6 text-primary" />
+              <Clock className="h-6 w-6 text-white" />
             </div>
-            <div className="text-2xl font-bold text-card-foreground mb-1">Next 30 Days</div>
-            <div className="text-muted-foreground text-sm">Activity Window</div>
+            <div className="text-2xl font-bold mb-1">Next 30 Days</div>
+            <div className="text-white/90 text-sm">Activity Window</div>
           </div>
 
-          <div className="bg-card rounded-lg p-6 shadow-card text-center">
+          <div className="bg-gradient-to-br from-purple-400 to-pink-500 rounded-lg p-6 shadow-card text-center text-white">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
-              <MapPin className="h-6 w-6 text-primary" />
+              <MapPin className="h-6 w-6 text-white" />
             </div>
-            <div className="text-2xl font-bold text-card-foreground mb-1">CSE Campus</div>
-            <div className="text-muted-foreground text-sm">Event Location</div>
+            <div className="text-2xl font-bold mb-1">CSE Campus</div>
+            <div className="text-white/90 text-sm">Event Location</div>
           </div>
         </div>
 
         {/* Call to Action */}
-        <div className="mt-16 bg-gradient-primary rounded-2xl p-8 text-center text-primary-foreground">
+        <div className="mt-16 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-2xl p-8 text-center text-primary-foreground relative z-10">
           <h2 className="text-2xl font-bold mb-4">Don't Miss Out!</h2>
           <p className="text-lg opacity-90 mb-6">
             Stay connected with us to get the latest updates on upcoming activities and registration details.
