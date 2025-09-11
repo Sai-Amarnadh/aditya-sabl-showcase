@@ -222,7 +222,7 @@ const WinnerDetailsModal = ({ winner, isOpen, onClose }: WinnerDetailsModalProps
         </div>
       </DialogContent>
     </Dialog>
-    <ConfettiEffect show={showConfetti} />
+    <FireworkEffect show={showConfetti} />
     </>
   );
 };
