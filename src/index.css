@@ -381,7 +381,11 @@
 }
 
 .card-glow {
-  @apply transition-all duration-300 hover:shadow-glow;
+  @apply transition-all duration-300;
+}
+
+.card-glow:hover {
+  box-shadow: var(--shadow-glow);
 }
 
 /* Navbar Improvements */
