@@ -41,6 +41,7 @@ const Home = () => {
     fetchWinners();
   }, [dataChanged]);
 
+
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
