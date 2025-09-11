@@ -254,54 +254,54 @@ const Winners = () => {
 
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-12 relative z-10">
-          <div className="bg-gradient-primary rounded-lg p-6 text-primary-foreground text-center">
-            <Trophy className="h-8 w-8 mx-auto mb-3" />
+          <div className="interactive-card bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 rounded-lg p-6 text-white text-center animate-hover-lift">
+            <Trophy className="h-8 w-8 mx-auto mb-3 animate-wiggle" />
             <div className="text-3xl font-bold mb-1">{winners.length}</div>
-            <div className="text-sm opacity-90">Total Winners</div>
+            <div className="text-white/90 text-sm">Total Winners</div>
           </div>
 
-          <div className="bg-gradient-to-br from-green-400 to-blue-500 rounded-lg p-6 shadow-card text-center text-white">
-            <Award className="h-8 w-8 mx-auto mb-3 text-primary" />
+          <div className="interactive-card bg-gradient-to-br from-green-400 to-blue-500 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift" style={{ animationDelay: '0.2s' }}>
+            <Award className="h-8 w-8 mx-auto mb-3 text-white animate-bounce-gentle" />
             <div className="text-3xl font-bold mb-1">{events.length}</div>
             <div className="text-white/90 text-sm">Different Events</div>
           </div>
 
-          <div className="bg-gradient-to-br from-pink-400 to-purple-500 rounded-lg p-6 shadow-card text-center text-white">
-            <Calendar className="h-8 w-8 mx-auto mb-3 text-primary" />
+          <div className="interactive-card bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift" style={{ animationDelay: '0.4s' }}>
+            <Calendar className="h-8 w-8 mx-auto mb-3 text-white animate-float-simple" />
             <div className="text-3xl font-bold mb-1">{years.length}</div>
             <div className="text-white/90 text-sm">Years of Excellence</div>
           </div>
         </div>
 
         {/* Achievement Highlights */}
-        <div className="mt-16 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-2xl p-8 text-white relative z-10">
-          <h2 className="text-2xl font-bold text-foreground mb-6 text-center">Achievement Highlights</h2>
+        <div className="mt-16 interactive-card bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-2xl p-8 text-white relative z-10 animate-celebration-glow">
+          <h2 className="text-2xl font-bold text-white mb-6 text-center animate-color-cycle">🏆 Achievement Highlights 🏆</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-white">Most Active Events</h3>
+              <h3 className="text-lg font-semibold text-white animate-fade-in-up">🎯 Most Active Events</h3>
               {events.slice(0, 3).map(event => {
                 const eventWinners = winners.filter(w => w.event === event);
                 return (
-                  <div key={event} className="flex justify-between items-center p-3 bg-white/20 backdrop-blur-sm rounded-lg shadow-sm">
+                  <div key={event} className="flex justify-between items-center p-3 bg-white/20 backdrop-blur-sm rounded-lg shadow-sm interactive-card animate-hover-lift">
                     <span className="text-white">{event}</span>
-                    <span className="text-yellow-300 font-semibold">{eventWinners.length} winners</span>
+                    <span className="text-yellow-300 font-semibold animate-glow">{eventWinners.length} winners</span>
                   </div>
                 );
               })}
             </div>
             
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-white">Recent Achievements</h3>
+              <h3 className="text-lg font-semibold text-white animate-fade-in-up" style={{ animationDelay: '0.2s' }}>⭐ Recent Achievements</h3>
               {winners
                 .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                 .slice(0, 3)
                 .map(winner => (
-                  <div key={winner.id} className="flex justify-between items-center p-3 bg-white/20 backdrop-blur-sm rounded-lg shadow-sm">
+                  <div key={winner.id} className="flex justify-between items-center p-3 bg-white/20 backdrop-blur-sm rounded-lg shadow-sm interactive-card animate-hover-lift">
                     <div>
                       <div className="text-white font-medium">{winner.name}</div>
                       <div className="text-white/80 text-sm">{winner.event}</div>
                     </div>
-                    <div className="text-yellow-300 text-sm">
+                    <div className="text-yellow-300 text-sm animate-pulse-soft">
                       {new Date(winner.date).toLocaleDateString()}
                     </div>
                   </div>

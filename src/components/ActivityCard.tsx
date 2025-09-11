@@ -56,13 +56,39 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
         
         {isUpcoming ? (
           <div className="flex gap-2 mt-auto">
-            <Button asChild variant="default" size="sm" className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transition-all duration-300 hover:scale-105">
+            <Button asChild variant="default" size="sm" className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transition-all duration-300 hover:scale-105 shadow-lg">
               <Link to={`/activity/${activity.id}`}>
                 Learn More
               </Link>
             </Button>
-            <Button asChild variant="secondary" size="sm" className="flex-1 bg-gradient-to-r from-green-500 to-blue-500 text-white hover:from-green-600 hover:to-blue-600 transition-all duration-300 hover:scale-105 animate-glow">
+            <Button asChild variant="secondary" size="sm" className="flex-1 vibrant-button text-white font-bold shadow-xl border-2 border-green-300 animate-celebration-glow relative overflow-hidden">
               <Link to={`/register/${activity.id}`}>
+                <span className="relative z-10 flex items-center">
+                  ✨ Register Now ✨
+                </span>
+                {/* Pulsing background effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500 animate-pulse-soft"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 opacity-50 animate-color-cycle"></div>
+              </Link>
+            </Button>
+          </div>
+        ) : (
+          <Link to={`/activity/${activity.id}/photos`}>
+            <Button
+              variant="default"
+              size="sm"
+              className="w-full mt-auto bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white transition-all duration-300 hover:scale-105 shadow-lg"
+            >
+              View Photos
+            </Button>
+          </Link>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default ActivityCard;
                 Register
               </Link>
             </Button>
