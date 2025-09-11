@@ -1,95 +1,85 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Calendar, MapPin, Users, Clock } from 'lucide-react';
 import { Activity } from '@/lib/data-service';
-
+import { Link } from 'react-router-dom';
+import { Calendar, MapPin, Users } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 interface ActivityCardProps {
   activity: Activity;
-  onClick?: () => void;
 }
 
-const ActivityCard = ({ activity, onClick }: ActivityCardProps) => {
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
-  };
-
-  const formatTime = (timeString: string) => {
-    return new Date(`2000-01-01T${timeString}`).toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true
-    });
-  };
-
+const ActivityCard = ({ activity }: ActivityCardProps) => {
+  const isUpcoming = activity.status === 'upcoming';
+  
   return (
-    <Card 
-      className="cursor-pointer hover:shadow-lg transition-all duration-300 border-l-4 border-l-blue-500 hover:border-l-purple-500"
-      onClick={onClick}
-    >
-      <CardHeader className="pb-3">
-        <div className="flex justify-between items-start">
-          <CardTitle className="text-lg font-semibold text-gray-800 hover:text-blue-600 transition-colors">
-            {activity.title}
-          </CardTitle>
-          <Badge 
-            variant={activity.status === 'upcoming' ? 'default' : 'secondary'}
-            className={activity.status === 'upcoming' ? 'bg-green-100 text-green-800' : ''}
-          >
-            {activity.status}
-          </Badge>
+    <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group flex flex-col card-hover">
+      {activity.poster ? (
+        <img key={activity.poster} src={activity.poster} alt={activity.name} className="w-full h-auto group-hover:scale-105 transition-transform duration-300" />
+      ) : (
+        <div className="h-48 bg-gradient-to-br from-blue-50 to-purple-100 flex items-center justify-center">
+          <span className="text-muted-foreground">No Poster</span>
         </div>
-      </CardHeader>
+      )}
       
-      <CardContent className="space-y-3">
-        <p className="text-gray-600 text-sm line-clamp-2">
+      <div className="p-6 flex flex-col flex-grow">
+        <div className="flex items-start justify-between mb-3">
+          <h3 className="text-xl font-bold text-gray-800 group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-purple-600 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
+            {activity.name}
+          </h3>
+          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+            isUpcoming 
+              ? 'bg-gradient-to-r from-green-100 to-blue-100 text-green-700' 
+              : 'bg-muted text-muted-foreground'
+          }`}>
+            {isUpcoming ? 'Upcoming' : 'Completed'}
+          </span>
+        </div>
+        
+        <div className="flex items-center text-muted-foreground text-sm mb-3">
+          <Calendar className="h-4 w-4 mr-2" />
+          {new Date(activity.date).toLocaleDateString('en-US', { 
+            weekday: 'long',
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+          })}
+        </div>
+        
+        <p className="text-muted-foreground text-sm mb-4 line-clamp-3 h-20 flex-grow">
           {activity.description}
         </p>
         
-        <div className="grid grid-cols-2 gap-3 text-sm text-gray-500">
-          <div className="flex items-center gap-2">
-            <Calendar className="h-4 w-4" />
-            <span>{formatDate(activity.date)}</span>
-          </div>
-          
-          <div className="flex items-center gap-2">
-            <Clock className="h-4 w-4" />
-            <span>{formatTime(activity.time)}</span>
-          </div>
-          
-          <div className="flex items-center gap-2">
-            <MapPin className="h-4 w-4" />
-            <span>{activity.venue}</span>
-          </div>
-          
-          <div className="flex items-center gap-2">
-            <Users className="h-4 w-4" />
-            <span>{activity.maxParticipants} max</span>
-          </div>
-        </div>
-        
-        {activity.prizes && activity.prizes.length > 0 && (
-          <div className="pt-2 border-t">
-            <p className="text-xs text-gray-500 mb-1">Prizes:</p>
-            <div className="flex flex-wrap gap-1">
-              {activity.prizes.slice(0, 3).map((prize, index) => (
-                <Badge key={index} variant="outline" className="text-xs">
-                  {prize}
-                </Badge>
-              ))}
-              {activity.prizes.length > 3 && (
-                <Badge variant="outline" className="text-xs">
-                  +{activity.prizes.length - 3} more
-                </Badge>
-              )}
-            </div>
+        {activity.photos && (
+          <div className="flex items-center text-muted-foreground text-sm mb-4">
+            <Users className="h-4 w-4 mr-2" />
+            {activity.photos.length} photos available
           </div>
         )}
-      </CardContent>
-    </Card>
+        
+        {isUpcoming ? (
+          <div className="flex gap-2 mt-auto">
+            <Button asChild variant="default" size="sm" className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transition-all duration-300 hover:scale-105">
+              <Link to={`/activity/${activity.id}`}>
+                Learn More
+              </Link>
+            </Button>
+            <Button asChild variant="secondary" size="sm" className="flex-1 bg-gradient-to-r from-green-500 to-blue-500 text-white hover:from-green-600 hover:to-blue-600 transition-all duration-300 hover:scale-105 animate-glow">
+              <Link to={`/register/${activity.id}`}>
+                Register
+              </Link>
+            </Button>
+          </div>
+        ) : (
+          <Link to={`/activity/${activity.id}/photos`}>
+            <Button
+              variant="default"
+              size="sm"
+              className="w-full mt-auto bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white transition-all duration-300 hover:scale-105"
+            >
+              View Photos
+            </Button>
+          </Link>
+        )}
+      </div>
+    </div>
   );
 };
 

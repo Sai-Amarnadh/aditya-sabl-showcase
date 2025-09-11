@@ -99,32 +99,32 @@ const WeeklyWinners = () => {
 
       {/* Summary Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <Card className="interactive-card bg-gradient-to-br from-purple-400 to-pink-500 text-white border-0 animate-hover-lift">
+        <Card>
           <CardContent className="p-6 text-center">
-            <Users className="h-8 w-8 text-white mx-auto mb-2 animate-bounce-gentle" />
+            <Users className="h-8 w-8 text-primary mx-auto mb-2" />
             <p className="text-2xl font-bold">{filteredWinners.length}</p>
-            <p className="text-sm text-white/90">Total Winners</p>
+            <p className="text-sm text-muted-foreground">Total Winners</p>
           </CardContent>
         </Card>
-        <Card className="interactive-card bg-gradient-to-br from-cyan-400 to-blue-500 text-white border-0 animate-hover-lift" style={{ animationDelay: '0.2s' }}>
+        <Card>
           <CardContent className="p-6 text-center">
-            <Calendar className="h-8 w-8 text-white mx-auto mb-2 animate-rotate-gentle" />
+            <Calendar className="h-8 w-8 text-primary mx-auto mb-2" />
             <p className="text-2xl font-bold">{weeks.length}</p>
-            <p className="text-sm text-white/90">Weeks</p>
+            <p className="text-sm text-muted-foreground">Weeks</p>
           </CardContent>
         </Card>
-        <Card className="interactive-card bg-gradient-to-br from-green-400 to-emerald-500 text-white border-0 animate-hover-lift" style={{ animationDelay: '0.4s' }}>
+        <Card>
           <CardContent className="p-6 text-center">
-            <Target className="h-8 w-8 text-white mx-auto mb-2 animate-wiggle" />
+            <Target className="h-8 w-8 text-primary mx-auto mb-2" />
             <p className="text-2xl font-bold">{activities.length}</p>
-            <p className="text-sm text-white/90">Activities</p>
+            <p className="text-sm text-muted-foreground">Activities</p>
           </CardContent>
         </Card>
-        <Card className="interactive-card bg-gradient-to-br from-yellow-400 to-orange-500 text-white border-0 animate-hover-lift" style={{ animationDelay: '0.6s' }}>
+        <Card>
           <CardContent className="p-6 text-center">
-            <Trophy className="h-8 w-8 text-white mx-auto mb-2 animate-float-simple" />
+            <Trophy className="h-8 w-8 text-primary mx-auto mb-2" />
             <p className="text-2xl font-bold">{filteredWinners.filter(w => w.position === 1).length}</p>
-            <p className="text-sm text-white/90">Champions</p>
+            <p className="text-sm text-muted-foreground">Champions</p>
           </CardContent>
         </Card>
       </div>

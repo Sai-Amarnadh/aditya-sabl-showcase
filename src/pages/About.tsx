@@ -79,20 +79,20 @@ const About: React.FC = () => {
             SABL Key Features
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="interactive-card bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl p-6 text-white shadow-xl animate-hover-lift">
-              <Users className="h-12 w-12 mb-4 animate-bounce-gentle" />
+            <div className="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl p-6 text-white shadow-xl hover:scale-105 transition-all duration-300">
+              <Users className="h-12 w-12 mb-4" />
               <h3 className="text-xl font-bold mb-3">Collaborative Learning</h3>
               <p className="text-blue-100">Students work together in teams, sharing knowledge and building strong interpersonal skills.</p>
             </div>
             
-            <div className="interactive-card bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl p-6 text-white shadow-xl animate-hover-lift" style={{ animationDelay: '0.2s' }}>
-              <Lightbulb className="h-12 w-12 mb-4 animate-wiggle" />
+            <div className="bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl p-6 text-white shadow-xl hover:scale-105 transition-all duration-300">
+              <Lightbulb className="h-12 w-12 mb-4" />
               <h3 className="text-xl font-bold mb-3">Critical Thinking</h3>
               <p className="text-green-100">Encouraging analytical thinking and problem-solving through hands-on activities and challenges.</p>
             </div>
             
-            <div className="interactive-card bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl p-6 text-white shadow-xl animate-hover-lift" style={{ animationDelay: '0.4s' }}>
-              <Rocket className="h-12 w-12 mb-4 animate-float-simple" />
+            <div className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl p-6 text-white shadow-xl hover:scale-105 transition-all duration-300">
+              <Rocket className="h-12 w-12 mb-4" />
               <h3 className="text-xl font-bold mb-3">Practical Application</h3>
               <p className="text-purple-100">Real-world projects and case studies that bridge the gap between theory and practice.</p>
             </div>
@@ -105,7 +105,7 @@ const About: React.FC = () => {
             SABL Activities in Action
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="relative group overflow-hidden rounded-2xl shadow-xl interactive-card animate-hover-lift">
+            <div className="relative group overflow-hidden rounded-2xl shadow-xl">
               <img 
                 src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
                 alt="SABL Project Work" 
@@ -119,7 +119,7 @@ const About: React.FC = () => {
               </div>
             </div>
             
-            <div className="relative group overflow-hidden rounded-2xl shadow-xl interactive-card animate-hover-lift" style={{ animationDelay: '0.2s' }}>
+            <div className="relative group overflow-hidden rounded-2xl shadow-xl">
               <img 
                 src="https://images.unsplash.com/photo-1515187029135-18ee286d815b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
                 alt="Group Discussion" 
@@ -133,7 +133,7 @@ const About: React.FC = () => {
               </div>
             </div>
             
-            <div className="relative group overflow-hidden rounded-2xl shadow-xl interactive-card animate-hover-lift" style={{ animationDelay: '0.4s' }}>
+            <div className="relative group overflow-hidden rounded-2xl shadow-xl">
               <img 
                 src="https://images.unsplash.com/photo-1573164713712-03790a178651?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
                 alt="Workshop" 
@@ -150,27 +150,27 @@ const About: React.FC = () => {
         </div>
 
         {/* Impact Section */}
-        <div className="interactive-card bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-3xl p-12 text-white text-center shadow-2xl relative z-10 animate-celebration-glow">
-          <h2 className="text-4xl font-bold mb-6 animate-color-cycle">🌟 SABL Impact 🌟</h2>
+        <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-3xl p-12 text-white text-center shadow-2xl relative z-10">
+          <h2 className="text-4xl font-bold mb-6">SABL Impact</h2>
           <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
             Our SABL approach has transformed the learning experience, creating more engaged, confident, and skilled graduates 
             ready to tackle real-world challenges.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="interactive-card bg-white/20 backdrop-blur-sm rounded-lg p-4 animate-hover-lift">
-              <div className="text-4xl font-bold mb-2 text-yellow-300 animate-bounce-gentle">95%</div>
+            <div>
+              <div className="text-4xl font-bold mb-2">95%</div>
               <div className="text-white/80">Student Satisfaction</div>
             </div>
-            <div className="interactive-card bg-white/20 backdrop-blur-sm rounded-lg p-4 animate-hover-lift" style={{ animationDelay: '0.2s' }}>
-              <div className="text-4xl font-bold mb-2 text-cyan-300 animate-float-simple">80%</div>
+            <div>
+              <div className="text-4xl font-bold mb-2">80%</div>
               <div className="text-white/80">Improved Performance</div>
             </div>
-            <div className="interactive-card bg-white/20 backdrop-blur-sm rounded-lg p-4 animate-hover-lift" style={{ animationDelay: '0.4s' }}>
-              <div className="text-4xl font-bold mb-2 text-green-300 animate-wiggle">50+</div>
+            <div>
+              <div className="text-4xl font-bold mb-2">50+</div>
               <div className="text-white/80">Activities Conducted</div>
             </div>
-            <div className="interactive-card bg-white/20 backdrop-blur-sm rounded-lg p-4 animate-hover-lift" style={{ animationDelay: '0.6s' }}>
-              <div className="text-4xl font-bold mb-2 text-pink-300 animate-pulse-soft">500+</div>
+            <div>
+              <div className="text-4xl font-bold mb-2">500+</div>
               <div className="text-white/80">Students Engaged</div>
             </div>
           </div>

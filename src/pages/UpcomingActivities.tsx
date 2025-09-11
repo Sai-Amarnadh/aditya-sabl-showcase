@@ -83,25 +83,25 @@ const UpcomingActivities = () => {
 
         {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-12 relative z-10">
-          <div className="interactive-card bg-gradient-to-br from-cyan-400 to-blue-500 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift">
+          <div className="bg-gradient-to-br from-cyan-400 to-blue-500 rounded-lg p-6 shadow-card text-center text-white">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Calendar className="h-6 w-6 text-white animate-bounce-gentle" />
+              <Calendar className="h-6 w-6 text-white" />
             </div>
             <div className="text-2xl font-bold mb-1">{upcomingActivities.length}</div>
             <div className="text-white/90 text-sm">Upcoming Events</div>
           </div>
 
-          <div className="interactive-card bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift" style={{ animationDelay: '0.2s' }}>
+          <div className="bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg p-6 shadow-card text-center text-white">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Clock className="h-6 w-6 text-white animate-rotate-gentle" />
+              <Clock className="h-6 w-6 text-white" />
             </div>
             <div className="text-2xl font-bold mb-1">Next 30 Days</div>
             <div className="text-white/90 text-sm">Activity Window</div>
           </div>
 
-          <div className="interactive-card bg-gradient-to-br from-purple-400 to-pink-500 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift" style={{ animationDelay: '0.4s' }}>
+          <div className="bg-gradient-to-br from-purple-400 to-pink-500 rounded-lg p-6 shadow-card text-center text-white">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
-              <MapPin className="h-6 w-6 text-white animate-pulse-soft" />
+              <MapPin className="h-6 w-6 text-white" />
             </div>
             <div className="text-2xl font-bold mb-1">CSE Campus</div>
             <div className="text-white/90 text-sm">Event Location</div>
@@ -109,18 +109,18 @@ const UpcomingActivities = () => {
         </div>
 
         {/* Call to Action */}
-        <div className="mt-16 interactive-card bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-2xl p-8 text-center text-primary-foreground relative z-10 animate-celebration-glow">
-          <h2 className="text-2xl font-bold mb-4 animate-wiggle">🎯 Don't Miss Out! 🎯</h2>
+        <div className="mt-16 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-2xl p-8 text-center text-primary-foreground relative z-10">
+          <h2 className="text-2xl font-bold mb-4">Don't Miss Out!</h2>
           <p className="text-lg opacity-90 mb-6">
             Stay connected with us to get the latest updates on upcoming activities and registration details.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <div className="flex items-center text-sm opacity-80 animate-fade-in-up">
-              <Calendar className="h-4 w-4 mr-2 animate-bounce-gentle" />
+            <div className="flex items-center text-sm opacity-80">
+              <Calendar className="h-4 w-4 mr-2" />
               Follow our event calendar
             </div>
-            <div className="flex items-center text-sm opacity-80 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              <Clock className="h-4 w-4 mr-2 animate-rotate-gentle" />
+            <div className="flex items-center text-sm opacity-80">
+              <Clock className="h-4 w-4 mr-2" />
               Register early for best spots
             </div>
           </div>

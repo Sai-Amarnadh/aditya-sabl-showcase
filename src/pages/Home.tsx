@@ -108,7 +108,7 @@ const Home = () => {
       <section className="py-12 md:py-16 px-4 md:px-6 bg-gradient-to-br from-blue-50 to-purple-50">
         <div className="container mx-auto">
           <div className="text-center mb-8 md:mb-12 animate-fade-in-up">
-            <h2 className="text-2xl md:text-3xl font-bold gradient-text-vibrant mb-3 md:mb-4 animate-wiggle">
+            <h2 className="text-2xl md:text-3xl font-bold gradient-text mb-3 md:mb-4">
               🏆 Top Performers of the Week
             </h2>
             <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto px-4">
@@ -116,16 +116,11 @@ const Home = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto mb-6 md:mb-8 px-2 md:px-0 animate-fade-in-up relative" style={{ animationDelay: '0.2s' }}>
-            {/* Celebration Background Elements */}
-            <div className="absolute -top-4 -left-4 w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full animate-bounce-gentle opacity-70"></div>
-            <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-pink-400 to-purple-500 rounded-full animate-float-simple opacity-70" style={{ animationDelay: '1s' }}></div>
-            <div className="absolute -bottom-4 left-1/2 w-10 h-10 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full animate-pulse-soft opacity-60" style={{ animationDelay: '2s' }}></div>
-            
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto mb-6 md:mb-8 px-2 md:px-0 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             {loading ? (
               // Loading skeleton
               Array.from({ length: 3 }).map((_, index) => (
-                <div key={index} className="celebration-winner-card rounded-xl p-6 shadow-lg animate-pulse">
+                <div key={index} className="bg-white rounded-xl p-6 shadow-lg animate-pulse">
                   <div className="flex items-center space-x-4">
                     <div className="w-16 h-16 bg-muted rounded-full"></div>
                     <div className="flex-1">
@@ -139,31 +134,27 @@ const Home = () => {
             ) : thisWeekWinners.length > 0 ? (
               thisWeekWinners
                 .sort((a, b) => (a.position || 1) - (b.position || 1))
-                .map((winner, index) => (
-                  <div key={winner.id} className="celebration-winner-card rounded-xl animate-hover-lift" style={{ animationDelay: `${index * 0.2}s` }}>
-                    <WinnerCard 
-                      winner={winner} 
-                      featured={true} 
-                      onClick={() => handleWinnerClick(winner)}
-                    />
-                  </div>
+                .map((winner) => (
+                  <WinnerCard 
+                    key={winner.id} 
+                    winner={winner} 
+                    featured={true} 
+                    onClick={() => handleWinnerClick(winner)}
+                  />
                 ))
             ) : (
               <div className="col-span-3 text-center py-8">
-                <div className="relative">
-                  <Trophy className="h-12 w-12 text-muted-foreground mx-auto mb-4 animate-bounce-custom" />
-                  <div className="absolute -top-2 -right-2 w-4 h-4 bg-yellow-400 rounded-full animate-pulse-soft"></div>
-                </div>
+                <Trophy className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
                 <p className="text-muted-foreground">No winners selected for this week yet.</p>
               </div>
             )}
           </div>
           
           <div className="text-center animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-            <Button asChild className="vibrant-button text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:shadow-xl">
+            <Button asChild className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold px-6 py-2 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
               <Link to="/winners">
                 View All Winners
-                <Trophy className="ml-2 h-4 w-4 animate-wiggle" />
+                <Trophy className="ml-2 h-4 w-4" />
               </Link>
             </Button>
           </div>
@@ -171,41 +162,30 @@ const Home = () => {
       </section>
 
       {/* Statistics Section */}
-      <section className="py-12 md:py-16 px-4 md:px-6 relative overflow-hidden">
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-10 left-10 w-20 h-20 bg-gradient-to-r from-pink-400/20 to-purple-400/20 rounded-full animate-float-simple"></div>
-          <div className="absolute top-20 right-20 w-16 h-16 bg-gradient-to-r from-cyan-400/20 to-blue-400/20 rounded-full animate-bounce-gentle" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute bottom-20 left-1/4 w-24 h-24 bg-gradient-to-r from-yellow-400/20 to-orange-400/20 rounded-full animate-pulse-soft" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute bottom-10 right-1/3 w-18 h-18 bg-gradient-to-r from-green-400/20 to-emerald-400/20 rounded-full animate-morph-gentle" style={{ animationDelay: '3s' }}></div>
-        </div>
-        
-        <div className="container mx-auto relative z-10">
-          <div className="interactive-card rounded-xl md:rounded-2xl p-6 md:p-12 shadow-2xl animate-scale-in">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 rounded-xl md:rounded-2xl"></div>
-            <div className="relative z-10 text-white">
-              <div className="text-center mb-6 md:mb-8">
-                <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4 animate-color-cycle">SABL Impact</h2>
-                <p className="text-base md:text-lg opacity-90 px-4">Measuring our success through student engagement and achievements</p>
-              </div>
+      <section className="py-12 md:py-16 px-4 md:px-6">
+        <div className="container mx-auto">
+          <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 rounded-xl md:rounded-2xl p-6 md:p-12 text-white shadow-2xl animate-scale-in">
+            <div className="text-center mb-6 md:mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">SABL Impact</h2>
+              <p className="text-base md:text-lg opacity-90 px-4">Measuring our success through student engagement and achievements</p>
+            </div>
 
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 text-center animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-                <div className="interactive-card bg-white/20 backdrop-blur-sm rounded-lg p-4 hover:bg-white/30">
-                  <div className="text-4xl font-bold mb-2 animate-bounce-custom text-yellow-300">50+</div>
-                  <div className="text-sm opacity-80">Events Conducted</div>
-                </div>
-                <div className="interactive-card bg-white/20 backdrop-blur-sm rounded-lg p-4 hover:bg-white/30" style={{ animationDelay: '0.5s' }}>
-                  <div className="text-4xl font-bold mb-2 animate-bounce-custom text-cyan-300" style={{ animationDelay: '0.5s' }}>500+</div>
-                  <div className="text-sm opacity-80">Student Participants</div>
-                </div>
-                <div className="interactive-card bg-white/20 backdrop-blur-sm rounded-lg p-4 hover:bg-white/30" style={{ animationDelay: '1s' }}>
-                  <div className="text-4xl font-bold mb-2 animate-bounce-custom text-green-300" style={{ animationDelay: '1s' }}>100+</div>
-                  <div className="text-sm opacity-80">Winners Celebrated</div>
-                </div>
-                <div className="interactive-card bg-white/20 backdrop-blur-sm rounded-lg p-4 hover:bg-white/30" style={{ animationDelay: '1.5s' }}>
-                  <div className="text-4xl font-bold mb-2 animate-bounce-custom text-pink-300" style={{ animationDelay: '1.5s' }}>25+</div>
-                  <div className="text-sm opacity-80">Industry Partners</div>
-                </div>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 text-center animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+              <div>
+                <div className="text-4xl font-bold mb-2 animate-bounce-custom">50+</div>
+                <div className="text-sm opacity-80">Events Conducted</div>
+              </div>
+              <div>
+                <div className="text-4xl font-bold mb-2 animate-bounce-custom" style={{ animationDelay: '0.5s' }}>500+</div>
+                <div className="text-sm opacity-80">Student Participants</div>
+              </div>
+              <div>
+                <div className="text-4xl font-bold mb-2 animate-bounce-custom" style={{ animationDelay: '1s' }}>100+</div>
+                <div className="text-sm opacity-80">Winners Celebrated</div>
+              </div>
+              <div>
+                <div className="text-4xl font-bold mb-2 animate-bounce-custom" style={{ animationDelay: '1.5s' }}>25+</div>
+                <div className="text-sm opacity-80">Industry Partners</div>
               </div>
             </div>
           </div>
@@ -213,17 +193,10 @@ const Home = () => {
       </section>
 
       {/* Quick Navigation Section */}
-      <section className="py-12 md:py-16 bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 relative overflow-hidden">
-        {/* Background Decorations */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-16 left-16 w-32 h-32 bg-gradient-to-r from-purple-300/30 to-pink-300/30 rounded-full animate-float-simple blur-xl"></div>
-          <div className="absolute bottom-16 right-16 w-40 h-40 bg-gradient-to-r from-orange-300/30 to-yellow-300/30 rounded-full animate-pulse-soft blur-2xl"></div>
-          <div className="absolute top-1/2 left-1/2 w-36 h-36 bg-gradient-to-r from-cyan-300/20 to-blue-300/20 rounded-full animate-morph-gentle blur-xl" style={{ animationDelay: '2s' }}></div>
-        </div>
-        
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
+      <section className="py-12 md:py-16 bg-gradient-to-br from-purple-50 to-pink-50">
+        <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-8 md:mb-12 animate-fade-in-up">
-            <h2 className="text-2xl md:text-3xl font-bold gradient-text-vibrant mb-3 md:mb-4">
+            <h2 className="text-2xl md:text-3xl font-bold gradient-text mb-3 md:mb-4">
               Quick Navigation
             </h2>
             <p className="text-muted-foreground text-base md:text-lg px-4">
@@ -233,8 +206,8 @@ const Home = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto px-2 md:px-0 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <Link to="/upcoming" className="group" onClick={() => setTimeout(() => window.scrollTo(0, 0), 100)}>
-              <div className="interactive-card rounded-xl p-8 shadow-lg text-center border-2 border-transparent hover:border-blue-300 animate-rainbow-border">
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:from-blue-600 group-hover:to-indigo-700 transition-all animate-bounce-gentle">
+              <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 text-center card-hover border border-blue-100">
+                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:from-blue-600 group-hover:to-indigo-700 transition-all">
                   <Calendar className="h-8 w-8 text-white" />
                 </div>
                 <h3 className="text-xl font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">Upcoming Activities</h3>
@@ -243,8 +216,8 @@ const Home = () => {
             </Link>
             
             <Link to="/previous" className="group" onClick={() => setTimeout(() => window.scrollTo(0, 0), 100)}>
-              <div className="interactive-card rounded-xl p-8 shadow-lg text-center border-2 border-transparent hover:border-green-300 animate-rainbow-border" style={{ animationDelay: '1s' }}>
-                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:from-green-600 group-hover:to-emerald-700 transition-all animate-float-simple">
+              <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 text-center card-hover border border-green-100">
+                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:from-green-600 group-hover:to-emerald-700 transition-all">
                   <History className="h-8 w-8 text-white" />
                 </div>
                 <h3 className="text-xl font-semibold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-2">Previous Activities</h3>
@@ -253,8 +226,8 @@ const Home = () => {
             </Link>
             
             <Link to="/winners" className="group" onClick={() => setTimeout(() => window.scrollTo(0, 0), 100)}>
-              <div className="interactive-card rounded-xl p-8 shadow-lg text-center border-2 border-transparent hover:border-yellow-300 animate-rainbow-border" style={{ animationDelay: '2s' }}>
-                <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:from-yellow-600 group-hover:to-orange-700 transition-all animate-wiggle">
+              <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 text-center card-hover border border-yellow-100">
+                <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:from-yellow-600 group-hover:to-orange-700 transition-all">
                   <Trophy className="h-8 w-8 text-white" />
                 </div>
                 <h3 className="text-xl font-semibold bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent mb-2">Hall of Fame</h3>
