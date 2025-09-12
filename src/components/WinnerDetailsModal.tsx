@@ -95,7 +95,7 @@ const WinnerDetailsModal = ({ winner, isOpen, onClose }: WinnerDetailsModalProps
 
   return (
     <>
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="max-w-md w-[95%] sm:max-w-lg rounded-2xl p-0 border-0 bg-transparent animate-scale-in relative overflow-hidden">
         {/* Celebration Background */}
         <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-orange-500/20 rounded-2xl animate-pulse-soft"></div>
