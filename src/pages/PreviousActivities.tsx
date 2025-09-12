@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import ActivityCard from '@/components/ActivityCard';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { getActivities, Activity } from '@/lib/data-service';
 import { useData } from '@/contexts/DataContext';
 import { History, Trophy, Users, Camera } from 'lucide-react';
@@ -143,59 +143,7 @@ const PreviousActivities = () => {
               {completedActivities
                 .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                 .map((activity) => (
-                  <div key={activity.id} className="relative">
-                    <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group card-hover">
-                      {activity.poster && (
-                        <div className="relative h-48 overflow-hidden">
-                          <img 
-                            src={activity.poster} 
-                            alt={activity.name}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                          <div className="absolute bottom-4 left-4 text-white">
-                            <h3 className="text-lg font-bold">{activity.name}</h3>
-                          </div>
-                        </div>
-                      )}
-                      <div className="p-6">
-                        {!activity.poster && (
-                          <h3 className="text-xl font-bold text-gray-800 mb-3">{activity.name}</h3>
-                        )}
-                        <div className="flex items-center text-sm text-gray-600 mb-3">
-                          <Calendar className="h-4 w-4 mr-2" />
-                          {new Date(activity.date).toLocaleDateString('en-US', {
-                            weekday: 'long',
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                          })}
-                        </div>
-                        <p className="text-gray-600 mb-4 line-clamp-3">{activity.description}</p>
-                        <div className="flex gap-2">
-                          <Button asChild className="flex-1">
-                            <Link to={`/activity/${activity.id}`}>View Details</Link>
-                          </Button>
-                          {activity.photos && activity.photos.length > 0 && (
-                            <Button asChild variant="outline">
-                              <Link to={`/activity/${activity.id}/photos`}>Photos</Link>
-                            </Button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mt-3 text-center">
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        onClick={() => handleViewParticipants(activity)}
-                        className="bg-gradient-to-r from-blue-500 to-purple-600 text-white border-none hover:from-blue-600 hover:to-purple-700"
-                      >
-                        <Users className="h-4 w-4 mr-2" />
-                        View Participants
-                      </Button>
-                    </div>
-                  </div>
+                  <ActivityCard key={activity.id} activity={activity} />
                 ))}
             </div>
           )}
