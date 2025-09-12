@@ -144,7 +144,46 @@ const PreviousActivities = () => {
                 .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                 .map((activity) => (
                   <div key={activity.id} className="relative">
-                    <ActivityCard activity={activity} />
+                    <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group card-hover">
+                      {activity.poster && (
+                        <div className="relative h-48 overflow-hidden">
+                          <img 
+                            src={activity.poster} 
+                            alt={activity.name}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                          <div className="absolute bottom-4 left-4 text-white">
+                            <h3 className="text-lg font-bold">{activity.name}</h3>
+                          </div>
+                        </div>
+                      )}
+                      <div className="p-6">
+                        {!activity.poster && (
+                          <h3 className="text-xl font-bold text-gray-800 mb-3">{activity.name}</h3>
+                        )}
+                        <div className="flex items-center text-sm text-gray-600 mb-3">
+                          <Calendar className="h-4 w-4 mr-2" />
+                          {new Date(activity.date).toLocaleDateString('en-US', {
+                            weekday: 'long',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                          })}
+                        </div>
+                        <p className="text-gray-600 mb-4 line-clamp-3">{activity.description}</p>
+                        <div className="flex gap-2">
+                          <Button asChild className="flex-1">
+                            <Link to={`/activity/${activity.id}`}>View Details</Link>
+                          </Button>
+                          {activity.photos && activity.photos.length > 0 && (
+                            <Button asChild variant="outline">
+                              <Link to={`/activity/${activity.id}/photos`}>Photos</Link>
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
                     <div className="mt-3 text-center">
                       <Button 
                         variant="outline" 
@@ -164,7 +203,7 @@ const PreviousActivities = () => {
 
         {/* Achievement Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 my-12 relative z-10">
-          <div className="interactive-card bg-gradient-to-br from-indigo-400 to-purple-500 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift">
+          <div className="interactive-card bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
               <History className="h-6 w-6 text-white animate-rotate-gentle" />
             </div>
@@ -172,7 +211,7 @@ const PreviousActivities = () => {
             <div className="text-white/90 text-sm">Events Completed</div>
           </div>
           
-          <div className="interactive-card bg-gradient-to-br from-green-400 to-teal-500 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift" style={{ animationDelay: '0.2s' }}>
+          <div className="interactive-card bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift" style={{ animationDelay: '0.2s' }}>
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
               <Users className="h-6 w-6 text-white animate-bounce-gentle" />
             </div>
@@ -180,7 +219,7 @@ const PreviousActivities = () => {
             <div className="text-white/90 text-sm">Total Participants</div>
           </div>
           
-          <div className="interactive-card bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift" style={{ animationDelay: '0.4s' }}>
+          <div className="interactive-card bg-gradient-to-br from-yellow-500 to-orange-600 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift" style={{ animationDelay: '0.4s' }}>
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
               <Trophy className="h-6 w-6 text-white animate-wiggle" />
             </div>
@@ -188,7 +227,7 @@ const PreviousActivities = () => {
             <div className="text-white/90 text-sm">Winners Crowned</div>
           </div>
           
-          <div className="interactive-card bg-gradient-to-br from-pink-400 to-red-500 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift" style={{ animationDelay: '0.6s' }}>
+          <div className="interactive-card bg-gradient-to-br from-pink-500 to-red-600 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift" style={{ animationDelay: '0.6s' }}>
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
               <Camera className="h-6 w-6 text-white animate-float-simple" />
             </div>
@@ -198,7 +237,7 @@ const PreviousActivities = () => {
         </div>
 
         {/* Success Stories */}
-        <div className="mt-16 interactive-card bg-gradient-to-br from-cyan-500 via-blue-500 to-indigo-600 rounded-2xl p-8 text-white relative z-10 animate-celebration-glow">
+        <div className="mt-16 interactive-card bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 rounded-2xl p-8 text-white relative z-10 animate-celebration-glow">
           <div className="text-center mb-8">
             <h2 className="text-2xl font-bold mb-4 animate-color-cycle">🌟 Success Stories 🌟</h2>
             <p className="text-white/90">

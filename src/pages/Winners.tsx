@@ -254,19 +254,19 @@ const Winners = () => {
 
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-12 relative z-10">
-          <div className="interactive-card bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 rounded-lg p-6 text-white text-center animate-hover-lift">
+          <div className="interactive-card bg-gradient-to-br from-purple-600 via-pink-600 to-red-600 rounded-lg p-6 text-white text-center animate-hover-lift">
             <Trophy className="h-8 w-8 mx-auto mb-3 animate-wiggle" />
             <div className="text-3xl font-bold mb-1">{winners.length}</div>
             <div className="text-white/90 text-sm">Total Winners</div>
           </div>
 
-          <div className="interactive-card bg-gradient-to-br from-green-400 to-blue-500 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift" style={{ animationDelay: '0.2s' }}>
+          <div className="interactive-card bg-gradient-to-br from-emerald-500 to-blue-600 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift" style={{ animationDelay: '0.2s' }}>
             <Award className="h-8 w-8 mx-auto mb-3 text-white animate-bounce-gentle" />
             <div className="text-3xl font-bold mb-1">{events.length}</div>
             <div className="text-white/90 text-sm">Different Events</div>
           </div>
 
-          <div className="interactive-card bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift" style={{ animationDelay: '0.4s' }}>
+          <div className="interactive-card bg-gradient-to-br from-yellow-500 to-orange-600 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift" style={{ animationDelay: '0.4s' }}>
             <Calendar className="h-8 w-8 mx-auto mb-3 text-white animate-float-simple" />
             <div className="text-3xl font-bold mb-1">{years.length}</div>
             <div className="text-white/90 text-sm">Years of Excellence</div>
@@ -274,7 +274,7 @@ const Winners = () => {
         </div>
 
         {/* Achievement Highlights */}
-        <div className="mt-16 interactive-card bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-2xl p-8 text-white relative z-10 animate-celebration-glow">
+        <div className="mt-16 interactive-card bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-2xl p-8 text-white relative z-10 animate-celebration-glow">
           <h2 className="text-2xl font-bold text-white mb-6 text-center animate-color-cycle">🏆 Achievement Highlights 🏆</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-4">
