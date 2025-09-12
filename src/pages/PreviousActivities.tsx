@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import ActivityCard from '@/components/ActivityCard';
 import { getActivities, Activity } from '@/lib/data-service';
 import { useData } from '@/contexts/DataContext';
 import { History, Trophy, Users, Camera } from 'lucide-react';
@@ -143,7 +143,20 @@ const PreviousActivities = () => {
               {completedActivities
                 .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                 .map((activity) => (
-                  <ActivityCard key={activity.id} activity={activity} />
+                  <div key={activity.id} className="relative">
+                    <ActivityCard activity={activity} />
+                    <div className="mt-3 text-center">
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        onClick={() => handleViewParticipants(activity)}
+                        className="bg-gradient-to-r from-blue-500 to-purple-600 text-white border-none hover:from-blue-600 hover:to-purple-700"
+                      >
+                        <Users className="h-4 w-4 mr-2" />
+                        View Participants
+                      </Button>
+                    </div>
+                  </div>
                 ))}
             </div>
           )}
@@ -151,7 +164,7 @@ const PreviousActivities = () => {
 
         {/* Achievement Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 my-12 relative z-10">
-          <div className="interactive-card bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift">
+          <div className="interactive-card bg-gradient-to-br from-indigo-400 to-purple-500 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
               <History className="h-6 w-6 text-white animate-rotate-gentle" />
             </div>
@@ -159,7 +172,7 @@ const PreviousActivities = () => {
             <div className="text-white/90 text-sm">Events Completed</div>
           </div>
           
-          <div className="interactive-card bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift" style={{ animationDelay: '0.2s' }}>
+          <div className="interactive-card bg-gradient-to-br from-green-400 to-teal-500 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift" style={{ animationDelay: '0.2s' }}>
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
               <Users className="h-6 w-6 text-white animate-bounce-gentle" />
             </div>
@@ -167,7 +180,7 @@ const PreviousActivities = () => {
             <div className="text-white/90 text-sm">Total Participants</div>
           </div>
           
-          <div className="interactive-card bg-gradient-to-br from-yellow-500 to-orange-600 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift" style={{ animationDelay: '0.4s' }}>
+          <div className="interactive-card bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift" style={{ animationDelay: '0.4s' }}>
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
               <Trophy className="h-6 w-6 text-white animate-wiggle" />
             </div>
@@ -175,7 +188,7 @@ const PreviousActivities = () => {
             <div className="text-white/90 text-sm">Winners Crowned</div>
           </div>
           
-          <div className="interactive-card bg-gradient-to-br from-pink-500 to-red-600 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift" style={{ animationDelay: '0.6s' }}>
+          <div className="interactive-card bg-gradient-to-br from-pink-400 to-red-500 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift" style={{ animationDelay: '0.6s' }}>
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
               <Camera className="h-6 w-6 text-white animate-float-simple" />
             </div>
@@ -185,7 +198,7 @@ const PreviousActivities = () => {
         </div>
 
         {/* Success Stories */}
-        <div className="mt-16 interactive-card bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 rounded-2xl p-8 text-white relative z-10 animate-celebration-glow">
+        <div className="mt-16 interactive-card bg-gradient-to-br from-cyan-500 via-blue-500 to-indigo-600 rounded-2xl p-8 text-white relative z-10 animate-celebration-glow">
           <div className="text-center mb-8">
             <h2 className="text-2xl font-bold mb-4 animate-color-cycle">🌟 Success Stories 🌟</h2>
             <p className="text-white/90">

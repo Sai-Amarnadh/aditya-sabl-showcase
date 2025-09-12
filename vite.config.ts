@@ -8,8 +8,8 @@ import { componentTagger } from "lovable-tagger";
 export default defineConfig(({ mode }) => ({
   appType: 'spa',
   server: {
-    host: "0.0.0.0",
-    port: 5173,
+    host: "127.0.0.1",
+    port: 8080,
   },
   plugins: [
     react(),

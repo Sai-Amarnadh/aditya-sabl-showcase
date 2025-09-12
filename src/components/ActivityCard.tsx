@@ -39,32 +39,16 @@ export default function ActivityCard({ activity, className }: ActivityCardProps)
 
   return (
     <Card className={cn('hover:shadow-lg transition-shadow duration-200', className)}>
-      {activity.poster && (
-        <CardHeader className="p-0">
-          <div className="relative h-48 overflow-hidden rounded-t-lg">
-            <img
-              src={activity.poster}
-              alt={activity.name}
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-            <div className="absolute bottom-4 left-4 text-white">
-              <CardTitle className="text-lg font-bold">{activity.name}</CardTitle>
-            </div>
-          </div>
-        </CardHeader>
-      )}
+      <CardHeader className="pb-3">
+        <div className="flex justify-between items-start">
+          <CardTitle className="text-lg font-semibold line-clamp-2">
+            {activity.name}
+          </CardTitle>
+          {getStatusBadge(activity.status)}
+        </div>
+      </CardHeader>
       
-      <CardContent className="p-6 space-y-3">
-        {!activity.poster && (
-          <div className="flex justify-between items-start">
-            <CardTitle className="text-lg font-semibold line-clamp-2">
-              {activity.name}
-            </CardTitle>
-            {getStatusBadge(activity.status)}
-          </div>
-        )}
-
+      <CardContent className="space-y-3">
         <div className="flex items-center text-sm text-gray-600">
           <Calendar className="w-4 h-4 mr-2" />
           {formatDate(activity.date)}
@@ -97,17 +81,12 @@ export default function ActivityCard({ activity, className }: ActivityCardProps)
           </div>
         )}
         
-        <div className="pt-2 flex gap-2">
-          <Button asChild variant="outline" className="flex-1">
+        <div className="pt-2">
+          <Button asChild variant="outline" className="w-full">
             <Link to={`/activity/${activity.id}`}>
               View Details
             </Link>
           </Button>
-          {activity.status === 'upcoming' && (
-            <Button asChild className="flex-1">
-              <Link to={`/register/${activity.id}`}>Register</Link>
-            </Button>
-          )}
         </div>
       </CardContent>
     </Card>
