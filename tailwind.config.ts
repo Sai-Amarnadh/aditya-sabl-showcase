@@ -67,6 +67,12 @@ export default {
 					blue: 'hsl(var(--university-blue))',
 					'light-blue': 'hsl(var(--university-light-blue))'
 				},
+				tech: {
+					blue: 'hsl(var(--tech-blue))',
+					indigo: 'hsl(var(--tech-indigo))',
+					'deep-blue': 'hsl(var(--tech-deep-blue))',
+					'bright-accent': 'hsl(var(--tech-bright-accent))'
+				},
 				academic: {
 					gray: 'hsl(var(--academic-gray))'
 				},
@@ -77,13 +83,18 @@ export default {
 			},
 			backgroundImage: {
 				'gradient-primary': 'var(--gradient-primary)',
+				'gradient-tech-primary': 'var(--gradient-tech-primary)',
+				'gradient-tech-secondary': 'var(--gradient-tech-secondary)',
 				'gradient-hero': 'var(--gradient-hero)',
+				'gradient-tech-hero': 'var(--gradient-tech-hero)',
 				'gradient-card': 'var(--gradient-card)'
+				'gradient-tech-card': 'var(--gradient-tech-card)'
 			},
 			boxShadow: {
 				'card': 'var(--shadow-card)',
 				'elevated': 'var(--shadow-elevated)',
-				'header': 'var(--shadow-header)'
+				'header': 'var(--shadow-header)',
+				'tech': 'var(--shadow-tech)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
