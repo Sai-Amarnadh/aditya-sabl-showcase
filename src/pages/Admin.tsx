@@ -139,6 +139,8 @@ const Admin = () => {
         const uploadedUrl = await DataService.uploadImage(newWinner.photo, 'winner-photos');
         if (!uploadedUrl) throw new Error('Image upload failed');
         photoUrl = uploadedUrl;
+      } else if (typeof newWinner.photo === 'string') {
+        photoUrl = newWinner.photo;
       }
 
       const winnerData = { ...newWinner, photo: photoUrl };
@@ -191,6 +193,8 @@ const Admin = () => {
         const uploadedUrl = await DataService.uploadImage(newActivity.poster, 'activity_posters');
         if (!uploadedUrl) throw new Error("Poster image upload failed");
         posterUrl = uploadedUrl;
+      } else if (typeof newActivity.poster === 'string') {
+        posterUrl = newActivity.poster;
       }
 
       let photoUrls: string[] = editingActivity?.photos || [];
@@ -198,6 +202,8 @@ const Admin = () => {
         const uploadPromises = Array.from(newActivity.photos).map(file => DataService.uploadImage(file, 'gallery_images'));
         const uploadedUrls = await Promise.all(uploadPromises);
         photoUrls = uploadedUrls.filter((url): url is string => url !== null);
+      } else if (Array.isArray(newActivity.photos)) {
+        photoUrls = newActivity.photos;
       }
 
       const activityData = { 
@@ -254,6 +260,8 @@ const Admin = () => {
         const uploadedUrl = await DataService.uploadImage(newGalleryImage.url, 'gallery_images');
         if (!uploadedUrl) throw new Error('Image upload failed');
         imageUrl = uploadedUrl;
+      } else if (typeof newGalleryImage.url === 'string') {
+        imageUrl = newGalleryImage.url;
       }
 
       const galleryImageData = { ...newGalleryImage, url: imageUrl };

@@ -2,7 +2,7 @@ import { Winner } from '@/lib/data-service';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, Trophy, Medal, Award, User, BookOpen, X } from 'lucide-react';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 
 // Confetti component for celebration effect
 const ConfettiPiece = ({ color, left, delay }: { color: string; left: number; delay: number }) => (
@@ -15,6 +15,36 @@ const ConfettiPiece = ({ color, left, delay }: { color: string; left: number; de
     }}
   />
 );
+
+const ConfettiEffect = ({ show }: { show: boolean }) => {
+  if (!show) return null;
+
+  const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3', '#54a0ff', '#fd79a8', '#00b894', '#e17055'];
+  const pieces = Array.from({ length: 80 }, (_, i) => ({
+    id: i,
+    color: colors[Math.floor(Math.random() * colors.length)],
+    left: Math.random() * 100,
+    delay: Math.random() * 2,
+  }));
+
+  return (
+    <div className="fixed inset-0 pointer-events-none z-50">
+      {pieces.map((piece) => (
+        <ConfettiPiece
+          key={piece.id}
+          color={piece.color}
+          left={piece.left}
+          delay={piece.delay}
+        />
+      ))}
+      {/* Additional celebration sparkles */}
+      <div className="absolute top-1/4 left-1/4 w-4 h-4 bg-yellow-400 rounded-full animate-bounce-custom opacity-80"></div>
+      <div className="absolute top-1/3 right-1/4 w-3 h-3 bg-pink-400 rounded-full animate-float-simple opacity-80" style={{ animationDelay: '0.5s' }}></div>
+      <div className="absolute bottom-1/3 left-1/3 w-5 h-5 bg-cyan-400 rounded-full animate-pulse-soft opacity-80" style={{ animationDelay: '1s' }}></div>
+      <div className="absolute bottom-1/4 right-1/3 w-3 h-3 bg-purple-400 rounded-full animate-wiggle opacity-80" style={{ animationDelay: '1.5s' }}></div>
+    </div>
+  );
+};
 
 const FireworkEffect = ({ show }: { show: boolean }) => {
   if (!show) return null;
@@ -54,7 +84,6 @@ interface WinnerDetailsModalProps {
 
 const WinnerDetailsModal = ({ winner, isOpen, onClose }: WinnerDetailsModalProps) => {
   const [showConfetti, setShowConfetti] = useState(false);
-  const [showFireworks, setShowFireworks] = useState(false);
 
   useEffect(() => {
     let confettiTimer: NodeJS.Timeout;
