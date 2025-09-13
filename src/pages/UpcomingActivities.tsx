@@ -27,14 +27,14 @@ const UpcomingActivities = () => {
   }, [dataChanged]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 tech-bg-pattern">
+    <div className="min-h-screen bg-background text-foreground">
       <div className="container mx-auto px-4 py-12">
         {/* Header */}
-        <div className="text-center mb-12 animate-tech-slide-up">
-          <div className="inline-flex items-center justify-center p-3 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full mb-6">
-            <Calendar className="h-8 w-8 text-white animate-tech-glow" />
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center justify-center p-3 bg-primary rounded-full mb-6">
+            <Calendar className="h-8 w-8 text-primary-foreground" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">
             Upcoming Activities
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
@@ -47,13 +47,13 @@ const UpcomingActivities = () => {
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {Array.from({ length: 6 }).map((_, index) => (
-                <div key={index} className="bg-white rounded-xl shadow-lg border border-gray-100 animate-pulse overflow-hidden">
-                  <div className="h-48 bg-gray-200 loading-shimmer"></div>
+                <div key={index} className="bg-card rounded-xl shadow-lg border animate-pulse overflow-hidden">
+                  <div className="h-48 bg-muted loading-shimmer"></div>
                   <div className="p-6">
-                    <div className="h-6 bg-gray-200 rounded mb-3 loading-shimmer"></div>
-                    <div className="h-4 bg-gray-200 rounded mb-2 loading-shimmer"></div>
-                    <div className="h-4 bg-gray-200 rounded mb-4 loading-shimmer"></div>
-                    <div className="h-10 bg-gray-200 rounded loading-shimmer"></div>
+                    <div className="h-6 bg-muted rounded mb-3 loading-shimmer"></div>
+                    <div className="h-4 bg-muted rounded mb-2 loading-shimmer"></div>
+                    <div className="h-4 bg-muted rounded mb-4 loading-shimmer"></div>
+                    <div className="h-10 bg-muted rounded loading-shimmer"></div>
                   </div>
                 </div>
               ))}
@@ -73,11 +73,11 @@ const UpcomingActivities = () => {
                 ))}
             </div>
           ) : (
-            <div className="text-center py-16 animate-tech-slide-up">
-              <div className="w-24 h-24 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Calendar className="h-12 w-12 text-blue-500 animate-celebration-pulse" />
+            <div className="text-center py-16">
+              <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Calendar className="h-12 w-12 text-primary" />
               </div>
-              <h3 className="text-2xl font-semibold text-gray-800 mb-2">No Upcoming Activities</h3>
+              <h3 className="text-2xl font-semibold text-foreground mb-2">No Upcoming Activities</h3>
               <p className="text-muted-foreground text-lg">Check back soon for new exciting events and competitions!</p>
             </div>
           )}
@@ -85,31 +85,31 @@ const UpcomingActivities = () => {
 
         {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <div className="bg-white rounded-xl p-6 shadow-lg text-center border border-blue-100 animate-card-hover-lift animate-tech-slide-up">
-            <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Calendar className="h-6 w-6 text-white animate-tech-glow" />
+          <div className="bg-card rounded-xl p-6 shadow-lg text-center border">
+            <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+              <Calendar className="h-6 w-6 text-primary-foreground" />
             </div>
-            <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-1">
+            <div className="text-2xl font-bold text-primary mb-1">
               {upcomingActivities.length}
             </div>
             <div className="text-muted-foreground text-sm">Upcoming Events</div>
           </div>
 
-          <div className="bg-white rounded-xl p-6 shadow-lg text-center border border-green-100 animate-card-hover-lift animate-tech-slide-up" style={{ animationDelay: '0.2s' }}>
-            <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Clock className="h-6 w-6 text-white animate-celebration-pulse" />
+          <div className="bg-card rounded-xl p-6 shadow-lg text-center border">
+            <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+              <Clock className="h-6 w-6 text-primary-foreground" />
             </div>
-            <div className="text-2xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-1">
+            <div className="text-2xl font-bold text-primary mb-1">
               Next 30 Days
             </div>
             <div className="text-muted-foreground text-sm">Activity Window</div>
           </div>
 
-          <div className="bg-white rounded-xl p-6 shadow-lg text-center border border-purple-100 animate-card-hover-lift animate-tech-slide-up" style={{ animationDelay: '0.4s' }}>
-            <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
-              <MapPin className="h-6 w-6 text-white animate-tech-glow" />
+          <div className="bg-card rounded-xl p-6 shadow-lg text-center border">
+            <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+              <MapPin className="h-6 w-6 text-primary-foreground" />
             </div>
-            <div className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent mb-1">
+            <div className="text-2xl font-bold text-primary mb-1">
               CSE Campus
             </div>
             <div className="text-muted-foreground text-sm">Event Location</div>
@@ -117,22 +117,22 @@ const UpcomingActivities = () => {
         </div>
 
         {/* Call to Action */}
-        <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 rounded-2xl p-8 text-center text-white shadow-2xl animate-tech-slide-up">
+        <div className="bg-primary/10 rounded-2xl p-8 text-center text-foreground">
           <div className="flex items-center justify-center mb-4">
-            <Sparkles className="h-8 w-8 text-yellow-300 animate-winner-sparkle mr-3" />
+            <Sparkles className="h-8 w-8 text-primary mr-3" />
             <h2 className="text-2xl md:text-3xl font-bold">Don't Miss Out!</h2>
-            <Sparkles className="h-8 w-8 text-yellow-300 animate-winner-sparkle ml-3" />
+            <Sparkles className="h-8 w-8 text-primary ml-3" />
           </div>
           <p className="text-lg opacity-90 mb-6 max-w-2xl mx-auto">
             Stay connected with us to get the latest updates on upcoming activities and registration details.
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <div className="flex items-center text-sm opacity-90">
-              <Calendar className="h-4 w-4 mr-2 animate-celebration-pulse" />
+              <Calendar className="h-4 w-4 mr-2" />
               Follow our event calendar
             </div>
             <div className="flex items-center text-sm opacity-90">
-              <Clock className="h-4 w-4 mr-2 animate-tech-glow" />
+              <Clock className="h-4 w-4 mr-2" />
               Register early for best spots
             </div>
           </div>
