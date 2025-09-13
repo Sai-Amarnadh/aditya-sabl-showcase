@@ -31,15 +31,15 @@ export default function ActivityCard({ activity, className }: ActivityCardProps)
   const getStatusBadge = (status: string) => {
     const statusConfig = {
       upcoming: { 
-        color: 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white', 
+        color: 'bg-primary/10 text-primary',
         icon: Clock 
       },
       completed: { 
-        color: 'bg-gradient-to-r from-green-500 to-emerald-600 text-white', 
+        color: 'bg-green-500/10 text-green-600',
         icon: CheckCircle 
       },
       cancelled: { 
-        color: 'bg-gradient-to-r from-red-500 to-red-600 text-white', 
+        color: 'bg-red-500/10 text-red-600',
         icon: XCircle 
       }
     };
@@ -58,7 +58,7 @@ export default function ActivityCard({ activity, className }: ActivityCardProps)
   const registrationOpen = isRegistrationOpen();
 
   return (
-    <Card className={cn('activity-card group border-0 shadow-lg hover:shadow-2xl', className)}>
+    <Card className={cn('activity-card group border shadow-card hover:shadow-elevated', className)}>
       {/* Activity Poster */}
       {activity.poster && (
         <div className="relative overflow-hidden rounded-t-xl">
@@ -80,7 +80,7 @@ export default function ActivityCard({ activity, className }: ActivityCardProps)
 
       <CardHeader className="pb-3">
         <div className="flex justify-between items-start gap-3">
-          <CardTitle className="text-lg font-bold text-gray-800 line-clamp-2 group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-indigo-600 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
+          <CardTitle className="text-lg font-bold text-foreground line-clamp-2 group-hover:gradient-text-vibrant transition-all duration-300">
             {activity.name}
           </CardTitle>
           {getStatusBadge(activity.status)}
@@ -88,20 +88,20 @@ export default function ActivityCard({ activity, className }: ActivityCardProps)
       </CardHeader>
       
       <CardContent className="space-y-4">
-        <div className="flex items-center text-sm text-gray-600 group-hover:text-blue-600 transition-colors duration-300">
+        <div className="flex items-center text-sm text-muted-foreground group-hover:text-primary transition-colors duration-300">
           <Calendar className="w-4 h-4 mr-2" />
           {formatDate(activity.date)}
         </div>
         
         {activity.description && (
-          <p className="text-sm text-gray-700 line-clamp-3 leading-relaxed">
+          <p className="text-sm text-foreground/80 line-clamp-3 leading-relaxed">
             {activity.description}
           </p>
         )}
 
         {/* Photo Count for Previous Activities */}
         {activity.status === 'completed' && activity.photos && activity.photos.length > 0 && (
-          <div className="flex items-center text-sm text-purple-600 bg-purple-50 p-2 rounded-lg">
+          <div className="flex items-center text-sm text-accent bg-accent/10 p-2 rounded-lg">
             <Trophy className="w-4 h-4 mr-2" />
             {activity.photos.length} photos available
           </div>
@@ -109,7 +109,7 @@ export default function ActivityCard({ activity, className }: ActivityCardProps)
         
         <div className="flex flex-col gap-3 pt-2">
           {/* View Details Button */}
-          <Button asChild variant="outline" className="w-full border-blue-200 text-blue-600 hover:bg-blue-50 hover:border-blue-300 transition-all duration-300">
+          <Button asChild variant="outline" className="w-full hover:bg-secondary hover:text-secondary-foreground transition-all duration-300">
             <Link to={`/activity/${activity.id}`}>
               <ExternalLink className="w-4 h-4 mr-2" />
               View Details
