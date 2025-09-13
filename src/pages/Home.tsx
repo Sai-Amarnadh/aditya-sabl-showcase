@@ -75,46 +75,45 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative min-h-[600px] md:h-[700px] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[500px] md:h-[600px] flex items-center justify-center overflow-hidden tech-bg-pattern">
         {/* Background Image with Tech Overlay */}
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/90 via-indigo-800/85 to-purple-700/80"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/95 via-indigo-800/90 to-purple-700/85"></div>
           <img 
             src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" 
             alt="Students collaborating" 
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover mix-blend-overlay"
           />
         </div>
         
         {/* Floating Tech Elements */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 left-20 w-24 h-24 bg-blue-400/30 rounded-full animate-tech-glow"></div>
-          <div className="absolute top-40 right-32 w-20 h-20 bg-indigo-400/40 rounded-full animate-celebration-pulse"></div>
-          <div className="absolute bottom-32 left-1/4 w-28 h-28 bg-purple-300/35 rounded-full animate-tech-glow" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute top-1/2 right-1/4 w-16 h-16 bg-pink-400/30 rounded-full animate-float-simple" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute top-20 left-20 w-20 h-20 bg-blue-400/20 rounded-full animate-tech-glow"></div>
+          <div className="absolute top-40 right-32 w-16 h-16 bg-indigo-400/30 rounded-full animate-celebration-pulse"></div>
+          <div className="absolute bottom-32 left-1/4 w-24 h-24 bg-purple-300/25 rounded-full animate-tech-glow" style={{ animationDelay: '1s' }}></div>
         </div>
 
         {/* Main Content */}
-        <div className="relative z-10 text-center text-white px-4 max-w-5xl mx-auto animate-tech-slide-up">
-          <h1 className="text-5xl md:text-7xl font-extrabold mb-8 tracking-tight">
-            <span className="bg-gradient-to-r from-orange-400 via-red-400 to-pink-400 bg-clip-text text-transparent drop-shadow-2xl">ADITYA</span>{' '}
-            <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent drop-shadow-2xl">UNIVERSITY</span>
+        <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto animate-tech-slide-up">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            <span className="bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">ADITYA</span>{' '}
+            <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">UNIVERSITY</span>
           </h1>
 
-          <h2 className="text-2xl md:text-4xl font-bold mb-6 text-white/95 leading-tight">
+          <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-white/95">
             Department of Computer Science and Engineering
             <br />
-            <span className="bg-gradient-to-r from-cyan-300 via-blue-300 to-indigo-300 bg-clip-text text-transparent font-extrabold text-3xl md:text-5xl">SABL Activities</span>
+            <span className="bg-gradient-to-r from-cyan-300 to-blue-300 bg-clip-text text-transparent">SABL Activities</span>
           </h2>
-          <p className="text-xl md:text-2xl mb-10 text-white/90 max-w-3xl mx-auto leading-relaxed font-medium">
+          <p className="text-lg md:text-xl mb-8 text-white/85 max-w-2xl mx-auto leading-relaxed">
             Fostering innovation, creativity, and excellence in computer science education through engaging activities and competitions.
           </p>
           <div className="animate-tech-slide-up" style={{ animationDelay: '0.3s' }}>
-            <Button size="lg" asChild className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 hover:from-purple-700 hover:via-pink-700 hover:to-orange-600 text-white font-bold py-6 px-10 rounded-2xl shadow-2xl hover:shadow-purple-500/25 hover:scale-110 transition-all duration-300 text-lg">
+            <Button size="lg" asChild className="register-btn">
               <Link to="/upcoming">
                 <Sparkles className="mr-2 h-5 w-5" />
                 Explore Activities
-                <ArrowRight className="ml-3 h-6 w-6" />
+                <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
           </div>
@@ -122,7 +121,7 @@ const Home = () => {
       </section>
 
       {/* This Week's Winners Section */}
-      <section className="py-20 px-4 md:px-6 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative overflow-hidden">
+      <section className="py-16 px-4 md:px-6 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative overflow-hidden">
         {/* Celebration Background Effects */}
         {showCelebration && (
           <div className="absolute inset-0 pointer-events-none z-10">
@@ -141,14 +140,14 @@ const Home = () => {
         )}
         
         <div className="container mx-auto relative z-20">
-          <div className="text-center mb-16 animate-tech-slide-up">
-            <div className="inline-flex items-center justify-center p-4 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full mb-6 shadow-xl">
-              <Trophy className="h-10 w-10 text-white animate-celebration-pulse" />
+          <div className="text-center mb-12 animate-tech-slide-up">
+            <div className="inline-flex items-center justify-center p-2 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full mb-4">
+              <Trophy className="h-8 w-8 text-white animate-celebration-pulse" />
             </div>
-            <h2 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 bg-clip-text text-transparent mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 bg-clip-text text-transparent mb-4">
               🏆 Top Performers of the Week
             </h2>
-            <p className="text-gray-600 text-xl max-w-3xl mx-auto leading-relaxed">
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
               Celebrating our outstanding students who have excelled in recent SABL activities
             </p>
           </div>

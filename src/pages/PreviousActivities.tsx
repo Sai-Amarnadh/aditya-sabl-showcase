@@ -101,30 +101,24 @@ const PreviousActivities = () => {
   const totalPhotos = completedActivities.reduce((sum, activity) => sum + (activity.photos?.length || 0), 0);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 relative overflow-hidden">
-      {/* Decorative Elements */}
-      <div className="absolute top-16 left-16 w-28 h-28 bg-green-400/25 rounded-full animate-float-simple"></div>
-      <div className="absolute top-32 right-24 w-20 h-20 bg-emerald-400/30 rounded-full animate-tech-glow"></div>
-      <div className="absolute bottom-28 left-1/3 w-24 h-24 bg-teal-300/25 rounded-full animate-celebration-pulse"></div>
-      <div className="absolute bottom-16 right-1/4 w-32 h-32 bg-cyan-400/20 rounded-full animate-bounce-gentle"></div>
-
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 tech-bg-pattern">
       <div className="container mx-auto px-4 py-12">
         {/* Header */}
-        <div className="text-center mb-16 animate-tech-slide-up relative z-10">
-          <div className="inline-flex items-center justify-center p-4 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full mb-8 shadow-2xl">
-            <History className="h-10 w-10 text-white animate-tech-glow" />
+        <div className="text-center mb-12 animate-tech-slide-up">
+          <div className="inline-flex items-center justify-center p-3 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full mb-6">
+            <History className="h-8 w-8 text-white animate-tech-glow" />
           </div>
-          <h1 className="text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent mb-6 tracking-tight">
+          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent mb-4">
             Previous Activities
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-medium">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             Explore our successful past events and the amazing achievements of our students in various SABL activities.
           </p>
         </div>
 
         {/* Activities Timeline */}
-        <div className="mb-16 relative z-10">
-          <h2 className="text-3xl font-bold text-center mb-12 bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+        <div className="mb-12">
+          <h2 className="text-2xl font-semibold text-center mb-8 bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
             Event Timeline
           </h2>
           {loading ? (

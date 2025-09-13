@@ -87,7 +87,7 @@ export default {
 				'gradient-tech-secondary': 'var(--gradient-tech-secondary)',
 				'gradient-hero': 'var(--gradient-hero)',
 				'gradient-tech-hero': 'var(--gradient-tech-hero)',
-				'gradient-card': 'var(--gradient-card)',
+				'gradient-card': 'var(--gradient-card)'
 				'gradient-tech-card': 'var(--gradient-tech-card)'
 			},
 			boxShadow: {
