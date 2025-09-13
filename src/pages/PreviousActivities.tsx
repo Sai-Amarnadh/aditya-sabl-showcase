@@ -24,15 +24,15 @@ const ParticipantsModal = ({ activity, isOpen, onClose }: { activity: Activity; 
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-6xl max-h-[80vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-            <Users className="h-5 w-5 text-blue-600" />
+          <DialogTitle className="flex items-center gap-2 text-primary">
+            <Users className="h-5 w-5 text-primary" />
             Participants - {activity.name}
           </DialogTitle>
         </DialogHeader>
         <div className="border rounded-lg overflow-hidden">
           <Table>
             <TableHeader>
-              <TableRow className="bg-gradient-to-r from-blue-50 to-indigo-50">
+              <TableRow className="bg-muted">
                 <TableHead className="font-semibold">S.No</TableHead>
                 <TableHead className="font-semibold">Department</TableHead>
                 <TableHead className="font-semibold">Roll No</TableHead>
@@ -43,7 +43,7 @@ const ParticipantsModal = ({ activity, isOpen, onClose }: { activity: Activity; 
             </TableHeader>
             <TableBody>
               {mockParticipants.map((participant) => (
-                <TableRow key={participant.sno} className="hover:bg-gray-50">
+                <TableRow key={participant.sno} className="hover:bg-muted/50">
                   <TableCell>{participant.sno}</TableCell>
                   <TableCell>{participant.department}</TableCell>
                   <TableCell>{participant.rollNo}</TableCell>
@@ -101,14 +101,14 @@ const PreviousActivities = () => {
   const totalPhotos = completedActivities.reduce((sum, activity) => sum + (activity.photos?.length || 0), 0);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 tech-bg-pattern">
+    <div className="min-h-screen bg-background text-foreground">
       <div className="container mx-auto px-4 py-12">
         {/* Header */}
-        <div className="text-center mb-12 animate-tech-slide-up">
-          <div className="inline-flex items-center justify-center p-3 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full mb-6">
-            <History className="h-8 w-8 text-white animate-tech-glow" />
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center justify-center p-3 bg-primary rounded-full mb-6">
+            <History className="h-8 w-8 text-primary-foreground" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">
             Previous Activities
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
@@ -118,19 +118,19 @@ const PreviousActivities = () => {
 
         {/* Activities Timeline */}
         <div className="mb-12">
-          <h2 className="text-2xl font-semibold text-center mb-8 bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+          <h2 className="text-2xl font-semibold text-center mb-8 text-primary">
             Event Timeline
           </h2>
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {Array.from({ length: 6 }).map((_, index) => (
-                <div key={index} className="bg-white rounded-xl shadow-lg border border-gray-100 animate-pulse overflow-hidden">
-                  <div className="h-48 bg-gray-200 loading-shimmer"></div>
+                <div key={index} className="bg-card rounded-xl shadow-lg border animate-pulse overflow-hidden">
+                  <div className="h-48 bg-muted loading-shimmer"></div>
                   <div className="p-6">
-                    <div className="h-6 bg-gray-200 rounded mb-3 loading-shimmer"></div>
-                    <div className="h-4 bg-gray-200 rounded mb-2 loading-shimmer"></div>
-                    <div className="h-4 bg-gray-200 rounded mb-4 loading-shimmer"></div>
-                    <div className="h-10 bg-gray-200 rounded loading-shimmer"></div>
+                    <div className="h-6 bg-muted rounded mb-3 loading-shimmer"></div>
+                    <div className="h-4 bg-muted rounded mb-2 loading-shimmer"></div>
+                    <div className="h-4 bg-muted rounded mb-4 loading-shimmer"></div>
+                    <div className="h-10 bg-muted rounded loading-shimmer"></div>
                   </div>
                 </div>
               ))}
@@ -142,21 +142,10 @@ const PreviousActivities = () => {
                 .map((activity, index) => (
                   <div 
                     key={activity.id} 
-                    className="relative animate-tech-slide-up"
+                    className="relative"
                     style={{ animationDelay: `${index * 0.1}s` }}
                   >
-                    <ActivityCard activity={activity} />
-                    <div className="mt-4 text-center">
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        onClick={() => handleViewParticipants(activity)}
-                        className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white border-none hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 animate-card-hover-lift"
-                      >
-                        <Users className="h-4 w-4 mr-2" />
-                        View Participants
-                      </Button>
-                    </div>
+                    <ActivityCard activity={activity} onViewParticipants={handleViewParticipants} />
                   </div>
                 ))}
             </div>
@@ -165,41 +154,41 @@ const PreviousActivities = () => {
 
         {/* Achievement Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-          <div className="bg-white rounded-xl p-6 shadow-lg text-center border border-indigo-100 animate-card-hover-lift animate-tech-slide-up">
-            <div className="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-              <History className="h-6 w-6 text-white animate-tech-glow" />
+          <div className="bg-card rounded-xl p-6 shadow-lg text-center border">
+            <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+              <History className="h-6 w-6 text-primary-foreground" />
             </div>
-            <div className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-1">
+            <div className="text-2xl font-bold text-primary mb-1">
               {completedActivities.length}
             </div>
             <div className="text-muted-foreground text-sm">Events Completed</div>
           </div>
           
-          <div className="bg-white rounded-xl p-6 shadow-lg text-center border border-green-100 animate-card-hover-lift animate-tech-slide-up" style={{ animationDelay: '0.2s' }}>
-            <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Users className="h-6 w-6 text-white animate-celebration-pulse" />
+          <div className="bg-card rounded-xl p-6 shadow-lg text-center border">
+            <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+              <Users className="h-6 w-6 text-primary-foreground" />
             </div>
-            <div className="text-2xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-1">
+            <div className="text-2xl font-bold text-primary mb-1">
               300+
             </div>
             <div className="text-muted-foreground text-sm">Total Participants</div>
           </div>
           
-          <div className="bg-white rounded-xl p-6 shadow-lg text-center border border-yellow-100 animate-card-hover-lift animate-tech-slide-up" style={{ animationDelay: '0.4s' }}>
-            <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Trophy className="h-6 w-6 text-white animate-tech-glow" />
+          <div className="bg-card rounded-xl p-6 shadow-lg text-center border">
+            <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+              <Trophy className="h-6 w-6 text-primary-foreground" />
             </div>
-            <div className="text-2xl font-bold bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent mb-1">
+            <div className="text-2xl font-bold text-primary mb-1">
               18
             </div>
             <div className="text-muted-foreground text-sm">Winners Crowned</div>
           </div>
           
-          <div className="bg-white rounded-xl p-6 shadow-lg text-center border border-pink-100 animate-card-hover-lift animate-tech-slide-up" style={{ animationDelay: '0.6s' }}>
-            <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Camera className="h-6 w-6 text-white animate-celebration-pulse" />
+          <div className="bg-card rounded-xl p-6 shadow-lg text-center border">
+            <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+              <Camera className="h-6 w-6 text-primary-foreground" />
             </div>
-            <div className="text-2xl font-bold bg-gradient-to-r from-pink-600 to-red-600 bg-clip-text text-transparent mb-1">
+            <div className="text-2xl font-bold text-primary mb-1">
               {totalPhotos}
             </div>
             <div className="text-muted-foreground text-sm">Photos Captured</div>
@@ -207,39 +196,39 @@ const PreviousActivities = () => {
         </div>
 
         {/* Success Stories */}
-        <div className="bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 rounded-2xl p-8 text-white shadow-2xl animate-tech-slide-up">
+        <div className="bg-primary/10 rounded-2xl p-8 text-foreground">
           <div className="text-center mb-8">
             <div className="flex items-center justify-center mb-4">
-              <Sparkles className="h-8 w-8 text-yellow-300 animate-winner-sparkle mr-3" />
+              <Sparkles className="h-8 w-8 text-primary mr-3" />
               <h2 className="text-2xl md:text-3xl font-bold">Success Stories</h2>
-              <Sparkles className="h-8 w-8 text-yellow-300 animate-winner-sparkle ml-3" />
+              <Sparkles className="h-8 w-8 text-primary ml-3" />
             </div>
-            <p className="text-white/90 text-lg">
+            <p className="opacity-90 text-lg">
               Our previous activities have been stepping stones for many students' career growth
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-6 shadow-lg animate-card-hover-lift">
-              <div className="text-4xl mb-4 animate-celebration-pulse">💡</div>
-              <h3 className="font-semibold text-white mb-2">Innovation Boost</h3>
-              <p className="text-white/80 text-sm leading-relaxed">
+            <div className="bg-card/80 backdrop-blur-sm rounded-xl p-6 shadow-lg">
+              <div className="text-4xl mb-4">💡</div>
+              <h3 className="font-semibold text-foreground mb-2">Innovation Boost</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">
                 Students developed 15+ innovative projects through our hackathons and competitions
               </p>
             </div>
             
-            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-6 shadow-lg animate-card-hover-lift" style={{ animationDelay: '0.2s' }}>
-              <div className="text-4xl mb-4 animate-tech-glow">🚀</div>
-              <h3 className="font-semibold text-white mb-2">Career Growth</h3>
-              <p className="text-white/80 text-sm leading-relaxed">
+            <div className="bg-card/80 backdrop-blur-sm rounded-xl p-6 shadow-lg">
+              <div className="text-4xl mb-4">🚀</div>
+              <h3 className="font-semibold text-foreground mb-2">Career Growth</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">
                 Many participants received internship offers and job placements after showcasing their skills
               </p>
             </div>
             
-            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-6 shadow-lg animate-card-hover-lift" style={{ animationDelay: '0.4s' }}>
-              <div className="text-4xl mb-4 animate-winner-sparkle">🤝</div>
-              <h3 className="font-semibold text-white mb-2">Network Building</h3>
-              <p className="text-white/80 text-sm leading-relaxed">
+            <div className="bg-card/80 backdrop-blur-sm rounded-xl p-6 shadow-lg">
+              <div className="text-4xl mb-4">🤝</div>
+              <h3 className="font-semibold text-foreground mb-2">Network Building</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">
                 Strong connections formed between students, faculty, and industry professionals
               </p>
             </div>

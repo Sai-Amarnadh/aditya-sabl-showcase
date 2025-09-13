@@ -3,16 +3,17 @@ import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, MapPin, Users, Trophy, ExternalLink, Clock, CheckCircle, XCircle } from 'lucide-react';
+import { Calendar, Users, Trophy, ExternalLink, Clock, CheckCircle, XCircle } from 'lucide-react';
 import { Activity } from '@/lib/data-service';
 import { cn } from '@/lib/utils';
 
 interface ActivityCardProps {
   activity: Activity;
   className?: string;
+  onViewParticipants?: (activity: Activity) => void;
 }
 
-export default function ActivityCard({ activity, className }: ActivityCardProps) {
+export default function ActivityCard({ activity, className, onViewParticipants }: ActivityCardProps) {
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       weekday: 'short',
@@ -30,23 +31,23 @@ export default function ActivityCard({ activity, className }: ActivityCardProps)
 
   const getStatusBadge = (status: string) => {
     const statusConfig = {
-      upcoming: { 
+      upcoming: {
         color: 'bg-primary/10 text-primary',
-        icon: Clock 
+        icon: Clock
       },
-      completed: { 
+      completed: {
         color: 'bg-green-500/10 text-green-600',
-        icon: CheckCircle 
+        icon: CheckCircle
       },
-      cancelled: { 
+      cancelled: {
         color: 'bg-red-500/10 text-red-600',
-        icon: XCircle 
+        icon: XCircle
       }
     };
-    
+
     const config = statusConfig[status as keyof typeof statusConfig] || statusConfig.upcoming;
     const IconComponent = config.icon;
-    
+
     return (
       <Badge className={cn('text-xs font-semibold px-3 py-1 flex items-center gap-1', config.color)}>
         <IconComponent className="h-3 w-3" />
@@ -62,37 +63,29 @@ export default function ActivityCard({ activity, className }: ActivityCardProps)
       {/* Activity Poster */}
       {activity.poster && (
         <div className="relative overflow-hidden rounded-t-xl">
-          <img 
-            src={activity.poster} 
+          <img
+            src={activity.poster}
             alt={activity.name}
-            className="activity-poster"
+            className="activity-poster w-full h-auto object-cover"
           />
-          <div className="activity-overlay"></div>
-          
-          {/* Overlay Content */}
-          <div className="absolute bottom-4 left-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <p className="text-sm font-medium bg-black/50 backdrop-blur-sm rounded-lg px-3 py-2">
-              Click to view details
-            </p>
-          </div>
         </div>
       )}
 
       <CardHeader className="pb-3">
         <div className="flex justify-between items-start gap-3">
-          <CardTitle className="text-lg font-bold text-foreground line-clamp-2 group-hover:gradient-text-vibrant transition-all duration-300">
+          <CardTitle className="text-lg font-bold text-foreground line-clamp-2 group-hover:text-primary transition-all duration-300">
             {activity.name}
           </CardTitle>
           {getStatusBadge(activity.status)}
         </div>
       </CardHeader>
-      
+
       <CardContent className="space-y-4">
-        <div className="flex items-center text-sm text-muted-foreground group-hover:text-primary transition-colors duration-300">
+        <div className="flex items-center text-sm text-muted-foreground">
           <Calendar className="w-4 h-4 mr-2" />
           {formatDate(activity.date)}
         </div>
-        
+
         {activity.description && (
           <p className="text-sm text-foreground/80 line-clamp-3 leading-relaxed">
             {activity.description}
@@ -106,10 +99,10 @@ export default function ActivityCard({ activity, className }: ActivityCardProps)
             {activity.photos.length} photos available
           </div>
         )}
-        
+
         <div className="flex flex-col gap-3 pt-2">
           {/* View Details Button */}
-          <Button asChild variant="outline" className="w-full hover:bg-secondary hover:text-secondary-foreground transition-all duration-300">
+          <Button asChild variant="outline" className="w-full">
             <Link to={`/activity/${activity.id}`}>
               <ExternalLink className="w-4 h-4 mr-2" />
               View Details
@@ -120,18 +113,15 @@ export default function ActivityCard({ activity, className }: ActivityCardProps)
           {activity.status === 'upcoming' && (
             <div className="relative">
               {registrationOpen && activity.formLink ? (
-                <Button 
-                  asChild 
-                  className="register-btn w-full animate-register-pulse"
-                >
-                  <Link to={`/register/${activity.id}`} target="_blank">
+                <Button asChild className="w-full">
+                  <a href={activity.formLink} target="_blank" rel="noopener noreferrer">
                     ✨ Register Now ✨
-                  </Link>
+                  </a>
                 </Button>
               ) : (
-                <Button 
-                  disabled 
-                  className="register-btn-closed w-full"
+                <Button
+                  disabled
+                  className="w-full"
                 >
                   {!activity.formLink ? 'Registration Not Available' : 'Registration Closed'}
                 </Button>
@@ -139,14 +129,24 @@ export default function ActivityCard({ activity, className }: ActivityCardProps)
             </div>
           )}
 
-          {/* View Photos Button for Previous Activities */}
-          {activity.status === 'completed' && activity.photos && activity.photos.length > 0 && (
-            <Button asChild variant="secondary" className="w-full bg-gradient-to-r from-purple-100 to-indigo-100 text-purple-700 hover:from-purple-200 hover:to-indigo-200 border-purple-200">
-              <Link to={`/activity/${activity.id}/photos`}>
-                <Users className="w-4 h-4 mr-2" />
-                View Photos ({activity.photos.length})
-              </Link>
-            </Button>
+          {/* Buttons for Previous Activities */}
+          {activity.status === 'completed' && (
+            <div className="flex gap-3">
+              {onViewParticipants && (
+                <Button variant="outline" className="w-full" onClick={() => onViewParticipants(activity)}>
+                  <Users className="w-4 h-4 mr-2" />
+                  View Participants
+                </Button>
+              )}
+              {activity.photos && activity.photos.length > 0 && (
+                <Button asChild variant="secondary" className="w-full">
+                  <Link to={`/activity/${activity.id}/photos`}>
+                    <Trophy className="w-4 h-4 mr-2" />
+                    View Photos ({activity.photos.length})
+                  </Link>
+                </Button>
+              )}
+            </div>
           )}
         </div>
       </CardContent>

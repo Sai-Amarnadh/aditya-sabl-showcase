@@ -316,20 +316,17 @@ export const updateActivity = async (activity: Activity): Promise<Activity | nul
 export const deleteActivity = async (id: string): Promise<boolean> => {
   try {
     // Try deleting from upcoming activities first
-    const { error: upcomingError } = await supabase
+    await supabase
       .from('upcoming_activities')
       .delete()
       .eq('id', id ? parseInt(id) : 0);
 
-    if (!upcomingError) return true;
-
     // Try deleting from previous activities
-    const { error: previousError } = await supabase
+    await supabase
       .from('previous_activities')
       .delete()
       .eq('id', id ? parseInt(id) : 0);
 
-    if (previousError) throw previousError;
     return true;
   } catch (error) {
     console.error('Error deleting activity:', error);
