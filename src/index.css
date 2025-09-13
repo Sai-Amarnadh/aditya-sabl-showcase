@@ -5,57 +5,57 @@
 /* Tech-Inspired Color System */
 @layer base {
   :root {
-    --background: 0 0% 100%; /* White */
-    --foreground: 220 25% 15%; /* Dark Blue-Gray */
+    --background: 0 0% 100%;
+    --foreground: 220 30% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 25% 15%;
+    --card-foreground: 220 30% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 25% 15%;
+    --popover-foreground: 220 30% 12%;
 
-    /* Tech-Inspired Palette */
-    --primary: 230 100% 25%;
-    --primary-foreground: 0 0% 100%; /* White */
-    --primary-light: 230 100% 35%;
-    --primary-dark: 230 100% 15%;
+    /* Vibrant Tech-Inspired Palette */
+    --primary: 220 91% 56%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 220 91% 66%;
+    --primary-dark: 220 91% 46%;
 
-    --secondary: 220 91% 95%;
-    --secondary-foreground: 220 91% 56%;
+    --secondary: 250 100% 96%;
+    --secondary-foreground: 250 100% 70%;
 
-    --accent: 280 100% 60%;
+    --accent: 280 100% 65%;
     --accent-foreground: 0 0% 100%;
 
     --tech-blue: 220 91% 56%;
     --tech-indigo: 250 100% 70%;
-    --tech-deep-blue: 230 100% 25%;
-    --tech-bright-accent: 280 100% 60%;
+    --tech-deep-blue: 230 100% 30%;
+    --tech-bright-accent: 280 100% 65%;
 
-    --success: 142 76% 36%;
+    --success: 142 76% 45%;
     --success-foreground: 0 0% 100%;
 
-    --muted: 220 14% 96%;
-    --muted-foreground: 220 15% 50%;
+    --muted: 220 14% 97%;
+    --muted-foreground: 220 15% 45%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 95%;
-    --ring: 250 100% 70%;
+    --border: 220 13% 88%;
+    --input: 220 13% 96%;
+    --ring: 220 91% 56%;
 
-    /* Tech Gradients */
+    /* Vibrant Tech Gradients */
     --gradient-tech-primary: linear-gradient(135deg, hsl(220, 91%, 56%), hsl(250, 100%, 70%));
-    --gradient-tech-secondary: linear-gradient(135deg, hsl(250, 100%, 70%), hsl(280, 100%, 60%));
-    --gradient-tech-hero: linear-gradient(135deg, hsl(230, 100%, 25%) 0%, hsl(220, 91%, 56%) 50%, hsl(250, 100%, 70%) 100%);
+    --gradient-tech-secondary: linear-gradient(135deg, hsl(250, 100%, 70%), hsl(280, 100%, 65%));
+    --gradient-tech-hero: linear-gradient(135deg, hsl(230, 100%, 30%) 0%, hsl(220, 91%, 56%) 50%, hsl(250, 100%, 70%) 100%);
     --gradient-tech-card: linear-gradient(145deg, hsl(var(--background)) 0%, hsl(220, 91%, 98%) 100%);
     
-    /* Enhanced Shadows */
-    --shadow-card: 0 4px 20px -4px hsl(220, 91%, 56% / 0.15);
-    --shadow-elevated: 0 8px 30px -8px hsl(220, 91%, 56% / 0.25);
-    --shadow-header: 0 2px 15px -2px hsl(220, 91%, 56% / 0.12);
-    --shadow-glow: 0 0 20px hsl(220, 91%, 56% / 0.3);
-    --shadow-tech: 0 10px 40px -10px hsl(250, 100%, 70% / 0.4);
+    /* Vibrant Enhanced Shadows */
+    --shadow-card: 0 4px 25px -4px hsl(220, 91%, 56% / 0.18);
+    --shadow-elevated: 0 8px 35px -8px hsl(220, 91%, 56% / 0.3);
+    --shadow-header: 0 2px 20px -2px hsl(220, 91%, 56% / 0.15);
+    --shadow-glow: 0 0 25px hsl(220, 91%, 56% / 0.35);
+    --shadow-tech: 0 12px 45px -10px hsl(250, 100%, 70% / 0.45);
 
     --radius: 0.75rem;
 
@@ -427,30 +427,28 @@
   animation: glow 2s ease-in-out infinite;
 }
 
-/* Clean Navbar Styles */
-.navbar-clean {
-  @apply bg-white/95 backdrop-blur-md border-b border-gray-200/50 shadow-sm;
+/* Enhanced Navbar Styles */
+.navbar-item-enhanced {
+  @apply relative px-4 py-2 text-gray-700 font-semibold transition-all duration-300;
 }
 
-.navbar-item-clean {
-  @apply relative px-4 py-2 text-gray-700 font-medium transition-all duration-300 hover:text-blue-600;
-}
-
-.navbar-item-clean::after {
+.navbar-item-enhanced::before {
   content: '';
   position: absolute;
-  bottom: -2px;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, hsl(220, 91%, 56%), hsl(250, 100%, 70%));
+  inset: 0;
+  background: linear-gradient(135deg, hsl(220, 91%, 56%), hsl(250, 100%, 70%));
+  border-radius: 0.75rem;
+  opacity: 0;
   transition: all 0.3s ease;
-  transform: translateX(-50%);
+  z-index: -1;
 }
 
-.navbar-item-clean:hover::after,
-.navbar-item-clean.active::after {
-  animation: navbar-underline 0.3s ease forwards;
+.navbar-item-enhanced:hover::before {
+  opacity: 0.1;
+}
+
+.navbar-item-enhanced.active::before {
+  opacity: 1;
 }
 
 /* Winner Card Enhancements */
@@ -506,64 +504,13 @@
   background: linear-gradient(45deg, #a8e6cf, #7fcdcd);
 }
 
-/* Activity Card Styles */
-.activity-card {
-  @apply bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 group;
-}
-
-.activity-card:hover {
-  transform: translateY(-8px) scale(1.02);
-}
-
-.activity-poster {
-  @apply w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110;
-}
-
-.activity-overlay {
-  @apply absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300;
-}
-
-/* Register Button Styles */
-.register-btn {
-  @apply relative overflow-hidden bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-bold py-4 px-8 rounded-xl shadow-lg transition-all duration-300;
-}
-
-.register-btn:hover {
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 20px 40px -10px hsl(250, 100%, 70% / 0.5);
-}
-
-.register-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-  transition: left 0.5s;
-}
-
-.register-btn:hover::before {
-  left: 100%;
-}
-
-.register-btn-closed {
-  @apply bg-gray-400 cursor-not-allowed;
-}
-
-.register-btn-closed:hover {
-  transform: none;
-  box-shadow: none;
-}
-
 /* Interactive Card Styles */
 .interactive-card {
-  @apply transition-all duration-300 hover:shadow-xl;
+  @apply transition-all duration-500 hover:shadow-2xl;
 }
 
 .interactive-card:hover {
-  transform: translateY(-5px) scale(1.02);
+  transform: translateY(-8px) scale(1.03);
 }
 
 /* Page Decoration Elements */
