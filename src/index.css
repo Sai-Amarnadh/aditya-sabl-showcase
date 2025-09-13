@@ -15,11 +15,6 @@
     --popover-foreground: 220 25% 15%;
 
     /* Tech-Inspired Palette */
-    --tech-deep-blue: 230 100% 25%;
-    --tech-indigo: 250 100% 70%;
-    --tech-blue: 220 91% 56%;
-    --tech-bright-accent: 280 100% 60%;
-
     --primary: 230 100% 25%;
     --primary-foreground: 0 0% 100%; /* White */
     --primary-light: 230 100% 35%;
@@ -30,6 +25,11 @@
 
     --accent: 280 100% 60%;
     --accent-foreground: 0 0% 100%;
+
+    --tech-blue: 220 91% 56%;
+    --tech-indigo: 250 100% 70%;
+    --tech-deep-blue: 230 100% 25%;
+    --tech-bright-accent: 280 100% 60%;
 
     --success: 142 76% 36%;
     --success-foreground: 0 0% 100%;
@@ -78,12 +78,6 @@
 
     --popover: 230 25% 10%;
     --popover-foreground: 220 15% 95%;
-
-    /* Tech-Inspired Palette */
-    --tech-deep-blue: 230 100% 25%;
-    --tech-indigo: 250 100% 70%;
-    --tech-blue: 220 91% 56%;
-    --tech-bright-accent: 280 100% 60%;
 
     --primary: 220 91% 56%;
     --primary-foreground: 0 0% 100%; /* White */
