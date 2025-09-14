@@ -181,6 +181,15 @@
   }
 }
 
+@keyframes bounce-once {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
 @keyframes rotate-slow {
   from {
     transform: rotate(0deg);
@@ -222,6 +231,10 @@
 
 .animate-bounce-gentle {
   animation: bounce-gentle 2s ease-in-out infinite;
+}
+
+.animate-bounce-once {
+  animation: bounce-once 0.5s ease-in-out;
 }
 
 .animate-rotate-slow {
