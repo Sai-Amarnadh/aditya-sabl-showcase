@@ -113,17 +113,17 @@ const Gallery = () => {
 
         {/* Gallery Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-12 relative z-10">
-          <div className="interactive-card bg-gradient-to-br from-purple-400 to-pink-500 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift">
+          <div className="bg-gradient-to-br from-purple-400 to-pink-500 rounded-lg p-6 shadow-card text-center text-white">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Image className="h-6 w-6 text-white animate-bounce-gentle" />
+              <Image className="h-6 w-6 text-white" />
             </div>
             <div className="text-2xl font-bold mb-1">{photos.length}</div>
             <div className="text-white/90 text-sm">Total Photos</div>
           </div>
 
-          <div className="interactive-card bg-gradient-to-br from-cyan-400 to-blue-500 rounded-lg p-6 shadow-card text-center col-span-2 text-white animate-hover-lift" style={{ animationDelay: '0.2s' }}>
+          <div className="bg-gradient-to-br from-cyan-400 to-blue-500 rounded-lg p-6 shadow-card text-center col-span-2 text-white">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Grid className="h-6 w-6 text-white animate-rotate-gentle" />
+              <Grid className="h-6 w-6 text-white" />
             </div>
             <div className="text-2xl font-bold mb-1">A Growing Collection</div>
             <div className="text-white/90 text-sm">New photos are added regularly</div>

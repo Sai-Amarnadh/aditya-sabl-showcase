@@ -164,33 +164,33 @@ const PreviousActivities = () => {
 
         {/* Achievement Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 my-12 relative z-10">
-          <div className="interactive-card bg-gradient-to-br from-indigo-400 to-purple-500 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift">
+          <div className="bg-gradient-to-br from-indigo-400 to-purple-500 rounded-lg p-6 shadow-card text-center text-white">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
-              <History className="h-6 w-6 text-white animate-rotate-gentle" />
+              <History className="h-6 w-6 text-white" />
             </div>
             <div className="text-2xl font-bold mb-1">{completedActivities.length}</div>
             <div className="text-white/90 text-sm">Events Completed</div>
           </div>
           
-          <div className="interactive-card bg-gradient-to-br from-green-400 to-teal-500 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift" style={{ animationDelay: '0.2s' }}>
+          <div className="bg-gradient-to-br from-green-400 to-teal-500 rounded-lg p-6 shadow-card text-center text-white">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Users className="h-6 w-6 text-white animate-bounce-gentle" />
+              <Users className="h-6 w-6 text-white" />
             </div>
             <div className="text-2xl font-bold mb-1">300+</div>
             <div className="text-white/90 text-sm">Total Participants</div>
           </div>
           
-          <div className="interactive-card bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift" style={{ animationDelay: '0.4s' }}>
+          <div className="bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg p-6 shadow-card text-center text-white">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Trophy className="h-6 w-6 text-white animate-wiggle" />
+              <Trophy className="h-6 w-6 text-white" />
             </div>
             <div className="text-2xl font-bold mb-1">18</div>
             <div className="text-white/90 text-sm">Winners Crowned</div>
           </div>
           
-          <div className="interactive-card bg-gradient-to-br from-pink-400 to-red-500 rounded-lg p-6 shadow-card text-center text-white animate-hover-lift" style={{ animationDelay: '0.6s' }}>
+          <div className="bg-gradient-to-br from-pink-400 to-red-500 rounded-lg p-6 shadow-card text-center text-white">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Camera className="h-6 w-6 text-white animate-float-simple" />
+              <Camera className="h-6 w-6 text-white" />
             </div>
             <div className="text-2xl font-bold mb-1">{totalPhotos}</div>
             <div className="text-white/90 text-sm">Photos Captured</div>
@@ -198,33 +198,33 @@ const PreviousActivities = () => {
         </div>
 
         {/* Success Stories */}
-        <div className="mt-16 interactive-card bg-gradient-to-br from-cyan-500 via-blue-500 to-indigo-600 rounded-2xl p-8 text-white relative z-10 animate-celebration-glow">
+        <div className="mt-16 bg-gradient-to-br from-cyan-500 via-blue-500 to-indigo-600 rounded-2xl p-8 text-white relative z-10">
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold mb-4 animate-color-cycle">🌟 Success Stories 🌟</h2>
+            <h2 className="text-2xl font-bold mb-4">Success Stories</h2>
             <p className="text-white/90">
               Our previous activities have been stepping stones for many students' career growth
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="interactive-card bg-white/20 backdrop-blur-sm rounded-lg p-6 shadow-card animate-hover-lift">
-              <div className="text-4xl mb-4 animate-bounce-gentle">💡</div>
+            <div className="bg-white/20 backdrop-blur-sm rounded-lg p-6 shadow-card">
+              <div className="text-4xl mb-4">💡</div>
               <h3 className="font-semibold text-white mb-2">Innovation Boost</h3>
               <p className="text-white/80 text-sm">
                 Students developed 15+ innovative projects through our hackathons and competitions
               </p>
             </div>
             
-            <div className="interactive-card bg-white/20 backdrop-blur-sm rounded-lg p-6 shadow-card animate-hover-lift" style={{ animationDelay: '0.2s' }}>
-              <div className="text-4xl mb-4 animate-float-simple">🚀</div>
+            <div className="bg-white/20 backdrop-blur-sm rounded-lg p-6 shadow-card">
+              <div className="text-4xl mb-4">🚀</div>
               <h3 className="font-semibold text-white mb-2">Career Growth</h3>
               <p className="text-white/80 text-sm">
                 Many participants received internship offers and job placements after showcasing their skills
               </p>
             </div>
             
-            <div className="interactive-card bg-white/20 backdrop-blur-sm rounded-lg p-6 shadow-card animate-hover-lift" style={{ animationDelay: '0.4s' }}>
-              <div className="text-4xl mb-4 animate-wiggle">🤝</div>
+            <div className="bg-white/20 backdrop-blur-sm rounded-lg p-6 shadow-card">
+              <div className="text-4xl mb-4">🤝</div>
               <h3 className="font-semibold text-white mb-2">Network Building</h3>
               <p className="text-white/80 text-sm">
                 Strong connections formed between students, faculty, and industry professionals
