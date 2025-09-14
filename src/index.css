@@ -284,7 +284,7 @@
 
 /* Modern Card Styles */
 .modern-card {
-  @apply bg-white rounded-2xl shadow-soft border border-gray-100/50 hover:shadow-elevated transition-all duration-300;
+  @apply bg-white rounded-2xl shadow-soft hover:shadow-elevated transition-all duration-300;
 }
 
 .modern-card-hover {
@@ -384,6 +384,21 @@
 
 .navbar-title {
   color: hsl(180, 100%, 35%) !important;
+}
+
+.active-nav-link {
+  position: relative;
+}
+
+.active-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  height: 2px;
+  background-color: hsl(var(--primary));
 }
 
 @media (max-width: 768px) {

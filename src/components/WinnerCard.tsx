@@ -26,7 +26,7 @@ const WinnerCard = ({ winner, featured = false, onClick }: WinnerCardProps) => {
   return (
     <div 
       className={`modern-card modern-card-hover overflow-hidden group ${
-        featured ? 'border-2 border-primary/20' : ''
+        featured ? 'border-2 border-primary' : 'border border-gray-100/50'
       } ${onClick ? 'cursor-pointer' : ''}`}
       onClick={onClick}
     >
