@@ -62,7 +62,7 @@ const transformWinnerToDB = (winner: Omit<Winner, 'id'>): Omit<WinnerRow, 'id' |
   event: winner.event,
   date: winner.date,
   photo_url: winner.photo,
-  year: winner.year ? parseInt(winner.year) : new Date().getFullYear(),
+  year: parseInt(winner.year) || new Date().getFullYear(),
   is_week_winner: winner.isThisWeekWinner || false,
   position: winner.position || 1,
   activity_type: winner.activityType || 'General',
@@ -152,7 +152,7 @@ export const updateWinner = async (winner: Winner): Promise<Winner | null> => {
     const { data, error } = await supabase
       .from('winners')
       .update(transformWinnerToDB(winner))
-      .eq('id', winner.id ? parseInt(winner.id) : 0)
+      .eq('id', parseInt(winner.id))
       .select()
       .single();
 
@@ -169,7 +169,7 @@ export const deleteWinner = async (id: string): Promise<boolean> => {
     const { error } = await supabase
       .from('winners')
       .delete()
-      .eq('id', id ? parseInt(id) : 0);
+      .eq('id', parseInt(id));
 
     if (error) throw error;
     return true;
@@ -232,7 +232,7 @@ export const getActivity = async (id: string): Promise<Activity | undefined> => 
     const { data: upcomingData } = await supabase
       .from('upcoming_activities')
       .select('*')
-      .eq('id', id ? parseInt(id) : 0)
+      .eq('id', parseInt(id))
       .maybeSingle();
 
     if (upcomingData) {
@@ -243,7 +243,7 @@ export const getActivity = async (id: string): Promise<Activity | undefined> => 
     const { data: previousData } = await supabase
       .from('previous_activities')
       .select('*')
-      .eq('id', id ? parseInt(id) : 0)
+      .eq('id', parseInt(id))
       .maybeSingle();
 
     if (previousData) {
@@ -290,7 +290,7 @@ export const updateActivity = async (activity: Activity): Promise<Activity | nul
       const { data, error } = await supabase
         .from('upcoming_activities')
         .update(transformActivityToUpcomingDB(activity))
-        .eq('id', activity.id ? parseInt(activity.id) : 0)
+        .eq('id', parseInt(activity.id))
         .select()
         .single();
 
@@ -300,7 +300,7 @@ export const updateActivity = async (activity: Activity): Promise<Activity | nul
       const { data, error } = await supabase
         .from('previous_activities')
         .update(transformActivityToPreviousDB(activity))
-        .eq('id', activity.id ? parseInt(activity.id) : 0)
+        .eq('id', parseInt(activity.id))
         .select()
         .single();
 
@@ -316,17 +316,20 @@ export const updateActivity = async (activity: Activity): Promise<Activity | nul
 export const deleteActivity = async (id: string): Promise<boolean> => {
   try {
     // Try deleting from upcoming activities first
-    await supabase
+    const { error: upcomingError } = await supabase
       .from('upcoming_activities')
       .delete()
-      .eq('id', id ? parseInt(id) : 0);
+      .eq('id', parseInt(id));
+
+    if (!upcomingError) return true;
 
     // Try deleting from previous activities
-    await supabase
+    const { error: previousError } = await supabase
       .from('previous_activities')
       .delete()
-      .eq('id', id ? parseInt(id) : 0);
+      .eq('id', parseInt(id));
 
+    if (previousError) throw previousError;
     return true;
   } catch (error) {
     console.error('Error deleting activity:', error);
@@ -371,7 +374,7 @@ export const updateGalleryImage = async (image: GalleryImage): Promise<GalleryIm
     const { data, error } = await supabase
       .from('gallery')
       .update(transformGalleryToDB(image))
-      .eq('id', image.id ? parseInt(image.id) : 0)
+      .eq('id', parseInt(image.id))
       .select()
       .single();
 
@@ -388,7 +391,7 @@ export const deleteGalleryImage = async (id: string): Promise<boolean> => {
     const { error } = await supabase
       .from('gallery')
       .delete()
-      .eq('id', id ? parseInt(id) : 0);
+      .eq('id', parseInt(id));
 
     if (error) throw error;
     return true;
