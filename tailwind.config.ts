@@ -84,6 +84,7 @@ export default {
 				'card': 'var(--shadow-card)',
 				'elevated': 'var(--shadow-elevated)',
 				'header': 'var(--shadow-header)'
+				'soft': 'var(--shadow-soft)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
