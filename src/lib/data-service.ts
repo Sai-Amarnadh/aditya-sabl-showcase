@@ -42,7 +42,7 @@ type GalleryRow = Database['public']['Tables']['gallery']['Row'];
 
 // Helper function to transform database row to Winner
 const transformWinnerFromDB = (row: WinnerRow): Winner => ({
-  id: String(row.id || ''),
+  id: String(row.id),
   name: row.name || 'Unknown Name',
   rollNumber: row.roll_number || undefined,
   event: row.event || 'Unknown Event',
@@ -128,7 +128,13 @@ export const getWinners = async (): Promise<Winner[]> => {
     throw new Error(error.message);
   }
 
-  return data?.map(transformWinnerFromDB).filter(winner => winner.id) || [];
+  if (!data) {
+    return [];
+  }
+
+  return data
+    .filter((row): row is WinnerRow => row.id !== null && row.id !== undefined)
+    .map(transformWinnerFromDB);
 };
 
 export const addWinner = async (winner: Omit<Winner, 'id'>): Promise<Winner | null> => {
