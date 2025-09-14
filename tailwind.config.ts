@@ -83,7 +83,7 @@ export default {
 			boxShadow: {
 				'card': 'var(--shadow-card)',
 				'elevated': 'var(--shadow-elevated)',
-				'header': 'var(--shadow-header)'
+				'header': 'var(--shadow-header)',
 				'soft': 'var(--shadow-soft)'
 			},
 			borderRadius: {
