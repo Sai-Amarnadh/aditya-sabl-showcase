@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { DataProvider } from "./contexts/DataContext";
 import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import PageLoader from "./components/PageLoader";
 import Home from "./pages/Home";
 import UpcomingActivities from "./pages/UpcomingActivities";
@@ -59,6 +60,7 @@ const App = () => {
                 <Route path="/about" element={<About />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
+              <Footer />
             </div>
           </DataProvider>
         </BrowserRouter>

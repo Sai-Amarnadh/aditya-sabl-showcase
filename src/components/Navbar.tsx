@@ -41,10 +41,10 @@ const Navbar = () => {
                 key={item.to}
                 to={item.to}
                 className={({ isActive }) =>
-                  `flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-105 ${
+                  `flex items-center space-x-2 px-4 py-2 text-sm font-medium transition-all duration-300 hover:scale-105 ${
                     isActive
-                      ? 'text-white bg-gradient-to-r from-teal-500 to-teal-600 shadow-lg'
-                      : 'text-muted-foreground hover:text-teal-600 hover:bg-gradient-to-r hover:from-teal-50 hover:to-mint-50'
+                      ? 'text-teal-600 border-b-2 border-teal-500 animate-bounce-once'
+                      : 'text-muted-foreground hover:text-teal-600 border-b-2 border-transparent'
                   }`
                 }
               >
@@ -80,10 +80,10 @@ const Navbar = () => {
                 to={item.to}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={({ isActive }) =>
-                  `flex items-center space-x-2 px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 ${
+                  `flex items-center space-x-2 px-4 py-3 text-base font-medium transition-all duration-300 ${
                     isActive
-                      ? 'text-white bg-gradient-to-r from-teal-500 to-teal-600 shadow-lg'
-                      : 'text-muted-foreground hover:text-teal-600 hover:bg-white hover:shadow-md'
+                      ? 'text-teal-600 border-b-2 border-teal-500 animate-bounce-once'
+                      : 'text-muted-foreground hover:text-teal-600 border-b-2 border-transparent'
                   }`
                 }
               >
