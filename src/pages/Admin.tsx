@@ -244,8 +244,8 @@ const Admin = () => {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <Card className="w-full max-w-md mx-4 sm:mx-0 animate-fade-in-down">
+      <div className="min-h-screen flex items-center justify-center page-bg-modern">
+        <Card className="w-full max-w-md mx-4 sm:mx-0 animate-slide-up modern-card">
           <CardHeader>
             <CardTitle className="text-2xl font-bold text-center">Admin Login</CardTitle>
           </CardHeader>
@@ -259,7 +259,7 @@ const Admin = () => {
                   placeholder="admin@adityasabl.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="transition-shadow duration-300 focus:shadow-outline"
+                  className="transition-all duration-300 focus:ring-2 focus:ring-teal-500"
                 />
               </div>
               <div className="space-y-2">
@@ -270,11 +270,11 @@ const Admin = () => {
                   placeholder="1122"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="transition-shadow duration-300 focus:shadow-outline"
+                  className="transition-all duration-300 focus:ring-2 focus:ring-teal-500"
                 />
               </div>
               {error && <p className="text-red-500 text-sm text-center animate-shake">{error}</p>}
-              <Button type="submit" className="w-full transition-transform duration-300 hover:scale-105">
+              <Button type="submit" className="w-full btn-modern-primary">
                 Login
               </Button>
             </form>
@@ -285,16 +285,17 @@ const Admin = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-12">
+    <div className="min-h-screen page-bg-modern">
+      <div className="container mx-auto px-4 py-12">
       <h1 className="text-4xl font-bold text-center mb-12">Admin Panel</h1>
       <Tabs defaultValue="winners">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-3 bg-white shadow-soft">
           <TabsTrigger value="winners">Manage Winners</TabsTrigger>
           <TabsTrigger value="activities">Manage Activities</TabsTrigger>
           <TabsTrigger value="gallery">Manage Gallery</TabsTrigger>
         </TabsList>
         <TabsContent value="winners">
-          <Card>
+          <Card className="modern-card">
             <CardHeader>
               <CardTitle>Winners</CardTitle>
             </CardHeader>
@@ -304,23 +305,23 @@ const Admin = () => {
                 <form onSubmit={handleAddWinner} className="space-y-4">
                   <div>
                     <Label htmlFor="winner-name">Name</Label>
-                    <Input id="winner-name" value={newWinner.name} onChange={e => setNewWinner({ ...newWinner, name: e.target.value })} />
+                    <Input id="winner-name" value={newWinner.name} onChange={e => setNewWinner({ ...newWinner, name: e.target.value })} className="focus:ring-2 focus:ring-teal-500" />
                   </div>
                   <div>
                     <Label htmlFor="winner-rollNumber">Roll Number</Label>
-                    <Input id="winner-rollNumber" value={newWinner.rollNumber} onChange={e => setNewWinner({ ...newWinner, rollNumber: e.target.value })} />
+                    <Input id="winner-rollNumber" value={newWinner.rollNumber} onChange={e => setNewWinner({ ...newWinner, rollNumber: e.target.value })} className="focus:ring-2 focus:ring-teal-500" />
                   </div>
                   <div>
                     <Label htmlFor="winner-event">Event</Label>
-                    <Input id="winner-event" value={newWinner.event} onChange={e => setNewWinner({ ...newWinner, event: e.target.value })} />
+                    <Input id="winner-event" value={newWinner.event} onChange={e => setNewWinner({ ...newWinner, event: e.target.value })} className="focus:ring-2 focus:ring-teal-500" />
                   </div>
                   <div>
                     <Label htmlFor="winner-date">Date</Label>
-                    <Input id="winner-date" type="date" value={newWinner.date} onChange={e => setNewWinner({ ...newWinner, date: e.target.value })} />
+                    <Input id="winner-date" type="date" value={newWinner.date} onChange={e => setNewWinner({ ...newWinner, date: e.target.value })} className="focus:ring-2 focus:ring-teal-500" />
                   </div>
                    <div>
                     <Label htmlFor="winner-year">Year</Label>
-                    <Input id="winner-year" value={newWinner.year} onChange={e => setNewWinner({ ...newWinner, year: e.target.value })} />
+                    <Input id="winner-year" value={newWinner.year} onChange={e => setNewWinner({ ...newWinner, year: e.target.value })} className="focus:ring-2 focus:ring-teal-500" />
                   </div>
                   <div>
                     <Label htmlFor="winner-position">Position</Label>
@@ -354,24 +355,25 @@ const Admin = () => {
                       type="number" 
                       placeholder="Enter week number" 
                       value={newWinner.weekNumber || ''} 
-                      onChange={e => setNewWinner({ ...newWinner, weekNumber: e.target.value ? parseInt(e.target.value) : undefined })} 
+                      onChange={e => setNewWinner({ ...newWinner, weekNumber: e.target.value ? parseInt(e.target.value) : undefined })}
+                      className="focus:ring-2 focus:ring-teal-500"
                     />
                   </div>
                   <div>
                     <Label htmlFor="winner-photo">Photo</Label>
-                    <Input id="winner-photo" type="file" onChange={(e: ChangeEvent<HTMLInputElement>) => setNewWinner({ ...newWinner, photo: e.target.files ? e.target.files[0] : null })} />
+                    <Input id="winner-photo" type="file" onChange={(e: ChangeEvent<HTMLInputElement>) => setNewWinner({ ...newWinner, photo: e.target.files ? e.target.files[0] : null })} className="focus:ring-2 focus:ring-teal-500" />
                   </div>
                   <div className="flex items-center space-x-2">
                     <Checkbox id="isThisWeekWinner" checked={newWinner.isThisWeekWinner} onCheckedChange={(checked) => setNewWinner({ ...newWinner, isThisWeekWinner: !!checked })} />
                     <Label htmlFor="isThisWeekWinner">This Week's Winner</Label>
                   </div>
                   <div className="flex space-x-2">
-                    <Button type="submit" disabled={winnerLoading}>
+                    <Button type="submit" disabled={winnerLoading} className="btn-modern-primary">
                       {winnerLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                       {editingWinner ? 'Update Winner' : 'Add Winner'}
                     </Button>
                     {editingWinner && (
-                      <Button variant="outline" onClick={() => { setEditingWinner(null); setNewWinner(initialWinnerState); }}>Cancel</Button>
+                      <Button variant="outline" onClick={() => { setEditingWinner(null); setNewWinner(initialWinnerState); }} className="btn-modern-secondary">Cancel</Button>
                     )}
                   </div>
                 </form>
@@ -379,7 +381,7 @@ const Admin = () => {
               <div>
                 <h3 className="text-2xl font-semibold mb-4">Existing Winners</h3>
                 {winners.map(winner => (
-                  <div key={winner.id} className="flex items-center justify-between p-4 border rounded-lg mb-2">
+                  <div key={winner.id} className="flex items-center justify-between p-4 border rounded-xl mb-2 modern-card">
                     <div>
                        <p className="font-bold">{winner.name}</p>
                        <p className="text-sm text-muted-foreground">{winner.event} - {winner.year}</p>
@@ -387,7 +389,7 @@ const Admin = () => {
                      </div>
                     <div className="flex items-center">
                       {winner.photo && <img src={winner.photo} alt={winner.name} className="h-10 w-10 object-cover rounded-full mr-4" />}
-                      <Button variant="outline" size="sm" className="mr-2" onClick={() => handleEditWinner(winner)}>Edit</Button>
+                      <Button variant="outline" size="sm" className="mr-2 btn-modern-accent" onClick={() => handleEditWinner(winner)}>Edit</Button>
                       <Button variant="destructive" size="sm" onClick={() => handleDeleteWinner(winner.id)}>Delete</Button>
                     </div>
                   </div>
@@ -397,7 +399,7 @@ const Admin = () => {
           </Card>
         </TabsContent>
         <TabsContent value="activities">
-          <Card>
+          <Card className="modern-card">
             <CardHeader>
               <CardTitle>Activities</CardTitle>
             </CardHeader>
@@ -407,27 +409,27 @@ const Admin = () => {
                 <form onSubmit={handleAddActivity} className="space-y-4">
                   <div>
                     <Label htmlFor="activity-name">Name</Label>
-                    <Input id="activity-name" value={newActivity.name} onChange={e => setNewActivity({ ...newActivity, name: e.target.value })} />
+                    <Input id="activity-name" value={newActivity.name} onChange={e => setNewActivity({ ...newActivity, name: e.target.value })} className="focus:ring-2 focus:ring-teal-500" />
                   </div>
                   <div>
                     <Label htmlFor="activity-date">Date</Label>
-                    <Input id="activity-date" type="date" value={newActivity.date} onChange={e => setNewActivity({ ...newActivity, date: e.target.value })} />
+                    <Input id="activity-date" type="date" value={newActivity.date} onChange={e => setNewActivity({ ...newActivity, date: e.target.value })} className="focus:ring-2 focus:ring-teal-500" />
                   </div>
                   <div>
                     <Label htmlFor="activity-description">Description</Label>
-                    <Textarea id="activity-description" value={newActivity.description} onChange={e => setNewActivity({ ...newActivity, description: e.target.value })} />
+                    <Textarea id="activity-description" value={newActivity.description} onChange={e => setNewActivity({ ...newActivity, description: e.target.value })} className="focus:ring-2 focus:ring-teal-500" />
                   </div>
                   <div>
                     <Label htmlFor="activity-details">Details</Label>
-                    <Textarea id="activity-details" value={newActivity.details || ''} onChange={e => setNewActivity({ ...newActivity, details: e.target.value })} />
+                    <Textarea id="activity-details" value={newActivity.details || ''} onChange={e => setNewActivity({ ...newActivity, details: e.target.value })} className="focus:ring-2 focus:ring-teal-500" />
                   </div>
                   <div>
                     <Label htmlFor="activity-photos">Activity Photos</Label>
-                    <Input id="activity-photos" type="file" multiple onChange={(e: ChangeEvent<HTMLInputElement>) => setNewActivity({ ...newActivity, photos: e.target.files })} />
+                    <Input id="activity-photos" type="file" multiple onChange={(e: ChangeEvent<HTMLInputElement>) => setNewActivity({ ...newActivity, photos: e.target.files })} className="focus:ring-2 focus:ring-teal-500" />
                   </div>
                   <div>
                     <Label htmlFor="activity-poster">Poster</Label>
-                    <Input id="activity-poster" type="file" onChange={(e: ChangeEvent<HTMLInputElement>) => setNewActivity({ ...newActivity, poster: e.target.files ? e.target.files[0] : null })} />
+                    <Input id="activity-poster" type="file" onChange={(e: ChangeEvent<HTMLInputElement>) => setNewActivity({ ...newActivity, poster: e.target.files ? e.target.files[0] : null })} className="focus:ring-2 focus:ring-teal-500" />
                   </div>
                   <div>
                     <Label htmlFor="activity-status">Status</Label>
@@ -448,16 +450,17 @@ const Admin = () => {
                       type="url" 
                       placeholder="https://forms.google.com/..." 
                       value={newActivity.formLink || ''} 
-                      onChange={e => setNewActivity({ ...newActivity, formLink: e.target.value })} 
+                      onChange={e => setNewActivity({ ...newActivity, formLink: e.target.value })}
+                      className="focus:ring-2 focus:ring-teal-500"
                     />
                   </div>
                   <div className="flex space-x-2">
-                    <Button type="submit" disabled={activityLoading}>
+                    <Button type="submit" disabled={activityLoading} className="btn-modern-primary">
                       {activityLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                       {editingActivity ? 'Update Activity' : 'Add Activity'}
                     </Button>
                     {editingActivity && (
-                      <Button variant="outline" onClick={() => { setEditingActivity(null); setNewActivity(initialActivityState); }}>Cancel</Button>
+                      <Button variant="outline" onClick={() => { setEditingActivity(null); setNewActivity(initialActivityState); }} className="btn-modern-secondary">Cancel</Button>
                     )}
                   </div>
                 </form>
@@ -465,14 +468,14 @@ const Admin = () => {
               <div>
                 <h3 className="text-2xl font-semibold mb-4">Existing Activities</h3>
                 {activities.map(activity => (
-                  <div key={activity.id} className="flex items-center justify-between p-4 border rounded-lg mb-2">
+                  <div key={activity.id} className="flex items-center justify-between p-4 border rounded-xl mb-2 modern-card">
                     <div>
                       <p className="font-bold">{activity.name}</p>
                       <p className="text-sm text-muted-foreground">{activity.status} - {activity.date}</p>
                     </div>
                     <div className="flex items-center">
                       {activity.poster && <img src={activity.poster} alt={activity.name} className="h-10 w-10 object-cover rounded mr-4" />}
-                      <Button variant="outline" size="sm" className="mr-2" onClick={() => handleEditActivity(activity)}>Edit</Button>
+                      <Button variant="outline" size="sm" className="mr-2 btn-modern-accent" onClick={() => handleEditActivity(activity)}>Edit</Button>
                       <Button variant="destructive" size="sm" onClick={() => handleDeleteActivity(activity.id)}>Delete</Button>
                     </div>
                   </div>
@@ -482,7 +485,7 @@ const Admin = () => {
           </Card>
         </TabsContent>
         <TabsContent value="gallery">
-          <Card>
+          <Card className="modern-card">
             <CardHeader>
               <CardTitle>Gallery</CardTitle>
             </CardHeader>
@@ -492,19 +495,19 @@ const Admin = () => {
                 <form onSubmit={handleAddGalleryImage} className="space-y-4">
                   <div>
                     <Label htmlFor="gallery-url">Image</Label>
-                    <Input id="gallery-url" type="file" accept="image/*" onChange={(e: ChangeEvent<HTMLInputElement>) => setNewGalleryImage({ ...newGalleryImage, url: e.target.files ? e.target.files[0] : null })} />
+                    <Input id="gallery-url" type="file" accept="image/*" onChange={(e: ChangeEvent<HTMLInputElement>) => setNewGalleryImage({ ...newGalleryImage, url: e.target.files ? e.target.files[0] : null })} className="focus:ring-2 focus:ring-teal-500" />
                   </div>
                   <div>
                     <Label htmlFor="gallery-caption">Caption</Label>
-                    <Input id="gallery-caption" value={newGalleryImage.caption} onChange={e => setNewGalleryImage({ ...newGalleryImage, caption: e.target.value })} />
+                    <Input id="gallery-caption" value={newGalleryImage.caption} onChange={e => setNewGalleryImage({ ...newGalleryImage, caption: e.target.value })} className="focus:ring-2 focus:ring-teal-500" />
                   </div>
                   <div className="flex space-x-2">
-                    <Button type="submit" disabled={galleryLoading}>
+                    <Button type="submit" disabled={galleryLoading} className="btn-modern-primary">
                       {galleryLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                       {editingGalleryImage ? 'Update Image' : 'Add Image'}
                     </Button>
                     {editingGalleryImage && (
-                      <Button variant="outline" onClick={() => { setEditingGalleryImage(null); setNewGalleryImage(initialGalleryImageState); }}>Cancel</Button>
+                      <Button variant="outline" onClick={() => { setEditingGalleryImage(null); setNewGalleryImage(initialGalleryImageState); }} className="btn-modern-secondary">Cancel</Button>
                     )}
                   </div>
                 </form>
@@ -512,13 +515,13 @@ const Admin = () => {
               <div>
                 <h3 className="text-2xl font-semibold mb-4">Existing Gallery Images</h3>
                 {galleryImages.map(image => (
-                  <div key={image.id} className="flex items-center justify-between p-4 border rounded-lg mb-2">
+                  <div key={image.id} className="flex items-center justify-between p-4 border rounded-xl mb-2 modern-card">
                     <div className="flex items-center">
                       {image.url && <img src={image.url} alt={image.caption} className="h-16 w-16 object-cover rounded-md mr-4"/>}
                       <p>{image.caption}</p>
                     </div>
                     <div>
-                      <Button variant="outline" size="sm" className="mr-2" onClick={() => handleEditGalleryImage(image)}>Edit</Button>
+                      <Button variant="outline" size="sm" className="mr-2 btn-modern-accent" onClick={() => handleEditGalleryImage(image)}>Edit</Button>
                       <Button variant="destructive" size="sm" onClick={() => handleDeleteGalleryImage(image.id)}>Delete</Button>
                     </div>
                   </div>
@@ -528,6 +531,7 @@ const Admin = () => {
           </Card>
         </TabsContent>
       </Tabs>
+      </div>
     </div>
   );
 };

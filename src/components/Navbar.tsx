@@ -16,21 +16,21 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-background border-b shadow-header sticky top-0 z-50">
+    <nav className="navbar-modern sticky top-0 z-50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-3 flex-shrink-0">
             <img src="/aditya-removebg-preview (1).png" alt="Aditya Logo" className="h-10 w-10 object-contain" />
             <div className="hidden sm:block">
               <h1 className="text-lg font-bold">
-  <span className="text-[#F2722C]">ADITYA</span>{' '}
-  <span className="text-primary">UNIVERSITY</span></h1>
+  <span className="navbar-title">ADITYA</span>{' '}
+  <span className="text-gradient-primary">UNIVERSITY</span></h1>
               <p className="text-sm text-muted-foreground">Department of Computer Science and Engineering SABL Activites</p>
             </div>
             <div className="sm:hidden">
               <h1 className="text-lg font-bold">
-                <span className="text-[#F2722C]">ADITYA</span>{' '}
-                <span className="text-primary">UNIVERSITY</span>
+                <span className="navbar-title">ADITYA</span>{' '}
+                <span className="text-gradient-primary">UNIVERSITY</span>
               </h1>
             </div>
           </div>
@@ -41,10 +41,10 @@ const Navbar = () => {
                 key={item.to}
                 to={item.to}
                 className={({ isActive }) =>
-                  `flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 ${
+                  `flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-105 ${
                     isActive
-                      ? 'text-white bg-gradient-to-r from-purple-500 to-pink-500 shadow-lg'
-                      : 'text-muted-foreground hover:text-primary hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:border hover:border-blue-200'
+                      ? 'text-white bg-gradient-to-r from-teal-500 to-teal-600 shadow-lg'
+                      : 'text-muted-foreground hover:text-teal-600 hover:bg-gradient-to-r hover:from-teal-50 hover:to-mint-50'
                   }`
                 }
               >
@@ -58,7 +58,7 @@ const Navbar = () => {
           <div className="lg:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-muted-foreground hover:text-primary p-2 transition-colors duration-200 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 rounded-lg"
+              className="text-muted-foreground hover:text-teal-600 p-2 transition-colors duration-300 hover:bg-teal-50 rounded-xl"
               data-testid="mobile-menu-button"
             >
               {isMobileMenuOpen ? <X className="h-6 w-6" /> : (
@@ -72,7 +72,7 @@ const Navbar = () => {
       </div>
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden bg-gradient-to-r from-purple-50 to-pink-50 border-t border-purple-200">
+        <div className="lg:hidden bg-gradient-to-r from-teal-50 to-mint-50 border-t border-teal-200">
           <div className="container mx-auto px-4 py-4 space-y-2">
             {navItems.map((item) => (
               <NavLink
@@ -80,10 +80,10 @@ const Navbar = () => {
                 to={item.to}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={({ isActive }) =>
-                  `flex items-center space-x-2 px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 ${
+                  `flex items-center space-x-2 px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 ${
                     isActive
-                      ? 'text-white bg-gradient-to-r from-purple-500 to-pink-500 shadow-lg'
-                      : 'text-muted-foreground hover:text-primary hover:bg-white hover:shadow-md'
+                      ? 'text-white bg-gradient-to-r from-teal-500 to-teal-600 shadow-lg'
+                      : 'text-muted-foreground hover:text-teal-600 hover:bg-white hover:shadow-md'
                   }`
                 }
               >

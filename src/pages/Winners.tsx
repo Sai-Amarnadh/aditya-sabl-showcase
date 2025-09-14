@@ -101,21 +101,21 @@ const Winners = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background vibrant-bg-1 relative overflow-hidden">
+    <div className="min-h-screen page-bg-modern relative overflow-hidden">
       {/* Decorative Elements */}
-      <div className="page-decoration decoration-circle w-20 h-20 top-10 left-10 animate-float-simple"></div>
-      <div className="page-decoration decoration-square w-16 h-16 top-20 right-20 animate-rotate-gentle"></div>
-      <div className="page-decoration decoration-circle w-12 h-12 bottom-32 left-1/4 animate-bounce-gentle" style={{ animationDelay: '1s' }}></div>
-      <div className="page-decoration decoration-triangle bottom-20 right-1/3" style={{ animationDelay: '2s' }}></div>
-      <div className="page-decoration decoration-circle w-24 h-24 top-1/2 right-10 animate-pulse-soft"></div>
-      <div className="page-decoration decoration-square w-8 h-8 bottom-1/4 left-16 animate-float-simple" style={{ animationDelay: '3s' }}></div>
+      <div className="absolute top-10 left-10 w-20 h-20 decoration-modern decoration-teal animate-float-gentle"></div>
+      <div className="absolute top-20 right-20 w-16 h-16 decoration-modern decoration-coral animate-rotate-slow"></div>
+      <div className="absolute bottom-32 left-1/4 w-12 h-12 decoration-modern decoration-mint animate-bounce-gentle" style={{ animationDelay: '1s' }}></div>
+      <div className="absolute bottom-20 right-1/3 w-14 h-14 decoration-modern decoration-yellow animate-float-gentle" style={{ animationDelay: '2s' }}></div>
+      <div className="absolute top-1/2 right-10 w-24 h-24 decoration-modern decoration-blue animate-pulse-soft"></div>
+      <div className="absolute bottom-1/4 left-16 w-8 h-8 decoration-modern decoration-purple animate-float-gentle" style={{ animationDelay: '3s' }}></div>
 
       <div className="container mx-auto px-4 py-12">
         {/* Header */}
         <div className="text-center mb-12 relative z-10">
           <div className="flex items-center justify-center mb-4">
             <Trophy className="h-8 w-8 text-primary mr-3" />
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent">Hall of Fame</h1>
+            <h1 className="text-4xl font-bold text-gradient-cool">Hall of Fame</h1>
           </div>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Celebrating the outstanding achievements of our students across various SABL activities and competitions.
@@ -123,7 +123,7 @@ const Winners = () => {
         </div>
 
         {/* Filters */}
-        <div className="bg-card/80 backdrop-blur-sm rounded-lg p-6 shadow-card mb-8 border border-purple-200 relative z-10">
+        <div className="modern-card backdrop-blur-sm p-6 mb-8 border-teal-200 relative z-10">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <div className="flex items-center gap-2">
               <Filter className="h-5 w-5 text-primary" />
@@ -159,7 +159,7 @@ const Winners = () => {
                 </Select>
               </div>
               
-              <Button variant="outline" onClick={clearFilters}>
+              <Button variant="outline" onClick={clearFilters} className="btn-modern-secondary">
                 Clear Filters
               </Button>
             </div>
@@ -177,7 +177,7 @@ const Winners = () => {
 
         {/* Error Message */}
         {error && (
-          <div className="bg-destructive/10 border border-destructive/20 text-destructive rounded-lg p-6 mb-8 text-center relative z-10">
+          <div className="bg-destructive/10 border border-destructive/20 text-destructive rounded-xl p-6 mb-8 text-center relative z-10">
             <h3 className="font-semibold mb-2">Failed to Load Winners</h3>
             <p className="text-sm">{error}</p>
             <p className="text-xs mt-2 text-muted-foreground">
@@ -191,7 +191,7 @@ const Winners = () => {
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {Array.from({ length: 6 }).map((_, index) => (
-              <div key={index} className="bg-card rounded-lg p-6 shadow-card animate-pulse">
+              <div key={index} className="modern-card p-6 animate-pulse">
                 <div className="flex items-center space-x-4">
                   <div className="w-16 h-16 bg-muted rounded-full"></div>
                   <div className="flex-1">
@@ -218,7 +218,7 @@ const Winners = () => {
                     if (weekWinners.length === 0) return null;
                     
                     return (
-                      <div key={activityType} className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-lg p-6 border border-primary/20">
+                      <div key={activityType} className="bg-gradient-to-br from-teal-50 to-mint-50 rounded-xl p-6 border border-teal-200">
                         <h4 className="text-lg font-semibold mb-4 text-center text-primary">{activityType}</h4>
                         <div className="space-y-3">
                           {weekWinners.map((winner) => (
@@ -240,41 +240,41 @@ const Winners = () => {
           </>
         ) : (
           <div className="text-center py-16">
-            <div className="w-24 h-24 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
+            <div className="w-24 h-24 bg-gradient-to-br from-teal-100 to-mint-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <Trophy className="h-12 w-12 text-muted-foreground" />
             </div>
             <h3 className="text-xl font-semibold text-foreground mb-2">No Winners Found</h3>
             <p className="text-muted-foreground mb-4">
               Try adjusting your filters to see more results.
             </p>
-            <Button onClick={clearFilters}>Clear All Filters</Button>
+            <Button onClick={clearFilters} className="btn-modern-primary">Clear All Filters</Button>
           </div>
         )}
         </div>
 
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-12 relative z-10">
-          <div className="bg-gradient-primary rounded-lg p-6 text-primary-foreground text-center">
+          <div className="stats-card-teal text-center">
             <Trophy className="h-8 w-8 mx-auto mb-3" />
             <div className="text-3xl font-bold mb-1">{winners.length}</div>
             <div className="text-sm opacity-90">Total Winners</div>
           </div>
 
-          <div className="bg-gradient-to-br from-green-400 to-blue-500 rounded-lg p-6 shadow-card text-center text-white">
-            <Award className="h-8 w-8 mx-auto mb-3 text-primary" />
+          <div className="stats-card-mint text-center">
+            <Award className="h-8 w-8 mx-auto mb-3 text-white" />
             <div className="text-3xl font-bold mb-1">{events.length}</div>
             <div className="text-white/90 text-sm">Different Events</div>
           </div>
 
-          <div className="bg-gradient-to-br from-pink-400 to-purple-500 rounded-lg p-6 shadow-card text-center text-white">
-            <Calendar className="h-8 w-8 mx-auto mb-3 text-primary" />
+          <div className="stats-card-coral text-center">
+            <Calendar className="h-8 w-8 mx-auto mb-3 text-white" />
             <div className="text-3xl font-bold mb-1">{years.length}</div>
             <div className="text-white/90 text-sm">Years of Excellence</div>
           </div>
         </div>
 
         {/* Achievement Highlights */}
-        <div className="mt-16 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-2xl p-8 text-white relative z-10">
+        <div className="mt-16 bg-gradient-to-br from-teal-500 via-blue-500 to-purple-500 rounded-2xl p-8 text-white relative z-10 shadow-elevated">
           <h2 className="text-2xl font-bold text-foreground mb-6 text-center">Achievement Highlights</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-4">
@@ -282,7 +282,7 @@ const Winners = () => {
               {events.slice(0, 3).map(event => {
                 const eventWinners = winners.filter(w => w.event === event);
                 return (
-                  <div key={event} className="flex justify-between items-center p-3 bg-white/20 backdrop-blur-sm rounded-lg shadow-sm">
+                  <div key={event} className="flex justify-between items-center p-3 bg-white/20 backdrop-blur-sm rounded-xl shadow-soft">
                     <span className="text-white">{event}</span>
                     <span className="text-yellow-300 font-semibold">{eventWinners.length} winners</span>
                   </div>
@@ -296,7 +296,7 @@ const Winners = () => {
                 .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                 .slice(0, 3)
                 .map(winner => (
-                  <div key={winner.id} className="flex justify-between items-center p-3 bg-white/20 backdrop-blur-sm rounded-lg shadow-sm">
+                  <div key={winner.id} className="flex justify-between items-center p-3 bg-white/20 backdrop-blur-sm rounded-xl shadow-soft">
                     <div>
                       <div className="text-white font-medium">{winner.name}</div>
                       <div className="text-white/80 text-sm">{winner.event}</div>

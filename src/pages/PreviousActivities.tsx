@@ -100,21 +100,21 @@ const PreviousActivities = () => {
   const totalPhotos = completedActivities.reduce((sum, activity) => sum + (activity.photos?.length || 0), 0);
 
   return (
-    <div className="min-h-screen bg-background vibrant-bg-3 relative overflow-hidden">
+    <div className="min-h-screen page-bg-modern relative overflow-hidden">
       {/* Decorative Elements */}
-      <div className="page-decoration decoration-circle w-24 h-24 top-20 left-20 animate-float-simple"></div>
-      <div className="page-decoration decoration-square w-18 h-18 top-40 right-16 animate-rotate-gentle"></div>
-      <div className="page-decoration decoration-triangle bottom-32 left-1/4" style={{ animationDelay: '1.5s' }}></div>
-      <div className="page-decoration decoration-circle w-14 h-14 bottom-40 right-1/3 animate-bounce-gentle" style={{ animationDelay: '2.5s' }}></div>
-      <div className="page-decoration decoration-square w-10 h-10 top-1/3 left-10 animate-pulse-soft"></div>
-      <div className="page-decoration decoration-circle w-20 h-20 top-1/2 right-20 animate-morph-gentle"></div>
+      <div className="absolute top-20 left-20 w-24 h-24 decoration-modern decoration-mint animate-float-gentle"></div>
+      <div className="absolute top-40 right-16 w-18 h-18 decoration-modern decoration-coral animate-rotate-slow"></div>
+      <div className="absolute bottom-32 left-1/4 w-16 h-16 decoration-modern decoration-yellow animate-bounce-gentle" style={{ animationDelay: '1.5s' }}></div>
+      <div className="absolute bottom-40 right-1/3 w-14 h-14 decoration-modern decoration-blue animate-float-gentle" style={{ animationDelay: '2.5s' }}></div>
+      <div className="absolute top-1/3 left-10 w-10 h-10 decoration-modern decoration-purple animate-pulse-soft"></div>
+      <div className="absolute top-1/2 right-20 w-20 h-20 decoration-modern decoration-teal animate-float-gentle"></div>
 
       <div className="container mx-auto px-4 py-12">
         {/* Header */}
         <div className="text-center mb-12 relative z-10">
           <div className="flex items-center justify-center mb-4">
             <History className="h-8 w-8 text-primary mr-3" />
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">Previous Activities</h1>
+            <h1 className="text-4xl font-bold text-gradient-accent">Previous Activities</h1>
           </div>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Explore our successful past events and the amazing achievements of our students in various SABL activities.
@@ -127,7 +127,7 @@ const PreviousActivities = () => {
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {Array.from({ length: 6 }).map((_, index) => (
-                <div key={index} className="bg-card rounded-lg shadow-card animate-pulse overflow-hidden">
+                <div key={index} className="modern-card animate-pulse overflow-hidden">
                   <div className="h-48 bg-muted"></div>
                   <div className="p-6">
                     <div className="h-6 bg-muted rounded mb-3"></div>
@@ -150,7 +150,7 @@ const PreviousActivities = () => {
                         variant="outline" 
                         size="sm" 
                         onClick={() => handleViewParticipants(activity)}
-                        className="bg-gradient-to-r from-blue-500 to-purple-600 text-white border-none hover:from-blue-600 hover:to-purple-700"
+                        className="btn-modern-primary"
                       >
                         <Users className="h-4 w-4 mr-2" />
                         View Participants
@@ -164,32 +164,32 @@ const PreviousActivities = () => {
 
         {/* Achievement Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 my-12 relative z-10">
-          <div className="bg-gradient-to-br from-indigo-400 to-purple-500 rounded-lg p-6 shadow-card text-center text-white">
-            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div className="stats-card-blue text-center">
+            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
               <History className="h-6 w-6 text-white" />
             </div>
             <div className="text-2xl font-bold mb-1">{completedActivities.length}</div>
             <div className="text-white/90 text-sm">Events Completed</div>
           </div>
           
-          <div className="bg-gradient-to-br from-green-400 to-teal-500 rounded-lg p-6 shadow-card text-center text-white">
-            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div className="stats-card-mint text-center">
+            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
               <Users className="h-6 w-6 text-white" />
             </div>
             <div className="text-2xl font-bold mb-1">300+</div>
             <div className="text-white/90 text-sm">Total Participants</div>
           </div>
           
-          <div className="bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg p-6 shadow-card text-center text-white">
-            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div className="stats-card-yellow text-center">
+            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
               <Trophy className="h-6 w-6 text-white" />
             </div>
             <div className="text-2xl font-bold mb-1">18</div>
             <div className="text-white/90 text-sm">Winners Crowned</div>
           </div>
           
-          <div className="bg-gradient-to-br from-pink-400 to-red-500 rounded-lg p-6 shadow-card text-center text-white">
-            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div className="stats-card-coral text-center">
+            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
               <Camera className="h-6 w-6 text-white" />
             </div>
             <div className="text-2xl font-bold mb-1">{totalPhotos}</div>
@@ -198,7 +198,7 @@ const PreviousActivities = () => {
         </div>
 
         {/* Success Stories */}
-        <div className="mt-16 bg-gradient-to-br from-cyan-500 via-blue-500 to-indigo-600 rounded-2xl p-8 text-white relative z-10">
+        <div className="mt-16 bg-gradient-to-br from-teal-500 via-blue-500 to-purple-500 rounded-2xl p-8 text-white relative z-10 shadow-elevated">
           <div className="text-center mb-8">
             <h2 className="text-2xl font-bold mb-4">Success Stories</h2>
             <p className="text-white/90">
@@ -207,7 +207,7 @@ const PreviousActivities = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white/20 backdrop-blur-sm rounded-lg p-6 shadow-card">
+            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-6 shadow-soft">
               <div className="text-4xl mb-4">💡</div>
               <h3 className="font-semibold text-white mb-2">Innovation Boost</h3>
               <p className="text-white/80 text-sm">
@@ -215,7 +215,7 @@ const PreviousActivities = () => {
               </p>
             </div>
             
-            <div className="bg-white/20 backdrop-blur-sm rounded-lg p-6 shadow-card">
+            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-6 shadow-soft">
               <div className="text-4xl mb-4">🚀</div>
               <h3 className="font-semibold text-white mb-2">Career Growth</h3>
               <p className="text-white/80 text-sm">
@@ -223,7 +223,7 @@ const PreviousActivities = () => {
               </p>
             </div>
             
-            <div className="bg-white/20 backdrop-blur-sm rounded-lg p-6 shadow-card">
+            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-6 shadow-soft">
               <div className="text-4xl mb-4">🤝</div>
               <h3 className="font-semibold text-white mb-2">Network Building</h3>
               <p className="text-white/80 text-sm">

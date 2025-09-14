@@ -27,21 +27,21 @@ const UpcomingActivities = () => {
   }, [dataChanged]);
 
   return (
-    <div className="min-h-screen bg-background vibrant-bg-2 relative overflow-hidden">
+    <div className="min-h-screen page-bg-modern relative overflow-hidden">
       {/* Decorative Elements */}
-      <div className="page-decoration decoration-circle w-32 h-32 top-16 right-10 animate-float-simple"></div>
-      <div className="page-decoration decoration-square w-20 h-20 top-32 left-16 animate-rotate-gentle"></div>
-      <div className="page-decoration decoration-triangle bottom-40 right-1/4" style={{ animationDelay: '1s' }}></div>
-      <div className="page-decoration decoration-circle w-16 h-16 bottom-20 left-1/3 animate-bounce-gentle" style={{ animationDelay: '2s' }}></div>
-      <div className="page-decoration decoration-square w-12 h-12 top-1/2 right-1/3 animate-pulse-soft"></div>
-      <div className="page-decoration decoration-circle w-28 h-28 bottom-32 right-20 animate-morph-gentle"></div>
+      <div className="absolute top-16 right-10 w-32 h-32 decoration-modern decoration-teal animate-float-gentle"></div>
+      <div className="absolute top-32 left-16 w-20 h-20 decoration-modern decoration-coral animate-rotate-slow"></div>
+      <div className="absolute bottom-40 right-1/4 w-16 h-16 decoration-modern decoration-yellow animate-bounce-gentle" style={{ animationDelay: '1s' }}></div>
+      <div className="absolute bottom-20 left-1/3 w-16 h-16 decoration-modern decoration-mint animate-float-gentle" style={{ animationDelay: '2s' }}></div>
+      <div className="absolute top-1/2 right-1/3 w-12 h-12 decoration-modern decoration-blue animate-pulse-soft"></div>
+      <div className="absolute bottom-32 right-20 w-28 h-28 decoration-modern decoration-purple animate-float-gentle"></div>
 
       <div className="container mx-auto px-4 py-12">
         {/* Header */}
         <div className="text-center mb-12 relative z-10">
           <div className="flex items-center justify-center mb-4">
             <Calendar className="h-8 w-8 text-primary mr-3" />
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Upcoming Activities</h1>
+            <h1 className="text-4xl font-bold text-gradient-primary">Upcoming Activities</h1>
           </div>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Stay updated with our exciting upcoming SABL activities and competitions. Mark your calendars and get ready to participate!
@@ -53,7 +53,7 @@ const UpcomingActivities = () => {
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {Array.from({ length: 3 }).map((_, index) => (
-              <div key={index} className="bg-card rounded-lg shadow-card animate-pulse overflow-hidden">
+              <div key={index} className="modern-card animate-pulse overflow-hidden">
                 <div className="h-48 bg-muted"></div>
                 <div className="p-6">
                   <div className="h-6 bg-muted rounded mb-3"></div>
@@ -72,7 +72,7 @@ const UpcomingActivities = () => {
           </div>
         ) : (
           <div className="text-center py-16">
-            <div className="w-24 h-24 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
+            <div className="w-24 h-24 bg-gradient-to-br from-teal-100 to-mint-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <Calendar className="h-12 w-12 text-muted-foreground" />
             </div>
             <h3 className="text-xl font-semibold text-foreground mb-2">No Upcoming Activities</h3>
@@ -83,24 +83,24 @@ const UpcomingActivities = () => {
 
         {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-12 relative z-10">
-          <div className="bg-gradient-to-br from-cyan-400 to-blue-500 rounded-lg p-6 shadow-card text-center text-white">
-            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div className="stats-card-teal text-center">
+            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
               <Calendar className="h-6 w-6 text-white" />
             </div>
             <div className="text-2xl font-bold mb-1">{upcomingActivities.length}</div>
             <div className="text-white/90 text-sm">Upcoming Events</div>
           </div>
 
-          <div className="bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg p-6 shadow-card text-center text-white">
-            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div className="stats-card-mint text-center">
+            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
               <Clock className="h-6 w-6 text-white" />
             </div>
             <div className="text-2xl font-bold mb-1">Next 30 Days</div>
             <div className="text-white/90 text-sm">Activity Window</div>
           </div>
 
-          <div className="bg-gradient-to-br from-purple-400 to-pink-500 rounded-lg p-6 shadow-card text-center text-white">
-            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div className="stats-card-coral text-center">
+            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
               <MapPin className="h-6 w-6 text-white" />
             </div>
             <div className="text-2xl font-bold mb-1">CSE Campus</div>
@@ -109,7 +109,7 @@ const UpcomingActivities = () => {
         </div>
 
         {/* Call to Action */}
-        <div className="mt-16 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-2xl p-8 text-center text-primary-foreground relative z-10">
+        <div className="mt-16 bg-gradient-to-r from-teal-500 via-blue-500 to-purple-500 rounded-2xl p-8 text-center text-white relative z-10 shadow-elevated">
           <h2 className="text-2xl font-bold mb-4">Don't Miss Out!</h2>
           <p className="text-lg opacity-90 mb-6">
             Stay connected with us to get the latest updates on upcoming activities and registration details.

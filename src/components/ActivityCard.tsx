@@ -10,11 +10,11 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
   const isUpcoming = activity.status === 'upcoming';
   
   return (
-    <div className="bg-card rounded-lg shadow-card hover:shadow-elevated transition-all duration-300 overflow-hidden group flex flex-col">
+    <div className="modern-card modern-card-hover overflow-hidden group flex flex-col">
       {activity.poster ? (
         <img key={activity.poster} src={activity.poster} alt={activity.name} className="w-full h-auto" />
       ) : (
-        <div className="h-48 bg-gradient-card flex items-center justify-center">
+        <div className="h-48 modern-card-bg flex items-center justify-center">
           <span className="text-muted-foreground">No Poster</span>
         </div>
       )}
@@ -26,7 +26,7 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
           </h3>
           <span className={`px-2 py-1 rounded-full text-xs font-medium ${
             isUpcoming 
-              ? 'bg-primary/10 text-primary' 
+              ? 'bg-teal-100 text-teal-700' 
               : 'bg-muted text-muted-foreground'
           }`}>
             {isUpcoming ? 'Upcoming' : 'Completed'}
@@ -56,12 +56,12 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
         
         {isUpcoming ? (
           <div className="flex gap-2 mt-auto">
-            <Button asChild variant="default" size="sm" className="flex-1">
+            <Button asChild size="sm" className="flex-1 btn-modern-primary">
               <Link to={`/activity/${activity.id}`}>
                 Learn More
               </Link>
             </Button>
-            <Button asChild variant="secondary" size="sm" className="flex-1 register-button-highlight">
+            <Button asChild size="sm" className="flex-1 register-button-highlight">
               <Link to={`/register/${activity.id}`}>
                 Register
               </Link>
@@ -72,7 +72,7 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
             <Button
               variant="outline"
               size="sm"
-              className="w-full mt-auto"
+              className="w-full mt-auto btn-modern-secondary"
             >
               View Photos
             </Button>

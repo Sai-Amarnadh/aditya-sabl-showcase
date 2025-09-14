@@ -87,11 +87,12 @@ const WeeklyWinners = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-12">
+    <div className="min-h-screen page-bg-modern">
+      <div className="container mx-auto px-4 py-12">
       {/* Header */}
       <div className="text-center mb-12">
         <Trophy className="h-16 w-16 text-primary mx-auto mb-6" />
-        <h1 className="text-4xl font-bold mb-4">Weekly Winners</h1>
+        <h1 className="text-4xl font-bold mb-4 text-gradient-primary">Weekly Winners</h1>
         <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
           Celebrating our champions across two weekly activities with 1st, 2nd, and 3rd place honors.
         </p>
@@ -99,28 +100,28 @@ const WeeklyWinners = () => {
 
       {/* Summary Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <Card>
+        <Card className="modern-card">
           <CardContent className="p-6 text-center">
             <Users className="h-8 w-8 text-primary mx-auto mb-2" />
             <p className="text-2xl font-bold">{filteredWinners.length}</p>
             <p className="text-sm text-muted-foreground">Total Winners</p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="modern-card">
           <CardContent className="p-6 text-center">
             <Calendar className="h-8 w-8 text-primary mx-auto mb-2" />
             <p className="text-2xl font-bold">{weeks.length}</p>
             <p className="text-sm text-muted-foreground">Weeks</p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="modern-card">
           <CardContent className="p-6 text-center">
             <Target className="h-8 w-8 text-primary mx-auto mb-2" />
             <p className="text-2xl font-bold">{activities.length}</p>
             <p className="text-sm text-muted-foreground">Activities</p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="modern-card">
           <CardContent className="p-6 text-center">
             <Trophy className="h-8 w-8 text-primary mx-auto mb-2" />
             <p className="text-2xl font-bold">{filteredWinners.filter(w => w.position === 1).length}</p>
@@ -130,7 +131,7 @@ const WeeklyWinners = () => {
       </div>
 
       {/* Filters */}
-      <Card className="mb-8">
+      <Card className="mb-8 modern-card">
         <CardHeader>
           <CardTitle>Filter Winners</CardTitle>
         </CardHeader>
@@ -164,7 +165,7 @@ const WeeklyWinners = () => {
                 </SelectContent>
               </Select>
             </div>
-            <Button variant="outline" onClick={clearFilters}>
+            <Button variant="outline" onClick={clearFilters} className="btn-modern-secondary">
               Clear Filters
             </Button>
           </div>
@@ -179,7 +180,7 @@ const WeeklyWinners = () => {
 
       {/* Winners by Week and Activity */}
       {Object.keys(groupedWinners).length === 0 ? (
-        <Card>
+        <Card className="modern-card">
           <CardContent className="p-12 text-center">
             <Trophy className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
             <h3 className="text-xl font-semibold mb-2">No Winners Found</h3>
@@ -193,7 +194,7 @@ const WeeklyWinners = () => {
           {Object.values(groupedWinners)
             .sort((a, b) => b.week - a.week || a.activity.localeCompare(b.activity))
             .map(group => (
-              <Card key={`${group.week}-${group.activity}`}>
+              <Card key={`${group.week}-${group.activity}`} className="modern-card">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Calendar className="h-5 w-5" />
@@ -216,6 +217,7 @@ const WeeklyWinners = () => {
           }
         </div>
       )}
+      </div>
     </div>
   );
 };

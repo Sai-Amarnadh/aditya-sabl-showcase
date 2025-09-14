@@ -33,21 +33,21 @@ const Gallery = () => {
   }, [dataChanged]);
 
   return (
-    <div className="min-h-screen bg-background vibrant-bg-1 relative overflow-hidden">
+    <div className="min-h-screen page-bg-modern relative overflow-hidden">
       {/* Decorative Elements */}
-      <div className="page-decoration decoration-circle w-28 h-28 top-12 right-12 animate-float-simple"></div>
-      <div className="page-decoration decoration-square w-16 h-16 top-28 left-20 animate-rotate-gentle"></div>
-      <div className="page-decoration decoration-triangle bottom-28 right-1/4" style={{ animationDelay: '1s' }}></div>
-      <div className="page-decoration decoration-circle w-20 h-20 bottom-16 left-1/4 animate-bounce-gentle" style={{ animationDelay: '2s' }}></div>
-      <div className="page-decoration decoration-square w-12 h-12 top-1/2 left-12 animate-pulse-soft"></div>
-      <div className="page-decoration decoration-circle w-32 h-32 bottom-40 right-16 animate-morph-gentle"></div>
+      <div className="absolute top-12 right-12 w-28 h-28 decoration-modern decoration-teal animate-float-gentle"></div>
+      <div className="absolute top-28 left-20 w-16 h-16 decoration-modern decoration-coral animate-rotate-slow"></div>
+      <div className="absolute bottom-28 right-1/4 w-18 h-18 decoration-modern decoration-yellow animate-bounce-gentle" style={{ animationDelay: '1s' }}></div>
+      <div className="absolute bottom-16 left-1/4 w-20 h-20 decoration-modern decoration-mint animate-float-gentle" style={{ animationDelay: '2s' }}></div>
+      <div className="absolute top-1/2 left-12 w-12 h-12 decoration-modern decoration-blue animate-pulse-soft"></div>
+      <div className="absolute bottom-40 right-16 w-32 h-32 decoration-modern decoration-purple animate-float-gentle"></div>
 
       <div className="container mx-auto px-4 py-12">
         {/* Header */}
         <div className="text-center mb-12 relative z-10">
           <div className="flex items-center justify-center mb-4">
             <Image className="h-8 w-8 text-primary mr-3" />
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-teal-500 via-cyan-500 to-blue-500 bg-clip-text text-transparent">Photo Gallery</h1>
+            <h1 className="text-4xl font-bold text-gradient-primary">Photo Gallery</h1>
           </div>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Relive the memorable moments from our SABL activities through this curated collection of photos.
@@ -59,7 +59,7 @@ const Gallery = () => {
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {Array.from({ length: 8 }).map((_, index) => (
-              <div key={index} className="bg-card rounded-lg overflow-hidden shadow-card animate-pulse">
+              <div key={index} className="modern-card overflow-hidden animate-pulse">
                 <div className="aspect-square bg-muted"></div>
                 <div className="p-4">
                   <div className="h-4 bg-muted rounded"></div>
@@ -72,8 +72,8 @@ const Gallery = () => {
             {photos.map((photo) => (
               <Dialog key={photo.id}>
                 <DialogTrigger asChild>
-                  <div className="group relative bg-card rounded-lg overflow-hidden shadow-card hover:shadow-elevated transition-all duration-300 cursor-pointer">
-                    <div className="aspect-square bg-gradient-card relative overflow-hidden">
+                  <div className="group relative modern-card modern-card-hover overflow-hidden cursor-pointer">
+                    <div className="aspect-square modern-card-bg relative overflow-hidden">
                       <img src={photo.url} alt={photo.caption} className="w-full h-full object-cover"/>
 
                       {/* Hover overlay */}
@@ -93,14 +93,14 @@ const Gallery = () => {
                   <DialogHeader>
                     <DialogTitle>{photo.caption}</DialogTitle>
                   </DialogHeader>
-                  <img src={photo.url} alt={photo.caption} className="w-full h-auto object-contain rounded-lg"/>
+                  <img src={photo.url} alt={photo.caption} className="w-full h-auto object-contain rounded-xl"/>
                 </DialogContent>
               </Dialog>
             ))}
           </div>
         ) : (
           <div className="text-center py-16">
-            <div className="w-24 h-24 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
+            <div className="w-24 h-24 bg-gradient-to-br from-teal-100 to-mint-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <Image className="h-12 w-12 text-muted-foreground" />
             </div>
             <h3 className="text-xl font-semibold text-foreground mb-2">No Photos Found</h3>
@@ -113,16 +113,16 @@ const Gallery = () => {
 
         {/* Gallery Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-12 relative z-10">
-          <div className="bg-gradient-to-br from-purple-400 to-pink-500 rounded-lg p-6 shadow-card text-center text-white">
-            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div className="stats-card-teal text-center">
+            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
               <Image className="h-6 w-6 text-white" />
             </div>
             <div className="text-2xl font-bold mb-1">{photos.length}</div>
             <div className="text-white/90 text-sm">Total Photos</div>
           </div>
 
-          <div className="bg-gradient-to-br from-cyan-400 to-blue-500 rounded-lg p-6 shadow-card text-center col-span-2 text-white">
-            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div className="stats-card-mint text-center col-span-2">
+            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
               <Grid className="h-6 w-6 text-white" />
             </div>
             <div className="text-2xl font-bold mb-1">A Growing Collection</div>
