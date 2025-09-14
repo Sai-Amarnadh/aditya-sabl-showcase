@@ -91,7 +91,8 @@ const Home = () => {
         {/* Main Content */}
         <div className="relative z-10 text-center text-primary-foreground px-4">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-slide-up">
-            <span className="text-white">ADITYA</span> <span className="text-white">UNIVERSITY</span>
+            <span className="text-orange-500">ADITYA</span> <span className="text-white">UNIVERSITY</span>
+
           </h1>
 
           <h2 className="text-2xl md:text-3xl font-semibold mb-4 opacity-90 animate-slide-up" style={{ animationDelay: '0.2s' }}>
