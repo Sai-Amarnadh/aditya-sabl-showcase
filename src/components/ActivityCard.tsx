@@ -22,12 +22,12 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
       
       <div className="p-6 flex flex-col flex-grow">
         <div className="flex items-start justify-between mb-3">
-          <h3 className="text-xl font-bold text-gradient-teal group-hover:text-orange-500 transition-colors">
+          <h3 className="text-xl font-bold text-primary group-hover:text-blue-600 transition-colors">
             {activity.name}
           </h3>
           <span className={`px-3 py-1 rounded-full text-xs font-medium ${
             isUpcoming 
-              ? 'bg-teal-100 text-teal-600' 
+              ? 'bg-primary/10 text-primary' 
               : 'bg-gray-100 text-gray-600'
           }`}>
             {isUpcoming ? 'Upcoming' : 'Completed'}
@@ -36,12 +36,12 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
         
         <div className="flex items-center text-muted-foreground text-sm mb-3">
           <Calendar className="h-4 w-4 mr-2" />
-          {activity.date ? new Date(activity.date).toLocaleDateString('en-US', { 
+          {new Date(activity.date).toLocaleDateString('en-US', { 
             weekday: 'long',
             year: 'numeric', 
             month: 'long', 
             day: 'numeric' 
-          }) : 'Date TBD'}
+          })}
         </div>
         
         <p className="text-muted-foreground text-sm mb-4 line-clamp-3 h-20 flex-grow">
@@ -57,12 +57,12 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
         
         {isUpcoming ? (
           <div className="flex gap-2 mt-auto">
-            <Button asChild size="sm" className="flex-1 btn-outline-colorful">
+            <Button asChild size="sm" className="flex-1 btn-navy-secondary">
               <Link to={`/activity/${activity.id}`}>
                 Learn More
               </Link>
             </Button>
-            <Button asChild size="sm" className="flex-1 btn-rainbow register-button-highlight">
+            <Button asChild size="sm" className="flex-1 register-button-highlight">
               <Link to={`/register/${activity.id}`}>
                 Register
               </Link>
@@ -73,7 +73,7 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
             <Button
               variant="outline"
               size="sm"
-              className="w-full mt-auto btn-outline-colorful"
+              className="w-full mt-auto btn-navy-outline"
             >
               View Photos
             </Button>

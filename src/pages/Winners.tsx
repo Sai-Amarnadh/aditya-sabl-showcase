@@ -1,22 +1,21 @@
 import { useState, useEffect } from 'react';
-import { getWinners, Winner } from '@/lib/data-service';
-import { useData } from '@/contexts/DataContext';
 import WinnerCard from '@/components/WinnerCard';
 import WinnerDetailsModal from '@/components/WinnerDetailsModal';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { getWinners, Winner } from '@/lib/data-service';
+import { useData } from '@/contexts/DataContext';
+import { Trophy, Filter, Calendar, Award } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Trophy, Calendar, Users, Award, Medal } from 'lucide-react';
-import PageLoader from '@/components/PageLoader';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const Winners = () => {
   const [winners, setWinners] = useState<Winner[]>([]);
+  const [selectedYear, setSelectedYear] = useState<string>('all');
+  const [selectedEvent, setSelectedEvent] = useState<string>('all');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedYear, setSelectedYear] = useState<string>('all');
-  const [selectedActivity, setSelectedActivity] = useState<string>('all');
   const [selectedWinner, setSelectedWinner] = useState<Winner | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const { dataChanged } = useData();
 
   const handleWinnerClick = (winner: Winner) => {
@@ -31,115 +30,63 @@ const Winners = () => {
 
   useEffect(() => {
     const fetchWinners = async () => {
+      setLoading(true);
+      setError(null);
       try {
-        setLoading(true);
-        const data = await getWinners();
-        setWinners(data);
-        setError(null);
+        const winnersData = await getWinners();
+        setWinners(winnersData);
       } catch (err) {
-        setError('Failed to load winners');
         console.error('Error fetching winners:', err);
+        setError(err instanceof Error ? err.message : 'An unknown error occurred.');
       } finally {
         setLoading(false);
       }
     };
-
+    
     fetchWinners();
   }, [dataChanged]);
 
-  // Get unique years and activities for filtering
-  const years = Array.from(new Set(winners.map(w => w.year))).sort((a, b) => b.localeCompare(a));
-  const activities = Array.from(new Set(winners.filter(w => w.activityType).map(w => w.activityType!)))
-    .filter(a => a !== 'General');
+  const years = Array.from(new Set(winners.map(w => w.year))).sort().reverse();
+  const events = Array.from(new Set(winners.map(w => w.event))).sort();
 
-  // Filter winners based on selections
   const filteredWinners = winners.filter(winner => {
     const yearMatch = selectedYear === 'all' || winner.year === selectedYear;
-    const activityMatch = selectedActivity === 'all' || winner.activityType === selectedActivity;
-    return yearMatch && activityMatch;
+    const eventMatch = selectedEvent === 'all' || winner.event === selectedEvent;
+    return yearMatch && eventMatch;
   });
-
-  // Group winners by position for display
-  const championWinners = filteredWinners.filter(w => w.position === 1);
-  const runnerUpWinners = filteredWinners.filter(w => w.position === 2);
-  const thirdPlaceWinners = filteredWinners.filter(w => w.position === 3);
-  const otherWinners = filteredWinners.filter(w => !w.position || w.position > 3);
 
   const clearFilters = () => {
     setSelectedYear('all');
-    setSelectedActivity('all');
+    setSelectedEvent('all');
   };
-
-  if (loading) return <PageLoader />;
-
-  if (error) {
-    return (
-      <div className="page-bg-clean">
-        <div className="container mx-auto px-4 py-12">
-          <div className="text-center">
-            <p className="text-destructive">{error}</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="page-bg-clean">
       <div className="container mx-auto px-4 py-12">
         {/* Header */}
         <div className="text-center mb-12 animate-slide-up">
-          <Trophy className="h-16 w-16 text-yellow-500 mx-auto mb-6 animate-float-gentle" />
-          <h1 className="text-4xl font-bold mb-4 text-gradient-rainbow">Hall of Fame</h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+          <div className="flex items-center justify-center mb-4">
+            <Trophy className="h-8 w-8 text-primary mr-3" />
+            <h1 className="text-4xl font-bold text-gradient-navy">Hall of Fame</h1>
+          </div>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Celebrating the outstanding achievements of our students across various SABL activities and competitions.
           </p>
         </div>
 
-        {/* Summary Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card className="clean-card animate-slide-up">
-            <CardContent className="p-6 text-center">
-              <Users className="h-8 w-8 text-teal-500 mx-auto mb-2 animate-float-gentle" />
-              <p className="text-2xl font-bold text-gradient-teal">{filteredWinners.length}</p>
-              <p className="text-sm text-muted-foreground">Total Winners</p>
-            </CardContent>
-          </Card>
-          <Card className="clean-card animate-slide-up" style={{ animationDelay: '0.1s' }}>
-            <CardContent className="p-6 text-center">
-              <Trophy className="h-8 w-8 text-yellow-500 mx-auto mb-2 animate-float-gentle" style={{ animationDelay: '0.5s' }} />
-              <p className="text-2xl font-bold text-gradient-rainbow">{championWinners.length}</p>
-              <p className="text-sm text-muted-foreground">Champions</p>
-            </CardContent>
-          </Card>
-          <Card className="clean-card animate-slide-up" style={{ animationDelay: '0.2s' }}>
-            <CardContent className="p-6 text-center">
-              <Calendar className="h-8 w-8 text-orange-500 mx-auto mb-2 animate-float-gentle" style={{ animationDelay: '1s' }} />
-              <p className="text-2xl font-bold text-gradient-orange">{years.length}</p>
-              <p className="text-sm text-muted-foreground">Years</p>
-            </CardContent>
-          </Card>
-          <Card className="clean-card animate-slide-up" style={{ animationDelay: '0.3s' }}>
-            <CardContent className="p-6 text-center">
-              <Award className="h-8 w-8 text-purple-500 mx-auto mb-2 animate-float-gentle" style={{ animationDelay: '1.5s' }} />
-              <p className="text-2xl font-bold text-gradient-purple">{activities.length + 1}</p>
-              <p className="text-sm text-muted-foreground">Categories</p>
-            </CardContent>
-          </Card>
-        </div>
-
         {/* Filters */}
-        <Card className="mb-8 clean-card animate-slide-up rainbow-border">
-          <CardHeader>
-            <CardTitle className="text-gradient-teal">Filter Winners</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap gap-4 items-end">
-              <div className="flex-1 min-w-[200px]">
-                <label className="text-sm font-medium mb-2 block text-gradient-teal">Year</label>
+        <div className="clean-card backdrop-blur-sm p-6 mb-8 border-primary/20 animate-slide-up">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Filter className="h-5 w-5 text-primary" />
+              <span className="font-medium text-primary">Filter Winners:</span>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row gap-4 flex-1">
+              <div className="flex-1">
                 <Select value={selectedYear} onValueChange={setSelectedYear}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select year" />
+                    <SelectValue placeholder="Select Year" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All Years</SelectItem>
@@ -149,184 +96,176 @@ const Winners = () => {
                   </SelectContent>
                 </Select>
               </div>
-              <div className="flex-1 min-w-[200px]">
-                <label className="text-sm font-medium mb-2 block text-gradient-orange">Activity</label>
-                <Select value={selectedActivity} onValueChange={setSelectedActivity}>
+              
+              <div className="flex-1">
+                <Select value={selectedEvent} onValueChange={setSelectedEvent}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select activity" />
+                    <SelectValue placeholder="Select Event" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Activities</SelectItem>
-                    {activities.map(activity => (
-                      <SelectItem key={activity} value={activity}>{activity}</SelectItem>
+                    <SelectItem value="all">All Events</SelectItem>
+                    {events.map(event => (
+                      <SelectItem key={event} value={event}>{event}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
-              <Button variant="outline" onClick={clearFilters} className="btn-outline-colorful">
+              
+              <Button variant="outline" onClick={clearFilters} className="btn-navy-outline">
                 Clear Filters
               </Button>
             </div>
-            
-            <div className="mt-4 text-sm text-muted-foreground">
-              Showing {filteredWinners.length} winner{filteredWinners.length !== 1 ? 's' : ''}
-              {selectedYear !== 'all' && ` from ${selectedYear}`}
-              {selectedActivity !== 'all' && ` in ${selectedActivity}`}
-            </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        {/* Winners Display */}
-        {filteredWinners.length === 0 ? (
-          <Card className="clean-card">
-            <CardContent className="p-12 text-center">
-              <Trophy className="h-16 w-16 text-yellow-500 mx-auto mb-4 animate-float-gentle" />
-              <h3 className="text-xl font-semibold mb-2 text-gradient-rainbow">No Winners Found</h3>
-              <p className="text-muted-foreground">
-                No winners match the current filter criteria.
-              </p>
-            </CardContent>
-          </Card>
-        ) : (
-          <div className="space-y-8">
-            {/* Champions Section */}
-            {championWinners.length > 0 && (
-              <Card className="clean-card animate-slide-up glow-effect">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-gradient-rainbow">
-                    <Trophy className="h-6 w-6 text-yellow-500" />
-                    Champions (1st Place)
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {championWinners.map((winner, index) => (
-                      <div key={winner.id} className="animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
-                        <WinnerCard 
-                          winner={winner} 
-                          featured={true}
-                          onClick={() => handleWinnerClick(winner)}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
+        {/* Results Summary */}
+        <div className="mb-6">
+          <p className="text-muted-foreground">
+            Showing {filteredWinners.length} of {winners.length} winners
+            {selectedYear !== 'all' && ` from ${selectedYear}`}
+            {selectedEvent !== 'all' && ` in ${selectedEvent}`}
+          </p>
+        </div>
 
-            {/* Runner-ups Section */}
-            {runnerUpWinners.length > 0 && (
-              <Card className="clean-card animate-slide-up">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-gradient-teal">
-                    <Medal className="h-6 w-6 text-gray-400" />
-                    Runner-ups (2nd Place)
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {runnerUpWinners.map((winner, index) => (
-                      <div key={winner.id} className="animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
-                        <WinnerCard 
-                          winner={winner}
-                          onClick={() => handleWinnerClick(winner)}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-
-            {/* Third Place Section */}
-            {thirdPlaceWinners.length > 0 && (
-              <Card className="clean-card animate-slide-up">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-gradient-orange">
-                    <Medal className="h-6 w-6 text-amber-600" />
-                    Third Place
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {thirdPlaceWinners.map((winner, index) => (
-                      <div key={winner.id} className="animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
-                        <WinnerCard 
-                          winner={winner}
-                          onClick={() => handleWinnerClick(winner)}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-
-            {/* Other Winners Section */}
-            {otherWinners.length > 0 && (
-              <Card className="clean-card animate-slide-up">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-gradient-purple">
-                    <Award className="h-6 w-6 text-purple-500" />
-                    Other Winners & Participants
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {otherWinners.map((winner, index) => (
-                      <div key={winner.id} className="animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
-                        <WinnerCard 
-                          winner={winner}
-                          onClick={() => handleWinnerClick(winner)}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
+        {/* Error Message */}
+        {error && (
+          <div className="bg-destructive/10 border border-destructive/20 text-destructive rounded-xl p-6 mb-8 text-center animate-slide-up">
+            <h3 className="font-semibold mb-2">Failed to Load Winners</h3>
+            <p className="text-sm">{error}</p>
+            <p className="text-xs mt-2 text-muted-foreground">
+              This might be due to a network issue or a problem with the server. Please try again later.
+            </p>
           </div>
         )}
 
-        {/* Achievement Summary */}
-        <div className="mt-16 stats-card-rainbow rounded-3xl p-8 text-white shadow-elevated animate-slide-up glow-effect">
-          <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold mb-4">Achievement Summary</h2>
-            <p className="text-white/90">
-              Recognizing excellence across all our SABL activities
-            </p>
+        {/* Winners Grid */}
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {Array.from({ length: 6 }).map((_, index) => (
+              <div key={index} className="clean-card p-6 animate-pulse">
+                <div className="flex items-center space-x-4">
+                  <div className="w-16 h-16 bg-muted rounded-full"></div>
+                  <div className="flex-1">
+                    <div className="h-4 bg-muted rounded mb-2"></div>
+                    <div className="h-3 bg-muted rounded mb-1"></div>
+                    <div className="h-3 bg-muted rounded"></div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-6 shadow-soft text-center">
-              <Trophy className="h-12 w-12 text-yellow-300 mx-auto mb-4 animate-float-gentle" />
-              <h3 className="font-semibold text-white mb-2">{championWinners.length} Champions</h3>
-              <p className="text-white/80 text-sm">
-                First place winners leading by example
-              </p>
+        ) : filteredWinners.length > 0 ? (
+          <>
+            {/* Group winners by week and activity type for current week winners */}
+            {filteredWinners.some(w => w.isThisWeekWinner) && (
+              <div className="mb-8">
+                <h3 className="text-xl font-semibold mb-4 text-center text-primary">🏆 Top Performers of the Week</h3>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                  {['Activity 1', 'Activity 2'].map(activityType => {
+                    const weekWinners = filteredWinners
+                      .filter(w => w.isThisWeekWinner && w.activityType === activityType)
+                      .sort((a, b) => (a.position || 1) - (b.position || 1));
+                    
+                    if (weekWinners.length === 0) return null;
+                    
+                    return (
+                      <div key={activityType} className="bg-primary/5 rounded-xl p-6 border border-primary/20">
+                        <h4 className="text-lg font-semibold mb-4 text-center text-primary">{activityType}</h4>
+                        <div className="space-y-3">
+                          {weekWinners.map((winner, index) => (
+                            <div key={winner.id} className="animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
+                              <WinnerCard winner={winner} featured={winner.position === 1} onClick={() => handleWinnerClick(winner)} />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredWinners.filter(w => !w.isThisWeekWinner).map((winner, index) => (
+                <div key={winner.id} className="animate-slide-up" style={{ animationDelay: `${index * 0.05}s` }}>
+                  <WinnerCard winner={winner} onClick={() => handleWinnerClick(winner)} />
+                </div>
+              ))}
+            </div>
+          </>
+        ) : (
+          <div className="text-center py-16">
+            <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Trophy className="h-12 w-12 text-primary" />
+            </div>
+            <h3 className="text-xl font-semibold text-primary mb-2">No Winners Found</h3>
+            <p className="text-muted-foreground mb-4">
+              Try adjusting your filters to see more results.
+            </p>
+            <Button onClick={clearFilters} className="btn-navy-primary">Clear All Filters</Button>
+          </div>
+        )}
+
+        {/* Stats Overview */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-12">
+          <div className="stats-card-navy text-center animate-slide-up">
+            <Trophy className="h-8 w-8 mx-auto mb-3" />
+            <div className="text-3xl font-bold mb-1">{winners.length}</div>
+            <div className="text-sm opacity-90">Total Winners</div>
+          </div>
+
+          <div className="stats-card-light text-center animate-slide-up" style={{ animationDelay: '0.1s' }}>
+            <Award className="h-8 w-8 mx-auto mb-3 text-primary" />
+            <div className="text-3xl font-bold mb-1 text-primary">{events.length}</div>
+            <div className="text-primary/80 text-sm">Different Events</div>
+          </div>
+
+          <div className="stats-card-navy text-center animate-slide-up" style={{ animationDelay: '0.2s' }}>
+            <Calendar className="h-8 w-8 mx-auto mb-3 text-white" />
+            <div className="text-3xl font-bold mb-1">{years.length}</div>
+            <div className="text-white/90 text-sm">Years of Excellence</div>
+          </div>
+        </div>
+
+        {/* Achievement Highlights */}
+        <div className="mt-16 stats-card-navy rounded-2xl p-8 text-white shadow-elevated animate-slide-up">
+          <h2 className="text-2xl font-bold text-center mb-6">Achievement Highlights</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-white">Most Active Events</h3>
+              {events.slice(0, 3).map(event => {
+                const eventWinners = winners.filter(w => w.event === event);
+                return (
+                  <div key={event} className="flex justify-between items-center p-3 bg-white/20 backdrop-blur-sm rounded-xl shadow-soft">
+                    <span className="text-white">{event}</span>
+                    <span className="text-yellow-300 font-semibold">{eventWinners.length} winners</span>
+                  </div>
+                );
+              })}
             </div>
             
-            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-6 shadow-soft text-center">
-              <Medal className="h-12 w-12 text-gray-300 mx-auto mb-4 animate-float-gentle" style={{ animationDelay: '0.5s' }} />
-              <h3 className="font-semibold text-white mb-2">{runnerUpWinners.length + thirdPlaceWinners.length} Medalists</h3>
-              <p className="text-white/80 text-sm">
-                Second and third place achievers
-              </p>
-            </div>
-            
-            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-6 shadow-soft text-center">
-              <Award className="h-12 w-12 text-purple-300 mx-auto mb-4 animate-float-gentle" style={{ animationDelay: '1s' }} />
-              <h3 className="font-semibold text-white mb-2">{otherWinners.length} Participants</h3>
-              <p className="text-white/80 text-sm">
-                Active contributors to our community
-              </p>
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-white">Recent Achievements</h3>
+              {winners
+                .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                .slice(0, 3)
+                .map(winner => (
+                  <div key={winner.id} className="flex justify-between items-center p-3 bg-white/20 backdrop-blur-sm rounded-xl shadow-soft">
+                    <div>
+                      <div className="text-white font-medium">{winner.name}</div>
+                      <div className="text-white/80 text-sm">{winner.event}</div>
+                    </div>
+                    <div className="text-yellow-300 text-sm">
+                      {new Date(winner.date).toLocaleDateString()}
+                    </div>
+                  </div>
+                ))}
             </div>
           </div>
         </div>
       </div>
       
-      {/* Winner Details Modal */}
-      <WinnerDetailsModal 
+      <WinnerDetailsModal
         winner={selectedWinner}
         isOpen={isModalOpen}
         onClose={handleCloseModal}

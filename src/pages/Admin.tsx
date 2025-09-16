@@ -275,7 +275,6 @@ const Admin = () => {
                 </div>
                 {error && <p className="text-red-500 text-sm text-center animate-shake">{error}</p>}
                 <Button type="submit" className="w-full btn-navy-primary">
-                <Button type="submit" className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
                   Login
                 </Button>
               </form>
@@ -292,22 +291,22 @@ const Admin = () => {
         <h1 className="text-4xl font-bold text-center mb-12 text-gradient-navy">Admin Panel</h1>
         <Tabs defaultValue="winners">
           <TabsList className="grid w-full grid-cols-3 bg-white shadow-soft">
-            <TabsTrigger value="winners" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-400 data-[state=active]:to-teal-500 data-[state=active]:text-white">Manage Winners</TabsTrigger>
-            <TabsTrigger value="activities" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-400 data-[state=active]:to-orange-500 data-[state=active]:text-white">Manage Activities</TabsTrigger>
-            <TabsTrigger value="gallery" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-400 data-[state=active]:to-purple-500 data-[state=active]:text-white">Manage Gallery</TabsTrigger>
+            <TabsTrigger value="winners" className="data-[state=active]:bg-primary data-[state=active]:text-white">Manage Winners</TabsTrigger>
+            <TabsTrigger value="activities" className="data-[state=active]:bg-primary data-[state=active]:text-white">Manage Activities</TabsTrigger>
+            <TabsTrigger value="gallery" className="data-[state=active]:bg-primary data-[state=active]:text-white">Manage Gallery</TabsTrigger>
           </TabsList>
           <TabsContent value="winners">
             <Card className="clean-card">
               <CardHeader>
-                <CardTitle className="text-gradient-teal">Winners</CardTitle>
+                <CardTitle className="text-primary">Winners</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="mb-8">
-                  <h3 className="text-2xl font-semibold mb-4 text-gradient-teal">{editingWinner ? 'Edit Winner' : 'Add New Winner'}</h3>
+                  <h3 className="text-2xl font-semibold mb-4 text-primary">{editingWinner ? 'Edit Winner' : 'Add New Winner'}</h3>
                   <form onSubmit={handleAddWinner} className="space-y-4">
                     <div>
-                      <Label htmlFor="winner-name" className="text-gradient-teal">Name</Label>
-                      <Input id="winner-name" value={newWinner.name} onChange={e => setNewWinner({ ...newWinner, name: e.target.value })} className="focus:ring-2 focus:ring-teal-400" />
+                      <Label htmlFor="winner-name" className="text-primary">Name</Label>
+                      <Input id="winner-name" value={newWinner.name} onChange={e => setNewWinner({ ...newWinner, name: e.target.value })} className="focus:ring-2 focus:ring-primary" />
                     </div>
                     <div>
                       <Label htmlFor="winner-rollNumber" className="text-primary">Roll Number</Label>
@@ -370,28 +369,28 @@ const Admin = () => {
                       <Label htmlFor="isThisWeekWinner" className="text-primary">This Week's Winner</Label>
                     </div>
                     <div className="flex space-x-2">
-                      <Button type="submit" disabled={winnerLoading} className="btn-teal">
+                      <Button type="submit" disabled={winnerLoading} className="btn-navy-primary">
                         {winnerLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                         {editingWinner ? 'Update Winner' : 'Add Winner'}
                       </Button>
                       {editingWinner && (
-                        <Button variant="outline" onClick={() => { setEditingWinner(null); setNewWinner(initialWinnerState); }} className="btn-outline-colorful">Cancel</Button>
+                        <Button variant="outline" onClick={() => { setEditingWinner(null); setNewWinner(initialWinnerState); }} className="btn-navy-outline">Cancel</Button>
                       )}
                     </div>
                   </form>
                 </div>
                 <div>
-                  <h3 className="text-2xl font-semibold mb-4 text-gradient-teal">Existing Winners</h3>
+                  <h3 className="text-2xl font-semibold mb-4 text-primary">Existing Winners</h3>
                   {winners.map(winner => (
                     <div key={winner.id} className="flex items-center justify-between p-4 border rounded-xl mb-2 clean-card">
                       <div>
-                        <p className="font-bold text-gradient-teal">{winner.name}</p>
+                        <p className="font-bold text-primary">{winner.name}</p>
                         <p className="text-sm text-muted-foreground">{winner.event} - {winner.year}</p>
                         <p className="text-xs text-muted-foreground">{winner.activityType} - {winner.position === 1 ? '1st' : winner.position === 2 ? '2nd' : '3rd'} Place - Week {winner.weekNumber}</p>
                       </div>
                       <div className="flex items-center">
                         {winner.photo && <img src={winner.photo} alt={winner.name} className="h-10 w-10 object-cover rounded-full mr-4" />}
-                        <Button variant="outline" size="sm" className="mr-2 btn-outline-colorful" onClick={() => handleEditWinner(winner)}>Edit</Button>
+                        <Button variant="outline" size="sm" className="mr-2 btn-navy-outline" onClick={() => handleEditWinner(winner)}>Edit</Button>
                         <Button variant="destructive" size="sm" onClick={() => handleDeleteWinner(winner.id)}>Delete</Button>
                       </div>
                     </div>
@@ -403,11 +402,11 @@ const Admin = () => {
           <TabsContent value="activities">
             <Card className="clean-card">
               <CardHeader>
-                <CardTitle className="text-gradient-orange">Activities</CardTitle>
+                <CardTitle className="text-primary">Activities</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="mb-8">
-                  <h3 className="text-2xl font-semibold mb-4 text-gradient-orange">{editingActivity ? 'Edit Activity' : 'Add New Activity'}</h3>
+                  <h3 className="text-2xl font-semibold mb-4 text-primary">{editingActivity ? 'Edit Activity' : 'Add New Activity'}</h3>
                   <form onSubmit={handleAddActivity} className="space-y-4">
                     <div>
                       <Label htmlFor="activity-name" className="text-primary">Name</Label>
@@ -457,27 +456,27 @@ const Admin = () => {
                       />
                     </div>
                     <div className="flex space-x-2">
-                      <Button type="submit" disabled={activityLoading} className="btn-orange">
+                      <Button type="submit" disabled={activityLoading} className="btn-navy-primary">
                         {activityLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                         {editingActivity ? 'Update Activity' : 'Add Activity'}
                       </Button>
                       {editingActivity && (
-                        <Button variant="outline" onClick={() => { setEditingActivity(null); setNewActivity(initialActivityState); }} className="btn-outline-colorful">Cancel</Button>
+                        <Button variant="outline" onClick={() => { setEditingActivity(null); setNewActivity(initialActivityState); }} className="btn-navy-outline">Cancel</Button>
                       )}
                     </div>
                   </form>
                 </div>
                 <div>
-                  <h3 className="text-2xl font-semibold mb-4 text-gradient-orange">Existing Activities</h3>
+                  <h3 className="text-2xl font-semibold mb-4 text-primary">Existing Activities</h3>
                   {activities.map(activity => (
                     <div key={activity.id} className="flex items-center justify-between p-4 border rounded-xl mb-2 clean-card">
                       <div>
-                        <p className="font-bold text-gradient-orange">{activity.name}</p>
+                        <p className="font-bold text-primary">{activity.name}</p>
                         <p className="text-sm text-muted-foreground">{activity.status} - {activity.date}</p>
                       </div>
                       <div className="flex items-center">
                         {activity.poster && <img src={activity.poster} alt={activity.name} className="h-10 w-10 object-cover rounded mr-4" />}
-                        <Button variant="outline" size="sm" className="mr-2 btn-outline-colorful" onClick={() => handleEditActivity(activity)}>Edit</Button>
+                        <Button variant="outline" size="sm" className="mr-2 btn-navy-outline" onClick={() => handleEditActivity(activity)}>Edit</Button>
                         <Button variant="destructive" size="sm" onClick={() => handleDeleteActivity(activity.id)}>Delete</Button>
                       </div>
                     </div>
@@ -489,11 +488,11 @@ const Admin = () => {
           <TabsContent value="gallery">
             <Card className="clean-card">
               <CardHeader>
-                <CardTitle className="text-gradient-purple">Gallery</CardTitle>
+                <CardTitle className="text-primary">Gallery</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="mb-8">
-                  <h3 className="text-2xl font-semibold mb-4 text-gradient-purple">{editingGalleryImage ? 'Edit Gallery Image' : 'Add New Gallery Image'}</h3>
+                  <h3 className="text-2xl font-semibold mb-4 text-primary">{editingGalleryImage ? 'Edit Gallery Image' : 'Add New Gallery Image'}</h3>
                   <form onSubmit={handleAddGalleryImage} className="space-y-4">
                     <div>
                       <Label htmlFor="gallery-url" className="text-primary">Image</Label>
@@ -504,26 +503,26 @@ const Admin = () => {
                       <Input id="gallery-caption" value={newGalleryImage.caption} onChange={e => setNewGalleryImage({ ...newGalleryImage, caption: e.target.value })} className="focus:ring-2 focus:ring-primary" />
                     </div>
                     <div className="flex space-x-2">
-                      <Button type="submit" disabled={galleryLoading} className="btn-purple">
+                      <Button type="submit" disabled={galleryLoading} className="btn-navy-primary">
                         {galleryLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                         {editingGalleryImage ? 'Update Image' : 'Add Image'}
                       </Button>
                       {editingGalleryImage && (
-                        <Button variant="outline" onClick={() => { setEditingGalleryImage(null); setNewGalleryImage(initialGalleryImageState); }} className="btn-outline-colorful">Cancel</Button>
+                        <Button variant="outline" onClick={() => { setEditingGalleryImage(null); setNewGalleryImage(initialGalleryImageState); }} className="btn-navy-outline">Cancel</Button>
                       )}
                     </div>
                   </form>
                 </div>
                 <div>
-                  <h3 className="text-2xl font-semibold mb-4 text-gradient-purple">Existing Gallery Images</h3>
+                  <h3 className="text-2xl font-semibold mb-4 text-primary">Existing Gallery Images</h3>
                   {galleryImages.map(image => (
                     <div key={image.id} className="flex items-center justify-between p-4 border rounded-xl mb-2 clean-card">
                       <div className="flex items-center">
                         {image.url && <img src={image.url} alt={image.caption} className="h-16 w-16 object-cover rounded-md mr-4"/>}
-                        <p className="text-gradient-purple">{image.caption}</p>
+                        <p className="text-primary">{image.caption}</p>
                       </div>
                       <div>
-                        <Button variant="outline" size="sm" className="mr-2 btn-outline-colorful" onClick={() => handleEditGalleryImage(image)}>Edit</Button>
+                        <Button variant="outline" size="sm" className="mr-2 btn-navy-outline" onClick={() => handleEditGalleryImage(image)}>Edit</Button>
                         <Button variant="destructive" size="sm" onClick={() => handleDeleteGalleryImage(image.id)}>Delete</Button>
                       </div>
                     </div>

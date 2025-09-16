@@ -93,8 +93,8 @@ const WeeklyWinners = () => {
       <div className="container mx-auto px-4 py-12">
         {/* Header */}
         <div className="text-center mb-12 animate-slide-up">
-          <Trophy className="h-16 w-16 text-yellow-500 mx-auto mb-6 animate-float-gentle" />
-          <h1 className="text-4xl font-bold mb-4 text-gradient-rainbow">Weekly Winners</h1>
+          <Trophy className="h-16 w-16 text-primary mx-auto mb-6" />
+          <h1 className="text-4xl font-bold mb-4 text-gradient-navy">Weekly Winners</h1>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
             Celebrating our champions across two weekly activities with 1st, 2nd, and 3rd place honors.
           </p>
@@ -104,43 +104,43 @@ const WeeklyWinners = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <Card className="clean-card animate-slide-up">
             <CardContent className="p-6 text-center">
-              <Users className="h-8 w-8 text-teal-500 mx-auto mb-2 animate-float-gentle" />
-              <p className="text-2xl font-bold text-gradient-teal">{filteredWinners.length}</p>
+              <Users className="h-8 w-8 text-primary mx-auto mb-2" />
+              <p className="text-2xl font-bold text-primary">{filteredWinners.length}</p>
               <p className="text-sm text-muted-foreground">Total Winners</p>
             </CardContent>
           </Card>
           <Card className="clean-card animate-slide-up" style={{ animationDelay: '0.1s' }}>
             <CardContent className="p-6 text-center">
-              <Calendar className="h-8 w-8 text-orange-500 mx-auto mb-2 animate-float-gentle" style={{ animationDelay: '0.5s' }} />
-              <p className="text-2xl font-bold text-gradient-orange">{weeks.length}</p>
+              <Calendar className="h-8 w-8 text-primary mx-auto mb-2" />
+              <p className="text-2xl font-bold text-primary">{weeks.length}</p>
               <p className="text-sm text-muted-foreground">Weeks</p>
             </CardContent>
           </Card>
           <Card className="clean-card animate-slide-up" style={{ animationDelay: '0.2s' }}>
             <CardContent className="p-6 text-center">
-              <Target className="h-8 w-8 text-purple-500 mx-auto mb-2 animate-float-gentle" style={{ animationDelay: '1s' }} />
-              <p className="text-2xl font-bold text-gradient-purple">{activities.length}</p>
+              <Target className="h-8 w-8 text-primary mx-auto mb-2" />
+              <p className="text-2xl font-bold text-primary">{activities.length}</p>
               <p className="text-sm text-muted-foreground">Activities</p>
             </CardContent>
           </Card>
           <Card className="clean-card animate-slide-up" style={{ animationDelay: '0.3s' }}>
             <CardContent className="p-6 text-center">
-              <Trophy className="h-8 w-8 text-yellow-500 mx-auto mb-2 animate-float-gentle" style={{ animationDelay: '1.5s' }} />
-              <p className="text-2xl font-bold text-gradient-rainbow">{filteredWinners.filter(w => w.position === 1).length}</p>
+              <Trophy className="h-8 w-8 text-primary mx-auto mb-2" />
+              <p className="text-2xl font-bold text-primary">{filteredWinners.filter(w => w.position === 1).length}</p>
               <p className="text-sm text-muted-foreground">Champions</p>
             </CardContent>
           </Card>
         </div>
 
         {/* Filters */}
-        <Card className="mb-8 clean-card animate-slide-up rainbow-border">
+        <Card className="mb-8 clean-card animate-slide-up">
           <CardHeader>
-            <CardTitle className="text-gradient-teal">Filter Winners</CardTitle>
+            <CardTitle className="text-primary">Filter Winners</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-4 items-end">
               <div className="flex-1 min-w-[200px]">
-                <label className="text-sm font-medium mb-2 block text-gradient-teal">Week</label>
+                <label className="text-sm font-medium mb-2 block text-primary">Week</label>
                 <Select value={selectedWeek} onValueChange={setSelectedWeek}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select week" />
@@ -154,7 +154,7 @@ const WeeklyWinners = () => {
                 </Select>
               </div>
               <div className="flex-1 min-w-[200px]">
-                <label className="text-sm font-medium mb-2 block text-gradient-orange">Activity</label>
+                <label className="text-sm font-medium mb-2 block text-primary">Activity</label>
                 <Select value={selectedActivity} onValueChange={setSelectedActivity}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select activity" />
@@ -167,7 +167,7 @@ const WeeklyWinners = () => {
                   </SelectContent>
                 </Select>
               </div>
-              <Button variant="outline" onClick={clearFilters} className="btn-outline-colorful">
+              <Button variant="outline" onClick={clearFilters} className="btn-navy-outline">
                 Clear Filters
               </Button>
             </div>
@@ -184,8 +184,8 @@ const WeeklyWinners = () => {
         {Object.keys(groupedWinners).length === 0 ? (
           <Card className="clean-card">
             <CardContent className="p-12 text-center">
-              <Trophy className="h-16 w-16 text-yellow-500 mx-auto mb-4 animate-float-gentle" />
-              <h3 className="text-xl font-semibold mb-2 text-gradient-rainbow">No Winners Found</h3>
+              <Trophy className="h-16 w-16 text-primary mx-auto mb-4" />
+              <h3 className="text-xl font-semibold mb-2 text-primary">No Winners Found</h3>
               <p className="text-muted-foreground">
                 No winners match the current filter criteria.
               </p>
@@ -198,7 +198,7 @@ const WeeklyWinners = () => {
               .map((group, groupIndex) => (
                 <Card key={`${group.week}-${group.activity}`} className="clean-card animate-slide-up" style={{ animationDelay: `${groupIndex * 0.1}s` }}>
                   <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-gradient-teal">
+                    <CardTitle className="flex items-center gap-2 text-primary">
                       <Calendar className="h-5 w-5" />
                       Week {group.week} - {group.activity}
                     </CardTitle>

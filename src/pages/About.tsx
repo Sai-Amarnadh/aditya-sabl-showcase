@@ -8,8 +8,8 @@ const About: React.FC = () => {
         {/* Hero Section */}
         <div className="text-center mb-16 animate-slide-up">
           <div className="flex items-center justify-center mb-6">
-            <BookOpen className="h-12 w-12 text-teal-500 mr-4 animate-float-gentle" />
-            <h1 className="text-5xl font-bold text-gradient-rainbow">
+            <BookOpen className="h-12 w-12 text-primary mr-4" />
+            <h1 className="text-5xl font-bold text-gradient-navy">
               About SABL
             </h1>
           </div>
@@ -21,10 +21,10 @@ const About: React.FC = () => {
         {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
           <div className="space-y-8">
-            <div className="clean-card p-8 border-teal-200 animate-slide-up glow-effect">
+            <div className="clean-card p-8 border-primary/20 animate-slide-up">
               <div className="flex items-center mb-6">
-                <Target className="h-8 w-8 text-teal-500 mr-3 animate-float-gentle" />
-                <h2 className="text-3xl font-bold text-gradient-teal">What is SABL?</h2>
+                <Target className="h-8 w-8 text-primary mr-3" />
+                <h2 className="text-3xl font-bold text-primary">What is SABL?</h2>
               </div>
               <p className="text-muted-foreground leading-relaxed text-lg">
                 Student-Based Learning (SABL) encourages active participation, critical thinking, and collaborative skills. 
@@ -33,9 +33,9 @@ const About: React.FC = () => {
               </p>
             </div>
             
-            <div className="stats-card-rainbow rounded-3xl p-8 text-white shadow-elevated animate-slide-up glow-effect" style={{ animationDelay: '0.2s' }}>
+            <div className="stats-card-navy rounded-2xl p-8 text-white shadow-elevated animate-slide-up" style={{ animationDelay: '0.2s' }}>
               <div className="flex items-center mb-6">
-                <Award className="h-8 w-8 text-white mr-3 animate-float-gentle" />
+                <Award className="h-8 w-8 text-white mr-3" />
                 <h2 className="text-3xl font-bold">SABL at Aditya University</h2>
               </div>
               <p className="text-white/90 leading-relaxed text-lg mb-6">
@@ -44,7 +44,7 @@ const About: React.FC = () => {
                 their knowledge in practical scenarios.
               </p>
               <a href="/SABL_Grading_Points_Overview.pdf" download>
-                <button className="bg-white text-teal-600 hover:bg-gray-100 font-bold py-3 px-6 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg animate-pulse-colorful">
+                <button className="bg-white text-primary hover:bg-gray-100 font-bold py-3 px-6 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg">
                   📄 Download Grading Points Overview
                 </button>
               </a>
@@ -67,24 +67,24 @@ const About: React.FC = () => {
 
         {/* Features Grid */}
         <div className="mb-16">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gradient-rainbow animate-slide-up">
+          <h2 className="text-4xl font-bold text-center mb-12 text-gradient-navy animate-slide-up">
             SABL Key Features
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="stats-card-teal hover:scale-105 transition-all duration-300 animate-slide-up glow-effect">
-              <Users className="h-12 w-12 mb-4 animate-float-gentle" />
+            <div className="stats-card-navy hover:scale-105 transition-all duration-300 animate-slide-up">
+              <Users className="h-12 w-12 mb-4" />
               <h3 className="text-xl font-bold mb-3">Collaborative Learning</h3>
               <p className="text-white/90">Students work together in teams, sharing knowledge and building strong interpersonal skills.</p>
             </div>
             
-            <div className="stats-card-orange hover:scale-105 transition-all duration-300 animate-slide-up glow-effect" style={{ animationDelay: '0.1s' }}>
-              <Lightbulb className="h-12 w-12 mb-4 text-white animate-float-gentle" style={{ animationDelay: '0.5s' }} />
-              <h3 className="text-xl font-bold mb-3 text-white">Critical Thinking</h3>
-              <p className="text-white/90">Encouraging analytical thinking and problem-solving through hands-on activities and challenges.</p>
+            <div className="stats-card-light hover:scale-105 transition-all duration-300 animate-slide-up" style={{ animationDelay: '0.1s' }}>
+              <Lightbulb className="h-12 w-12 mb-4 text-primary" />
+              <h3 className="text-xl font-bold mb-3 text-primary">Critical Thinking</h3>
+              <p className="text-primary/80">Encouraging analytical thinking and problem-solving through hands-on activities and challenges.</p>
             </div>
             
-            <div className="stats-card-purple hover:scale-105 transition-all duration-300 animate-slide-up glow-effect" style={{ animationDelay: '0.2s' }}>
-              <Rocket className="h-12 w-12 mb-4 animate-float-gentle" style={{ animationDelay: '1s' }} />
+            <div className="stats-card-navy hover:scale-105 transition-all duration-300 animate-slide-up" style={{ animationDelay: '0.2s' }}>
+              <Rocket className="h-12 w-12 mb-4" />
               <h3 className="text-xl font-bold mb-3">Practical Application</h3>
               <p className="text-white/90">Real-world projects and case studies that bridge the gap between theory and practice.</p>
             </div>
@@ -93,7 +93,7 @@ const About: React.FC = () => {
 
         {/* Activities Gallery */}
         <div className="mb-16">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gradient-rainbow animate-slide-up">
+          <h2 className="text-4xl font-bold text-center mb-12 text-gradient-navy animate-slide-up">
             SABL Activities in Action
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -103,7 +103,7 @@ const About: React.FC = () => {
                 alt="SABL Project Work" 
                 className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-teal-500/80 to-transparent flex items-end">
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end">
                 <div className="p-6 text-white">
                   <h3 className="text-xl font-bold mb-2">Project-Based Learning</h3>
                   <p className="text-white/90">Students work on real-world projects</p>
@@ -117,7 +117,7 @@ const About: React.FC = () => {
                 alt="Group Discussion" 
                 className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-orange-500/80 to-transparent flex items-end">
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end">
                 <div className="p-6 text-white">
                   <h3 className="text-xl font-bold mb-2">Interactive Discussions</h3>
                   <p className="text-white/90">Collaborative problem-solving sessions</p>
@@ -131,7 +131,7 @@ const About: React.FC = () => {
                 alt="Workshop" 
                 className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-purple-500/80 to-transparent flex items-end">
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end">
                 <div className="p-6 text-white">
                   <h3 className="text-xl font-bold mb-2">Hands-on Workshops</h3>
                   <p className="text-white/90">Practical skill development sessions</p>
@@ -142,7 +142,7 @@ const About: React.FC = () => {
         </div>
 
         {/* Impact Section */}
-        <div className="stats-card-rainbow rounded-3xl p-12 text-white text-center shadow-elevated animate-slide-up glow-effect">
+        <div className="stats-card-navy rounded-3xl p-12 text-white text-center shadow-elevated animate-slide-up">
           <h2 className="text-4xl font-bold mb-6">SABL Impact</h2>
           <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
             Our SABL approach has transformed the learning experience, creating more engaged, confident, and skilled graduates 

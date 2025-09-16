@@ -27,6 +27,14 @@ const Navbar = () => {
 
   return (
     <>
+      {/* Animated Background */}
+      <div className="animated-background"></div>
+      <div className="floating-particles">
+        {Array.from({ length: 9 }).map((_, i) => (
+          <div key={i} className="particle"></div>
+        ))}
+      </div>
+
       <nav className={`navbar-clean sticky top-0 z-50 transition-all duration-300 navbar-slide-down ${
         isScrolled ? 'shadow-elevated' : 'shadow-header'
       }`}>
@@ -36,15 +44,15 @@ const Navbar = () => {
               <img src="/aditya-removebg-preview (1).png" alt="Aditya Logo" className="h-10 w-10 object-contain" />
               <div className="hidden sm:block">
                 <h1 className="text-lg font-bold">
-                  <span className="text-gradient-rainbow animate-rainbow-text">ADITYA</span>{' '}
-                  <span className="text-gradient-teal">UNIVERSITY</span>
+                  <span className="navbar-title">ADITYA</span>{' '}
+                  <span className="text-gradient-navy">UNIVERSITY</span>
                 </h1>
                 <p className="text-sm text-muted-foreground">Department of Computer Science and Engineering SABL Activities</p>
               </div>
               <div className="sm:hidden">
                 <h1 className="text-lg font-bold">
-                  <span className="text-gradient-rainbow animate-rainbow-text">ADITYA</span>{' '}
-                  <span className="text-gradient-teal">UNIVERSITY</span>
+                  <span className="navbar-title">ADITYA</span>{' '}
+                  <span className="text-gradient-navy">UNIVERSITY</span>
                 </h1>
               </div>
             </div>
