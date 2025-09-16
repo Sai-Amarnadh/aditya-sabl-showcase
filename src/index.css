@@ -168,7 +168,7 @@
   width: 8px; 
   height: 8px; 
   background: #4ECDC4; 
-  animation-delay: 0s; 
+  animation-delay: 0s;
   animation-duration: 25s;
 }
 .particle:nth-child(2) { 
@@ -176,7 +176,7 @@
   width: 12px; 
   height: 12px; 
   background: #FF6B35; 
-  animation-delay: 3s; 
+  animation-delay: 3s;
   animation-duration: 22s;
   border-radius: 0;
   transform: rotate(45deg);

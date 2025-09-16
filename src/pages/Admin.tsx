@@ -275,6 +275,7 @@ const Admin = () => {
                 </div>
                 {error && <p className="text-red-500 text-sm text-center animate-shake">{error}</p>}
                 <Button type="submit" className="w-full btn-navy-primary">
+                <Button type="submit" className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
                   Login
                 </Button>
               </form>
@@ -289,7 +290,6 @@ const Admin = () => {
     <div className="page-bg-clean">
       <div className="container mx-auto px-4 py-12">
         <h1 className="text-4xl font-bold text-center mb-12 text-gradient-navy">Admin Panel</h1>
-        <h1 className="text-4xl font-bold text-center mb-12 text-gradient-rainbow">Admin Panel</h1>
         <Tabs defaultValue="winners">
           <TabsList className="grid w-full grid-cols-3 bg-white shadow-soft">
             <TabsTrigger value="winners" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-400 data-[state=active]:to-teal-500 data-[state=active]:text-white">Manage Winners</TabsTrigger>

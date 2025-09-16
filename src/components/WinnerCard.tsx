@@ -51,7 +51,7 @@ const WinnerCard = ({ winner, featured = false, onClick }: WinnerCardProps) => {
             <h3 className="font-semibold text-gradient-teal group-hover:text-orange-500 transition-colors">
               {winner.name}
             </h3>
-            {winner.rollNumber && (
+            {winner.rollNumber && winner.rollNumber.trim() && (
               <p className="text-sm text-muted-foreground">{winner.rollNumber}</p>
             )}
             <p className="text-gradient-orange font-medium text-sm">{winner.event}</p>

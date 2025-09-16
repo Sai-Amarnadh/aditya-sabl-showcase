@@ -56,7 +56,7 @@ const transformWinnerFromDB = (row: WinnerRow): Winner => ({
 });
 
 // Helper function to transform Winner to database format
-const transformWinnerToDB = (winner: Omit<Winner, 'id'>): Omit<WinnerRow, 'id' | 'created_at'> => ({
+const transformWinnerToDB = (winner: Omit<Winner, 'id'>): Omit<Database['public']['Tables']['winners']['Insert'], 'id' | 'created_at'> => ({
   name: winner.name,
   roll_number: winner.rollNumber || '',
   event: winner.event,
@@ -83,7 +83,7 @@ const transformActivityFromDB = (row: UpcomingActivityRow | PreviousActivityRow,
 });
 
 // Helper function to transform Activity to database format for upcoming activities
-const transformActivityToUpcomingDB = (activity: Omit<Activity, 'id'>) => ({
+const transformActivityToUpcomingDB = (activity: Omit<Activity, 'id'>): Omit<Database['public']['Tables']['upcoming_activities']['Insert'], 'id' | 'created_at'> => ({
   title: activity.name,
   activity_date: activity.date,
   description: activity.description || null,
@@ -93,7 +93,7 @@ const transformActivityToUpcomingDB = (activity: Omit<Activity, 'id'>) => ({
 });
 
 // Helper function to transform Activity to database format for previous activities
-const transformActivityToPreviousDB = (activity: Omit<Activity, 'id'>) => ({
+const transformActivityToPreviousDB = (activity: Omit<Activity, 'id'>): Omit<Database['public']['Tables']['previous_activities']['Insert'], 'id' | 'created_at'> => ({
   title: activity.name,
   activity_date: activity.date,
   description: activity.description || null,
@@ -111,7 +111,7 @@ const transformGalleryFromDB = (row: GalleryRow): GalleryImage => ({
 });
 
 // Helper function to transform GalleryImage to database format
-const transformGalleryToDB = (image: Omit<GalleryImage, 'id'>) => ({
+const transformGalleryToDB = (image: Omit<GalleryImage, 'id'>): Omit<Database['public']['Tables']['gallery']['Insert'], 'id' | 'uploaded_at'> => ({
   image_url: image.url,
   title: image.caption || null,
 });

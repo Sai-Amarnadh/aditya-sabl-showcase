@@ -36,12 +36,12 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
         
         <div className="flex items-center text-muted-foreground text-sm mb-3">
           <Calendar className="h-4 w-4 mr-2" />
-          {new Date(activity.date).toLocaleDateString('en-US', { 
+          {activity.date ? new Date(activity.date).toLocaleDateString('en-US', { 
             weekday: 'long',
             year: 'numeric', 
             month: 'long', 
             day: 'numeric' 
-          })}
+          }) : 'Date TBD'}
         </div>
         
         <p className="text-muted-foreground text-sm mb-4 line-clamp-3 h-20 flex-grow">
