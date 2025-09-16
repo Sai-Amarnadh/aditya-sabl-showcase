@@ -38,8 +38,8 @@ const Gallery = () => {
         {/* Header */}
         <div className="text-center mb-12 animate-slide-up">
           <div className="flex items-center justify-center mb-4">
-            <Image className="h-8 w-8 text-primary mr-3" />
-            <h1 className="text-4xl font-bold text-gradient-navy">Photo Gallery</h1>
+            <Image className="h-8 w-8 text-pink-500 mr-3 animate-float-gentle" />
+            <h1 className="text-4xl font-bold text-gradient-rainbow">Photo Gallery</h1>
           </div>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Relive the memorable moments from our SABL activities through this curated collection of photos.
@@ -68,13 +68,13 @@ const Gallery = () => {
                       <img src={photo.url} alt={photo.caption} className="w-full h-full object-cover"/>
 
                       {/* Hover overlay */}
-                      <div className="absolute inset-0 bg-primary/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <div className="absolute inset-0 bg-gradient-to-br from-teal-500/60 to-purple-500/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                         <Eye className="h-8 w-8 text-white" />
                       </div>
                     </div>
 
                     <div className="p-4">
-                      <h3 className="font-semibold text-primary text-sm mb-1 truncate">
+                      <h3 className="font-semibold text-gradient-teal text-sm mb-1 truncate">
                         {photo.caption}
                       </h3>
                     </div>
@@ -91,10 +91,10 @@ const Gallery = () => {
           </div>
         ) : (
           <div className="text-center py-16">
-            <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Image className="h-12 w-12 text-primary" />
+            <div className="w-24 h-24 bg-gradient-to-r from-pink-100 to-pink-200 rounded-full flex items-center justify-center mx-auto mb-6 animate-float-gentle">
+              <Image className="h-12 w-12 text-pink-500" />
             </div>
-            <h3 className="text-xl font-semibold text-primary mb-2">No Photos Found</h3>
+            <h3 className="text-xl font-semibold text-gradient-rainbow mb-2">No Photos Found</h3>
             <p className="text-muted-foreground mb-4">
               The gallery is currently empty. Check back later!
             </p>
@@ -103,8 +103,8 @@ const Gallery = () => {
 
         {/* Gallery Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-12">
-          <div className="stats-card-navy text-center animate-slide-up">
-            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div className="stats-card-pink text-center animate-slide-up">
+            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3 animate-float-gentle">
               <Image className="h-6 w-6 text-white" />
             </div>
             <div className="text-2xl font-bold mb-1">{photos.length}</div>
@@ -112,11 +112,11 @@ const Gallery = () => {
           </div>
 
           <div className="stats-card-light text-center col-span-2 animate-slide-up" style={{ animationDelay: '0.1s' }}>
-            <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Grid className="h-6 w-6 text-primary" />
+            <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-3 animate-float-gentle" style={{ animationDelay: '0.5s' }}>
+              <Grid className="h-6 w-6 text-teal-500" />
             </div>
-            <div className="text-2xl font-bold mb-1 text-primary">A Growing Collection</div>
-            <div className="text-primary/80 text-sm">New photos are added regularly</div>
+            <div className="text-2xl font-bold mb-1 text-gradient-teal">A Growing Collection</div>
+            <div className="text-teal-600 text-sm">New photos are added regularly</div>
           </div>
         </div>
       </div>

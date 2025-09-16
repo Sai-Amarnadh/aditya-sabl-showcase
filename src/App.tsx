@@ -45,6 +45,18 @@ const App = () => {
         <BrowserRouter>
           <DataProvider>
             <div className="min-h-screen bg-background">
+              {/* Joyful Background Animations */}
+              <div className="animated-background"></div>
+              <div className="wave-background">
+                <div className="wave"></div>
+                <div className="wave"></div>
+              </div>
+              <div className="floating-particles">
+                {Array.from({ length: 9 }).map((_, i) => (
+                  <div key={i} className="particle"></div>
+                ))}
+              </div>
+              
               <Navbar />
               <Routes>
                 <Route path="/" element={<Home />} />

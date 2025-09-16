@@ -22,12 +22,12 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
       
       <div className="p-6 flex flex-col flex-grow">
         <div className="flex items-start justify-between mb-3">
-          <h3 className="text-xl font-bold text-primary group-hover:text-blue-600 transition-colors">
+          <h3 className="text-xl font-bold text-gradient-teal group-hover:text-orange-500 transition-colors">
             {activity.name}
           </h3>
           <span className={`px-3 py-1 rounded-full text-xs font-medium ${
             isUpcoming 
-              ? 'bg-primary/10 text-primary' 
+              ? 'bg-teal-100 text-teal-600' 
               : 'bg-gray-100 text-gray-600'
           }`}>
             {isUpcoming ? 'Upcoming' : 'Completed'}
@@ -57,12 +57,12 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
         
         {isUpcoming ? (
           <div className="flex gap-2 mt-auto">
-            <Button asChild size="sm" className="flex-1 btn-navy-secondary">
+            <Button asChild size="sm" className="flex-1 btn-outline-colorful">
               <Link to={`/activity/${activity.id}`}>
                 Learn More
               </Link>
             </Button>
-            <Button asChild size="sm" className="flex-1 register-button-highlight">
+            <Button asChild size="sm" className="flex-1 btn-rainbow register-button-highlight">
               <Link to={`/register/${activity.id}`}>
                 Register
               </Link>
@@ -73,7 +73,7 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
             <Button
               variant="outline"
               size="sm"
-              className="w-full mt-auto btn-navy-outline"
+              className="w-full mt-auto btn-outline-colorful"
             >
               View Photos
             </Button>

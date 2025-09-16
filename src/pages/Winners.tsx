@@ -66,8 +66,8 @@ const Winners = () => {
         {/* Header */}
         <div className="text-center mb-12 animate-slide-up">
           <div className="flex items-center justify-center mb-4">
-            <Trophy className="h-8 w-8 text-primary mr-3" />
-            <h1 className="text-4xl font-bold text-gradient-navy">Hall of Fame</h1>
+            <Trophy className="h-8 w-8 text-yellow-500 mr-3 animate-float-gentle" />
+            <h1 className="text-4xl font-bold text-gradient-rainbow">Hall of Fame</h1>
           </div>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Celebrating the outstanding achievements of our students across various SABL activities and competitions.
@@ -75,11 +75,11 @@ const Winners = () => {
         </div>
 
         {/* Filters */}
-        <div className="clean-card backdrop-blur-sm p-6 mb-8 border-primary/20 animate-slide-up">
+        <div className="clean-card backdrop-blur-sm p-6 mb-8 border-teal-200 animate-slide-up rainbow-border">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <div className="flex items-center gap-2">
-              <Filter className="h-5 w-5 text-primary" />
-              <span className="font-medium text-primary">Filter Winners:</span>
+              <Filter className="h-5 w-5 text-teal-500" />
+              <span className="font-medium text-gradient-teal">Filter Winners:</span>
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4 flex-1">
@@ -112,6 +112,7 @@ const Winners = () => {
               </div>
               
               <Button variant="outline" onClick={clearFilters} className="btn-navy-outline">
+              <Button variant="outline" onClick={clearFilters} className="btn-outline-colorful">
                 Clear Filters
               </Button>
             </div>
@@ -159,7 +160,7 @@ const Winners = () => {
             {/* Group winners by week and activity type for current week winners */}
             {filteredWinners.some(w => w.isThisWeekWinner) && (
               <div className="mb-8">
-                <h3 className="text-xl font-semibold mb-4 text-center text-primary">🏆 Top Performers of the Week</h3>
+                <h3 className="text-xl font-semibold mb-4 text-center text-gradient-rainbow">🏆 Top Performers of the Week</h3>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                   {['Activity 1', 'Activity 2'].map(activityType => {
                     const weekWinners = filteredWinners
@@ -169,8 +170,8 @@ const Winners = () => {
                     if (weekWinners.length === 0) return null;
                     
                     return (
-                      <div key={activityType} className="bg-primary/5 rounded-xl p-6 border border-primary/20">
-                        <h4 className="text-lg font-semibold mb-4 text-center text-primary">{activityType}</h4>
+                      <div key={activityType} className="bg-gradient-to-br from-teal-50 to-orange-50 rounded-xl p-6 border border-teal-200 glow-effect">
+                        <h4 className="text-lg font-semibold mb-4 text-center text-gradient-teal">{activityType}</h4>
                         <div className="space-y-3">
                           {weekWinners.map((winner, index) => (
                             <div key={winner.id} className="animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
@@ -195,40 +196,40 @@ const Winners = () => {
           </>
         ) : (
           <div className="text-center py-16">
-            <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Trophy className="h-12 w-12 text-primary" />
+            <div className="w-24 h-24 bg-gradient-to-r from-yellow-100 to-yellow-200 rounded-full flex items-center justify-center mx-auto mb-6 animate-float-gentle">
+              <Trophy className="h-12 w-12 text-yellow-500" />
             </div>
-            <h3 className="text-xl font-semibold text-primary mb-2">No Winners Found</h3>
+            <h3 className="text-xl font-semibold text-gradient-rainbow mb-2">No Winners Found</h3>
             <p className="text-muted-foreground mb-4">
               Try adjusting your filters to see more results.
             </p>
-            <Button onClick={clearFilters} className="btn-navy-primary">Clear All Filters</Button>
+            <Button onClick={clearFilters} className="btn-rainbow">Clear All Filters</Button>
           </div>
         )}
 
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-12">
-          <div className="stats-card-navy text-center animate-slide-up">
-            <Trophy className="h-8 w-8 mx-auto mb-3" />
+          <div className="stats-card-yellow text-center animate-slide-up">
+            <Trophy className="h-8 w-8 mx-auto mb-3 animate-float-gentle" />
             <div className="text-3xl font-bold mb-1">{winners.length}</div>
             <div className="text-sm opacity-90">Total Winners</div>
           </div>
 
           <div className="stats-card-light text-center animate-slide-up" style={{ animationDelay: '0.1s' }}>
-            <Award className="h-8 w-8 mx-auto mb-3 text-primary" />
-            <div className="text-3xl font-bold mb-1 text-primary">{events.length}</div>
-            <div className="text-primary/80 text-sm">Different Events</div>
+            <Award className="h-8 w-8 mx-auto mb-3 text-purple-500 animate-float-gentle" style={{ animationDelay: '0.5s' }} />
+            <div className="text-3xl font-bold mb-1 text-gradient-purple">{events.length}</div>
+            <div className="text-purple-600 text-sm">Different Events</div>
           </div>
 
-          <div className="stats-card-navy text-center animate-slide-up" style={{ animationDelay: '0.2s' }}>
-            <Calendar className="h-8 w-8 mx-auto mb-3 text-white" />
+          <div className="stats-card-pink text-center animate-slide-up" style={{ animationDelay: '0.2s' }}>
+            <Calendar className="h-8 w-8 mx-auto mb-3 text-white animate-float-gentle" style={{ animationDelay: '1s' }} />
             <div className="text-3xl font-bold mb-1">{years.length}</div>
             <div className="text-white/90 text-sm">Years of Excellence</div>
           </div>
         </div>
 
         {/* Achievement Highlights */}
-        <div className="mt-16 stats-card-navy rounded-2xl p-8 text-white shadow-elevated animate-slide-up">
+        <div className="mt-16 stats-card-rainbow rounded-3xl p-8 text-white shadow-elevated animate-slide-up glow-effect">
           <h2 className="text-2xl font-bold text-center mb-6">Achievement Highlights</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-4">

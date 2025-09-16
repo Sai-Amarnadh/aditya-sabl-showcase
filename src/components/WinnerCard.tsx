@@ -48,13 +48,13 @@ const WinnerCard = ({ winner, featured = false, onClick }: WinnerCardProps) => {
           </div>
           
           <div className="flex-1">
-            <h3 className="font-semibold text-primary group-hover:text-blue-600 transition-colors">
+            <h3 className="font-semibold text-gradient-teal group-hover:text-orange-500 transition-colors">
               {winner.name}
             </h3>
             {winner.rollNumber && (
               <p className="text-sm text-muted-foreground">{winner.rollNumber}</p>
             )}
-            <p className="text-primary font-medium text-sm">{winner.event}</p>
+            <p className="text-gradient-orange font-medium text-sm">{winner.event}</p>
             
             <div className="flex items-center justify-between text-xs mt-1">
               <div className="flex items-center text-muted-foreground">
@@ -66,7 +66,7 @@ const WinnerCard = ({ winner, featured = false, onClick }: WinnerCardProps) => {
                 })}
               </div>
               {winner.position && (
-                <div className="flex items-center text-primary font-medium">
+                <div className="flex items-center text-yellow-500 font-medium">
                   {getPositionIcon(winner.position)}
                   <span className="ml-1">{getPositionText(winner.position)}</span>
                 </div>
@@ -77,7 +77,7 @@ const WinnerCard = ({ winner, featured = false, onClick }: WinnerCardProps) => {
               {winner.activityType && winner.activityType !== 'General' && (
                 <Link 
                   to="/previous"
-                  className="bg-primary/10 hover:bg-primary/20 text-primary px-2 py-1 rounded-full transition-colors inline-flex items-center"
+                  className="bg-teal-100 hover:bg-teal-200 text-teal-600 px-2 py-1 rounded-full transition-colors inline-flex items-center"
                 >
                   {winner.activityType}
                   <ExternalLink className="h-2 w-2 ml-1" />
@@ -86,7 +86,7 @@ const WinnerCard = ({ winner, featured = false, onClick }: WinnerCardProps) => {
               {winner.weekNumber && (
                 <Link 
                   to="/weekly-winners"
-                  className="bg-blue-100 text-blue-700 hover:bg-blue-200 px-2 py-1 rounded-full transition-colors inline-flex items-center"
+                  className="bg-purple-100 text-purple-700 hover:bg-purple-200 px-2 py-1 rounded-full transition-colors inline-flex items-center"
                 >
                   Week {winner.weekNumber}
                   <ExternalLink className="h-2 w-2 ml-1" />

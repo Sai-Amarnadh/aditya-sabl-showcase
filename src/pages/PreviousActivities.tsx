@@ -106,8 +106,8 @@ const PreviousActivities = () => {
         {/* Header */}
         <div className="text-center mb-12 animate-slide-up">
           <div className="flex items-center justify-center mb-4">
-            <History className="h-8 w-8 text-primary mr-3" />
-            <h1 className="text-4xl font-bold text-gradient-navy">Previous Activities</h1>
+            <History className="h-8 w-8 text-orange-500 mr-3 animate-float-gentle" />
+            <h1 className="text-4xl font-bold text-gradient-rainbow">Previous Activities</h1>
           </div>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Explore our successful past events and the amazing achievements of our students in various SABL activities.
@@ -116,7 +116,7 @@ const PreviousActivities = () => {
 
         {/* Activities Timeline */}
         <div className="mb-8">
-          <h2 className="text-2xl font-semibold text-primary mb-6 text-center">Event Timeline</h2>
+          <h2 className="text-2xl font-semibold text-gradient-orange mb-6 text-center">Event Timeline</h2>
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {Array.from({ length: 6 }).map((_, index) => (
@@ -143,7 +143,7 @@ const PreviousActivities = () => {
                         variant="outline" 
                         size="sm" 
                         onClick={() => handleViewParticipants(activity)}
-                        className="btn-navy-outline"
+                        className="btn-outline-colorful"
                       >
                         <Users className="h-4 w-4 mr-2" />
                         View Participants
@@ -157,8 +157,8 @@ const PreviousActivities = () => {
 
         {/* Achievement Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 my-12">
-          <div className="stats-card-navy text-center animate-slide-up">
-            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div className="stats-card-orange text-center animate-slide-up">
+            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3 animate-float-gentle">
               <History className="h-6 w-6 text-white" />
             </div>
             <div className="text-2xl font-bold mb-1">{completedActivities.length}</div>
@@ -166,15 +166,15 @@ const PreviousActivities = () => {
           </div>
           
           <div className="stats-card-light text-center animate-slide-up" style={{ animationDelay: '0.1s' }}>
-            <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Users className="h-6 w-6 text-primary" />
+            <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-3 animate-float-gentle" style={{ animationDelay: '0.5s' }}>
+              <Users className="h-6 w-6 text-teal-500" />
             </div>
-            <div className="text-2xl font-bold mb-1 text-primary">300+</div>
-            <div className="text-primary/80 text-sm">Total Participants</div>
+            <div className="text-2xl font-bold mb-1 text-gradient-teal">300+</div>
+            <div className="text-teal-600 text-sm">Total Participants</div>
           </div>
           
-          <div className="stats-card-navy text-center animate-slide-up" style={{ animationDelay: '0.2s' }}>
-            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div className="stats-card-purple text-center animate-slide-up" style={{ animationDelay: '0.2s' }}>
+            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3 animate-float-gentle" style={{ animationDelay: '1s' }}>
               <Trophy className="h-6 w-6 text-white" />
             </div>
             <div className="text-2xl font-bold mb-1">18</div>
@@ -182,16 +182,16 @@ const PreviousActivities = () => {
           </div>
           
           <div className="stats-card-light text-center animate-slide-up" style={{ animationDelay: '0.3s' }}>
-            <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Camera className="h-6 w-6 text-primary" />
+            <div className="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-3 animate-float-gentle" style={{ animationDelay: '1.5s' }}>
+              <Camera className="h-6 w-6 text-pink-500" />
             </div>
-            <div className="text-2xl font-bold mb-1 text-primary">{totalPhotos}</div>
-            <div className="text-primary/80 text-sm">Photos Captured</div>
+            <div className="text-2xl font-bold mb-1 text-gradient-purple">{totalPhotos}</div>
+            <div className="text-pink-600 text-sm">Photos Captured</div>
           </div>
         </div>
 
         {/* Success Stories */}
-        <div className="mt-16 stats-card-navy rounded-2xl p-8 text-white shadow-elevated animate-slide-up">
+        <div className="mt-16 stats-card-rainbow rounded-3xl p-8 text-white shadow-elevated animate-slide-up glow-effect">
           <div className="text-center mb-8">
             <h2 className="text-2xl font-bold mb-4">Success Stories</h2>
             <p className="text-white/90">
