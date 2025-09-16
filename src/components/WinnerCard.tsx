@@ -25,30 +25,30 @@ const WinnerCard = ({ winner, featured = false, onClick }: WinnerCardProps) => {
 
   return (
     <div 
-      className={`modern-card modern-card-hover overflow-hidden group ${
-        featured ? 'border-2 border-primary' : 'border border-gray-100/50'
-      } ${onClick ? 'cursor-pointer' : ''}`}
+      className={`clean-card clean-card-hover overflow-hidden group transition-all duration-300 ${
+        featured ? 'border-2 border-primary shadow-elevated' : 'border border-gray-200'
+      } ${onClick ? 'cursor-pointer hover:border-primary' : ''}`}
       onClick={onClick}
     >
       <div className="p-6">
         <div className="flex items-center space-x-4">
           <div className="relative">
             {winner.photo ? (
-              <img src={winner.photo} alt={winner.name} className="w-16 h-16 rounded-full object-cover" />
+              <img src={winner.photo} alt={winner.name} className="w-16 h-16 rounded-full object-cover border-2 border-gray-100" />
             ) : (
-              <div className="w-16 h-16 gradient-teal-mint rounded-full flex items-center justify-center text-white font-bold text-lg">
+              <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white font-bold text-lg border-2 border-gray-100">
                 {winner.name.split(' ').map(n => n[0]).join('')}
               </div>
             )}
             {featured && (
-              <div className="absolute -top-1 -right-1 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full p-1">
+              <div className="absolute -top-1 -right-1 bg-primary rounded-full p-1 shadow-lg">
                 <Trophy className="h-3 w-3 text-white" />
               </div>
             )}
           </div>
           
           <div className="flex-1">
-            <h3 className="font-semibold text-card-foreground group-hover:text-primary transition-colors">
+            <h3 className="font-semibold text-primary group-hover:text-blue-600 transition-colors">
               {winner.name}
             </h3>
             {winner.rollNumber && (
@@ -77,7 +77,7 @@ const WinnerCard = ({ winner, featured = false, onClick }: WinnerCardProps) => {
               {winner.activityType && winner.activityType !== 'General' && (
                 <Link 
                   to="/previous"
-                  className="bg-teal-100 hover:bg-teal-200 text-teal-700 px-2 py-1 rounded-full transition-colors inline-flex items-center"
+                  className="bg-primary/10 hover:bg-primary/20 text-primary px-2 py-1 rounded-full transition-colors inline-flex items-center"
                 >
                   {winner.activityType}
                   <ExternalLink className="h-2 w-2 ml-1" />
@@ -86,7 +86,7 @@ const WinnerCard = ({ winner, featured = false, onClick }: WinnerCardProps) => {
               {winner.weekNumber && (
                 <Link 
                   to="/weekly-winners"
-                  className="bg-coral-100 text-coral-700 hover:bg-coral-200 px-2 py-1 rounded-full transition-colors inline-flex items-center"
+                  className="bg-blue-100 text-blue-700 hover:bg-blue-200 px-2 py-1 rounded-full transition-colors inline-flex items-center"
                 >
                   Week {winner.weekNumber}
                   <ExternalLink className="h-2 w-2 ml-1" />

@@ -3,7 +3,7 @@ import ActivityCard from '@/components/ActivityCard';
 import { getActivities, Activity } from '@/lib/data-service';
 import { useData } from '@/contexts/DataContext';
 import { History, Trophy, Users, Camera } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
@@ -53,7 +53,7 @@ const ParticipantsModal = ({ activity, isOpen, onClose }: { activity: Activity; 
                       participant.award === '1st Place' ? 'bg-yellow-100 text-yellow-800' :
                       participant.award === '2nd Place' ? 'bg-gray-100 text-gray-800' :
                       participant.award === '3rd Place' ? 'bg-orange-100 text-orange-800' :
-                      'bg-blue-100 text-blue-800'
+                      'bg-primary/10 text-primary'
                     }`}>
                       {participant.award}
                     </span>
@@ -68,6 +68,7 @@ const ParticipantsModal = ({ activity, isOpen, onClose }: { activity: Activity; 
     </Dialog>
   );
 };
+
 const PreviousActivities = () => {
   const [completedActivities, setCompletedActivities] = useState<Activity[]>([]);
   const [loading, setLoading] = useState(true);
@@ -100,21 +101,13 @@ const PreviousActivities = () => {
   const totalPhotos = completedActivities.reduce((sum, activity) => sum + (activity.photos?.length || 0), 0);
 
   return (
-    <div className="min-h-screen page-bg-modern relative overflow-hidden">
-      {/* Decorative Elements */}
-      <div className="absolute top-20 left-20 w-24 h-24 decoration-modern decoration-mint animate-float-gentle"></div>
-      <div className="absolute top-40 right-16 w-18 h-18 decoration-modern decoration-coral animate-rotate-slow"></div>
-      <div className="absolute bottom-32 left-1/4 w-16 h-16 decoration-modern decoration-yellow animate-bounce-gentle" style={{ animationDelay: '1.5s' }}></div>
-      <div className="absolute bottom-40 right-1/3 w-14 h-14 decoration-modern decoration-blue animate-float-gentle" style={{ animationDelay: '2.5s' }}></div>
-      <div className="absolute top-1/3 left-10 w-10 h-10 decoration-modern decoration-purple animate-pulse-soft"></div>
-      <div className="absolute top-1/2 right-20 w-20 h-20 decoration-modern decoration-teal animate-float-gentle"></div>
-
+    <div className="page-bg-clean">
       <div className="container mx-auto px-4 py-12">
         {/* Header */}
-        <div className="text-center mb-12 relative z-10">
+        <div className="text-center mb-12 animate-slide-up">
           <div className="flex items-center justify-center mb-4">
             <History className="h-8 w-8 text-primary mr-3" />
-            <h1 className="text-4xl font-bold text-gradient-accent">Previous Activities</h1>
+            <h1 className="text-4xl font-bold text-gradient-navy">Previous Activities</h1>
           </div>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Explore our successful past events and the amazing achievements of our students in various SABL activities.
@@ -122,12 +115,12 @@ const PreviousActivities = () => {
         </div>
 
         {/* Activities Timeline */}
-        <div className="mb-8 relative z-10">
-          <h2 className="text-2xl font-semibold text-foreground mb-6 text-center">Event Timeline</h2>
+        <div className="mb-8">
+          <h2 className="text-2xl font-semibold text-primary mb-6 text-center">Event Timeline</h2>
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {Array.from({ length: 6 }).map((_, index) => (
-                <div key={index} className="modern-card animate-pulse overflow-hidden">
+                <div key={index} className="clean-card animate-pulse overflow-hidden">
                   <div className="h-48 bg-muted"></div>
                   <div className="p-6">
                     <div className="h-6 bg-muted rounded mb-3"></div>
@@ -142,15 +135,15 @@ const PreviousActivities = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
               {completedActivities
                 .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-                .map((activity) => (
-                  <div key={activity.id} className="relative">
+                .map((activity, index) => (
+                  <div key={activity.id} className="relative animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
                     <ActivityCard activity={activity} />
                     <div className="mt-3 text-center">
                       <Button 
                         variant="outline" 
                         size="sm" 
                         onClick={() => handleViewParticipants(activity)}
-                        className="btn-modern-primary"
+                        className="btn-navy-outline"
                       >
                         <Users className="h-4 w-4 mr-2" />
                         View Participants
@@ -163,8 +156,8 @@ const PreviousActivities = () => {
         </div>
 
         {/* Achievement Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 my-12 relative z-10">
-          <div className="stats-card-blue text-center">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 my-12">
+          <div className="stats-card-navy text-center animate-slide-up">
             <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
               <History className="h-6 w-6 text-white" />
             </div>
@@ -172,15 +165,15 @@ const PreviousActivities = () => {
             <div className="text-white/90 text-sm">Events Completed</div>
           </div>
           
-          <div className="stats-card-mint text-center">
-            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Users className="h-6 w-6 text-white" />
+          <div className="stats-card-light text-center animate-slide-up" style={{ animationDelay: '0.1s' }}>
+            <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3">
+              <Users className="h-6 w-6 text-primary" />
             </div>
-            <div className="text-2xl font-bold mb-1">300+</div>
-            <div className="text-white/90 text-sm">Total Participants</div>
+            <div className="text-2xl font-bold mb-1 text-primary">300+</div>
+            <div className="text-primary/80 text-sm">Total Participants</div>
           </div>
           
-          <div className="stats-card-yellow text-center">
+          <div className="stats-card-navy text-center animate-slide-up" style={{ animationDelay: '0.2s' }}>
             <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
               <Trophy className="h-6 w-6 text-white" />
             </div>
@@ -188,17 +181,17 @@ const PreviousActivities = () => {
             <div className="text-white/90 text-sm">Winners Crowned</div>
           </div>
           
-          <div className="stats-card-coral text-center">
-            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Camera className="h-6 w-6 text-white" />
+          <div className="stats-card-light text-center animate-slide-up" style={{ animationDelay: '0.3s' }}>
+            <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3">
+              <Camera className="h-6 w-6 text-primary" />
             </div>
-            <div className="text-2xl font-bold mb-1">{totalPhotos}</div>
-            <div className="text-white/90 text-sm">Photos Captured</div>
+            <div className="text-2xl font-bold mb-1 text-primary">{totalPhotos}</div>
+            <div className="text-primary/80 text-sm">Photos Captured</div>
           </div>
         </div>
 
         {/* Success Stories */}
-        <div className="mt-16 bg-gradient-to-br from-teal-500 via-blue-500 to-purple-500 rounded-2xl p-8 text-white relative z-10 shadow-elevated">
+        <div className="mt-16 stats-card-navy rounded-2xl p-8 text-white shadow-elevated animate-slide-up">
           <div className="text-center mb-8">
             <h2 className="text-2xl font-bold mb-4">Success Stories</h2>
             <p className="text-white/90">

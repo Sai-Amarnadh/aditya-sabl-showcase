@@ -78,145 +78,148 @@ const WeeklyWinners = () => {
 
   if (error) {
     return (
-      <div className="container mx-auto px-4 py-12">
-        <div className="text-center">
-          <p className="text-destructive">{error}</p>
+      <div className="page-bg-clean">
+        <div className="container mx-auto px-4 py-12">
+          <div className="text-center">
+            <p className="text-destructive">{error}</p>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen page-bg-modern">
+    <div className="page-bg-clean">
       <div className="container mx-auto px-4 py-12">
-      {/* Header */}
-      <div className="text-center mb-12">
-        <Trophy className="h-16 w-16 text-primary mx-auto mb-6" />
-        <h1 className="text-4xl font-bold mb-4 text-gradient-primary">Weekly Winners</h1>
-        <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-          Celebrating our champions across two weekly activities with 1st, 2nd, and 3rd place honors.
-        </p>
-      </div>
-
-      {/* Summary Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <Card className="modern-card">
-          <CardContent className="p-6 text-center">
-            <Users className="h-8 w-8 text-primary mx-auto mb-2" />
-            <p className="text-2xl font-bold">{filteredWinners.length}</p>
-            <p className="text-sm text-muted-foreground">Total Winners</p>
-          </CardContent>
-        </Card>
-        <Card className="modern-card">
-          <CardContent className="p-6 text-center">
-            <Calendar className="h-8 w-8 text-primary mx-auto mb-2" />
-            <p className="text-2xl font-bold">{weeks.length}</p>
-            <p className="text-sm text-muted-foreground">Weeks</p>
-          </CardContent>
-        </Card>
-        <Card className="modern-card">
-          <CardContent className="p-6 text-center">
-            <Target className="h-8 w-8 text-primary mx-auto mb-2" />
-            <p className="text-2xl font-bold">{activities.length}</p>
-            <p className="text-sm text-muted-foreground">Activities</p>
-          </CardContent>
-        </Card>
-        <Card className="modern-card">
-          <CardContent className="p-6 text-center">
-            <Trophy className="h-8 w-8 text-primary mx-auto mb-2" />
-            <p className="text-2xl font-bold">{filteredWinners.filter(w => w.position === 1).length}</p>
-            <p className="text-sm text-muted-foreground">Champions</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Filters */}
-      <Card className="mb-8 modern-card">
-        <CardHeader>
-          <CardTitle>Filter Winners</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-wrap gap-4 items-end">
-            <div className="flex-1 min-w-[200px]">
-              <label className="text-sm font-medium mb-2 block">Week</label>
-              <Select value={selectedWeek} onValueChange={setSelectedWeek}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select week" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Weeks</SelectItem>
-                  {weeks.map(week => (
-                    <SelectItem key={week} value={week.toString()}>Week {week}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex-1 min-w-[200px]">
-              <label className="text-sm font-medium mb-2 block">Activity</label>
-              <Select value={selectedActivity} onValueChange={setSelectedActivity}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select activity" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Activities</SelectItem>
-                  {activities.map(activity => (
-                    <SelectItem key={activity} value={activity}>{activity}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <Button variant="outline" onClick={clearFilters} className="btn-modern-secondary">
-              Clear Filters
-            </Button>
-          </div>
-          
-          <div className="mt-4 text-sm text-muted-foreground">
-            Showing {filteredWinners.length} winner{filteredWinners.length !== 1 ? 's' : ''}
-            {selectedWeek !== 'all' && ` for Week ${selectedWeek}`}
-            {selectedActivity !== 'all' && ` in ${selectedActivity}`}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Winners by Week and Activity */}
-      {Object.keys(groupedWinners).length === 0 ? (
-        <Card className="modern-card">
-          <CardContent className="p-12 text-center">
-            <Trophy className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-xl font-semibold mb-2">No Winners Found</h3>
-            <p className="text-muted-foreground">
-              No winners match the current filter criteria.
-            </p>
-          </CardContent>
-        </Card>
-      ) : (
-        <div className="space-y-8">
-          {Object.values(groupedWinners)
-            .sort((a, b) => b.week - a.week || a.activity.localeCompare(b.activity))
-            .map(group => (
-              <Card key={`${group.week}-${group.activity}`} className="modern-card">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Calendar className="h-5 w-5" />
-                    Week {group.week} - {group.activity}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {group.winners.map(winner => (
-                      <WinnerCard 
-                        key={winner.id} 
-                        winner={winner} 
-                        featured={winner.position === 1}
-                      />
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ))
-          }
+        {/* Header */}
+        <div className="text-center mb-12 animate-slide-up">
+          <Trophy className="h-16 w-16 text-primary mx-auto mb-6" />
+          <h1 className="text-4xl font-bold mb-4 text-gradient-navy">Weekly Winners</h1>
+          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+            Celebrating our champions across two weekly activities with 1st, 2nd, and 3rd place honors.
+          </p>
         </div>
-      )}
+
+        {/* Summary Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <Card className="clean-card animate-slide-up">
+            <CardContent className="p-6 text-center">
+              <Users className="h-8 w-8 text-primary mx-auto mb-2" />
+              <p className="text-2xl font-bold text-primary">{filteredWinners.length}</p>
+              <p className="text-sm text-muted-foreground">Total Winners</p>
+            </CardContent>
+          </Card>
+          <Card className="clean-card animate-slide-up" style={{ animationDelay: '0.1s' }}>
+            <CardContent className="p-6 text-center">
+              <Calendar className="h-8 w-8 text-primary mx-auto mb-2" />
+              <p className="text-2xl font-bold text-primary">{weeks.length}</p>
+              <p className="text-sm text-muted-foreground">Weeks</p>
+            </CardContent>
+          </Card>
+          <Card className="clean-card animate-slide-up" style={{ animationDelay: '0.2s' }}>
+            <CardContent className="p-6 text-center">
+              <Target className="h-8 w-8 text-primary mx-auto mb-2" />
+              <p className="text-2xl font-bold text-primary">{activities.length}</p>
+              <p className="text-sm text-muted-foreground">Activities</p>
+            </CardContent>
+          </Card>
+          <Card className="clean-card animate-slide-up" style={{ animationDelay: '0.3s' }}>
+            <CardContent className="p-6 text-center">
+              <Trophy className="h-8 w-8 text-primary mx-auto mb-2" />
+              <p className="text-2xl font-bold text-primary">{filteredWinners.filter(w => w.position === 1).length}</p>
+              <p className="text-sm text-muted-foreground">Champions</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Filters */}
+        <Card className="mb-8 clean-card animate-slide-up">
+          <CardHeader>
+            <CardTitle className="text-primary">Filter Winners</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap gap-4 items-end">
+              <div className="flex-1 min-w-[200px]">
+                <label className="text-sm font-medium mb-2 block text-primary">Week</label>
+                <Select value={selectedWeek} onValueChange={setSelectedWeek}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select week" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Weeks</SelectItem>
+                    {weeks.map(week => (
+                      <SelectItem key={week} value={week.toString()}>Week {week}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex-1 min-w-[200px]">
+                <label className="text-sm font-medium mb-2 block text-primary">Activity</label>
+                <Select value={selectedActivity} onValueChange={setSelectedActivity}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select activity" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Activities</SelectItem>
+                    {activities.map(activity => (
+                      <SelectItem key={activity} value={activity}>{activity}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <Button variant="outline" onClick={clearFilters} className="btn-navy-outline">
+                Clear Filters
+              </Button>
+            </div>
+            
+            <div className="mt-4 text-sm text-muted-foreground">
+              Showing {filteredWinners.length} winner{filteredWinners.length !== 1 ? 's' : ''}
+              {selectedWeek !== 'all' && ` for Week ${selectedWeek}`}
+              {selectedActivity !== 'all' && ` in ${selectedActivity}`}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Winners by Week and Activity */}
+        {Object.keys(groupedWinners).length === 0 ? (
+          <Card className="clean-card">
+            <CardContent className="p-12 text-center">
+              <Trophy className="h-16 w-16 text-primary mx-auto mb-4" />
+              <h3 className="text-xl font-semibold mb-2 text-primary">No Winners Found</h3>
+              <p className="text-muted-foreground">
+                No winners match the current filter criteria.
+              </p>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="space-y-8">
+            {Object.values(groupedWinners)
+              .sort((a, b) => b.week - a.week || a.activity.localeCompare(b.activity))
+              .map((group, groupIndex) => (
+                <Card key={`${group.week}-${group.activity}`} className="clean-card animate-slide-up" style={{ animationDelay: `${groupIndex * 0.1}s` }}>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-primary">
+                      <Calendar className="h-5 w-5" />
+                      Week {group.week} - {group.activity}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {group.winners.map((winner, index) => (
+                        <div key={winner.id} className="animate-slide-up" style={{ animationDelay: `${(groupIndex * 0.1) + (index * 0.05)}s` }}>
+                          <WinnerCard 
+                            winner={winner} 
+                            featured={winner.position === 1}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))
+            }
+          </div>
+        )}
       </div>
     </div>
   );

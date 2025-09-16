@@ -19,9 +19,9 @@ const PageLoader = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 bg-background z-50 flex flex-col items-center justify-center">
+    <div className="fixed inset-0 bg-background z-50 flex flex-col items-center justify-center page-bg-clean">
       <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary"></div>
-      <p className="text-lg text-muted-foreground mt-4">{thought}</p>
+      <p className="text-lg text-primary mt-4 font-medium">{thought}</p>
     </div>
   );
 };
