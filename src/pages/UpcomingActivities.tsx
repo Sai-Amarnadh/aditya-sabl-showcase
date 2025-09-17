@@ -15,7 +15,12 @@ const UpcomingActivities = () => {
       setLoading(true);
       try {
         const allActivities = await getActivities();
-        setUpcomingActivities(allActivities.filter(activity => activity.status === 'upcoming'));
+        const filteredActivities = allActivities.filter(activity =>
+          activity.status === 'upcoming' &&
+          activity.name !== 'Code Carnival' &&
+          (!activity.photos || activity.photos.length !== 8)
+        );
+        setUpcomingActivities(filteredActivities);
       } catch (error) {
         console.error('Error fetching activities:', error);
       } finally {
