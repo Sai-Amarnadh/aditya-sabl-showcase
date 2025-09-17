@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Winner } from '@/lib/data-service';
 import { Trophy, Calendar, Medal, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';

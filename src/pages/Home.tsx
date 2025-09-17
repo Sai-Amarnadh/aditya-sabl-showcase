@@ -110,7 +110,7 @@ const Home = () => {
               thisWeekWinners
                 .sort((a, b) => (a.position || 1) - (b.position || 1))
                 .map((winner, index) => (
-                  <div key={winner.id} className="animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
+                  <div key={winner.id} className="animate-slide-up relative" style={{ animationDelay: `${index * 0.1}s` }}>
                     <WinnerCard 
                       winner={winner} 
                       featured={true} 
