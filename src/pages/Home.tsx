@@ -48,7 +48,7 @@ const Home = () => {
         {/* Background Image */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-blue-600/90 to-primary/90">
           <img 
-            src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" 
+            src="https://ik.imagekit.io/lhb4hvprkpz/img8_7aJkuzpeF.jpg?updatedAt=1627472961687" 
             alt="Students collaborating" 
             className="w-full h-full object-cover mix-blend-overlay opacity-30"
           />
