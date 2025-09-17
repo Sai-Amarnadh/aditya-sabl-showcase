@@ -87,7 +87,12 @@ const PreviousActivities = () => {
       setLoading(true);
       try {
         const allActivities = await getActivities();
-        setCompletedActivities(allActivities.filter(activity => activity.status === 'completed'));
+        const filteredActivities = allActivities.filter(activity =>
+          activity.status === 'completed' &&
+          activity.name !== 'Code Carnival' &&
+          (!activity.photos || activity.photos.length !== 8)
+        );
+        setCompletedActivities(filteredActivities);
       } catch (error) {
         console.error('Error fetching activities:', error);
       } finally {
