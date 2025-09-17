@@ -13,7 +13,7 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
   return (
     <div className="clean-card clean-card-hover overflow-hidden group flex flex-col">
       {activity.poster ? (
-        <img key={activity.poster} src={activity.poster} alt={activity.name} className="w-full h-48 object-cover" />
+        <img key={activity.poster} src={activity.poster} alt={activity.name} className="w-full h-48 object-contain" />
       ) : (
         <div className="h-48 bg-gray-50 flex items-center justify-center border-b">
           <span className="text-muted-foreground">No Poster</span>
