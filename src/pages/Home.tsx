@@ -163,15 +163,15 @@ const Home = () => {
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
               <div className="animate-slide-up" style={{ animationDelay: '0.1s' }}>
-                <div className="text-4xl font-bold mb-2">50+</div>
+                <div className="text-4xl font-bold mb-2">10+</div>
                 <div className="text-sm opacity-80">Events Conducted</div>
               </div>
               <div className="animate-slide-up" style={{ animationDelay: '0.2s' }}>
-                <div className="text-4xl font-bold mb-2">500+</div>
+                <div className="text-4xl font-bold mb-2">600+</div>
                 <div className="text-sm opacity-80">Student Participants</div>
               </div>
               <div className="animate-slide-up" style={{ animationDelay: '0.3s' }}>
-                <div className="text-4xl font-bold mb-2">100+</div>
+                <div className="text-4xl font-bold mb-2">60+</div>
                 <div className="text-sm opacity-80">Winners Celebrated</div>
               </div>
               <div className="animate-slide-up" style={{ animationDelay: '0.4s' }}>
