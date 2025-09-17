@@ -31,13 +31,13 @@ const WinnerCard = ({ winner, featured = false, onClick }: WinnerCardProps) => {
       } ${onClick ? 'cursor-pointer hover:border-primary' : ''}`}
       onClick={onClick}
     >
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         <div className="flex items-center space-x-4">
           <div className="relative">
             {winner.photo ? (
-              <img src={winner.photo} alt={winner.name} className="w-16 h-16 rounded-full object-cover border-2 border-gray-100" />
+              <img src={winner.photo} alt={winner.name} className="w-12 h-12 sm:w-16 sm:h-16 rounded-full object-cover border-2 border-gray-100" />
             ) : (
-              <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white font-bold text-lg border-2 border-gray-100">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-lg border-2 border-gray-100">
                 {winner.name.split(' ').map(n => n[0]).join('')}
               </div>
             )}
@@ -49,22 +49,22 @@ const WinnerCard = ({ winner, featured = false, onClick }: WinnerCardProps) => {
           </div>
           
           <div className="flex-1">
-            <h3 className="font-semibold text-primary group-hover:text-blue-600 transition-colors">
+            <h3 className="font-semibold text-primary group-hover:text-blue-600 transition-colors text-sm sm:text-base truncate">
               {winner.name}
             </h3>
             {winner.rollNumber && (
-              <p className="text-sm text-muted-foreground">{winner.rollNumber}</p>
+              <p className="text-xs sm:text-sm text-muted-foreground truncate">{winner.rollNumber}</p>
             )}
-            <p className="text-primary font-medium text-sm">{winner.event}</p>
+            <p className="text-primary font-medium text-xs sm:text-sm truncate">{winner.event}</p>
             
-            <div className="flex items-center justify-between text-xs mt-1">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-xs mt-1 gap-1 sm:gap-0">
               <div className="flex items-center text-muted-foreground">
                 <Calendar className="h-3 w-3 mr-1" />
-                {new Date(winner.date).toLocaleDateString('en-US', { 
+                <span className="truncate">{new Date(winner.date).toLocaleDateString('en-US', { 
                   month: 'short', 
                   day: 'numeric', 
                   year: 'numeric' 
-                })}
+                })}</span>
               </div>
               {winner.position && (
                 <div className="flex items-center text-primary font-medium">
@@ -74,20 +74,20 @@ const WinnerCard = ({ winner, featured = false, onClick }: WinnerCardProps) => {
               )}
             </div>
             
-            <div className="text-xs text-muted-foreground mt-1 flex flex-wrap gap-1">
+            <div className="text-xs text-muted-foreground mt-2 flex flex-wrap gap-1">
               {winner.activityType && winner.activityType !== 'General' && (
                 <Link 
                   to="/previous"
-                  className="bg-primary/10 hover:bg-accent hover:text-white text-primary px-2 py-1 rounded-full transition-colors inline-flex items-center"
+                  className="bg-primary/10 hover:bg-accent hover:text-white text-primary px-2 py-1 rounded-full transition-colors inline-flex items-center text-xs"
                 >
-                  {winner.activityType}
+                  <span className="truncate max-w-20">{winner.activityType}</span>
                   <ExternalLink className="h-2 w-2 ml-1" />
                 </Link>
               )}
               {winner.weekNumber && (
                 <Link 
                   to="/weekly-winners"
-                  className="bg-accent/10 text-accent hover:bg-accent hover:text-white px-2 py-1 rounded-full transition-colors inline-flex items-center"
+                  className="bg-accent/10 text-accent hover:bg-accent hover:text-white px-2 py-1 rounded-full transition-colors inline-flex items-center text-xs"
                 >
                   Week {winner.weekNumber}
                   <ExternalLink className="h-2 w-2 ml-1" />

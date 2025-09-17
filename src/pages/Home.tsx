@@ -56,16 +56,16 @@ const Home = () => {
 
         {/* Main Content */}
         <div className="relative z-10 text-center text-white px-4">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-slide-up">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-6 animate-slide-up">
             <span className="text-orange-500">ADITYA</span> <span className="text-blue-200">UNIVERSITY</span>
           </h1>
 
-          <h2 className="text-2xl md:text-3xl font-semibold mb-4 opacity-90 animate-slide-up" style={{ animationDelay: '0.2s' }}>
+          <h2 className="text-lg sm:text-2xl md:text-3xl font-semibold mb-4 opacity-90 animate-slide-up" style={{ animationDelay: '0.2s' }}>
             Department of Computer Science and Engineering
             <br />
             SABL Activities
           </h2>
-          <p className="text-lg md:text-xl mb-8 opacity-80 max-w-2xl mx-auto animate-slide-up" style={{ animationDelay: '0.4s' }}>
+          <p className="text-base sm:text-lg md:text-xl mb-8 opacity-80 max-w-2xl mx-auto animate-slide-up" style={{ animationDelay: '0.4s' }}>
             Fostering innovation, creativity, and excellence in computer science education through engaging activities and competitions.
           </p>
           <div className="animate-slide-up" style={{ animationDelay: '0.6s' }}>
@@ -110,7 +110,22 @@ const Home = () => {
               thisWeekWinners
                 .sort((a, b) => (a.position || 1) - (b.position || 1))
                 .map((winner, index) => (
-                  <div key={winner.id} className="animate-slide-up relative" style={{ animationDelay: `${index * 0.1}s` }}>
+                  <div key={winner.id} className="animate-slide-up relative celebration-container" style={{ animationDelay: `${index * 0.1}s` }}>
+                    {/* Celebration particles */}
+                    <div className="celebration-particles">
+                      {Array.from({ length: 8 }).map((_, i) => (
+                        <div key={i} className={`celebration-particle celebration-particle-${i + 1}`}></div>
+                      ))}
+                    </div>
+                    
+                    {/* Floating emojis */}
+                    <div className="floating-emojis">
+                      <div className="floating-emoji floating-emoji-1">🎉</div>
+                      <div className="floating-emoji floating-emoji-2">✨</div>
+                      <div className="floating-emoji floating-emoji-3">🏆</div>
+                      <div className="floating-emoji floating-emoji-4">🎊</div>
+                    </div>
+                    
                     <WinnerCard 
                       winner={winner} 
                       featured={true} 

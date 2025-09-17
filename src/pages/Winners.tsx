@@ -160,27 +160,15 @@ const Winners = () => {
             {filteredWinners.some(w => w.isThisWeekWinner) && (
               <div className="mb-8">
                 <h3 className="text-xl font-semibold mb-4 text-center text-primary">🏆 Top Performers of the Week</h3>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                  {['Activity 1', 'Activity 2'].map(activityType => {
-                    const weekWinners = filteredWinners
-                      .filter(w => w.isThisWeekWinner && w.activityType === activityType)
-                      .sort((a, b) => (a.position || 1) - (b.position || 1));
-                    
-                    if (weekWinners.length === 0) return null;
-                    
-                    return (
-                      <div key={activityType} className="bg-primary/5 rounded-xl p-6 border border-primary/20">
-                        <h4 className="text-lg font-semibold mb-4 text-center text-primary">{activityType}</h4>
-                        <div className="space-y-3">
-                          {weekWinners.map((winner, index) => (
-                            <div key={winner.id} className="animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
-                              <WinnerCard winner={winner} featured={winner.position === 1} onClick={() => handleWinnerClick(winner)} />
-                            </div>
-                          ))}
-                        </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                  {filteredWinners
+                    .filter(w => w.isThisWeekWinner)
+                    .sort((a, b) => (a.position || 1) - (b.position || 1))
+                    .map((winner, index) => (
+                      <div key={winner.id} className="animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
+                        <WinnerCard winner={winner} featured={winner.position === 1} onClick={() => handleWinnerClick(winner)} />
                       </div>
-                    );
-                  })}
+                    ))}
                 </div>
               </div>
             )}

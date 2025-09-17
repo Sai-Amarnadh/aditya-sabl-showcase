@@ -1,5 +1,5 @@
 import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Calendar, Trophy, Image } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -339,15 +339,13 @@ const Admin = () => {
                     </div>
                     <div>
                       <Label htmlFor="winner-activityType" className="text-primary">Activity Type</Label>
-                      <Select value={newWinner.activityType} onValueChange={(value) => setNewWinner({ ...newWinner, activityType: value })}>
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="Activity 1">Activity 1</SelectItem>
-                          <SelectItem value="Activity 2">Activity 2</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <Input 
+                        id="winner-activityType" 
+                        value={newWinner.activityType || 'General'} 
+                        onChange={e => setNewWinner({ ...newWinner, activityType: e.target.value })}
+                        placeholder="Enter activity type (e.g., Coding Competition, Hackathon)"
+                        className="focus:ring-2 focus:ring-primary"
+                      />
                     </div>
                     <div>
                       <Label htmlFor="winner-weekNumber" className="text-primary">Week Number</Label>
@@ -381,20 +379,32 @@ const Admin = () => {
                 </div>
                 <div>
                   <h3 className="text-2xl font-semibold mb-4 text-primary">Existing Winners</h3>
-                  {winners.map(winner => (
-                    <div key={winner.id} className="flex items-center justify-between p-4 border rounded-xl mb-2 clean-card">
-                      <div>
-                        <p className="font-bold text-primary">{winner.name}</p>
-                        <p className="text-sm text-muted-foreground">{winner.event} - {winner.year}</p>
-                        <p className="text-xs text-muted-foreground">{winner.activityType} - {winner.position === 1 ? '1st' : winner.position === 2 ? '2nd' : '3rd'} Place - Week {winner.weekNumber}</p>
+                  <div className="space-y-4">
+                    {winners.length === 0 ? (
+                      <div className="text-center py-8 text-muted-foreground">
+                        <Trophy className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                        <p>No winners found. Add your first winner above.</p>
                       </div>
-                      <div className="flex items-center">
-                        {winner.photo && <img src={winner.photo} alt={winner.name} className="h-10 w-10 object-cover rounded-full mr-4" />}
-                        <Button variant="outline" size="sm" className="mr-2 btn-navy-outline" onClick={() => handleEditWinner(winner)}>Edit</Button>
-                        <Button variant="destructive" size="sm" onClick={() => handleDeleteWinner(winner.id)}>Delete</Button>
-                      </div>
-                    </div>
-                  ))}
+                    ) : (
+                      winners.map(winner => (
+                        <div key={winner.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border rounded-xl mb-2 clean-card gap-4">
+                          <div className="flex-1">
+                            <p className="font-bold text-primary">{winner.name}</p>
+                            <p className="text-sm text-muted-foreground">{winner.event} - {winner.year}</p>
+                            <p className="text-xs text-muted-foreground">{winner.activityType} - {winner.position === 1 ? '1st' : winner.position === 2 ? '2nd' : '3rd'} Place</p>
+                            {winner.weekNumber && <p className="text-xs text-muted-foreground">Week {winner.weekNumber}</p>}
+                          </div>
+                          <div className="flex items-center gap-2 flex-shrink-0">
+                            {winner.photo && <img src={winner.photo} alt={winner.name} className="h-12 w-12 object-cover rounded-full border-2 border-gray-100" />}
+                            <div className="flex gap-2">
+                              <Button variant="outline" size="sm" className="btn-navy-outline" onClick={() => handleEditWinner(winner)}>Edit</Button>
+                              <Button variant="destructive" size="sm" onClick={() => handleDeleteWinner(winner.id)}>Delete</Button>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -468,19 +478,31 @@ const Admin = () => {
                 </div>
                 <div>
                   <h3 className="text-2xl font-semibold mb-4 text-primary">Existing Activities</h3>
-                  {activities.map(activity => (
-                    <div key={activity.id} className="flex items-center justify-between p-4 border rounded-xl mb-2 clean-card">
-                      <div>
-                        <p className="font-bold text-primary">{activity.name}</p>
-                        <p className="text-sm text-muted-foreground">{activity.status} - {activity.date}</p>
+                  <div className="space-y-4">
+                    {activities.length === 0 ? (
+                      <div className="text-center py-8 text-muted-foreground">
+                        <Calendar className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                        <p>No activities found. Add your first activity above.</p>
                       </div>
-                      <div className="flex items-center">
-                        {activity.poster && <img src={activity.poster} alt={activity.name} className="h-10 w-10 object-cover rounded mr-4" />}
-                        <Button variant="outline" size="sm" className="mr-2 btn-navy-outline" onClick={() => handleEditActivity(activity)}>Edit</Button>
-                        <Button variant="destructive" size="sm" onClick={() => handleDeleteActivity(activity.id)}>Delete</Button>
-                      </div>
-                    </div>
-                  ))}
+                    ) : (
+                      activities.map(activity => (
+                        <div key={activity.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border rounded-xl mb-2 clean-card gap-4">
+                          <div className="flex-1">
+                            <p className="font-bold text-primary">{activity.name}</p>
+                            <p className="text-sm text-muted-foreground">{activity.status} - {new Date(activity.date).toLocaleDateString()}</p>
+                            <p className="text-xs text-muted-foreground mt-1">{activity.description}</p>
+                          </div>
+                          <div className="flex items-center gap-2 flex-shrink-0">
+                            {activity.poster && <img src={activity.poster} alt={activity.name} className="h-12 w-12 object-cover rounded border" />}
+                            <div className="flex gap-2">
+                              <Button variant="outline" size="sm" className="btn-navy-outline" onClick={() => handleEditActivity(activity)}>Edit</Button>
+                              <Button variant="destructive" size="sm" onClick={() => handleDeleteActivity(activity.id)}>Delete</Button>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -515,18 +537,30 @@ const Admin = () => {
                 </div>
                 <div>
                   <h3 className="text-2xl font-semibold mb-4 text-primary">Existing Gallery Images</h3>
-                  {galleryImages.map(image => (
-                    <div key={image.id} className="flex items-center justify-between p-4 border rounded-xl mb-2 clean-card">
-                      <div className="flex items-center">
-                        {image.url && <img src={image.url} alt={image.caption} className="h-16 w-16 object-cover rounded-md mr-4"/>}
-                        <p className="text-primary">{image.caption}</p>
+                  <div className="space-y-4">
+                    {galleryImages.length === 0 ? (
+                      <div className="text-center py-8 text-muted-foreground">
+                        <Image className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                        <p>No gallery images found. Add your first image above.</p>
                       </div>
-                      <div>
-                        <Button variant="outline" size="sm" className="mr-2 btn-navy-outline" onClick={() => handleEditGalleryImage(image)}>Edit</Button>
-                        <Button variant="destructive" size="sm" onClick={() => handleDeleteGalleryImage(image.id)}>Delete</Button>
-                      </div>
-                    </div>
-                  ))}
+                    ) : (
+                      galleryImages.map(image => (
+                        <div key={image.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border rounded-xl mb-2 clean-card gap-4">
+                          <div className="flex items-center gap-4 flex-1">
+                            {image.url && <img src={image.url} alt={image.caption} className="h-16 w-16 object-cover rounded-md flex-shrink-0"/>}
+                            <div className="flex-1 min-w-0">
+                              <p className="text-primary font-medium truncate">{image.caption}</p>
+                              <p className="text-xs text-muted-foreground">Gallery Image</p>
+                            </div>
+                          </div>
+                          <div className="flex gap-2 flex-shrink-0">
+                            <Button variant="outline" size="sm" className="btn-navy-outline" onClick={() => handleEditGalleryImage(image)}>Edit</Button>
+                            <Button variant="destructive" size="sm" onClick={() => handleDeleteGalleryImage(image.id)}>Delete</Button>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
                 </div>
               </CardContent>
             </Card>

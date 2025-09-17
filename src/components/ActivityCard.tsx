@@ -13,38 +13,40 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
   return (
     <div className="clean-card clean-card-hover overflow-hidden group flex flex-col">
       {activity.poster ? (
-        <img key={activity.poster} src={activity.poster} alt={activity.name} className="w-full h-48 object-contain" />
+        <div className="w-full h-48 bg-gray-50 flex items-center justify-center">
+          <img key={activity.poster} src={activity.poster} alt={activity.name} className="max-w-full max-h-full object-contain" />
+        </div>
       ) : (
         <div className="h-48 bg-gray-50 flex items-center justify-center border-b">
           <span className="text-muted-foreground">No Poster</span>
         </div>
       )}
       
-      <div className="p-6 flex flex-col flex-grow">
+      <div className="p-4 sm:p-6 flex flex-col flex-grow">
         <div className="flex items-start justify-between mb-3">
-          <h3 className="text-xl font-bold text-primary group-hover:text-blue-600 transition-colors">
+          <h3 className="text-lg sm:text-xl font-bold text-primary group-hover:text-blue-600 transition-colors flex-1 pr-2">
             {activity.name}
           </h3>
           <span className={`px-3 py-1 rounded-full text-xs font-medium ${
             isUpcoming 
               ? 'bg-primary/10 text-primary' 
               : 'bg-gray-100 text-gray-600'
-          }`}>
+          } flex-shrink-0`}>
             {isUpcoming ? 'Upcoming' : 'Completed'}
           </span>
         </div>
         
         <div className="flex items-center text-muted-foreground text-sm mb-3">
           <Calendar className="h-4 w-4 mr-2" />
-          {new Date(activity.date).toLocaleDateString('en-US', { 
+          <span className="truncate">{new Date(activity.date).toLocaleDateString('en-US', { 
             weekday: 'long',
             year: 'numeric', 
             month: 'long', 
             day: 'numeric' 
-          })}
+          })}</span>
         </div>
         
-        <p className="text-muted-foreground text-sm mb-4 line-clamp-3 h-20 flex-grow">
+        <p className="text-muted-foreground text-sm mb-4 line-clamp-3 flex-grow">
           {activity.description}
         </p>
         
@@ -56,7 +58,7 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
         )}
         
         {isUpcoming ? (
-          <div className="flex gap-2 mt-auto">
+          <div className="flex flex-col sm:flex-row gap-2 mt-auto">
             <Button asChild size="sm" className="flex-1 btn-navy-secondary">
               <Link to={`/activity/${activity.id}`}>
                 Learn More

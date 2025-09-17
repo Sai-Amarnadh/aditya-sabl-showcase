@@ -40,37 +40,38 @@ const Navbar = () => {
       }`}>
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-3 flex-shrink-0 animate-slide-in-left">
+            <div className="flex items-center space-x-2 sm:space-x-3 flex-shrink-0 animate-slide-in-left">
               <img src="/aditya-removebg-preview (1).png" alt="Aditya Logo" className="h-10 w-10 object-contain" />
               <div className="hidden sm:block">
-                <h1 className="text-lg font-bold">
+                <h1 className="text-base sm:text-lg font-bold">
                   <span className="text-orange-500">ADITYA</span>{' '}
                   <span className="text-primary/80">UNIVERSITY</span>
                 </h1>
-                <p className="text-sm text-primary/60">Department of Computer Science and Engineering SABL Activities</p>
+                <p className="text-xs sm:text-sm text-primary/60">Department of Computer Science and Engineering SABL Activities</p>
               </div>
               <div className="sm:hidden">
-                <h1 className="text-lg font-bold">
+                <h1 className="text-base font-bold">
                   <span className="text-primary">ADITYA</span>{' '}
                   <span className="text-primary/80">UNIVERSITY</span>
                 </h1>
               </div>
             </div>
             
-            <div className="hidden lg:flex space-x-6 items-center animate-slide-in-right">
+            <div className="hidden lg:flex space-x-4 xl:space-x-6 items-center animate-slide-in-right">
               {navItems.map((item, index) => (
                 <NavLink
                   key={item.to}
                   to={item.to}
                   className={({ isActive }) =>
-                    `navbar-link-white flex items-center space-x-2 px-4 py-2 text-sm font-medium transition-all duration-300 hover:scale-105 relative ${
+                    `navbar-link-white flex items-center space-x-1 sm:space-x-2 px-2 sm:px-4 py-2 text-xs sm:text-sm font-medium transition-all duration-300 hover:scale-105 relative ${
                       isActive ? 'active' : ''
                     }`
                   }
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <item.icon className="h-4 w-4" />
-                  <span>{item.label}</span>
+                  <item.icon className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span className="hidden xl:inline">{item.label}</span>
+                  <span className="xl:hidden">{item.label.split(' ')[0]}</span>
                 </NavLink>
               ))}
             </div>

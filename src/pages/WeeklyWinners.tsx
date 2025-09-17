@@ -193,31 +193,31 @@ const WeeklyWinners = () => {
           </Card>
         ) : (
           <div className="space-y-8">
-            {Object.values(groupedWinners)
-              .sort((a, b) => b.week - a.week || a.activity.localeCompare(b.activity))
-              .map((group, groupIndex) => (
-                <Card key={`${group.week}-${group.activity}`} className="clean-card animate-slide-up" style={{ animationDelay: `${groupIndex * 0.1}s` }}>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-primary">
-                      <Calendar className="h-5 w-5" />
-                      Week {group.week} - {group.activity}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {group.winners.map((winner, index) => (
-                        <div key={winner.id} className="animate-slide-up" style={{ animationDelay: `${(groupIndex * 0.1) + (index * 0.05)}s` }}>
-                          <WinnerCard 
-                            winner={winner} 
-                            featured={winner.position === 1}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))
-            }
+              {Object.values(groupedWinners)
+                .sort((a, b) => b.week - a.week || a.activity.localeCompare(b.activity))
+                .map((group, groupIndex) => (
+                  <Card key={`${group.week}-${group.activity}`} className="clean-card animate-slide-up" style={{ animationDelay: `${groupIndex * 0.1}s` }}>
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2 text-primary">
+                        <Calendar className="h-5 w-5" />
+                        Week {group.week} - {group.activity}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {group.winners.map((winner, index) => (
+                          <div key={winner.id} className="animate-slide-up" style={{ animationDelay: `${(groupIndex * 0.1) + (index * 0.05)}s` }}>
+                            <WinnerCard 
+                              winner={winner} 
+                              featured={winner.position === 1}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))
+              }
           </div>
         )}
       </div>
