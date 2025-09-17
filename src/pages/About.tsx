@@ -103,7 +103,7 @@ const About: React.FC = () => {
                 alt="SABL Project Work" 
                 className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end">
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end hover:from-accent/80 transition-colors duration-300">
                 <div className="p-6 text-white">
                   <h3 className="text-xl font-bold mb-2">Project-Based Learning</h3>
                   <p className="text-white/90">Students work on real-world projects</p>
@@ -117,7 +117,7 @@ const About: React.FC = () => {
                 alt="Group Discussion" 
                 className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end">
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end hover:from-accent/80 transition-colors duration-300">
                 <div className="p-6 text-white">
                   <h3 className="text-xl font-bold mb-2">Interactive Discussions</h3>
                   <p className="text-white/90">Collaborative problem-solving sessions</p>
@@ -131,7 +131,7 @@ const About: React.FC = () => {
                 alt="Workshop" 
                 className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end">
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end hover:from-accent/80 transition-colors duration-300">
                 <div className="p-6 text-white">
                   <h3 className="text-xl font-bold mb-2">Hands-on Workshops</h3>
                   <p className="text-white/90">Practical skill development sessions</p>

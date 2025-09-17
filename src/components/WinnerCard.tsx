@@ -77,7 +77,7 @@ const WinnerCard = ({ winner, featured = false, onClick }: WinnerCardProps) => {
               {winner.activityType && winner.activityType !== 'General' && (
                 <Link 
                   to="/previous"
-                  className="bg-primary/10 hover:bg-primary/20 text-primary px-2 py-1 rounded-full transition-colors inline-flex items-center"
+                  className="bg-primary/10 hover:bg-accent hover:text-white text-primary px-2 py-1 rounded-full transition-colors inline-flex items-center"
                 >
                   {winner.activityType}
                   <ExternalLink className="h-2 w-2 ml-1" />
@@ -86,7 +86,7 @@ const WinnerCard = ({ winner, featured = false, onClick }: WinnerCardProps) => {
               {winner.weekNumber && (
                 <Link 
                   to="/weekly-winners"
-                  className="bg-blue-100 text-blue-700 hover:bg-blue-200 px-2 py-1 rounded-full transition-colors inline-flex items-center"
+                  className="bg-accent/10 text-accent hover:bg-accent hover:text-white px-2 py-1 rounded-full transition-colors inline-flex items-center"
                 >
                   Week {winner.weekNumber}
                   <ExternalLink className="h-2 w-2 ml-1" />

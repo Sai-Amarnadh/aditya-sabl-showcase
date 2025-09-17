@@ -83,12 +83,12 @@ const UpcomingActivities = () => {
             <div className="text-white/90 text-sm">Upcoming Events</div>
           </div>
 
-          <div className="stats-card-light text-center animate-slide-up" style={{ animationDelay: '0.1s' }}>
+          <div className="stats-card-orange text-center animate-slide-up" style={{ animationDelay: '0.1s' }}>
             <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Clock className="h-6 w-6 text-primary" />
+              <Clock className="h-6 w-6 text-white" />
             </div>
-            <div className="text-2xl font-bold mb-1 text-primary">Next 30 Days</div>
-            <div className="text-primary/80 text-sm">Activity Window</div>
+            <div className="text-2xl font-bold mb-1">Next 30 Days</div>
+            <div className="text-white/90 text-sm">Activity Window</div>
           </div>
 
           <div className="stats-card-navy text-center animate-slide-up" style={{ animationDelay: '0.2s' }}>

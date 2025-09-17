@@ -214,10 +214,10 @@ const Winners = () => {
             <div className="text-sm opacity-90">Total Winners</div>
           </div>
 
-          <div className="stats-card-light text-center animate-slide-up" style={{ animationDelay: '0.1s' }}>
+          <div className="stats-card-orange text-center animate-slide-up" style={{ animationDelay: '0.1s' }}>
             <Award className="h-8 w-8 mx-auto mb-3 text-primary" />
-            <div className="text-3xl font-bold mb-1 text-primary">{events.length}</div>
-            <div className="text-primary/80 text-sm">Different Events</div>
+            <div className="text-3xl font-bold mb-1">{events.length}</div>
+            <div className="text-white/90 text-sm">Different Events</div>
           </div>
 
           <div className="stats-card-navy text-center animate-slide-up" style={{ animationDelay: '0.2s' }}>

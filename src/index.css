@@ -2,11 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Clean Navy Blue and White Design System */
+/* Clean Navy Blue, White, and Orange Design System */
 
 @layer base {
   :root {
-    /* Navy Blue and White Color Palette */
+    /* Navy Blue, White, and Orange Color Palette */
     --background: 0 0% 100%; /* White */
     --foreground: 210 100% 20%; /* Navy Blue */
 
@@ -28,9 +28,9 @@
     --muted: 210 20% 96%;
     --muted-foreground: 210 50% 40%;
 
-    /* Accent - Navy Blue */
-    --accent: 210 100% 20%;
-    --accent-foreground: 0 0% 100%;
+    /* Accent - Orange */
+    --accent: 25 95% 53%; /* #F97316 */
+    --accent-foreground: 0 0% 100%; /* White */
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
@@ -43,6 +43,7 @@
     --gradient-primary: linear-gradient(135deg, #1E3A8A, #3B82F6);
     --gradient-hero: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 50%, #1E3A8A 100%);
     --gradient-card: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+    --gradient-animated: linear-gradient(45deg, #1E3A8A, #FFFFFF, #1E3A8A);
 
     /* Clean Shadows */
     --shadow-card: 0 4px 20px -4px rgba(30, 58, 138, 0.1);
@@ -75,7 +76,7 @@
     --secondary-foreground: 0 0% 98%;
     --muted: 210 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
-    --accent: 210 100% 30%;
+    --accent: 25 95% 53%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
@@ -104,32 +105,38 @@
   }
 }
 
-/* Animated Background */
+/* Animated Background with Navy Blue to White Gradient */
 .animated-background {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1;
-  background: linear-gradient(-45deg, #FFFFFF, #F8FAFC, #E2E8F0, #CBD5E1);
+  z-index: -2;
+  background: linear-gradient(45deg, #1E3A8A, #FFFFFF, #E2E8F0, #1E3A8A);
   background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
+  animation: gradientShift 20s ease infinite;
 }
 
 @keyframes gradientShift {
   0% {
     background-position: 0% 50%;
   }
-  50% {
+  25% {
     background-position: 100% 50%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
   }
   100% {
     background-position: 0% 50%;
   }
 }
 
-/* Floating Particles */
+/* Floating Particles with Light Navy and White */
 .floating-particles {
   position: fixed;
   top: 0;
@@ -138,40 +145,113 @@
   height: 100%;
   z-index: -1;
   pointer-events: none;
+  overflow: hidden;
 }
 
 .particle {
   position: absolute;
-  width: 4px;
-  height: 4px;
-  background: rgba(30, 58, 138, 0.1);
   border-radius: 50%;
-  animation: float 20s infinite linear;
+  animation: float 25s infinite linear;
+  opacity: 0.6;
 }
 
-.particle:nth-child(1) { left: 10%; animation-delay: 0s; }
-.particle:nth-child(2) { left: 20%; animation-delay: 2s; }
-.particle:nth-child(3) { left: 30%; animation-delay: 4s; }
-.particle:nth-child(4) { left: 40%; animation-delay: 6s; }
-.particle:nth-child(5) { left: 50%; animation-delay: 8s; }
-.particle:nth-child(6) { left: 60%; animation-delay: 10s; }
-.particle:nth-child(7) { left: 70%; animation-delay: 12s; }
-.particle:nth-child(8) { left: 80%; animation-delay: 14s; }
-.particle:nth-child(9) { left: 90%; animation-delay: 16s; }
+.particle:nth-child(1) { 
+  left: 10%; 
+  width: 3px; 
+  height: 3px; 
+  background: rgba(30, 58, 138, 0.3);
+  animation-delay: 0s; 
+  animation-duration: 25s;
+}
+.particle:nth-child(2) { 
+  left: 20%; 
+  width: 4px; 
+  height: 4px; 
+  background: rgba(255, 255, 255, 0.8);
+  animation-delay: 3s; 
+  animation-duration: 30s;
+}
+.particle:nth-child(3) { 
+  left: 30%; 
+  width: 2px; 
+  height: 2px; 
+  background: rgba(30, 58, 138, 0.4);
+  animation-delay: 6s; 
+  animation-duration: 28s;
+}
+.particle:nth-child(4) { 
+  left: 40%; 
+  width: 5px; 
+  height: 5px; 
+  background: rgba(255, 255, 255, 0.6);
+  animation-delay: 9s; 
+  animation-duration: 32s;
+}
+.particle:nth-child(5) { 
+  left: 50%; 
+  width: 3px; 
+  height: 3px; 
+  background: rgba(30, 58, 138, 0.2);
+  animation-delay: 12s; 
+  animation-duration: 26s;
+}
+.particle:nth-child(6) { 
+  left: 60%; 
+  width: 4px; 
+  height: 4px; 
+  background: rgba(255, 255, 255, 0.7);
+  animation-delay: 15s; 
+  animation-duration: 29s;
+}
+.particle:nth-child(7) { 
+  left: 70%; 
+  width: 2px; 
+  height: 2px; 
+  background: rgba(30, 58, 138, 0.3);
+  animation-delay: 18s; 
+  animation-duration: 31s;
+}
+.particle:nth-child(8) { 
+  left: 80%; 
+  width: 3px; 
+  height: 3px; 
+  background: rgba(255, 255, 255, 0.5);
+  animation-delay: 21s; 
+  animation-duration: 27s;
+}
+.particle:nth-child(9) { 
+  left: 90%; 
+  width: 4px; 
+  height: 4px; 
+  background: rgba(30, 58, 138, 0.25);
+  animation-delay: 24s; 
+  animation-duration: 33s;
+}
+
+/* Glowing particles */
+.particle:nth-child(even) {
+  box-shadow: 0 0 10px rgba(30, 58, 138, 0.3);
+}
+
+.particle:nth-child(odd) {
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+}
 
 @keyframes float {
   0% {
-    transform: translateY(100vh) rotate(0deg);
+    transform: translateY(100vh) rotate(0deg) scale(0);
     opacity: 0;
   }
   10% {
-    opacity: 1;
+    opacity: 0.6;
+    transform: translateY(90vh) rotate(36deg) scale(1);
   }
   90% {
-    opacity: 1;
+    opacity: 0.6;
+    transform: translateY(-10vh) rotate(324deg) scale(1);
   }
   100% {
-    transform: translateY(-100px) rotate(360deg);
+    transform: translateY(-20vh) rotate(360deg) scale(0);
     opacity: 0;
   }
 }
@@ -330,7 +410,7 @@
   @apply hover:scale-[1.02] hover:-translate-y-1;
 }
 
-/* Clean Button Styles */
+/* Clean Button Styles - Navy Blue Primary, Orange Accent */
 .btn-navy-primary {
   @apply bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105;
 }
@@ -343,32 +423,46 @@
   @apply bg-transparent hover:bg-primary hover:text-white text-primary border border-primary font-medium px-6 py-3 rounded-lg transition-all duration-300;
 }
 
+/* Orange Accent Buttons - Used Sparingly */
+.btn-orange-accent {
+  @apply bg-accent hover:bg-accent/90 text-accent-foreground font-medium px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105;
+}
+
+.btn-orange-outline {
+  @apply bg-transparent hover:bg-accent hover:text-white text-accent border border-accent font-medium px-6 py-3 rounded-lg transition-all duration-300;
+}
+
 /* Clean Text Gradients */
 .text-gradient-navy {
   @apply bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent;
 }
 
+.text-gradient-orange {
+  @apply bg-gradient-to-r from-accent to-orange-500 bg-clip-text text-transparent;
+}
+
 /* Clean Page Background */
 .page-bg-clean {
   @apply relative min-h-screen;
+  background: rgba(255, 255, 255, 0.95);
 }
 
-/* Navbar Clean Styles */
+/* Navbar Clean Styles - Navy Blue */
 .navbar-clean {
-  @apply bg-white/95 backdrop-blur-md border-b border-gray-200/50;
-  box-shadow: 0 4px 20px -4px rgba(30, 58, 138, 0.1);
+  @apply bg-primary/95 backdrop-blur-md border-b border-primary/20;
+  box-shadow: 0 4px 20px -4px rgba(30, 58, 138, 0.2);
 }
 
 .navbar-title {
-  color: #1E3A8A !important;
+  color: #FFFFFF !important;
 }
 
 .navbar-link {
-  @apply text-gray-600 hover:text-primary transition-colors duration-300;
+  @apply text-white/80 hover:text-white transition-colors duration-300;
 }
 
 .navbar-link.active {
-  @apply text-primary font-medium;
+  @apply text-white font-medium;
   position: relative;
 }
 
@@ -380,8 +474,13 @@
   transform: translateX(-50%);
   width: 30px;
   height: 2px;
-  background-color: #1E3A8A;
+  background-color: #F97316;
   border-radius: 1px;
+}
+
+/* Orange hover effects for navbar links */
+.navbar-link:hover {
+  color: #F97316 !important;
 }
 
 /* Navbar Animation */
@@ -403,6 +502,7 @@
 /* Mobile Menu Animation */
 .mobile-menu-enter {
   animation: slideInFromTop 0.3s ease-out;
+  @apply bg-primary;
 }
 
 @keyframes slideInFromTop {
@@ -416,28 +516,28 @@
   }
 }
 
-/* Register Button Highlight */
-@keyframes pulse-navy {
+/* Register Button Highlight - Orange Accent */
+@keyframes pulse-orange {
   0%, 100% {
-    box-shadow: 0 0 0 0 rgba(30, 58, 138, 0.4);
+    box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.4);
     transform: scale(1);
   }
   50% {
-    box-shadow: 0 0 0 10px rgba(30, 58, 138, 0);
+    box-shadow: 0 0 0 10px rgba(249, 115, 22, 0);
     transform: scale(1.02);
   }
 }
 
 .register-button-highlight {
-  animation: pulse-navy 2s ease-in-out infinite;
-  background: #1E3A8A !important;
+  animation: pulse-orange 2s ease-in-out infinite;
+  background: #F97316 !important;
   color: white !important;
   font-weight: 600 !important;
   border: none !important;
   border-radius: 0.5rem !important;
 }
 
-/* Stats Cards */
+/* Stats Cards - Navy Blue and Light variants */
 .stats-card-navy {
   @apply bg-gradient-to-br from-primary to-blue-600 text-white rounded-xl p-6 shadow-lg;
 }
@@ -446,7 +546,12 @@
   @apply bg-gradient-to-br from-gray-50 to-gray-100 text-primary rounded-xl p-6 shadow-lg border border-gray-200;
 }
 
-/* Hero Section */
+/* Orange accent stats cards - used sparingly */
+.stats-card-orange {
+  @apply bg-gradient-to-br from-accent to-orange-500 text-white rounded-xl p-6 shadow-lg;
+}
+
+/* Hero Section - Navy Blue Gradient */
 .hero-gradient {
   background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 50%, #1E3A8A 100%);
 }
@@ -459,11 +564,19 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .navbar-title {
-    color: #1E3A8A !important;
+    color: #FFFFFF !important;
   }
   
   .section-clean {
     @apply py-12 px-4;
+  }
+
+  .mobile-menu-enter {
+    @apply bg-primary;
+  }
+
+  .mobile-menu-enter .navbar-link {
+    @apply text-white/80 hover:text-accent;
   }
 }
 
@@ -485,6 +598,11 @@ select:focus {
   @apply outline-none ring-2 ring-primary ring-offset-2;
 }
 
+/* Orange focus for accent elements */
+.orange-focus:focus {
+  @apply outline-none ring-2 ring-accent ring-offset-2;
+}
+
 /* Hover Effects */
 .hover-lift {
   @apply transition-transform duration-300 hover:-translate-y-1;
@@ -492,4 +610,31 @@ select:focus {
 
 .hover-scale {
   @apply transition-transform duration-300 hover:scale-105;
+}
+
+/* Orange hover effects for special elements */
+.hover-orange {
+  @apply transition-colors duration-300 hover:text-accent;
+}
+
+.hover-orange-bg {
+  @apply transition-colors duration-300 hover:bg-accent hover:text-white;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1E3A8A;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #F97316;
 }

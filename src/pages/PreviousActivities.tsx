@@ -165,12 +165,12 @@ const PreviousActivities = () => {
             <div className="text-white/90 text-sm">Events Completed</div>
           </div>
           
-          <div className="stats-card-light text-center animate-slide-up" style={{ animationDelay: '0.1s' }}>
+          <div className="stats-card-orange text-center animate-slide-up" style={{ animationDelay: '0.1s' }}>
             <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Users className="h-6 w-6 text-primary" />
+              <Users className="h-6 w-6 text-white" />
             </div>
-            <div className="text-2xl font-bold mb-1 text-primary">300+</div>
-            <div className="text-primary/80 text-sm">Total Participants</div>
+            <div className="text-2xl font-bold mb-1">300+</div>
+            <div className="text-white/90 text-sm">Total Participants</div>
           </div>
           
           <div className="stats-card-navy text-center animate-slide-up" style={{ animationDelay: '0.2s' }}>
@@ -181,12 +181,12 @@ const PreviousActivities = () => {
             <div className="text-white/90 text-sm">Winners Crowned</div>
           </div>
           
-          <div className="stats-card-light text-center animate-slide-up" style={{ animationDelay: '0.3s' }}>
+          <div className="stats-card-navy text-center animate-slide-up" style={{ animationDelay: '0.3s' }}>
             <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Camera className="h-6 w-6 text-primary" />
+              <Camera className="h-6 w-6 text-white" />
             </div>
-            <div className="text-2xl font-bold mb-1 text-primary">{totalPhotos}</div>
-            <div className="text-primary/80 text-sm">Photos Captured</div>
+            <div className="text-2xl font-bold mb-1">{totalPhotos}</div>
+            <div className="text-white/90 text-sm">Photos Captured</div>
           </div>
         </div>
 

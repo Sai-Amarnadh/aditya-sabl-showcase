@@ -69,7 +69,7 @@ const Home = () => {
             Fostering innovation, creativity, and excellence in computer science education through engaging activities and competitions.
           </p>
           <div className="animate-slide-up" style={{ animationDelay: '0.6s' }}>
-            <Button size="lg" asChild className="btn-navy-secondary hover:bg-white hover:text-primary">
+            <Button size="lg" asChild className="btn-orange-accent">
               <Link to="/upcoming">
                 Explore Activities
                 <ArrowRight className="ml-2 h-5 w-5" />

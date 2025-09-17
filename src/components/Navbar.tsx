@@ -45,14 +45,14 @@ const Navbar = () => {
               <div className="hidden sm:block">
                 <h1 className="text-lg font-bold">
                   <span className="navbar-title">ADITYA</span>{' '}
-                  <span className="text-gradient-navy">UNIVERSITY</span>
+                  <span className="text-white/90">UNIVERSITY</span>
                 </h1>
-                <p className="text-sm text-muted-foreground">Department of Computer Science and Engineering SABL Activities</p>
+                <p className="text-sm text-white/70">Department of Computer Science and Engineering SABL Activities</p>
               </div>
               <div className="sm:hidden">
                 <h1 className="text-lg font-bold">
                   <span className="navbar-title">ADITYA</span>{' '}
-                  <span className="text-gradient-navy">UNIVERSITY</span>
+                  <span className="text-white/90">UNIVERSITY</span>
                 </h1>
               </div>
             </div>
@@ -79,7 +79,7 @@ const Navbar = () => {
             <div className="lg:hidden">
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="navbar-link p-2 transition-all duration-300 hover:bg-gray-100 rounded-lg hover:scale-110"
+                className="navbar-link p-2 transition-all duration-300 hover:bg-white/10 rounded-lg hover:scale-110"
                 data-testid="mobile-menu-button"
               >
                 {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -90,7 +90,7 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden bg-white border-t border-gray-200 mobile-menu-enter">
+          <div className="lg:hidden mobile-menu-enter border-t border-white/20">
             <div className="container mx-auto px-4 py-4 space-y-2">
               {navItems.map((item, index) => (
                 <NavLink
@@ -98,8 +98,8 @@ const Navbar = () => {
                   to={item.to}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={({ isActive }) =>
-                    `navbar-link flex items-center space-x-3 px-4 py-3 text-base font-medium transition-all duration-300 rounded-lg hover:bg-gray-50 ${
-                      isActive ? 'active bg-gray-50' : ''
+                    `navbar-link flex items-center space-x-3 px-4 py-3 text-base font-medium transition-all duration-300 rounded-lg hover:bg-white/10 ${
+                      isActive ? 'active bg-white/10' : ''
                     }`
                   }
                   style={{ animationDelay: `${index * 0.05}s` }}

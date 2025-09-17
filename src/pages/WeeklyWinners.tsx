@@ -109,11 +109,11 @@ const WeeklyWinners = () => {
               <p className="text-sm text-muted-foreground">Total Winners</p>
             </CardContent>
           </Card>
-          <Card className="clean-card animate-slide-up" style={{ animationDelay: '0.1s' }}>
+          <Card className="stats-card-orange animate-slide-up" style={{ animationDelay: '0.1s' }}>
             <CardContent className="p-6 text-center">
-              <Calendar className="h-8 w-8 text-primary mx-auto mb-2" />
-              <p className="text-2xl font-bold text-primary">{weeks.length}</p>
-              <p className="text-sm text-muted-foreground">Weeks</p>
+              <Calendar className="h-8 w-8 text-white mx-auto mb-2" />
+              <p className="text-2xl font-bold">{weeks.length}</p>
+              <p className="text-sm text-white/90">Weeks</p>
             </CardContent>
           </Card>
           <Card className="clean-card animate-slide-up" style={{ animationDelay: '0.2s' }}>
@@ -123,11 +123,11 @@ const WeeklyWinners = () => {
               <p className="text-sm text-muted-foreground">Activities</p>
             </CardContent>
           </Card>
-          <Card className="clean-card animate-slide-up" style={{ animationDelay: '0.3s' }}>
+          <Card className="stats-card-navy animate-slide-up" style={{ animationDelay: '0.3s' }}>
             <CardContent className="p-6 text-center">
-              <Trophy className="h-8 w-8 text-primary mx-auto mb-2" />
-              <p className="text-2xl font-bold text-primary">{filteredWinners.filter(w => w.position === 1).length}</p>
-              <p className="text-sm text-muted-foreground">Champions</p>
+              <Trophy className="h-8 w-8 text-white mx-auto mb-2" />
+              <p className="text-2xl font-bold">{filteredWinners.filter(w => w.position === 1).length}</p>
+              <p className="text-sm text-white/90">Champions</p>
             </CardContent>
           </Card>
         </div>
