@@ -8,11 +8,10 @@ const About: React.FC = () => {
         {/* Hero Section */}
         <div className="text-center mb-16 animate-slide-up">
           <div className="flex items-center justify-center mb-6">
-            <BookOpen className="h-12 w-12 text-primary mr-4" />
             <h1 className="text-5xl font-bold text-gradient-navy">
-              About SABL
+  About SABL
             </h1>
-          </div>
+            </div>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             Student-Based Learning (SABL) is an innovative educational approach that places students at the center of the learning process.
           </p>
