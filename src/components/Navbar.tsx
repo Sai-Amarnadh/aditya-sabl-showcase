@@ -44,7 +44,7 @@ const Navbar = () => {
               <img src="/aditya-removebg-preview (1).png" alt="Aditya Logo" className="h-10 w-10 object-contain" />
               <div className="hidden sm:block">
                 <h1 className="text-lg font-bold">
-                  <span className="text-primary">ADITYA</span>{' '}
+                  <span className="text-orange-500">ADITYA</span>{' '}
                   <span className="text-primary/80">UNIVERSITY</span>
                 </h1>
                 <p className="text-sm text-primary/60">Department of Computer Science and Engineering SABL Activities</p>
