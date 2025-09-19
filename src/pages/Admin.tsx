@@ -13,6 +13,7 @@ import { Winner, Activity, GalleryImage } from '@/lib/data-service';
 import { getParticipants, addParticipant, updateParticipant, deleteParticipant, Participant } from '@/lib/data-service';
 import { useData } from '@/contexts/DataContext';
 import ActivityPhotoManager from '@/components/ActivityPhotoManager';
+import { useToast } from '@/hooks/use-toast';
 
 // Define new types for form state to handle file uploads
 type WinnerFormState = Omit<Winner, 'id' | 'photo'> & { photo: File | string | null };
@@ -30,6 +31,8 @@ const Admin = () => {
   const [galleryLoading, setGalleryLoading] = useState(false);
   const [participantLoading, setParticipantLoading] = useState(false);
   const [participants, setParticipants] = useState<Participant[]>([]);
+  const [editingParticipant, setEditingParticipant] = useState<Participant | null>(null);
+  const { toast } = useToast();
 
   const { triggerDataChange } = useData();
   const [winners, setWinners] = useState<Winner[]>([]);
@@ -253,25 +256,81 @@ const Admin = () => {
 
   const handleAddParticipant = async (e: FormEvent) => {
     e.preventDefault();
+    if (!newParticipant.activityId || !newParticipant.name || !newParticipant.rollNumber || !newParticipant.department) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all required fields",
+        variant: "destructive"
+      });
+      return;
+    }
+
     setParticipantLoading(true);
     try {
-      await addParticipant(newParticipant);
+      if (editingParticipant) {
+        await updateParticipant({ ...newParticipant, id: editingParticipant.id });
+        setEditingParticipant(null);
+        toast({
+          title: "Participant Updated",
+          description: "Participant information has been updated successfully",
+        });
+      } else {
+        await addParticipant(newParticipant);
+        toast({
+          title: "Participant Added",
+          description: "New participant has been added successfully",
+        });
+      }
       setNewParticipant(initialParticipantState);
       triggerDataChange();
     } catch (error) {
       console.error('Error saving participant:', error);
+      toast({
+        title: "Error",
+        description: "Failed to save participant. Please try again.",
+        variant: "destructive"
+      });
     } finally {
       setParticipantLoading(false);
     }
   };
 
+  const handleEditParticipant = (participant: Participant) => {
+    setEditingParticipant(participant);
+    setNewParticipant({
+      activityId: participant.activityId,
+      name: participant.name,
+      rollNumber: participant.rollNumber,
+      department: participant.department,
+      college: participant.college,
+      award: participant.award
+    });
+  };
+
+  const handleCancelEdit = () => {
+    setEditingParticipant(null);
+    setNewParticipant(initialParticipantState);
+  };
   const handleDeleteParticipant = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this participant?')) {
+      return;
+    }
+
     setParticipantLoading(true);
     try {
       await deleteParticipant(id);
+      toast({
+        title: "Participant Deleted",
+        description: "Participant has been removed successfully",
+      });
       triggerDataChange();
     } catch (error) {
       console.error('Error deleting participant:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete participant. Please try again.",
+        variant: "destructive"
+      });
     } finally {
       setParticipantLoading(false);
     }
@@ -617,7 +676,9 @@ const Admin = () => {
               </CardHeader>
               <CardContent>
                 <div className="mb-8">
-                  <h3 className="text-2xl font-semibold mb-4 text-primary">Add New Participant</h3>
+                  <h3 className="text-2xl font-semibold mb-4 text-primary">
+                    {editingParticipant ? 'Edit Participant' : 'Add New Participant'}
+                  </h3>
                   <form onSubmit={handleAddParticipant} className="space-y-4">
                     <div>
                       <Label htmlFor="participant-activity" className="text-primary">Select Activity</Label>
@@ -667,6 +728,9 @@ const Admin = () => {
                           <SelectItem value="EEE">EEE</SelectItem>
                           <SelectItem value="MECH">MECH</SelectItem>
                           <SelectItem value="CIVIL">CIVIL</SelectItem>
+                          <SelectItem value="MBA">MBA</SelectItem>
+                          <SelectItem value="MCA">MCA</SelectItem>
+                          <SelectItem value="OTHER">OTHER</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -694,14 +758,97 @@ const Admin = () => {
                         </SelectContent>
                       </Select>
                     </div>
-                    <Button type="submit" disabled={participantLoading || !newParticipant.activityId} className="btn-navy-primary">
-                      {participantLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                      Add Participant
-                    </Button>
+                    <div className="flex space-x-2">
+                      <Button type="submit" disabled={participantLoading || !newParticipant.activityId} className="btn-navy-primary">
+                        {participantLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                        {editingParticipant ? 'Update Participant' : 'Add Participant'}
+                      </Button>
+                      {editingParticipant && (
+                        <Button type="button" variant="outline" onClick={handleCancelEdit} className="btn-navy-outline">
+                          Cancel
+                        </Button>
+                      )}
+                    </div>
                   </form>
                 </div>
                 
-                {/* Show participants for selected activity */}
+                {/* All Participants List */}
+                <div className="mb-8">
+                  <h3 className="text-2xl font-semibold mb-4 text-primary">All Participants</h3>
+                  <div className="space-y-4">
+                    {participants.length === 0 ? (
+                      <div className="text-center py-8 text-muted-foreground">
+                        <Users className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                        <p>No participants found. Add your first participant above.</p>
+                      </div>
+                    ) : (
+                      <div className="overflow-x-auto">
+                        <table className="w-full border-collapse">
+                          <thead>
+                            <tr className="border-b">
+                              <th className="text-left p-3 font-semibold text-primary">S.No</th>
+                              <th className="text-left p-3 font-semibold text-primary">Name</th>
+                              <th className="text-left p-3 font-semibold text-primary">Roll Number</th>
+                              <th className="text-left p-3 font-semibold text-primary">Department</th>
+                              <th className="text-left p-3 font-semibold text-primary">Activity</th>
+                              <th className="text-left p-3 font-semibold text-primary">Award</th>
+                              <th className="text-left p-3 font-semibold text-primary">Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {participants.map((participant, index) => {
+                              const activity = activities.find(a => a.id === participant.activityId);
+                              return (
+                                <tr key={participant.id} className="border-b hover:bg-gray-50">
+                                  <td className="p-3">{index + 1}</td>
+                                  <td className="p-3 font-medium">{participant.name}</td>
+                                  <td className="p-3">{participant.rollNumber}</td>
+                                  <td className="p-3">{participant.department}</td>
+                                  <td className="p-3 text-sm">
+                                    {activity ? activity.name : `Activity ${participant.activityId}`}
+                                  </td>
+                                  <td className="p-3">
+                                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                      participant.award === '1st Place' ? 'bg-yellow-100 text-yellow-800' :
+                                      participant.award === '2nd Place' ? 'bg-gray-100 text-gray-800' :
+                                      participant.award === '3rd Place' ? 'bg-orange-100 text-orange-800' :
+                                      'bg-primary/10 text-primary'
+                                    }`}>
+                                      {participant.award}
+                                    </span>
+                                  </td>
+                                  <td className="p-3">
+                                    <div className="flex gap-2">
+                                      <Button 
+                                        variant="outline" 
+                                        size="sm" 
+                                        onClick={() => handleEditParticipant(participant)}
+                                        disabled={participantLoading}
+                                        className="btn-navy-outline"
+                                      >
+                                        Edit
+                                      </Button>
+                                      <Button 
+                                        variant="destructive" 
+                                        size="sm" 
+                                        onClick={() => handleDeleteParticipant(participant.id)}
+                                        disabled={participantLoading}
+                                      >
+                                        Delete
+                                      </Button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Activity-specific participants (if activity is selected) */}
                 {newParticipant.activityId && (
                   <div>
                     <h3 className="text-2xl font-semibold mb-4 text-primary">
@@ -744,14 +891,26 @@ const Admin = () => {
                                     </span>
                                   </td>
                                   <td className="p-2">
-                                    <Button 
-                                      variant="destructive" 
-                                      size="sm" 
-                                      onClick={() => handleDeleteParticipant(participant.id)}
-                                      disabled={participantLoading}
-                                    >
-                                      Delete
-                                    </Button>
+                                    <div className="flex gap-1">
+                                      <Button 
+                                        variant="outline" 
+                                        size="sm" 
+                                        onClick={() => handleEditParticipant(participant)}
+                                        disabled={participantLoading}
+                                        className="btn-navy-outline text-xs"
+                                      >
+                                        Edit
+                                      </Button>
+                                      <Button 
+                                        variant="destructive" 
+                                        size="sm" 
+                                        onClick={() => handleDeleteParticipant(participant.id)}
+                                        disabled={participantLoading}
+                                        className="text-xs"
+                                      >
+                                        Delete
+                                      </Button>
+                                    </div>
                                   </td>
                                 </tr>
                               ))}
@@ -762,6 +921,15 @@ const Admin = () => {
                     </div>
                   </div>
                 )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </div>
+  );
+};
+
               </CardContent>
             </Card>
           </TabsContent>

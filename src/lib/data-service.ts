@@ -42,6 +42,7 @@ export interface Participant {
   department: string;
   college: string;
   award: '1st Place' | '2nd Place' | '3rd Place' | 'Participation';
+  createdAt?: string;
 }
 
 type WinnerRow = Database['public']['Tables']['winners']['Row'];
@@ -56,7 +57,7 @@ type ParticipantRow = {
   department: string;
   college: string;
   award: string;
-  created_at: string;
+  created_at: string | null;
 };
 
 // Helper function to transform database row to Winner
@@ -144,6 +145,7 @@ const transformParticipantFromDB = (row: ParticipantRow): Participant => ({
   department: row.department,
   college: row.college,
   award: row.award as Participant['award'],
+  createdAt: row.created_at || undefined,
 });
 
 // Helper function to transform Participant to database format
@@ -444,19 +446,20 @@ export const deleteGalleryImage = async (id: string): Promise<boolean> => {
 // --- Participants ---
 export const getParticipants = async (activityId?: string): Promise<Participant[]> => {
   try {
-    let query = supabase
+    const query = supabase
       .from('participants')
       .select('*')
-      .order('award', { ascending: true });
+      .order('created_at', { ascending: false });
 
     if (activityId) {
-      query = query.eq('activity_id', parseInt(activityId));
+      const { data, error } = await query.eq('activity_id', parseInt(activityId));
+      if (error) throw error;
+      return data?.map(transformParticipantFromDB) || [];
+    } else {
+      const { data, error } = await query;
+      if (error) throw error;
+      return data?.map(transformParticipantFromDB) || [];
     }
-
-    const { data, error } = await query;
-
-    if (error) throw error;
-    return data?.map(transformParticipantFromDB) || [];
   } catch (error) {
     console.error('Error fetching participants:', error);
     return [];
