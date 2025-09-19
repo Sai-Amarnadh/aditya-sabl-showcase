@@ -62,24 +62,24 @@ const Winners = () => {
 
   return (
     <div className="page-bg-clean">
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-8 sm:py-12">
         {/* Header */}
-        <div className="text-center mb-12 animate-slide-up">
-          <div className="flex items-center justify-center mb-4">
+        <div className="text-center mb-8 sm:mb-12 animate-slide-up">
+          <div className="flex flex-col sm:flex-row items-center justify-center mb-4 gap-2 sm:gap-0">
             <Trophy className="h-8 w-8 text-primary mr-3" />
-            <h1 className="text-4xl font-bold text-gradient-navy">Hall of Fame</h1>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gradient-navy text-center">Hall of Fame</h1>
           </div>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
             Celebrating the outstanding achievements of our students across various SABL activities and competitions.
           </p>
         </div>
 
         {/* Filters */}
-        <div className="clean-card backdrop-blur-sm p-6 mb-8 border-primary/20 animate-slide-up">
+        <div className="clean-card backdrop-blur-sm p-4 sm:p-6 mb-6 sm:mb-8 border-primary/20 animate-slide-up">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 w-full sm:w-auto">
               <Filter className="h-5 w-5 text-primary" />
-              <span className="font-medium text-primary">Filter Winners:</span>
+              <span className="font-medium text-primary text-sm sm:text-base">Filter Winners:</span>
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4 flex-1">
@@ -111,7 +111,7 @@ const Winners = () => {
                 </Select>
               </div>
               
-              <Button variant="outline" onClick={clearFilters} className="btn-navy-outline">
+              <Button variant="outline" onClick={clearFilters} className="btn-navy-outline w-full sm:w-auto">
                 Clear Filters
               </Button>
             </div>
@@ -120,7 +120,7 @@ const Winners = () => {
 
         {/* Results Summary */}
         <div className="mb-6">
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground text-sm sm:text-base px-2">
             Showing {filteredWinners.length} of {winners.length} winners
             {selectedYear !== 'all' && ` from ${selectedYear}`}
             {selectedEvent !== 'all' && ` in ${selectedEvent}`}
@@ -129,9 +129,9 @@ const Winners = () => {
 
         {/* Error Message */}
         {error && (
-          <div className="bg-destructive/10 border border-destructive/20 text-destructive rounded-xl p-6 mb-8 text-center animate-slide-up">
-            <h3 className="font-semibold mb-2">Failed to Load Winners</h3>
-            <p className="text-sm">{error}</p>
+          <div className="bg-destructive/10 border border-destructive/20 text-destructive rounded-xl p-4 sm:p-6 mb-6 sm:mb-8 text-center animate-slide-up mx-2 sm:mx-0">
+            <h3 className="font-semibold mb-2 text-sm sm:text-base">Failed to Load Winners</h3>
+            <p className="text-xs sm:text-sm">{error}</p>
             <p className="text-xs mt-2 text-muted-foreground">
               This might be due to a network issue or a problem with the server. Please try again later.
             </p>
@@ -140,7 +140,7 @@ const Winners = () => {
 
         {/* Winners Grid */}
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {Array.from({ length: 6 }).map((_, index) => (
               <div key={index} className="clean-card p-6 animate-pulse">
                 <div className="flex items-center space-x-4">
@@ -159,8 +159,8 @@ const Winners = () => {
             {/* Group winners by week and activity type for current week winners */}
             {filteredWinners.some(w => w.isThisWeekWinner) && (
               <div className="mb-8">
-                <h3 className="text-xl font-semibold mb-4 text-center text-primary">🏆 Top Performers of the Week</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <h3 className="text-lg sm:text-xl font-semibold mb-4 text-center text-primary px-2">🏆 Top Performers of the Week</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
                   {filteredWinners
                     .filter(w => w.isThisWeekWinner)
                     .sort((a, b) => (a.position || 1) - (b.position || 1))
@@ -173,7 +173,7 @@ const Winners = () => {
               </div>
             )}
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {filteredWinners.filter(w => !w.isThisWeekWinner).map((winner, index) => (
                 <div key={winner.id} className="animate-slide-up" style={{ animationDelay: `${index * 0.05}s` }}>
                   <WinnerCard winner={winner} onClick={() => handleWinnerClick(winner)} />
@@ -182,12 +182,12 @@ const Winners = () => {
             </div>
           </>
         ) : (
-          <div className="text-center py-16">
+          <div className="text-center py-12 sm:py-16 px-4">
             <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
               <Trophy className="h-12 w-12 text-primary" />
             </div>
-            <h3 className="text-xl font-semibold text-primary mb-2">No Winners Found</h3>
-            <p className="text-muted-foreground mb-4">
+            <h3 className="text-lg sm:text-xl font-semibold text-primary mb-2">No Winners Found</h3>
+            <p className="text-sm sm:text-base text-muted-foreground mb-4">
               Try adjusting your filters to see more results.
             </p>
             <Button onClick={clearFilters} className="btn-navy-primary">Clear All Filters</Button>
@@ -195,55 +195,55 @@ const Winners = () => {
         )}
 
         {/* Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 my-8 sm:my-12">
           <div className="stats-card-navy text-center animate-slide-up">
             <Trophy className="h-8 w-8 mx-auto mb-3" />
-            <div className="text-3xl font-bold mb-1">{winners.length}</div>
-            <div className="text-sm opacity-90">Total Winners</div>
+            <div className="text-2xl sm:text-3xl font-bold mb-1">{winners.length}</div>
+            <div className="text-xs sm:text-sm opacity-90">Total Winners</div>
           </div>
 
           <div className="stats-card-orange text-center animate-slide-up" style={{ animationDelay: '0.1s' }}>
             <Award className="h-8 w-8 mx-auto mb-3 text-primary" />
-            <div className="text-3xl font-bold mb-1">{events.length}</div>
-            <div className="text-white/90 text-sm">Different Events</div>
+            <div className="text-2xl sm:text-3xl font-bold mb-1">{events.length}</div>
+            <div className="text-white/90 text-xs sm:text-sm">Different Events</div>
           </div>
 
           <div className="stats-card-navy text-center animate-slide-up" style={{ animationDelay: '0.2s' }}>
             <Calendar className="h-8 w-8 mx-auto mb-3 text-white" />
-            <div className="text-3xl font-bold mb-1">{years.length}</div>
-            <div className="text-white/90 text-sm">Years of Excellence</div>
+            <div className="text-2xl sm:text-3xl font-bold mb-1">{years.length}</div>
+            <div className="text-white/90 text-xs sm:text-sm">Years of Excellence</div>
           </div>
         </div>
 
         {/* Achievement Highlights */}
-        <div className="mt-16 stats-card-navy rounded-2xl p-8 text-white shadow-elevated animate-slide-up">
-          <h2 className="text-2xl font-bold text-center mb-6">Achievement Highlights</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="mt-12 sm:mt-16 stats-card-navy rounded-2xl p-6 sm:p-8 text-white shadow-elevated animate-slide-up mx-2 sm:mx-0">
+          <h2 className="text-xl sm:text-2xl font-bold text-center mb-6">Achievement Highlights</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-white">Most Active Events</h3>
+              <h3 className="text-base sm:text-lg font-semibold text-white">Most Active Events</h3>
               {events.slice(0, 3).map(event => {
                 const eventWinners = winners.filter(w => w.event === event);
                 return (
                   <div key={event} className="flex justify-between items-center p-3 bg-white/20 backdrop-blur-sm rounded-xl shadow-soft">
-                    <span className="text-white">{event}</span>
-                    <span className="text-yellow-300 font-semibold">{eventWinners.length} winners</span>
+                    <span className="text-white text-sm sm:text-base truncate pr-2">{event}</span>
+                    <span className="text-yellow-300 font-semibold text-xs sm:text-sm flex-shrink-0">{eventWinners.length} winners</span>
                   </div>
                 );
               })}
             </div>
             
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-white">Recent Achievements</h3>
+              <h3 className="text-base sm:text-lg font-semibold text-white">Recent Achievements</h3>
               {winners
                 .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                 .slice(0, 3)
                 .map(winner => (
                   <div key={winner.id} className="flex justify-between items-center p-3 bg-white/20 backdrop-blur-sm rounded-xl shadow-soft">
                     <div>
-                      <div className="text-white font-medium">{winner.name}</div>
-                      <div className="text-white/80 text-sm">{winner.event}</div>
+                      <div className="text-white font-medium text-sm sm:text-base truncate">{winner.name}</div>
+                      <div className="text-white/80 text-xs sm:text-sm truncate">{winner.event}</div>
                     </div>
-                    <div className="text-yellow-300 text-sm">
+                    <div className="text-yellow-300 text-xs sm:text-sm flex-shrink-0 ml-2">
                       {new Date(winner.date).toLocaleDateString()}
                     </div>
                   </div>

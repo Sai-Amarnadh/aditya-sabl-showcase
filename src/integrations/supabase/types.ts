@@ -35,6 +35,47 @@ export type Database = {
         }
         Relationships: []
       }
+      participants: {
+        Row: {
+          id: number
+          activity_id: number
+          name: string
+          roll_number: string
+          department: string
+          college: string
+          award: string
+          created_at: string | null
+        }
+        Insert: {
+          id?: never
+          activity_id: number
+          name: string
+          roll_number: string
+          department: string
+          college?: string
+          award: string
+          created_at?: string | null
+        }
+        Update: {
+          id?: never
+          activity_id?: number
+          name?: string
+          roll_number?: string
+          department?: string
+          college?: string
+          award?: string
+          created_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "participants_activity_id_fkey"
+            columns: ["activity_id"]
+            isOneToOne: false
+            referencedRelation: "previous_activities"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       previous_activities: {
         Row: {
           activity_date: string

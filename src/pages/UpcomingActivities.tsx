@@ -33,25 +33,25 @@ const UpcomingActivities = () => {
 
   return (
     <div className="page-bg-clean">
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-8 sm:py-12">
         {/* Header */}
-        <div className="text-center mb-12 animate-slide-up">
-          <div className="flex items-center justify-center mb-4">
+        <div className="text-center mb-8 sm:mb-12 animate-slide-up">
+          <div className="flex flex-col sm:flex-row items-center justify-center mb-4 gap-2 sm:gap-0">
             <Calendar className="h-8 w-8 text-primary mr-3" />
-            <h1 className="text-4xl font-bold text-gradient-navy">Upcoming Activities</h1>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gradient-navy text-center">Upcoming Activities</h1>
           </div>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
             Stay updated with our exciting upcoming SABL activities and competitions. Mark your calendars and get ready to participate!
           </p>
         </div>
 
         {/* Activities Grid */}
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {Array.from({ length: 3 }).map((_, index) => (
               <div key={index} className="clean-card animate-pulse overflow-hidden">
                 <div className="h-48 bg-muted"></div>
-                <div className="p-6">
+                <div className="p-4 sm:p-6">
                   <div className="h-6 bg-muted rounded mb-3"></div>
                   <div className="h-4 bg-muted rounded mb-2"></div>
                   <div className="h-4 bg-muted rounded mb-4"></div>
@@ -61,7 +61,7 @@ const UpcomingActivities = () => {
             ))}
           </div>
         ) : upcomingActivities.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
             {upcomingActivities.map((activity, index) => (
               <div key={`${activity.id}-${activity.poster}`} className="animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
                 <ActivityCard activity={activity} />
@@ -69,54 +69,54 @@ const UpcomingActivities = () => {
             ))}
           </div>
         ) : (
-          <div className="text-center py-16">
+          <div className="text-center py-12 sm:py-16 px-4">
             <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
               <Calendar className="h-12 w-12 text-primary" />
             </div>
-            <h3 className="text-xl font-semibold text-primary mb-2">No Upcoming Activities</h3>
-            <p className="text-muted-foreground">Check back soon for new exciting events and competitions!</p>
+            <h3 className="text-lg sm:text-xl font-semibold text-primary mb-2">No Upcoming Activities</h3>
+            <p className="text-sm sm:text-base text-muted-foreground">Check back soon for new exciting events and competitions!</p>
           </div>
         )}
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 my-8 sm:my-12">
           <div className="stats-card-navy text-center animate-slide-up">
             <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
               <Calendar className="h-6 w-6 text-white" />
             </div>
-            <div className="text-2xl font-bold mb-1">{upcomingActivities.length}</div>
-            <div className="text-white/90 text-sm">Upcoming Events</div>
+            <div className="text-xl sm:text-2xl font-bold mb-1">{upcomingActivities.length}</div>
+            <div className="text-white/90 text-xs sm:text-sm">Upcoming Events</div>
           </div>
 
           <div className="stats-card-orange text-center animate-slide-up" style={{ animationDelay: '0.1s' }}>
             <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3">
               <Clock className="h-6 w-6 text-white" />
             </div>
-            <div className="text-2xl font-bold mb-1">Next 30 Days</div>
-            <div className="text-white/90 text-sm">Activity Window</div>
+            <div className="text-lg sm:text-2xl font-bold mb-1">Next 30 Days</div>
+            <div className="text-white/90 text-xs sm:text-sm">Activity Window</div>
           </div>
 
           <div className="stats-card-navy text-center animate-slide-up" style={{ animationDelay: '0.2s' }}>
             <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
               <MapPin className="h-6 w-6 text-white" />
             </div>
-            <div className="text-2xl font-bold mb-1">CSE Campus</div>
-            <div className="text-white/90 text-sm">Event Location</div>
+            <div className="text-lg sm:text-2xl font-bold mb-1">CSE Campus</div>
+            <div className="text-white/90 text-xs sm:text-sm">Event Location</div>
           </div>
         </div>
 
         {/* Call to Action */}
-        <div className="mt-16 stats-card-navy rounded-2xl p-8 text-center text-white shadow-elevated animate-slide-up">
-          <h2 className="text-2xl font-bold mb-4">Don't Miss Out!</h2>
-          <p className="text-lg opacity-90 mb-6">
+        <div className="mt-12 sm:mt-16 stats-card-navy rounded-2xl p-6 sm:p-8 text-center text-white shadow-elevated animate-slide-up mx-4 sm:mx-0">
+          <h2 className="text-xl sm:text-2xl font-bold mb-4">Don't Miss Out!</h2>
+          <p className="text-base sm:text-lg opacity-90 mb-6">
             Stay connected with us to get the latest updates on upcoming activities and registration details.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <div className="flex items-center text-sm opacity-80">
+            <div className="flex items-center justify-center text-xs sm:text-sm opacity-80">
               <Calendar className="h-4 w-4 mr-2" />
               Follow our event calendar
             </div>
-            <div className="flex items-center text-sm opacity-80">
+            <div className="flex items-center justify-center text-xs sm:text-sm opacity-80">
               <Clock className="h-4 w-4 mr-2" />
               Register early for best spots
             </div>

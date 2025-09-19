@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import * as DataService from '@/lib/data-service';
 import { Winner, Activity, GalleryImage } from '@/lib/data-service';
+import { getParticipants, addParticipant, updateParticipant, deleteParticipant, Participant } from '@/lib/data-service';
 import { useData } from '@/contexts/DataContext';
 import ActivityPhotoManager from '@/components/ActivityPhotoManager';
 
@@ -17,6 +18,7 @@ import ActivityPhotoManager from '@/components/ActivityPhotoManager';
 type WinnerFormState = Omit<Winner, 'id' | 'photo'> & { photo: File | string | null };
 type ActivityFormState = Omit<Activity, 'id' | 'poster' | 'photos'> & { poster: File | string | null; photos: FileList | string[] | null };
 type GalleryImageFormState = Omit<GalleryImage, 'id' | 'url'> & { url: File | string | null };
+type ParticipantFormState = Omit<Participant, 'id'>;
 
 const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -26,6 +28,8 @@ const Admin = () => {
   const [winnerLoading, setWinnerLoading] = useState(false);
   const [activityLoading, setActivityLoading] = useState(false);
   const [galleryLoading, setGalleryLoading] = useState(false);
+  const [participantLoading, setParticipantLoading] = useState(false);
+  const [participants, setParticipants] = useState<Participant[]>([]);
 
   const { triggerDataChange } = useData();
   const [winners, setWinners] = useState<Winner[]>([]);
@@ -47,6 +51,10 @@ const Admin = () => {
   const [newGalleryImage, setNewGalleryImage] = useState<GalleryImageFormState>(initialGalleryImageState);
   const [editingGalleryImage, setEditingGalleryImage] = useState<GalleryImage | null>(null);
 
+  // Form state for new participant
+  const initialParticipantState: ParticipantFormState = { activityId: '', name: '', rollNumber: '', department: '', college: 'Aditya University', award: 'Participation' };
+  const [newParticipant, setNewParticipant] = useState<ParticipantFormState>(initialParticipantState);
+
   const { dataChanged } = useData();
 
   useEffect(() => {
@@ -61,6 +69,8 @@ const Admin = () => {
           setWinners(winnersData);
           setActivities(activitiesData);
           setGalleryImages(galleryImagesData);
+          const participantsData = await getParticipants();
+          setParticipants(participantsData);
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -241,6 +251,40 @@ const Admin = () => {
     }
   };
 
+  const handleAddParticipant = async (e: FormEvent) => {
+    e.preventDefault();
+    setParticipantLoading(true);
+    try {
+      await addParticipant(newParticipant);
+      setNewParticipant(initialParticipantState);
+      triggerDataChange();
+    } catch (error) {
+      console.error('Error saving participant:', error);
+    } finally {
+      setParticipantLoading(false);
+    }
+  };
+
+  const handleDeleteParticipant = async (id: string) => {
+    setParticipantLoading(true);
+    try {
+      await deleteParticipant(id);
+      triggerDataChange();
+    } catch (error) {
+      console.error('Error deleting participant:', error);
+    } finally {
+      setParticipantLoading(false);
+    }
+  };
+
+  // Get completed activities for participant dropdown
+  const completedActivities = activities.filter(activity => activity.status === 'completed');
+
+  // Get participants for selected activity
+  const selectedActivityParticipants = newParticipant.activityId 
+    ? participants.filter(p => p.activityId === newParticipant.activityId)
+    : [];
+
   if (!isAuthenticated) {
     return (
       <div className="page-bg-clean">
@@ -290,10 +334,11 @@ const Admin = () => {
       <div className="container mx-auto px-4 py-12">
         <h1 className="text-4xl font-bold text-center mb-12 text-gradient-navy">Admin Panel</h1>
         <Tabs defaultValue="winners">
-          <TabsList className="grid w-full grid-cols-3 bg-white shadow-soft">
+          <TabsList className="grid w-full grid-cols-4 bg-white shadow-soft">
             <TabsTrigger value="winners" className="data-[state=active]:bg-primary data-[state=active]:text-white">Manage Winners</TabsTrigger>
             <TabsTrigger value="activities" className="data-[state=active]:bg-primary data-[state=active]:text-white">Manage Activities</TabsTrigger>
             <TabsTrigger value="gallery" className="data-[state=active]:bg-primary data-[state=active]:text-white">Manage Gallery</TabsTrigger>
+            <TabsTrigger value="participants" className="data-[state=active]:bg-primary data-[state=active]:text-white">Manage Participants</TabsTrigger>
           </TabsList>
           <TabsContent value="winners">
             <Card className="clean-card">
@@ -562,6 +607,161 @@ const Admin = () => {
                     )}
                   </div>
                 </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="participants">
+            <Card className="clean-card">
+              <CardHeader>
+                <CardTitle className="text-primary">Participants</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="mb-8">
+                  <h3 className="text-2xl font-semibold mb-4 text-primary">Add New Participant</h3>
+                  <form onSubmit={handleAddParticipant} className="space-y-4">
+                    <div>
+                      <Label htmlFor="participant-activity" className="text-primary">Select Activity</Label>
+                      <Select value={newParticipant.activityId} onValueChange={(value) => setNewParticipant({ ...newParticipant, activityId: value })}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select an activity" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {completedActivities.map(activity => (
+                            <SelectItem key={activity.id} value={activity.id}>
+                              {activity.name} - {new Date(activity.date).toLocaleDateString()}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label htmlFor="participant-name" className="text-primary">Name</Label>
+                      <Input 
+                        id="participant-name" 
+                        value={newParticipant.name} 
+                        onChange={e => setNewParticipant({ ...newParticipant, name: e.target.value })} 
+                        className="focus:ring-2 focus:ring-primary" 
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="participant-rollNumber" className="text-primary">Roll Number</Label>
+                      <Input 
+                        id="participant-rollNumber" 
+                        value={newParticipant.rollNumber} 
+                        onChange={e => setNewParticipant({ ...newParticipant, rollNumber: e.target.value })} 
+                        className="focus:ring-2 focus:ring-primary" 
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="participant-department" className="text-primary">Department</Label>
+                      <Select value={newParticipant.department} onValueChange={(value) => setNewParticipant({ ...newParticipant, department: value })}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select department" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="CSE">CSE</SelectItem>
+                          <SelectItem value="ECE">ECE</SelectItem>
+                          <SelectItem value="IT">IT</SelectItem>
+                          <SelectItem value="EEE">EEE</SelectItem>
+                          <SelectItem value="MECH">MECH</SelectItem>
+                          <SelectItem value="CIVIL">CIVIL</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label htmlFor="participant-college" className="text-primary">College</Label>
+                      <Input 
+                        id="participant-college" 
+                        value={newParticipant.college} 
+                        onChange={e => setNewParticipant({ ...newParticipant, college: e.target.value })} 
+                        className="focus:ring-2 focus:ring-primary" 
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="participant-award" className="text-primary">Award</Label>
+                      <Select value={newParticipant.award} onValueChange={(value: Participant['award']) => setNewParticipant({ ...newParticipant, award: value })}>
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="1st Place">1st Place</SelectItem>
+                          <SelectItem value="2nd Place">2nd Place</SelectItem>
+                          <SelectItem value="3rd Place">3rd Place</SelectItem>
+                          <SelectItem value="Participation">Participation</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <Button type="submit" disabled={participantLoading || !newParticipant.activityId} className="btn-navy-primary">
+                      {participantLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                      Add Participant
+                    </Button>
+                  </form>
+                </div>
+                
+                {/* Show participants for selected activity */}
+                {newParticipant.activityId && (
+                  <div>
+                    <h3 className="text-2xl font-semibold mb-4 text-primary">
+                      Participants for {completedActivities.find(a => a.id === newParticipant.activityId)?.name}
+                    </h3>
+                    <div className="space-y-4">
+                      {selectedActivityParticipants.length === 0 ? (
+                        <div className="text-center py-8 text-muted-foreground">
+                          <Users className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                          <p>No participants found for this activity.</p>
+                        </div>
+                      ) : (
+                        <div className="overflow-x-auto">
+                          <table className="w-full border-collapse">
+                            <thead>
+                              <tr className="border-b">
+                                <th className="text-left p-2 font-semibold text-primary">S.No</th>
+                                <th className="text-left p-2 font-semibold text-primary">Name</th>
+                                <th className="text-left p-2 font-semibold text-primary">Roll Number</th>
+                                <th className="text-left p-2 font-semibold text-primary">Department</th>
+                                <th className="text-left p-2 font-semibold text-primary">Award</th>
+                                <th className="text-left p-2 font-semibold text-primary">Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {selectedActivityParticipants.map((participant, index) => (
+                                <tr key={participant.id} className="border-b hover:bg-gray-50">
+                                  <td className="p-2">{index + 1}</td>
+                                  <td className="p-2 font-medium">{participant.name}</td>
+                                  <td className="p-2">{participant.rollNumber}</td>
+                                  <td className="p-2">{participant.department}</td>
+                                  <td className="p-2">
+                                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                      participant.award === '1st Place' ? 'bg-yellow-100 text-yellow-800' :
+                                      participant.award === '2nd Place' ? 'bg-gray-100 text-gray-800' :
+                                      participant.award === '3rd Place' ? 'bg-orange-100 text-orange-800' :
+                                      'bg-primary/10 text-primary'
+                                    }`}>
+                                      {participant.award}
+                                    </span>
+                                  </td>
+                                  <td className="p-2">
+                                    <Button 
+                                      variant="destructive" 
+                                      size="sm" 
+                                      onClick={() => handleDeleteParticipant(participant.id)}
+                                      disabled={participantLoading}
+                                    >
+                                      Delete
+                                    </Button>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>

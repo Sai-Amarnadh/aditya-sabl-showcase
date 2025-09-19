@@ -1,4 +1,3 @@
-
 import { supabase } from '@/integrations/supabase/client';
 import type { Database } from '@/integrations/supabase/types';
 
@@ -35,10 +34,30 @@ export interface GalleryImage {
   caption: string;
 }
 
+export interface Participant {
+  id: string;
+  activityId: string;
+  name: string;
+  rollNumber: string;
+  department: string;
+  college: string;
+  award: '1st Place' | '2nd Place' | '3rd Place' | 'Participation';
+}
+
 type WinnerRow = Database['public']['Tables']['winners']['Row'];
 type UpcomingActivityRow = Database['public']['Tables']['upcoming_activities']['Row'];
 type PreviousActivityRow = Database['public']['Tables']['previous_activities']['Row'];
 type GalleryRow = Database['public']['Tables']['gallery']['Row'];
+type ParticipantRow = {
+  id: number;
+  activity_id: number;
+  name: string;
+  roll_number: string;
+  department: string;
+  college: string;
+  award: string;
+  created_at: string;
+};
 
 // Helper function to transform database row to Winner
 const transformWinnerFromDB = (row: WinnerRow): Winner => ({
@@ -114,6 +133,27 @@ const transformGalleryFromDB = (row: GalleryRow): GalleryImage => ({
 const transformGalleryToDB = (image: Omit<GalleryImage, 'id'>) => ({
   image_url: image.url,
   title: image.caption || null,
+});
+
+// Helper function to transform database row to Participant
+const transformParticipantFromDB = (row: ParticipantRow): Participant => ({
+  id: row.id.toString(),
+  activityId: row.activity_id.toString(),
+  name: row.name,
+  rollNumber: row.roll_number,
+  department: row.department,
+  college: row.college,
+  award: row.award as Participant['award'],
+});
+
+// Helper function to transform Participant to database format
+const transformParticipantToDB = (participant: Omit<Participant, 'id'>) => ({
+  activity_id: parseInt(participant.activityId),
+  name: participant.name,
+  roll_number: participant.rollNumber,
+  department: participant.department,
+  college: participant.college,
+  award: participant.award,
 });
 
 // --- Winners ---
@@ -397,6 +437,76 @@ export const deleteGalleryImage = async (id: string): Promise<boolean> => {
     return true;
   } catch (error) {
     console.error('Error deleting gallery image:', error);
+    return false;
+  }
+};
+
+// --- Participants ---
+export const getParticipants = async (activityId?: string): Promise<Participant[]> => {
+  try {
+    let query = supabase
+      .from('participants')
+      .select('*')
+      .order('award', { ascending: true });
+
+    if (activityId) {
+      query = query.eq('activity_id', parseInt(activityId));
+    }
+
+    const { data, error } = await query;
+
+    if (error) throw error;
+    return data?.map(transformParticipantFromDB) || [];
+  } catch (error) {
+    console.error('Error fetching participants:', error);
+    return [];
+  }
+};
+
+export const addParticipant = async (participant: Omit<Participant, 'id'>): Promise<Participant | null> => {
+  try {
+    const { data, error } = await supabase
+      .from('participants')
+      .insert([transformParticipantToDB(participant)])
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data ? transformParticipantFromDB(data) : null;
+  } catch (error) {
+    console.error('Error adding participant:', error);
+    return null;
+  }
+};
+
+export const updateParticipant = async (participant: Participant): Promise<Participant | null> => {
+  try {
+    const { data, error } = await supabase
+      .from('participants')
+      .update(transformParticipantToDB(participant))
+      .eq('id', parseInt(participant.id))
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data ? transformParticipantFromDB(data) : null;
+  } catch (error) {
+    console.error('Error updating participant:', error);
+    return null;
+  }
+};
+
+export const deleteParticipant = async (id: string): Promise<boolean> => {
+  try {
+    const { error } = await supabase
+      .from('participants')
+      .delete()
+      .eq('id', parseInt(id));
+
+    if (error) throw error;
+    return true;
+  } catch (error) {
+    console.error('Error deleting participant:', error);
     return false;
   }
 };
