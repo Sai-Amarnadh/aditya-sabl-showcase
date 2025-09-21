@@ -52,12 +52,12 @@ const About: React.FC = () => {
           
           <div className="space-y-6">
             <img 
-              src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+              src="https://adityauniversity.in/static/media/Placements.2a379859f890ac6bfad1.webp" 
               alt="Students collaborating in SABL activities" 
               className="rounded-2xl shadow-elevated w-full h-64 object-cover animate-slide-up"
             />
             <img 
-              src="https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+              src="https://cms-resources.prd.timeshighereducation.com/sites/default/files/styles/featured_image/public/2024-09/Aditya-supplied-campus-photo.jpg?h=1851c7f5&itok=UIvPELyF" 
               alt="Interactive learning session" 
               className="rounded-2xl shadow-elevated w-full h-64 object-cover animate-slide-up" style={{ animationDelay: '0.1s' }}
             />
@@ -98,7 +98,7 @@ const About: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="relative group overflow-hidden rounded-2xl shadow-elevated animate-slide-up">
               <img 
-                src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                src="https://in8cdn.npfs.co/uploads/template/6102/1652/publish/images/images/admissioimages/S1.jpg?1747130168" 
                 alt="SABL Project Work" 
                 className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
               />
@@ -112,7 +112,7 @@ const About: React.FC = () => {
             
             <div className="relative group overflow-hidden rounded-2xl shadow-elevated animate-slide-up" style={{ animationDelay: '0.1s' }}>
               <img 
-                src="https://images.unsplash.com/photo-1515187029135-18ee286d815b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                src="https://adityaedu.net/wp-content/uploads/2025/02/WhatsApp-Image-2024-05-24-at-12.30.57-PM-1.jpeg" 
                 alt="Group Discussion" 
                 className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
               />
