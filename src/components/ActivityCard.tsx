@@ -1,13 +1,14 @@
 import { Activity } from '@/lib/data-service';
 import { Link } from 'react-router-dom';
-import { Calendar, Users } from 'lucide-react';
+import { Calendar, Users, Camera } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface ActivityCardProps {
   activity: Activity;
+  onViewParticipants?: (activity: Activity) => void;
 }
 
-const ActivityCard = ({ activity }: ActivityCardProps) => {
+const ActivityCard = ({ activity, onViewParticipants }: ActivityCardProps) => {
   const isUpcoming = activity.status === 'upcoming';
   
   return (
@@ -50,37 +51,51 @@ const ActivityCard = ({ activity }: ActivityCardProps) => {
           {activity.description}
         </p>
         
-        {activity.photos && (
+        {activity.photos && activity.photos.length > 0 && (
           <div className="flex items-center text-muted-foreground text-xs sm:text-sm mb-4">
-            <Users className="h-4 w-4 mr-2" />
+            <Camera className="h-4 w-4 mr-2" />
             {activity.photos.length} photos available
           </div>
         )}
         
-        {isUpcoming ? (
-          <div className="flex flex-col gap-2 mt-auto">
-            <Button asChild size="sm" className="w-full btn-navy-secondary text-xs sm:text-sm">
-              <Link to={`/activity/${activity.id}`}>
-                Learn More
-              </Link>
-            </Button>
-            <Button asChild size="sm" className="w-full btn-orange-accent text-xs sm:text-sm">
-              <Link to={`/register/${activity.id}`}>
-                Register
-              </Link>
-            </Button>
-          </div>
-        ) : (
-          <Link to={`/activity/${activity.id}/photos`}>
-            <Button
-              variant="outline"
-              size="sm"
-              className="w-full mt-auto btn-navy-outline text-xs sm:text-sm"
-            >
-              View Photos
-            </Button>
-          </Link>
-        )}
+        <div className="mt-auto flex flex-col sm:flex-row gap-2">
+          {isUpcoming ? (
+            <>
+              <Button asChild size="sm" className="w-full btn-navy-secondary text-xs sm:text-sm">
+                <Link to={`/activity/${activity.id}`}>
+                  Learn More
+                </Link>
+              </Button>
+              <Button asChild size="sm" className="w-full btn-orange-accent text-xs sm:text-sm">
+                <Link to={`/register/${activity.id}`}>
+                  Register
+                </Link>
+              </Button>
+            </>
+          ) : (
+            <>
+              {onViewParticipants && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => onViewParticipants(activity)}
+                  className="w-full btn-navy-outline text-xs sm:text-sm"
+                >
+                  <Users className="h-4 w-4 mr-2" />
+                  View Participants
+                </Button>
+              )}
+              {activity.photos && activity.photos.length > 0 && (
+                <Button asChild variant="outline" size="sm" className="w-full btn-navy-outline text-xs sm:text-sm">
+                  <Link to={`/activity/${activity.id}/photos`}>
+                    <Camera className="h-4 w-4 mr-2" />
+                    View Photos
+                  </Link>
+                </Button>
+              )}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
