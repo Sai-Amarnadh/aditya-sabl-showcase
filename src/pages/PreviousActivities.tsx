@@ -17,7 +17,21 @@ const ParticipantsModal = ({ activity, isOpen, onClose }: { activity: Activity |
         setLoading(true);
         try {
           const data = await getParticipants(activity.id);
-          setParticipants(data);
+          const awardOrder = {
+            '1st Place': 1,
+            '2nd Place': 2,
+            '3rd Place': 3,
+            'Participation': 4,
+          };
+          const sortedData = data.sort((a, b) => {
+            const orderA = awardOrder[a.award] || 5;
+            const orderB = awardOrder[b.award] || 5;
+            if (orderA !== orderB) {
+              return orderA - orderB;
+            }
+            return a.name.localeCompare(b.name);
+          });
+          setParticipants(sortedData);
         } catch (error) {
           console.error('Error fetching participants:', error);
         } finally {
@@ -71,18 +85,10 @@ const ParticipantsModal = ({ activity, isOpen, onClose }: { activity: Activity |
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto mx-4">
         <DialogHeader>
-          <div className="flex justify-between items-center">
-            <DialogTitle className="flex items-center gap-2">
-              <Users className="h-5 w-5" />
-              Participants - {activity.name}
-            </DialogTitle>
-            {participants.length > 0 && (
-              <Button variant="outline" size="sm" onClick={handleDownload}>
-                <Download className="h-4 w-4 mr-2" />
-                Download CSV
-              </Button>
-            )}
-          </div>
+          <DialogTitle className="flex items-center gap-2">
+            <Users className="h-5 w-5" />
+            Participants - {activity.name}
+          </DialogTitle>
         </DialogHeader>
         <div className="mt-4">
           {loading ? (
@@ -91,8 +97,15 @@ const ParticipantsModal = ({ activity, isOpen, onClose }: { activity: Activity |
               <span className="ml-2">Loading participants...</span>
             </div>
           ) : participants.length > 0 ? (
-            <div className="overflow-x-auto">
-              <Table>
+            <div>
+              <div className="flex justify-end mb-4">
+                <Button variant="outline" size="sm" onClick={handleDownload}>
+                  <Download className="h-4 w-4 mr-2" />
+                  Download CSV
+                </Button>
+              </div>
+              <div className="overflow-x-auto">
+                <Table>
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-16">S.No</TableHead>

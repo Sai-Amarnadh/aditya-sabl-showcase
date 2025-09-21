@@ -65,7 +65,7 @@ const Gallery = () => {
                 <DialogTrigger asChild>
                   <div className="group relative clean-card clean-card-hover overflow-hidden cursor-pointer animate-slide-up" style={{ animationDelay: `${index * 0.05}s` }}>
                     <div className="aspect-square bg-gray-50 relative overflow-hidden">
-                      <img src={photo.url} alt={photo.caption} className="w-full h-full object-cover"/>
+                      <img src={photo.url} alt={photo.caption} className="w-full h-full object-contain"/>
 
                       {/* Hover overlay */}
                       <div className="absolute inset-0 bg-primary/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
