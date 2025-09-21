@@ -460,7 +460,7 @@ export const addParticipant = async (participant: Omit<Participant, 'id'>): Prom
     const { data, error } = await supabase
       .from('participants')
       .insert([transformParticipantToDB(participant)])
-      .select()
+      .select('*')
       .single();
 
     if (error) throw error;
@@ -477,7 +477,7 @@ export const updateParticipant = async (participant: Participant): Promise<Parti
       .from('participants')
       .update(transformParticipantToDB(participant))
       .eq('id', parseInt(participant.id))
-      .select()
+      .select('*')
       .single();
 
     if (error) throw error;

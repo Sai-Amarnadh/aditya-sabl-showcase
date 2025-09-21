@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
 import ActivityCard from '@/components/ActivityCard';
-import { getActivities, Activity } from '@/lib/data-service';
+import { getActivities, Activity, getParticipants, Participant } from '@/lib/data-service';
 import { useData } from '@/contexts/DataContext';
 import { History, Trophy, Users, Camera } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { getParticipants, Participant } from '@/lib/data-service';
 
 const ParticipantsModal = ({ activity, isOpen, onClose }: { activity: Activity | null; isOpen: boolean; onClose: () => void }) => {
   const [participants, setParticipants] = useState<Participant[]>([]);
