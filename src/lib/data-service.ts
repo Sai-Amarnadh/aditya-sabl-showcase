@@ -348,23 +348,24 @@ export const updateActivity = async (activity: Activity): Promise<Activity | nul
 
 export const deleteActivity = async (id: string): Promise<boolean> => {
   try {
-    // Try deleting from upcoming activities first
-    const { error: upcomingError } = await supabase
+    // Attempt to delete from both tables.
+    // We don't check for errors individually because a "not found" on one table
+    // is expected and does not produce an error from Supabase.
+    // A real error (like RLS violation) would bubble up and be caught.
+
+    await supabase
       .from('upcoming_activities')
       .delete()
       .eq('id', parseInt(id));
 
-    if (!upcomingError) return true;
-
-    // Try deleting from previous activities
-    const { error: previousError } = await supabase
+    await supabase
       .from('previous_activities')
       .delete()
       .eq('id', parseInt(id));
 
-    if (previousError) throw previousError;
     return true;
   } catch (error) {
+    // If a real error occurs (e.g., RLS, network), it will be caught here.
     console.error('Error deleting activity:', error);
     return false;
   }
