@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import ActivityCard from '@/components/ActivityCard';
 import { getActivities, Activity, getParticipants, Participant } from '@/lib/data-service';
 import { useData } from '@/contexts/DataContext';
-import { History, Trophy, Users, Camera } from 'lucide-react';
+import { History, Trophy, Users, Camera, Download } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -29,16 +29,60 @@ const ParticipantsModal = ({ activity, isOpen, onClose }: { activity: Activity |
     fetchParticipants();
   }, [activity, isOpen]);
 
+  const handleDownload = () => {
+    if (!activity || participants.length === 0) return;
+
+    const headers = ["S.No", "Name", "Roll No", "Department", "Award/Participation", "College"];
+
+    const escapeCsvCell = (cell: any) => {
+      const cellStr = String(cell ?? '');
+      if (cellStr.includes(',') || cellStr.includes('"') || cellStr.includes('\n')) {
+        return `"${cellStr.replace(/"/g, '""')}"`;
+      }
+      return cellStr;
+    };
+
+    const csvContent = [
+      headers.join(','),
+      ...participants.map((p, index) => [
+        index + 1,
+        p.name,
+        p.rollNumber,
+        p.department,
+        p.award,
+        p.college
+      ].map(escapeCsvCell).join(','))
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `${activity.name}-participants.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   if (!activity) return null;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto mx-4">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Users className="h-5 w-5" />
-            Participants - {activity.name}
-          </DialogTitle>
+          <div className="flex justify-between items-center">
+            <DialogTitle className="flex items-center gap-2">
+              <Users className="h-5 w-5" />
+              Participants - {activity.name}
+            </DialogTitle>
+            {participants.length > 0 && (
+              <Button variant="outline" size="sm" onClick={handleDownload}>
+                <Download className="h-4 w-4 mr-2" />
+                Download CSV
+              </Button>
+            )}
+          </div>
         </DialogHeader>
         <div className="mt-4">
           {loading ? (
@@ -52,9 +96,9 @@ const ParticipantsModal = ({ activity, isOpen, onClose }: { activity: Activity |
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-16">S.No</TableHead>
-                    <TableHead>Department</TableHead>
-                    <TableHead>Roll No</TableHead>
                     <TableHead>Name</TableHead>
+                    <TableHead>Roll No</TableHead>
+                    <TableHead>Department</TableHead>
                     <TableHead>Award/Participation</TableHead>
                     <TableHead>College</TableHead>
                   </TableRow>
@@ -63,9 +107,9 @@ const ParticipantsModal = ({ activity, isOpen, onClose }: { activity: Activity |
                   {participants.map((participant, index) => (
                     <TableRow key={participant.id}>
                       <TableCell className="font-medium">{index + 1}</TableCell>
-                      <TableCell>{participant.department}</TableCell>
-                      <TableCell>{participant.rollNumber}</TableCell>
                       <TableCell className="font-medium">{participant.name}</TableCell>
+                      <TableCell>{participant.rollNumber}</TableCell>
+                      <TableCell>{participant.department}</TableCell>
                       <TableCell>
                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                           participant.award === '1st Place' ? 'bg-yellow-100 text-yellow-800' :
