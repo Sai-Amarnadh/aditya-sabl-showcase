@@ -446,20 +446,18 @@ export const deleteGalleryImage = async (id: string): Promise<boolean> => {
 // --- Participants ---
 export const getParticipants = async (activityId?: string): Promise<Participant[]> => {
   try {
-    const query = supabase
+    let query = supabase
       .from('participants')
       .select('*')
       .order('created_at', { ascending: false });
 
     if (activityId) {
-      const { data, error } = await query.eq('activity_id', parseInt(activityId));
-      if (error) throw error;
-      return data?.map(transformParticipantFromDB) || [];
-    } else {
-      const { data, error } = await query;
-      if (error) throw error;
-      return data?.map(transformParticipantFromDB) || [];
+      query = query.eq('activity_id', parseInt(activityId));
     }
+
+    const { data, error } = await query;
+    if (error) throw error;
+    return data?.map(transformParticipantFromDB) || [];
   } catch (error) {
     console.error('Error fetching participants:', error);
     return [];

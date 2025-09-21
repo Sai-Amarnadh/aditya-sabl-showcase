@@ -6,7 +6,7 @@ import { History, Trophy, Users, Camera } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { getParticipants, Participant } from '@/lib/data-service';
+import { getParticipants, Participant, Activity } from '@/lib/data-service';
 
 const ParticipantsModal = ({ activity, isOpen, onClose }: { activity: Activity | null; isOpen: boolean; onClose: () => void }) => {
   const [participants, setParticipants] = useState<Participant[]>([]);

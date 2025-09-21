@@ -1,1 +1,1084 @@
-{"code":"rate-limited","message":"You have hit the rate limit. Please upgrade to keep chatting.","providerLimitHit":false,"isRetryable":true}
+import { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
+import { 
+  getWinners, 
+  addWinner, 
+  updateWinner, 
+  deleteWinner, 
+  getActivities, 
+  addActivity, 
+  updateActivity, 
+  deleteActivity,
+  getGalleryImages,
+  addGalleryImage,
+  deleteGalleryImage,
+  uploadImage,
+  getParticipants,
+  addParticipant,
+  updateParticipant,
+  deleteParticipant,
+  Winner, 
+  Activity, 
+  GalleryImage,
+  Participant
+} from '@/lib/data-service';
+import { useData } from '@/contexts/DataContext';
+import { useToast } from '@/hooks/use-toast';
+import { Trash2, Edit, Plus, Users, Calendar, Trophy, Image as ImageIcon, UserPlus } from 'lucide-react';
+import ActivityPhotoManager from '@/components/ActivityPhotoManager';
+
+const Admin = () => {
+  // State for winners
+  const [winners, setWinners] = useState<Winner[]>([]);
+  const [editingWinner, setEditingWinner] = useState<Winner | null>(null);
+  const [winnerForm, setWinnerForm] = useState({
+    name: '',
+    rollNumber: '',
+    event: '',
+    date: '',
+    photo: '',
+    year: new Date().getFullYear().toString(),
+    isThisWeekWinner: false,
+    position: 1,
+    activityType: 'General',
+    weekNumber: undefined as number | undefined
+  });
+
+  // State for activities
+  const [activities, setActivities] = useState<Activity[]>([]);
+  const [editingActivity, setEditingActivity] = useState<Activity | null>(null);
+  const [activityForm, setActivityForm] = useState({
+    name: '',
+    date: '',
+    description: '',
+    details: '',
+    poster: '',
+    status: 'upcoming' as 'upcoming' | 'completed',
+    formLink: ''
+  });
+
+  // State for gallery
+  const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
+  const [galleryForm, setGalleryForm] = useState({
+    caption: '',
+    url: ''
+  });
+
+  // State for participants
+  const [participants, setParticipants] = useState<Participant[]>([]);
+  const [selectedActivityId, setSelectedActivityId] = useState<string>('');
+  const [editingParticipant, setEditingParticipant] = useState<Participant | null>(null);
+  const [participantForm, setParticipantForm] = useState({
+    activityId: '',
+    name: '',
+    rollNumber: '',
+    department: '',
+    college: 'Aditya University',
+    award: 'Participation' as 'Participation' | '1st Place' | '2nd Place' | '3rd Place'
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [posterFile, setPosterFile] = useState<File | null>(null);
+  const [galleryFile, setGalleryFile] = useState<File | null>(null);
+
+  const { triggerDataChange } = useData();
+  const { toast } = useToast();
+
+  // Fetch data on component mount
+  useEffect(() => {
+    fetchAllData();
+  }, []);
+
+  const fetchAllData = async () => {
+    try {
+      const [winnersData, activitiesData, galleryData] = await Promise.all([
+        getWinners(),
+        getActivities(),
+        getGalleryImages()
+      ]);
+      setWinners(winnersData);
+      setActivities(activitiesData);
+      setGalleryImages(galleryData);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      toast({
+        title: "Error",
+        description: "Failed to fetch data",
+        variant: "destructive"
+      });
+    }
+  };
+
+  // Fetch participants when activity is selected
+  useEffect(() => {
+    if (selectedActivityId) {
+      fetchParticipants();
+    } else {
+      setParticipants([]);
+    }
+  }, [selectedActivityId]);
+
+  const fetchParticipants = async () => {
+    if (!selectedActivityId) return;
+    
+    try {
+      setLoading(true);
+      const participantsData = await getParticipants(selectedActivityId);
+      setParticipants(participantsData);
+    } catch (error) {
+      console.error('Error fetching participants:', error);
+      toast({
+        title: "Error",
+        description: "Failed to fetch participants",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Winner CRUD operations
+  const handleWinnerSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      let photoUrl = winnerForm.photo;
+      
+      if (photoFile) {
+        const uploadedUrl = await uploadImage(photoFile, 'winner-photos');
+        if (uploadedUrl) {
+          photoUrl = uploadedUrl;
+        }
+      }
+
+      const winnerData = {
+        ...winnerForm,
+        photo: photoUrl,
+        rollNumber: winnerForm.rollNumber || undefined,
+        weekNumber: winnerForm.weekNumber || undefined
+      };
+
+      if (editingWinner) {
+        await updateWinner({ ...winnerData, id: editingWinner.id });
+        toast({ title: "Success", description: "Winner updated successfully" });
+      } else {
+        await addWinner(winnerData);
+        toast({ title: "Success", description: "Winner added successfully" });
+      }
+
+      resetWinnerForm();
+      fetchAllData();
+      triggerDataChange();
+    } catch (error) {
+      console.error('Error saving winner:', error);
+      toast({
+        title: "Error",
+        description: "Failed to save winner",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteWinner = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this winner?')) return;
+
+    try {
+      await deleteWinner(id);
+      toast({ title: "Success", description: "Winner deleted successfully" });
+      fetchAllData();
+      triggerDataChange();
+    } catch (error) {
+      console.error('Error deleting winner:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete winner",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const resetWinnerForm = () => {
+    setWinnerForm({
+      name: '',
+      rollNumber: '',
+      event: '',
+      date: '',
+      photo: '',
+      year: new Date().getFullYear().toString(),
+      isThisWeekWinner: false,
+      position: 1,
+      activityType: 'General',
+      weekNumber: undefined
+    });
+    setEditingWinner(null);
+    setPhotoFile(null);
+  };
+
+  // Activity CRUD operations
+  const handleActivitySubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      let posterUrl = activityForm.poster;
+      
+      if (posterFile) {
+        const uploadedUrl = await uploadImage(posterFile, 'activity_posters');
+        if (uploadedUrl) {
+          posterUrl = uploadedUrl;
+        }
+      }
+
+      const activityData = {
+        name: activityForm.name,
+        date: activityForm.date,
+        description: activityForm.description,
+        details: activityForm.details,
+        poster: posterUrl,
+        status: activityForm.status,
+        formLink: activityForm.formLink || undefined
+      };
+
+      if (editingActivity) {
+        await updateActivity({ ...activityData, id: editingActivity.id });
+        toast({ title: "Success", description: "Activity updated successfully" });
+      } else {
+        await addActivity(activityData);
+        toast({ title: "Success", description: "Activity added successfully" });
+      }
+
+      resetActivityForm();
+      fetchAllData();
+      triggerDataChange();
+    } catch (error) {
+      console.error('Error saving activity:', error);
+      toast({
+        title: "Error",
+        description: "Failed to save activity",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteActivity = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this activity?')) return;
+
+    try {
+      await deleteActivity(id);
+      toast({ title: "Success", description: "Activity deleted successfully" });
+      fetchAllData();
+      triggerDataChange();
+    } catch (error) {
+      console.error('Error deleting activity:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete activity",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const resetActivityForm = () => {
+    setActivityForm({
+      name: '',
+      date: '',
+      description: '',
+      details: '',
+      poster: '',
+      status: 'upcoming',
+      formLink: ''
+    });
+    setEditingActivity(null);
+    setPosterFile(null);
+  };
+
+  // Gallery CRUD operations
+  const handleGallerySubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!galleryFile) {
+      toast({
+        title: "Error",
+        description: "Please select an image file",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const uploadedUrl = await uploadImage(galleryFile, 'gallery_images');
+      if (!uploadedUrl) {
+        throw new Error('Failed to upload image');
+      }
+
+      await addGalleryImage({
+        url: uploadedUrl,
+        caption: galleryForm.caption
+      });
+
+      toast({ title: "Success", description: "Image added to gallery successfully" });
+      resetGalleryForm();
+      fetchAllData();
+      triggerDataChange();
+    } catch (error) {
+      console.error('Error adding gallery image:', error);
+      toast({
+        title: "Error",
+        description: "Failed to add image to gallery",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteGalleryImage = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this image?')) return;
+
+    try {
+      await deleteGalleryImage(id);
+      toast({ title: "Success", description: "Image deleted successfully" });
+      fetchAllData();
+      triggerDataChange();
+    } catch (error) {
+      console.error('Error deleting image:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete image",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const resetGalleryForm = () => {
+    setGalleryForm({
+      caption: '',
+      url: ''
+    });
+    setGalleryFile(null);
+  };
+
+  // Participant CRUD operations
+  const handleParticipantSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!participantForm.activityId) {
+      toast({
+        title: "Error",
+        description: "Please select an activity",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      if (editingParticipant) {
+        await updateParticipant({ ...participantForm, id: editingParticipant.id });
+        toast({ title: "Success", description: "Participant updated successfully" });
+      } else {
+        await addParticipant(participantForm);
+        toast({ title: "Success", description: "Participant added successfully" });
+      }
+
+      resetParticipantForm();
+      fetchParticipants();
+    } catch (error) {
+      console.error('Error saving participant:', error);
+      toast({
+        title: "Error",
+        description: "Failed to save participant",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteParticipant = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this participant?')) return;
+
+    try {
+      await deleteParticipant(id);
+      toast({ title: "Success", description: "Participant deleted successfully" });
+      fetchParticipants();
+    } catch (error) {
+      console.error('Error deleting participant:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete participant",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const resetParticipantForm = () => {
+    setParticipantForm({
+      activityId: selectedActivityId,
+      name: '',
+      rollNumber: '',
+      department: '',
+      college: 'Aditya University',
+      award: 'Participation'
+    });
+    setEditingParticipant(null);
+  };
+
+  const handleEditParticipant = (participant: Participant) => {
+    setEditingParticipant(participant);
+    setParticipantForm({
+      activityId: participant.activityId,
+      name: participant.name,
+      rollNumber: participant.rollNumber,
+      department: participant.department,
+      college: participant.college,
+      award: participant.award
+    });
+  };
+
+  // Get completed activities for participant management
+  const completedActivities = activities.filter(activity => activity.status === 'completed');
+
+  return (
+    <div className="page-bg-clean">
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-primary mb-4">Admin Panel</h1>
+          <p className="text-muted-foreground">Manage SABL activities, winners, and content</p>
+        </div>
+
+        <Tabs defaultValue="winners" className="w-full">
+          <TabsList className="grid w-full grid-cols-5">
+            <TabsTrigger value="winners" className="flex items-center gap-2">
+              <Trophy className="h-4 w-4" />
+              Winners
+            </TabsTrigger>
+            <TabsTrigger value="activities" className="flex items-center gap-2">
+              <Calendar className="h-4 w-4" />
+              Activities
+            </TabsTrigger>
+            <TabsTrigger value="gallery" className="flex items-center gap-2">
+              <ImageIcon className="h-4 w-4" />
+              Gallery
+            </TabsTrigger>
+            <TabsTrigger value="photos" className="flex items-center gap-2">
+              <ImageIcon className="h-4 w-4" />
+              Photos
+            </TabsTrigger>
+            <TabsTrigger value="participants" className="flex items-center gap-2">
+              <Users className="h-4 w-4" />
+              Participants
+            </TabsTrigger>
+          </TabsList>
+
+          {/* Winners Tab */}
+          <TabsContent value="winners">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <Card>
+                <CardHeader>
+                  <CardTitle>{editingWinner ? 'Edit Winner' : 'Add New Winner'}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <form onSubmit={handleWinnerSubmit} className="space-y-4">
+                    <div>
+                      <Label htmlFor="name">Name *</Label>
+                      <Input
+                        id="name"
+                        value={winnerForm.name}
+                        onChange={(e) => setWinnerForm({ ...winnerForm, name: e.target.value })}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="rollNumber">Roll Number</Label>
+                      <Input
+                        id="rollNumber"
+                        value={winnerForm.rollNumber}
+                        onChange={(e) => setWinnerForm({ ...winnerForm, rollNumber: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="event">Event *</Label>
+                      <Input
+                        id="event"
+                        value={winnerForm.event}
+                        onChange={(e) => setWinnerForm({ ...winnerForm, event: e.target.value })}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="date">Date *</Label>
+                      <Input
+                        id="date"
+                        type="date"
+                        value={winnerForm.date}
+                        onChange={(e) => setWinnerForm({ ...winnerForm, date: e.target.value })}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="year">Year *</Label>
+                      <Input
+                        id="year"
+                        value={winnerForm.year}
+                        onChange={(e) => setWinnerForm({ ...winnerForm, year: e.target.value })}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="position">Position</Label>
+                      <Select
+                        value={winnerForm.position.toString()}
+                        onValueChange={(value) => setWinnerForm({ ...winnerForm, position: parseInt(value) })}
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="1">1st Place</SelectItem>
+                          <SelectItem value="2">2nd Place</SelectItem>
+                          <SelectItem value="3">3rd Place</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label htmlFor="activityType">Activity Type</Label>
+                      <Input
+                        id="activityType"
+                        value={winnerForm.activityType}
+                        onChange={(e) => setWinnerForm({ ...winnerForm, activityType: e.target.value })}
+                        placeholder="e.g., Coding, Design, etc."
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="weekNumber">Week Number</Label>
+                      <Input
+                        id="weekNumber"
+                        type="number"
+                        value={winnerForm.weekNumber || ''}
+                        onChange={(e) => setWinnerForm({ ...winnerForm, weekNumber: e.target.value ? parseInt(e.target.value) : undefined })}
+                        placeholder="Optional"
+                      />
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id="isThisWeekWinner"
+                        checked={winnerForm.isThisWeekWinner}
+                        onChange={(e) => setWinnerForm({ ...winnerForm, isThisWeekWinner: e.target.checked })}
+                      />
+                      <Label htmlFor="isThisWeekWinner">This Week's Winner</Label>
+                    </div>
+                    <div>
+                      <Label htmlFor="photo">Photo</Label>
+                      <Input
+                        id="photo"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setPhotoFile(e.target.files?.[0] || null)}
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <Button type="submit" disabled={loading}>
+                        {loading ? 'Saving...' : editingWinner ? 'Update Winner' : 'Add Winner'}
+                      </Button>
+                      {editingWinner && (
+                        <Button type="button" variant="outline" onClick={resetWinnerForm}>
+                          Cancel
+                        </Button>
+                      )}
+                    </div>
+                  </form>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Winners List</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4 max-h-96 overflow-y-auto">
+                    {winners.map((winner) => (
+                      <div key={winner.id} className="flex items-center justify-between p-4 border rounded-lg">
+                        <div>
+                          <h3 className="font-semibold">{winner.name}</h3>
+                          <p className="text-sm text-muted-foreground">{winner.event}</p>
+                          <p className="text-xs text-muted-foreground">{winner.date}</p>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => {
+                              setEditingWinner(winner);
+                              setWinnerForm({
+                                name: winner.name,
+                                rollNumber: winner.rollNumber || '',
+                                event: winner.event,
+                                date: winner.date,
+                                photo: winner.photo,
+                                year: winner.year,
+                                isThisWeekWinner: winner.isThisWeekWinner || false,
+                                position: winner.position || 1,
+                                activityType: winner.activityType || 'General',
+                                weekNumber: winner.weekNumber
+                              });
+                            }}
+                          >
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="destructive"
+                            onClick={() => handleDeleteWinner(winner.id)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          {/* Activities Tab */}
+          <TabsContent value="activities">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <Card>
+                <CardHeader>
+                  <CardTitle>{editingActivity ? 'Edit Activity' : 'Add New Activity'}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <form onSubmit={handleActivitySubmit} className="space-y-4">
+                    <div>
+                      <Label htmlFor="activityName">Activity Name *</Label>
+                      <Input
+                        id="activityName"
+                        value={activityForm.name}
+                        onChange={(e) => setActivityForm({ ...activityForm, name: e.target.value })}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="activityDate">Date *</Label>
+                      <Input
+                        id="activityDate"
+                        type="date"
+                        value={activityForm.date}
+                        onChange={(e) => setActivityForm({ ...activityForm, date: e.target.value })}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="activityDescription">Description</Label>
+                      <Textarea
+                        id="activityDescription"
+                        value={activityForm.description}
+                        onChange={(e) => setActivityForm({ ...activityForm, description: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="activityDetails">Details</Label>
+                      <Textarea
+                        id="activityDetails"
+                        value={activityForm.details}
+                        onChange={(e) => setActivityForm({ ...activityForm, details: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="formLink">Registration Form Link</Label>
+                      <Input
+                        id="formLink"
+                        type="url"
+                        value={activityForm.formLink}
+                        onChange={(e) => setActivityForm({ ...activityForm, formLink: e.target.value })}
+                        placeholder="https://forms.google.com/..."
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="status">Status *</Label>
+                      <Select
+                        value={activityForm.status}
+                        onValueChange={(value: 'upcoming' | 'completed') => setActivityForm({ ...activityForm, status: value })}
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="upcoming">Upcoming</SelectItem>
+                          <SelectItem value="completed">Completed</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label htmlFor="poster">Poster</Label>
+                      <Input
+                        id="poster"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setPosterFile(e.target.files?.[0] || null)}
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <Button type="submit" disabled={loading}>
+                        {loading ? 'Saving...' : editingActivity ? 'Update Activity' : 'Add Activity'}
+                      </Button>
+                      {editingActivity && (
+                        <Button type="button" variant="outline" onClick={resetActivityForm}>
+                          Cancel
+                        </Button>
+                      )}
+                    </div>
+                  </form>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Activities List</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4 max-h-96 overflow-y-auto">
+                    {activities.map((activity) => (
+                      <div key={activity.id} className="flex items-center justify-between p-4 border rounded-lg">
+                        <div>
+                          <h3 className="font-semibold">{activity.name}</h3>
+                          <p className="text-sm text-muted-foreground">{activity.date}</p>
+                          <Badge variant={activity.status === 'upcoming' ? 'default' : 'secondary'}>
+                            {activity.status}
+                          </Badge>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => {
+                              setEditingActivity(activity);
+                              setActivityForm({
+                                name: activity.name,
+                                date: activity.date,
+                                description: activity.description,
+                                details: activity.details || '',
+                                poster: activity.poster || '',
+                                status: activity.status,
+                                formLink: activity.formLink || ''
+                              });
+                            }}
+                          >
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="destructive"
+                            onClick={() => handleDeleteActivity(activity.id)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          {/* Gallery Tab */}
+          <TabsContent value="gallery">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Add New Image</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <form onSubmit={handleGallerySubmit} className="space-y-4">
+                    <div>
+                      <Label htmlFor="caption">Caption</Label>
+                      <Input
+                        id="caption"
+                        value={galleryForm.caption}
+                        onChange={(e) => setGalleryForm({ ...galleryForm, caption: e.target.value })}
+                        placeholder="Optional caption"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="galleryImage">Image *</Label>
+                      <Input
+                        id="galleryImage"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setGalleryFile(e.target.files?.[0] || null)}
+                        required
+                      />
+                    </div>
+                    <Button type="submit" disabled={loading}>
+                      {loading ? 'Uploading...' : 'Add Image'}
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Gallery Images</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-2 gap-4 max-h-96 overflow-y-auto">
+                    {galleryImages.map((image) => (
+                      <div key={image.id} className="relative group">
+                        <img
+                          src={image.url}
+                          alt={image.caption}
+                          className="w-full h-24 object-cover rounded-lg"
+                        />
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                          onClick={() => handleDeleteGalleryImage(image.id)}
+                        >
+                          <Trash2 className="h-3 w-3" />
+                        </Button>
+                        {image.caption && (
+                          <p className="text-xs text-center mt-1 truncate">{image.caption}</p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          {/* Photos Tab */}
+          <TabsContent value="photos">
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Manage Activity Photos</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground mb-4">
+                    Upload and manage photos for completed activities. Photos will be displayed in the activity photo galleries.
+                  </p>
+                </CardContent>
+              </Card>
+
+              {activities
+                .filter(activity => activity.status === 'completed')
+                .map((activity) => (
+                  <ActivityPhotoManager
+                    key={activity.id}
+                    activity={activity}
+                    onUpdate={fetchAllData}
+                    isLoading={loading}
+                    setIsLoading={setLoading}
+                  />
+                ))}
+            </div>
+          </TabsContent>
+
+          {/* Participants Tab */}
+          <TabsContent value="participants">
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <UserPlus className="h-5 w-5" />
+                    Manage Participants
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div>
+                      <Label htmlFor="activitySelect">Select Activity *</Label>
+                      <Select
+                        value={selectedActivityId}
+                        onValueChange={(value) => {
+                          setSelectedActivityId(value);
+                          setParticipantForm({ ...participantForm, activityId: value });
+                        }}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Choose a completed activity" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {completedActivities.map((activity) => (
+                            <SelectItem key={activity.id} value={activity.id}>
+                              {activity.name} - {new Date(activity.date).toLocaleDateString()}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {selectedActivityId && (
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        {/* Add Participant Form */}
+                        <Card>
+                          <CardHeader>
+                            <CardTitle>{editingParticipant ? 'Edit Participant' : 'Add Participant'}</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <form onSubmit={handleParticipantSubmit} className="space-y-4">
+                              <div>
+                                <Label htmlFor="participantName">Name *</Label>
+                                <Input
+                                  id="participantName"
+                                  value={participantForm.name}
+                                  onChange={(e) => setParticipantForm({ ...participantForm, name: e.target.value })}
+                                  required
+                                />
+                              </div>
+                              <div>
+                                <Label htmlFor="participantRollNumber">Roll Number *</Label>
+                                <Input
+                                  id="participantRollNumber"
+                                  value={participantForm.rollNumber}
+                                  onChange={(e) => setParticipantForm({ ...participantForm, rollNumber: e.target.value })}
+                                  required
+                                />
+                              </div>
+                              <div>
+                                <Label htmlFor="participantDepartment">Department *</Label>
+                                <Input
+                                  id="participantDepartment"
+                                  value={participantForm.department}
+                                  onChange={(e) => setParticipantForm({ ...participantForm, department: e.target.value })}
+                                  placeholder="e.g., CSE, ECE, etc."
+                                  required
+                                />
+                              </div>
+                              <div>
+                                <Label htmlFor="participantCollege">College</Label>
+                                <Input
+                                  id="participantCollege"
+                                  value={participantForm.college}
+                                  onChange={(e) => setParticipantForm({ ...participantForm, college: e.target.value })}
+                                />
+                              </div>
+                              <div>
+                                <Label htmlFor="participantAward">Award/Position *</Label>
+                                <Select
+                                  value={participantForm.award}
+                                  onValueChange={(value: 'Participation' | '1st Place' | '2nd Place' | '3rd Place') => 
+                                    setParticipantForm({ ...participantForm, award: value })
+                                  }
+                                >
+                                  <SelectTrigger>
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="1st Place">1st Place</SelectItem>
+                                    <SelectItem value="2nd Place">2nd Place</SelectItem>
+                                    <SelectItem value="3rd Place">3rd Place</SelectItem>
+                                    <SelectItem value="Participation">Participation</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                              <div className="flex gap-2">
+                                <Button type="submit" disabled={loading}>
+                                  {loading ? 'Saving...' : editingParticipant ? 'Update Participant' : 'Add Participant'}
+                                </Button>
+                                {editingParticipant && (
+                                  <Button type="button" variant="outline" onClick={resetParticipantForm}>
+                                    Cancel
+                                  </Button>
+                                )}
+                              </div>
+                            </form>
+                          </CardContent>
+                        </Card>
+
+                        {/* Participants List */}
+                        <Card>
+                          <CardHeader>
+                            <CardTitle>
+                              Participants ({participants.length})
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            {loading ? (
+                              <div className="flex items-center justify-center py-8">
+                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                                <span className="ml-2">Loading participants...</span>
+                              </div>
+                            ) : participants.length > 0 ? (
+                              <div className="space-y-3 max-h-96 overflow-y-auto">
+                                {participants.map((participant) => (
+                                  <div key={participant.id} className="flex items-center justify-between p-3 border rounded-lg">
+                                    <div className="flex-1">
+                                      <h4 className="font-medium">{participant.name}</h4>
+                                      <p className="text-sm text-muted-foreground">
+                                        {participant.rollNumber} • {participant.department}
+                                      </p>
+                                      <Badge 
+                                        variant={
+                                          participant.award === '1st Place' ? 'default' :
+                                          participant.award === '2nd Place' ? 'secondary' :
+                                          participant.award === '3rd Place' ? 'outline' : 'secondary'
+                                        }
+                                        className="mt-1"
+                                      >
+                                        {participant.award}
+                                      </Badge>
+                                    </div>
+                                    <div className="flex gap-2">
+                                      <Button
+                                        size="sm"
+                                        variant="outline"
+                                        onClick={() => handleEditParticipant(participant)}
+                                      >
+                                        <Edit className="h-4 w-4" />
+                                      </Button>
+                                      <Button
+                                        size="sm"
+                                        variant="destructive"
+                                        onClick={() => handleDeleteParticipant(participant.id)}
+                                      >
+                                        <Trash2 className="h-4 w-4" />
+                                      </Button>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            ) : (
+                              <div className="text-center py-8 text-muted-foreground">
+                                <Users className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                                <p>No participants found for this activity.</p>
+                                <p className="text-sm">Add participants using the form on the left.</p>
+                              </div>
+                            )}
+                          </CardContent>
+                        </Card>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </div>
+  );
+};
+
+export default Admin;
