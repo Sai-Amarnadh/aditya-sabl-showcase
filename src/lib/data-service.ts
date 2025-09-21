@@ -49,16 +49,7 @@ type WinnerRow = Database['public']['Tables']['winners']['Row'];
 type UpcomingActivityRow = Database['public']['Tables']['upcoming_activities']['Row'];
 type PreviousActivityRow = Database['public']['Tables']['previous_activities']['Row'];
 type GalleryRow = Database['public']['Tables']['gallery']['Row'];
-type ParticipantRow = {
-  id: number;
-  activity_id: number;
-  name: string;
-  roll_number: string;
-  department: string;
-  college: string;
-  award: string;
-  created_at: string | null;
-};
+type ParticipantRow = Database['public']['Tables']['participants']['Row'];
 
 // Helper function to transform database row to Winner
 const transformWinnerFromDB = (row: WinnerRow): Winner => ({

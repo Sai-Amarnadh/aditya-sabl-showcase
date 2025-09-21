@@ -86,6 +86,7 @@ const Admin = () => {
   });
 
   const [loading, setLoading] = useState(false);
+  const [participantLoading, setParticipantLoading] = useState(false);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [posterFile, setPosterFile] = useState<File | null>(null);
   const [galleryFile, setGalleryFile] = useState<File | null>(null);
@@ -131,7 +132,7 @@ const Admin = () => {
     if (!selectedActivityId) return;
     
     try {
-      setLoading(true);
+      setParticipantLoading(true);
       const participantsData = await getParticipants(selectedActivityId);
       setParticipants(participantsData);
     } catch (error) {
@@ -142,7 +143,7 @@ const Admin = () => {
         variant: "destructive"
       });
     } finally {
-      setLoading(false);
+      setParticipantLoading(false);
     }
   };
 
@@ -385,7 +386,7 @@ const Admin = () => {
       return;
     }
 
-    setLoading(true);
+    setParticipantLoading(true);
 
     try {
       if (editingParticipant) {
@@ -406,13 +407,14 @@ const Admin = () => {
         variant: "destructive"
       });
     } finally {
-      setLoading(false);
+      setParticipantLoading(false);
     }
   };
 
   const handleDeleteParticipant = async (id: string) => {
     if (!confirm('Are you sure you want to delete this participant?')) return;
 
+    setParticipantLoading(true);
     try {
       await deleteParticipant(id);
       toast({ title: "Success", description: "Participant deleted successfully" });
@@ -424,6 +426,8 @@ const Admin = () => {
         description: "Failed to delete participant",
         variant: "destructive"
       });
+    } finally {
+      setParticipantLoading(false);
     }
   };
 
@@ -995,7 +999,7 @@ const Admin = () => {
                               </div>
                               <div className="flex gap-2">
                                 <Button type="submit" disabled={loading}>
-                                  {loading ? 'Saving...' : editingParticipant ? 'Update Participant' : 'Add Participant'}
+                                  {participantLoading ? 'Saving...' : editingParticipant ? 'Update Participant' : 'Add Participant'}
                                 </Button>
                                 {editingParticipant && (
                                   <Button type="button" variant="outline" onClick={resetParticipantForm}>
@@ -1015,7 +1019,7 @@ const Admin = () => {
                             </CardTitle>
                           </CardHeader>
                           <CardContent>
-                            {loading ? (
+                            {participantLoading ? (
                               <div className="flex items-center justify-center py-8">
                                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
                                 <span className="ml-2">Loading participants...</span>
@@ -1045,6 +1049,7 @@ const Admin = () => {
                                         size="sm"
                                         variant="outline"
                                         onClick={() => handleEditParticipant(participant)}
+                                        disabled={participantLoading}
                                       >
                                         <Edit className="h-4 w-4" />
                                       </Button>
@@ -1052,6 +1057,7 @@ const Admin = () => {
                                         size="sm"
                                         variant="destructive"
                                         onClick={() => handleDeleteParticipant(participant.id)}
+                                        disabled={participantLoading}
                                       >
                                         <Trash2 className="h-4 w-4" />
                                       </Button>
