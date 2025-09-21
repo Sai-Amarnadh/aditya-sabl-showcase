@@ -390,15 +390,20 @@ const Admin = () => {
 
     try {
       if (editingParticipant) {
-        await updateParticipant({ ...participantForm, id: editingParticipant.id });
+        const updatedParticipant = await updateParticipant({ ...participantForm, id: editingParticipant.id });
+        if (updatedParticipant) {
+          setParticipants(participants.map(p => p.id === updatedParticipant.id ? updatedParticipant : p));
+        }
         toast({ title: "Success", description: "Participant updated successfully" });
       } else {
-        await addParticipant(participantForm);
+        const newParticipant = await addParticipant(participantForm);
+        if (newParticipant) {
+          setParticipants([newParticipant, ...participants]);
+        }
         toast({ title: "Success", description: "Participant added successfully" });
       }
 
       resetParticipantForm();
-      fetchParticipants();
     } catch (error) {
       console.error('Error saving participant:', error);
       toast({
