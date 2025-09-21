@@ -6,7 +6,7 @@ import { History, Trophy, Users, Camera } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { getParticipants, Participant, Activity } from '@/lib/data-service';
+import { getParticipants, Participant } from '@/lib/data-service';
 
 const ParticipantsModal = ({ activity, isOpen, onClose }: { activity: Activity | null; isOpen: boolean; onClose: () => void }) => {
   const [participants, setParticipants] = useState<Participant[]>([]);
@@ -168,18 +168,10 @@ const PreviousActivities = () => {
                 .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                 .map((activity, index) => (
                   <div key={activity.id} className="relative animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
-                    <ActivityCard activity={activity} />
-                    <div className="mt-3 text-center px-2">
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        onClick={() => handleViewParticipants(activity)}
-                        className="btn-navy-outline w-full sm:w-auto"
-                      >
-                        <Users className="h-4 w-4 mr-2" />
-                        View Participants
-                      </Button>
-                    </div>
+                    <ActivityCard
+                      activity={activity}
+                      onViewParticipants={handleViewParticipants}
+                    />
                   </div>
                 ))}
             </div>
