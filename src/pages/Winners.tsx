@@ -125,12 +125,11 @@ const Winners = () => {
                     ))}
                   </SelectContent>
                 </Select>
-              
+               </div>
+               
               <Button variant="outline" onClick={clearFilters} className="btn-navy-outline w-full sm:w-auto">
                 Clear Filters
               </Button>
-            </div>
-          </div>
             </div>
           </div>
           </CardContent>
