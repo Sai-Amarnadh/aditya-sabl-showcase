@@ -6,6 +6,8 @@ import { useData } from '@/contexts/DataContext';
 import { Trophy, Filter, Calendar, Award } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 
 const Winners = () => {
   const [winners, setWinners] = useState<Winner[]>([]);
@@ -55,6 +57,19 @@ const Winners = () => {
     return yearMatch && eventMatch;
   });
 
+  // Group winners by event
+  const winnersByEvent = filteredWinners.reduce((acc, winner) => {
+    if (!acc[winner.event]) {
+      acc[winner.event] = [];
+    }
+    acc[winner.event].push(winner);
+    return acc;
+  }, {} as Record<string, Winner[]>);
+
+  // Sort winners within each event by position
+  Object.values(winnersByEvent).forEach(eventWinners => {
+    eventWinners.sort((a, b) => (a.position || 1) - (b.position || 1));
+  });
   const clearFilters = () => {
     setSelectedYear('all');
     setSelectedEvent('all');
@@ -75,7 +90,8 @@ const Winners = () => {
         </div>
 
         {/* Filters */}
-        <div className="clean-card backdrop-blur-sm p-4 sm:p-6 mb-6 sm:mb-8 border-primary/20 animate-slide-up">
+        <Card className="clean-card backdrop-blur-sm mb-6 sm:mb-8 border-primary/20 animate-slide-up">
+          <CardContent className="p-4 sm:p-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <div className="flex items-center gap-2 w-full sm:w-auto">
               <Filter className="h-5 w-5 text-primary" />
@@ -116,7 +132,8 @@ const Winners = () => {
               </Button>
             </div>
           </div>
-        </div>
+          </CardContent>
+        </Card>
 
         {/* Results Summary */}
         <div className="mb-6">
@@ -138,11 +155,11 @@ const Winners = () => {
           </div>
         )}
 
-        {/* Winners Grid */}
+        {/* Winners by Event */}
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {Array.from({ length: 6 }).map((_, index) => (
-              <div key={index} className="clean-card p-6 animate-pulse">
+              <div key={index} className="clean-card p-6 animate-pulse hover:scale-105 transition-transform duration-300">
                 <div className="flex items-center space-x-4">
                   <div className="w-16 h-16 bg-muted rounded-full"></div>
                   <div className="flex-1">
@@ -155,60 +172,147 @@ const Winners = () => {
             ))}
           </div>
         ) : filteredWinners.length > 0 ? (
-          <>
+          <div className="space-y-8">
             {/* Group winners by week and activity type for current week winners */}
             {filteredWinners.some(w => w.isThisWeekWinner) && (
-              <div className="mb-8">
-                <h3 className="text-lg sm:text-xl font-semibold mb-4 text-center text-primary px-2">🏆 Top Performers of the Week</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
+              <Card className="clean-card border-primary/30 animate-slide-up">
+                <CardHeader>
+                  <CardTitle className="text-center text-primary flex items-center justify-center gap-2">
+                    <Trophy className="h-6 w-6" />
+                    🏆 Top Performers of the Week
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                   {filteredWinners
                     .filter(w => w.isThisWeekWinner)
                     .sort((a, b) => (a.position || 1) - (b.position || 1))
                     .map((winner, index) => (
-                      <div key={winner.id} className="animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
-                        <WinnerCard winner={winner} featured={winner.position === 1} onClick={() => handleWinnerClick(winner)} />
+                      <div key={winner.id} className="animate-slide-up hover:scale-105 transition-all duration-300" style={{ animationDelay: `${index * 0.1}s` }}>
+                        <div className="relative">
+                          <WinnerCard winner={winner} featured={winner.position === 1} onClick={() => handleWinnerClick(winner)} />
+                          {winner.position === 1 && (
+                            <div className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full p-2 shadow-lg animate-bounce-gentle">
+                              <Trophy className="h-4 w-4" />
+                            </div>
+                          )}
+                        </div>
                       </div>
                     ))}
-                </div>
-              </div>
+                  </div>
+                </CardContent>
+              </Card>
             )}
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              {filteredWinners.filter(w => !w.isThisWeekWinner).map((winner, index) => (
-                <div key={winner.id} className="animate-slide-up" style={{ animationDelay: `${index * 0.05}s` }}>
-                  <WinnerCard winner={winner} onClick={() => handleWinnerClick(winner)} />
-                </div>
-              ))}
-            </div>
-          </>
-        ) : (
-          <div className="text-center py-12 sm:py-16 px-4">
-            <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Trophy className="h-12 w-12 text-primary" />
-            </div>
-            <h3 className="text-lg sm:text-xl font-semibold text-primary mb-2">No Winners Found</h3>
-            <p className="text-sm sm:text-base text-muted-foreground mb-4">
-              Try adjusting your filters to see more results.
-            </p>
-            <Button onClick={clearFilters} className="btn-navy-primary">Clear All Filters</Button>
+            {/* Winners grouped by event */}
+            {Object.entries(winnersByEvent)
+              .filter(([event, eventWinners]) => !eventWinners.every(w => w.isThisWeekWinner))
+              .sort(([a], [b]) => a.localeCompare(b))
+              .map(([event, eventWinners], eventIndex) => {
+                const nonWeekWinners = eventWinners.filter(w => !w.isThisWeekWinner);
+                if (nonWeekWinners.length === 0) return null;
+                
+                return (
+                  <Card key={event} className="clean-card animate-slide-up hover:shadow-elevated transition-all duration-300" style={{ animationDelay: `${eventIndex * 0.1}s` }}>
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2 text-primary">
+                        <Award className="h-5 w-5" />
+                        {event}
+                        <Badge variant="outline" className="ml-auto">
+                          {nonWeekWinners.length} winner{nonWeekWinners.length !== 1 ? 's' : ''}
+                        </Badge>
+                      </CardTitle>
+                      {/* Show winners summary */}
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {nonWeekWinners
+                          .sort((a, b) => (a.position || 1) - (b.position || 1))
+                          .slice(0, 3)
+                          .map((winner, index) => (
+                            <span key={winner.id} className="text-sm text-muted-foreground">
+                              {index > 0 && ', '}
+                              <span className="font-medium text-primary">
+                                {winner.position === 1 ? '1st' : 
+                                 winner.position === 2 ? '2nd' : 
+                                 winner.position === 3 ? '3rd' : 
+                                 `${winner.position}th`} winner: {winner.name}
+                              </span>
+                            </span>
+                          ))}
+                        {nonWeekWinners.length > 3 && (
+                          <span className="text-sm text-muted-foreground">
+                            ... and {nonWeekWinners.length - 3} more
+                          </span>
+                        )}
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                        {nonWeekWinners.map((winner, index) => (
+                          <div 
+                            key={winner.id} 
+                            className="animate-slide-up hover:scale-105 transition-all duration-300 hover:z-10 relative" 
+                            style={{ animationDelay: `${(eventIndex * 0.1) + (index * 0.05)}s` }}
+                          >
+                            <div className="relative">
+                              <WinnerCard 
+                                winner={winner} 
+                                featured={winner.position === 1}
+                                onClick={() => handleWinnerClick(winner)} 
+                              />
+                              {/* Position indicator */}
+                              <div className={`absolute -top-2 -left-2 rounded-full p-2 shadow-lg ${
+                                winner.position === 1 ? 'bg-yellow-500 animate-bounce-gentle' :
+                                winner.position === 2 ? 'bg-gray-400 animate-pulse-soft' :
+                                winner.position === 3 ? 'bg-orange-500 animate-float-gentle' :
+                                'bg-primary'
+                              }`}>
+                                <span className="text-white text-xs font-bold">
+                                  {winner.position === 1 ? '🥇' :
+                                   winner.position === 2 ? '🥈' :
+                                   winner.position === 3 ? '🥉' :
+                                   winner.position}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
           </div>
+        ) : (
+          <Card className="clean-card">
+            <CardContent className="p-12 text-center">
+              <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Trophy className="h-12 w-12 text-primary" />
+                </div>
+              </div>
+              <h3 className="text-lg sm:text-xl font-semibold text-primary mb-2">No Winners Found</h3>
+              <p className="text-sm sm:text-base text-muted-foreground mb-4">
+                Try adjusting your filters to see more results.
+              </p>
+              <Button onClick={clearFilters} className="btn-navy-primary">Clear All Filters</Button>
+            </CardContent>
+          </Card>
         )}
 
         {/* Stats Overview */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 my-8 sm:my-12">
-          <div className="stats-card-navy text-center animate-slide-up">
+          <div className="stats-card-navy text-center animate-slide-up hover:scale-105 transition-transform duration-300">
             <Trophy className="h-8 w-8 mx-auto mb-3" />
             <div className="text-2xl sm:text-3xl font-bold mb-1">{winners.length}</div>
             <div className="text-xs sm:text-sm opacity-90">Total Winners</div>
           </div>
 
-          <div className="stats-card-orange text-center animate-slide-up" style={{ animationDelay: '0.1s' }}>
+          <div className="stats-card-orange text-center animate-slide-up hover:scale-105 transition-transform duration-300" style={{ animationDelay: '0.1s' }}>
             <Award className="h-8 w-8 mx-auto mb-3 text-primary" />
             <div className="text-2xl sm:text-3xl font-bold mb-1">{events.length}</div>
             <div className="text-white/90 text-xs sm:text-sm">Different Events</div>
           </div>
 
-          <div className="stats-card-navy text-center animate-slide-up" style={{ animationDelay: '0.2s' }}>
+          <div className="stats-card-navy text-center animate-slide-up hover:scale-105 transition-transform duration-300" style={{ animationDelay: '0.2s' }}>
             <Calendar className="h-8 w-8 mx-auto mb-3 text-white" />
             <div className="text-2xl sm:text-3xl font-bold mb-1">{years.length}</div>
             <div className="text-white/90 text-xs sm:text-sm">Years of Excellence</div>
@@ -216,7 +320,7 @@ const Winners = () => {
         </div>
 
         {/* Achievement Highlights */}
-        <div className="mt-12 sm:mt-16 stats-card-navy rounded-2xl p-6 sm:p-8 text-white shadow-elevated animate-slide-up mx-2 sm:mx-0">
+        <div className="mt-12 sm:mt-16 stats-card-navy rounded-2xl p-6 sm:p-8 text-white shadow-elevated animate-slide-up hover:scale-[1.02] transition-transform duration-300 mx-2 sm:mx-0">
           <h2 className="text-xl sm:text-2xl font-bold text-center mb-6">Achievement Highlights</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
             <div className="space-y-4">
@@ -224,7 +328,7 @@ const Winners = () => {
               {events.slice(0, 3).map(event => {
                 const eventWinners = winners.filter(w => w.event === event);
                 return (
-                  <div key={event} className="flex justify-between items-center p-3 bg-white/20 backdrop-blur-sm rounded-xl shadow-soft">
+                  <div key={event} className="flex justify-between items-center p-3 bg-white/20 backdrop-blur-sm rounded-xl shadow-soft hover:bg-white/30 transition-colors duration-300">
                     <span className="text-white text-sm sm:text-base truncate pr-2">{event}</span>
                     <span className="text-yellow-300 font-semibold text-xs sm:text-sm flex-shrink-0">{eventWinners.length} winners</span>
                   </div>
@@ -238,7 +342,7 @@ const Winners = () => {
                 .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                 .slice(0, 3)
                 .map(winner => (
-                  <div key={winner.id} className="flex justify-between items-center p-3 bg-white/20 backdrop-blur-sm rounded-xl shadow-soft">
+                  <div key={winner.id} className="flex justify-between items-center p-3 bg-white/20 backdrop-blur-sm rounded-xl shadow-soft hover:bg-white/30 transition-colors duration-300">
                     <div>
                       <div className="text-white font-medium text-sm sm:text-base truncate">{winner.name}</div>
                       <div className="text-white/80 text-xs sm:text-sm truncate">{winner.event}</div>

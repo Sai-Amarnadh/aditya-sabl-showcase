@@ -28,34 +28,49 @@ const WinnerCard = ({ winner, featured = false, onClick }: WinnerCardProps) => {
     <div 
       className={`clean-card clean-card-hover overflow-hidden group transition-all duration-300 ${
         featured ? 'border-2 border-primary shadow-elevated' : 'border border-gray-200'
-      } ${onClick ? 'cursor-pointer hover:border-primary' : ''}`}
+      } ${onClick ? 'cursor-pointer hover:border-primary hover:shadow-elevated hover:-translate-y-1' : ''}`}
       onClick={onClick}
     >
       <div className="p-4 sm:p-6">
         <div className="flex items-center space-x-4">
           <div className="relative">
             {winner.photo ? (
-              <img src={winner.photo} alt={winner.name} className="w-12 h-12 sm:w-16 sm:h-16 rounded-full object-cover border-2 border-gray-100" />
+              <img 
+                src={winner.photo} 
+                alt={winner.name} 
+                className="w-12 h-12 sm:w-16 sm:h-16 rounded-full object-cover border-2 border-gray-100 group-hover:border-primary transition-colors duration-300" 
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  const parent = target.parentElement;
+                  if (parent) {
+                    const fallback = document.createElement('div');
+                    fallback.className = "w-12 h-12 sm:w-16 sm:h-16 bg-primary rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-lg border-2 border-gray-100";
+                    fallback.textContent = winner.name.split(' ').map(n => n[0]).join('');
+                    parent.appendChild(fallback);
+                  }
+                }}
+              />
             ) : (
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-lg border-2 border-gray-100">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-lg border-2 border-gray-100 group-hover:bg-primary/90 transition-colors duration-300">
                 {winner.name.split(' ').map(n => n[0]).join('')}
               </div>
             )}
             {featured && (
-              <div className="absolute -top-1 -right-1 bg-primary rounded-full p-1 shadow-lg">
+              <div className="absolute -top-1 -right-1 bg-primary rounded-full p-1 shadow-lg animate-pulse-soft">
                 <Trophy className="h-3 w-3 text-white" />
               </div>
             )}
           </div>
           
           <div className="flex-1">
-            <h3 className="font-semibold text-primary group-hover:text-blue-600 transition-colors text-sm sm:text-base truncate">
+            <h3 className="font-semibold text-primary group-hover:text-blue-600 transition-colors text-sm sm:text-base truncate group-hover:scale-105 transform transition-transform duration-300">
               {winner.name}
             </h3>
             {winner.rollNumber && (
               <p className="text-xs sm:text-sm text-muted-foreground truncate">{winner.rollNumber}</p>
             )}
-            <p className="text-primary font-medium text-xs sm:text-sm truncate">{winner.event}</p>
+            <p className="text-primary font-medium text-xs sm:text-sm truncate group-hover:text-blue-600 transition-colors duration-300">{winner.event}</p>
             
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-xs mt-1 gap-1 sm:gap-0">
               <div className="flex items-center text-muted-foreground">
@@ -67,7 +82,7 @@ const WinnerCard = ({ winner, featured = false, onClick }: WinnerCardProps) => {
                 })}</span>
               </div>
               {winner.position && (
-                <div className="flex items-center text-primary font-medium">
+                <div className="flex items-center text-primary font-medium group-hover:scale-110 transition-transform duration-300">
                   {getPositionIcon(winner.position)}
                   <span className="ml-1">{getPositionText(winner.position)}</span>
                 </div>
@@ -78,7 +93,7 @@ const WinnerCard = ({ winner, featured = false, onClick }: WinnerCardProps) => {
               {winner.activityType && winner.activityType !== 'General' && (
                 <Link 
                   to="/previous"
-                  className="bg-primary/10 hover:bg-accent hover:text-white text-primary px-2 py-1 rounded-full transition-colors inline-flex items-center text-xs"
+                  className="bg-primary/10 hover:bg-accent hover:text-white text-primary px-2 py-1 rounded-full transition-all duration-300 inline-flex items-center text-xs hover:scale-110"
                 >
                   <span className="truncate max-w-20">{winner.activityType}</span>
                   <ExternalLink className="h-2 w-2 ml-1" />
@@ -87,7 +102,7 @@ const WinnerCard = ({ winner, featured = false, onClick }: WinnerCardProps) => {
               {winner.weekNumber && (
                 <Link 
                   to="/weekly-winners"
-                  className="bg-accent/10 text-accent hover:bg-accent hover:text-white px-2 py-1 rounded-full transition-colors inline-flex items-center text-xs"
+                  className="bg-accent/10 text-accent hover:bg-accent hover:text-white px-2 py-1 rounded-full transition-all duration-300 inline-flex items-center text-xs hover:scale-110"
                 >
                   Week {winner.weekNumber}
                   <ExternalLink className="h-2 w-2 ml-1" />

@@ -65,7 +65,20 @@ const Gallery = () => {
                 <DialogTrigger asChild>
                   <div className="group relative clean-card clean-card-hover overflow-hidden cursor-pointer animate-slide-up" style={{ animationDelay: `${index * 0.05}s` }}>
                     <div className="aspect-square bg-gray-50 relative overflow-hidden">
-                      <img src={photo.url} alt={photo.caption} className="w-full h-full object-cover"/>
+                      <img 
+                        src={photo.url} 
+                        alt={photo.caption} 
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = 'none';
+                          const parent = target.parentElement;
+                          if (parent) {
+                            parent.innerHTML = '<div class="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400"><span>Image not available</span></div>';
+                          }
+                        }}
+                      />
 
                       {/* Hover overlay */}
                       <div className="absolute inset-0 bg-primary/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -80,11 +93,25 @@ const Gallery = () => {
                     </div>
                   </div>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[90vw] max-w-[95vw]">
+                <DialogContent className="sm:max-w-[90vw] max-w-[95vw] max-h-[90vh] overflow-hidden">
                   <DialogHeader>
                     <DialogTitle>{photo.caption}</DialogTitle>
                   </DialogHeader>
-                  <img src={photo.url} alt={photo.caption} className="w-full h-auto object-contain rounded-xl"/>
+                  <div className="flex items-center justify-center max-h-[70vh] overflow-hidden">
+                    <img 
+                      src={photo.url} 
+                      alt={photo.caption} 
+                      className="max-w-full max-h-full object-contain rounded-xl"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        const parent = target.parentElement;
+                        if (parent) {
+                          parent.innerHTML = '<div class="w-full h-64 flex items-center justify-center bg-gray-100 text-gray-400 rounded-xl"><span>Image could not be loaded</span></div>';
+                        }
+                      }}
+                    />
+                  </div>
                 </DialogContent>
               </Dialog>
             ))}
