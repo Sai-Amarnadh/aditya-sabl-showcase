@@ -61,7 +61,7 @@ const ParticipantsModal = ({ activity, isOpen, onClose }: { activity: Activity |
         w.name,
         w.rollNumber || 'N/A',
         'CSE',
-        `${w.position === 1 ? '1st' : w.position === 2 ? '2nd' : w.position === 3 ? '3rd' : w.position + 'th'} Place Winner`,
+        `${w.position === 1 ? '1st' : w.position === 2 ? '2nd' : w.position === 3 ? '3rd' : (w.position || 1) + 'th'} Place Winner`,
         'Aditya University',
         'Winner'
       ]),

@@ -35,6 +35,9 @@ describe('DataService', () => {
           photo_url: 'http://example.com/photo.jpg',
           year: '2025',
           is_week_winner: true,
+          position: 1,
+          activity_type: 'General',
+          week_number: null,
           created_at: '2025-01-01T00:00:00.000Z'
         },
       ];
@@ -80,7 +83,20 @@ describe('DataService', () => {
         activityType: 'General',
         weekNumber: undefined,
       };
-      const mockInsertedWinner = { id: 2, ...newWinner, created_at: '2025-02-01T00:00:00.000Z', roll_number: '67890', photo_url: 'http://example.com/new.jpg', is_week_winner: false};
+      const mockInsertedWinner = { 
+        id: 2, 
+        name: 'New Winner',
+        roll_number: '67890',
+        event: 'New Event',
+        date: '2025-02-01',
+        photo_url: 'http://example.com/new.jpg',
+        year: '2025',
+        is_week_winner: false,
+        position: 1,
+        activity_type: 'General',
+        week_number: null,
+        created_at: '2025-02-01T00:00:00.000Z'
+      };
 
       const singleMock = vi.fn().mockResolvedValue({ data: mockInsertedWinner, error: null });
       const selectMock = vi.fn().mockReturnValue({ single: singleMock });
@@ -99,7 +115,7 @@ describe('DataService', () => {
           event: 'New Event',
           date: '2025-02-01',
           photo_url: 'http://example.com/new.jpg',
-          year: 2025,
+          year: '2025',
           is_week_winner: false,
           position: 1,
           activity_type: 'General',
@@ -128,7 +144,20 @@ describe('DataService', () => {
         activityType: 'General',
         weekNumber: undefined,
       };
-      const mockUpdatedWinner = { ...updatedWinner, id: 1, roll_number: '12345', photo_url: 'http://example.com/updated.jpg', is_week_winner: true };
+      const mockUpdatedWinner = { 
+        id: 1, 
+        name: 'Updated Winner',
+        roll_number: '12345',
+        event: 'Updated Event',
+        date: '2025-01-15',
+        photo_url: 'http://example.com/updated.jpg',
+        year: '2025',
+        is_week_winner: true,
+        position: 1,
+        activity_type: 'General',
+        week_number: null,
+        created_at: '2025-01-15T00:00:00.000Z'
+      };
 
       const singleMock = vi.fn().mockResolvedValue({ data: mockUpdatedWinner, error: null });
       const selectMock = vi.fn().mockReturnValue({ single: singleMock });
@@ -147,7 +176,7 @@ describe('DataService', () => {
         event: 'Updated Event',
         date: '2025-01-15',
         photo_url: 'http://example.com/updated.jpg',
-        year: 2025,
+        year: '2025',
         is_week_winner: true,
         position: 1,
         activity_type: 'General',

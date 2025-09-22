@@ -15,7 +15,19 @@ const ActivityCard = ({ activity, onViewParticipants }: ActivityCardProps) => {
     <div className="clean-card clean-card-hover overflow-hidden group flex flex-col h-full">
       {activity.poster ? (
         <div className="w-full h-48 bg-gray-50 flex items-center justify-center flex-shrink-0">
-          <img key={activity.poster} src={activity.poster} alt={activity.name} className="max-w-full max-h-full object-contain" />
+          <img 
+            src={activity.poster} 
+            alt={activity.name} 
+            className="max-w-full max-h-full object-contain"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.style.display = 'none';
+              const parent = target.parentElement;
+              if (parent) {
+                parent.innerHTML = '<span class="text-muted-foreground">Poster not available</span>';
+              }
+            }}
+          />
         </div>
       ) : (
         <div className="h-48 bg-gray-50 flex items-center justify-center border-b flex-shrink-0">

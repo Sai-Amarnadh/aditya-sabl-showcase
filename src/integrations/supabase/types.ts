@@ -161,7 +161,7 @@ export type Database = {
           position: number | null
           roll_number: string
           week_number: number | null
-          year: number | null
+          year: string | null
         }
         Insert: {
           activity_type?: string | null
@@ -175,7 +175,7 @@ export type Database = {
           position?: number | null
           roll_number: string
           week_number?: number | null
-          year?: number | null
+          year?: string | null
         }
         Update: {
           activity_type?: string | null
@@ -189,7 +189,7 @@ export type Database = {
           position?: number | null
           roll_number?: string
           week_number?: number | null
-          year?: number | null
+          year?: string | null
         }
         Relationships: []
       }

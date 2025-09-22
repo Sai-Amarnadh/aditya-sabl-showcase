@@ -60,7 +60,22 @@ const ActivityDetail = () => {
       {activity.poster && (
         <div className="mb-8">
           <AspectRatio ratio={4 / 5} className="bg-muted">
-            <img src={activity.poster} alt={activity.name} className="rounded-lg object-cover w-full h-full" />
+            <img 
+              src={activity.poster} 
+              alt={activity.name} 
+              className="rounded-lg object-cover w-full h-full"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+                const parent = target.parentElement;
+                if (parent) {
+                  const errorDiv = document.createElement('div');
+                  errorDiv.className = 'w-full h-full flex items-center justify-center bg-gray-100 text-gray-400 rounded-lg';
+                  errorDiv.innerHTML = '<span>Poster not available</span>';
+                  parent.appendChild(errorDiv);
+                }
+              }}
+            />
           </AspectRatio>
         </div>
       )}

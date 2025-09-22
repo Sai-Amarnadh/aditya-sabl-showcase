@@ -107,7 +107,13 @@ const Gallery = () => {
                         target.style.display = 'none';
                         const parent = target.parentElement;
                         if (parent) {
-                          parent.innerHTML = '<div class="w-full h-64 flex items-center justify-center bg-gray-100 text-gray-400 rounded-xl"><span>Image could not be loaded</span></div>';
+                          const errorDiv = document.createElement('div');
+                          errorDiv.className = 'w-full h-64 flex items-center justify-center bg-gray-100 text-gray-400 rounded-xl';
+                          errorDiv.innerHTML = '<span>Image could not be loaded</span>';
+                          parent.appendChild(errorDiv);
+                          errorDiv.className = 'w-full h-full flex items-center justify-center bg-gray-100 text-gray-400';
+                          errorDiv.innerHTML = '<span>Image not available</span>';
+                          parent.appendChild(errorDiv);
                         }
                       }}
                     />

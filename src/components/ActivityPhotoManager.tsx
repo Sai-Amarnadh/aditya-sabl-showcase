@@ -58,7 +58,7 @@ const ActivityPhotoManager = ({ activity, onUpdate, isLoading, setIsLoading }: A
       console.error('Error adding photos:', error);
       toast({
         title: "Upload failed",
-        description: "Failed to upload photos. Please try again.",
+        description: error instanceof Error ? error.message : "Failed to upload photos. Please try again.",
         variant: "destructive"
       });
     } finally {

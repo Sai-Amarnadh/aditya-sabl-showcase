@@ -63,7 +63,7 @@ const UpcomingActivities = () => {
         ) : upcomingActivities.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
             {upcomingActivities.map((activity, index) => (
-              <div key={`${activity.id}-${activity.poster}`} className="animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
+              <div key={activity.id} className="animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
                 <ActivityCard activity={activity} />
               </div>
             ))}
