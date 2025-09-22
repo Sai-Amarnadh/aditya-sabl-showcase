@@ -131,6 +131,8 @@ const Winners = () => {
               </Button>
             </div>
           </div>
+            </div>
+          </div>
           </CardContent>
         </Card>
 
