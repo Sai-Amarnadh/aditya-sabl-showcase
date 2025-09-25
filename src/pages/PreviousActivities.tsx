@@ -10,7 +10,6 @@ import { Badge } from '@/components/ui/badge';
 
 const ParticipantsModal = ({ activity, isOpen, onClose }: { activity: Activity | null; isOpen: boolean; onClose: () => void }) => {
   const [participants, setParticipants] = useState<Participant[]>([]);
-  const [activityWinners, setActivityWinners] = useState<Winner[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -18,19 +17,8 @@ const ParticipantsModal = ({ activity, isOpen, onClose }: { activity: Activity |
       if (activity && isOpen) {
         setLoading(true);
         try {
-          const [participantsData, winnersData] = await Promise.all([
-            getParticipants(activity.id),
-            getWinners()
-          ]);
+          const participantsData = await getParticipants(activity.id);
           setParticipants(participantsData);
-          
-          // Filter winners for this specific activity by name and date
-          const activityDate = new Date(activity.date).toDateString();
-          const relatedWinners = winnersData.filter(winner => {
-            const winnerDate = new Date(winner.date).toDateString();
-            return winnerDate === activityDate || winner.event.toLowerCase().includes(activity.name.toLowerCase());
-          });
-          setActivityWinners(relatedWinners);
         } catch (error) {
           console.error('Error fetching data:', error);
         } finally {
@@ -43,7 +31,7 @@ const ParticipantsModal = ({ activity, isOpen, onClose }: { activity: Activity |
   }, [activity, isOpen]);
 
   const handleDownload = () => {
-    if (!activity || (participants.length === 0 && activityWinners.length === 0)) return;
+    if (!activity || participants.length === 0) return;
 
     const headers = ["S.No", "Name", "Roll No", "Department", "Award/Participation", "College", "Type"];
 
@@ -55,26 +43,15 @@ const ParticipantsModal = ({ activity, isOpen, onClose }: { activity: Activity |
       return cellStr;
     };
 
-    const allData = [
-      ...activityWinners.map((w, index) => [
-        index + 1,
-        w.name,
-        w.rollNumber || 'N/A',
-        'CSE',
-        `${w.position === 1 ? '1st' : w.position === 2 ? '2nd' : w.position === 3 ? '3rd' : (w.position || 1) + 'th'} Place Winner`,
-        'Aditya University',
-        'Winner'
-      ]),
-      ...participants.map((p, index) => [
-        activityWinners.length + index + 1,
-        p.name,
-        p.rollNumber,
-        p.department,
-        p.award,
-        p.college,
-        'Participant'
-      ])
-    ];
+    const allData = participants.map((p, index) => [
+      index + 1,
+      p.name,
+      p.rollNumber,
+      p.department,
+      p.award,
+      p.college
+    ]);
+
     const csvContent = [
       headers.join(','),
       ...allData.map(row => row.map(escapeCsvCell).join(','))
@@ -84,7 +61,7 @@ const ParticipantsModal = ({ activity, isOpen, onClose }: { activity: Activity |
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
-    link.setAttribute('download', `${activity.name}-participants-and-winners.csv`);
+    link.setAttribute('download', `${activity.name}-participants.csv`);
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
     link.click();
@@ -100,9 +77,9 @@ const ParticipantsModal = ({ activity, isOpen, onClose }: { activity: Activity |
           <div className="flex justify-between items-center">
             <DialogTitle className="flex items-center gap-2">
               <Users className="h-5 w-5" />
-              Winners & Participants - {activity.name}
+              Participants - {activity.name}
             </DialogTitle>
-            {(participants.length > 0 || activityWinners.length > 0) && (
+            {participants.length > 0 && (
               <Button variant="outline" size="sm" onClick={handleDownload}>
                 <Download className="h-4 w-4 mr-2" />
                 Download CSV
@@ -116,63 +93,12 @@ const ParticipantsModal = ({ activity, isOpen, onClose }: { activity: Activity |
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
               <span className="ml-2">Loading data...</span>
             </div>
-          ) : (participants.length > 0 || activityWinners.length > 0) ? (
+          ) : participants.length > 0 ? (
             <div className="overflow-x-auto">
-              {/* Winners Section */}
-              {activityWinners.length > 0 && (
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-primary">
-                    <Trophy className="h-5 w-5" />
-                    Winners
-                  </h3>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead className="w-16">Rank</TableHead>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Roll No</TableHead>
-                        <TableHead>Event</TableHead>
-                        <TableHead>Position</TableHead>
-                        <TableHead>Date</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {activityWinners
-                        .sort((a, b) => (a.position || 1) - (b.position || 1))
-                        .map((winner, index) => (
-                        <TableRow key={winner.id} className="bg-yellow-50/50">
-                          <TableCell className="font-medium">{index + 1}</TableCell>
-                          <TableCell className="font-medium text-primary">{winner.name}</TableCell>
-                          <TableCell>{winner.rollNumber || 'N/A'}</TableCell>
-                          <TableCell>{winner.event}</TableCell>
-                          <TableCell>
-                            <Badge className={`${
-                              winner.position === 1 ? 'bg-yellow-500 text-white' :
-                              winner.position === 2 ? 'bg-gray-400 text-white' :
-                              winner.position === 3 ? 'bg-orange-500 text-white' :
-                              'bg-primary text-white'
-                            }`}>
-                              {winner.position === 1 ? '🥇 1st Place' :
-                               winner.position === 2 ? '🥈 2nd Place' :
-                               winner.position === 3 ? '🥉 3rd Place' :
-                               `${winner.position}th Place`}
-                            </Badge>
-                          </TableCell>
-                          <TableCell>{new Date(winner.date).toLocaleDateString()}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-              )}
-              
-              {/* Participants Section */}
-              {participants.length > 0 && (
-                <div>
-                  <h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-primary">
-                    <Users className="h-5 w-5" />
-                    Participants
-                  </h3>
+              <h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-primary">
+                <Users className="h-5 w-5" />
+                Activity Participants
+              </h3>
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -206,13 +132,11 @@ const ParticipantsModal = ({ activity, isOpen, onClose }: { activity: Activity |
                   ))}
                 </TableBody>
               </Table>
-                </div>
-              )}
             </div>
           ) : (
             <div className="text-center py-8">
               <Users className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <p className="text-muted-foreground">No participants or winners found for this activity.</p>
+              <p className="text-muted-foreground">No participants found for this activity.</p>
             </div>
           )}
         </div>
