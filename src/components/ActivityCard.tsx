@@ -14,11 +14,11 @@ const ActivityCard = ({ activity, onViewParticipants }: ActivityCardProps) => {
   return (
     <div className="clean-card clean-card-hover overflow-hidden group flex flex-col h-full">
       {activity.poster ? (
-        <div className="w-full h-48 bg-gray-50 flex items-center justify-center flex-shrink-0">
-          <img 
-            src={activity.poster} 
-            alt={activity.name} 
-            className="max-w-full max-h-full object-contain"
+        <div className="w-full h-48 bg-secondary flex items-center justify-center flex-shrink-0">
+          <img
+            src={activity.poster}
+            alt={activity.name}
+            className="max-w-full max-h-full object-contain rounded-md bg-background p-1 shadow-sm border"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
               target.style.display = 'none';
