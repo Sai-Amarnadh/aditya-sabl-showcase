@@ -85,7 +85,7 @@ const ActivityCard = ({ activity, onViewParticipants }: ActivityCardProps) => {
               </Button>
             </>
           ) : (
-            <>
+            <div className="grid grid-cols-2 gap-2">
               {onViewParticipants && (
                 <Button
                   variant="outline"
@@ -97,15 +97,13 @@ const ActivityCard = ({ activity, onViewParticipants }: ActivityCardProps) => {
                   View Participants
                 </Button>
               )}
-              {activity.photos && activity.photos.length > 0 && (
-                <Button asChild variant="outline" size="sm" className="w-full btn-navy-outline text-xs sm:text-sm">
-                  <Link to={`/activity/${activity.id}/photos`}>
-                    <Camera className="h-4 w-4 mr-2" />
-                    View Photos
-                  </Link>
-                </Button>
-              )}
-            </>
+              <Button asChild variant="outline" size="sm" className="w-full btn-navy-outline text-xs sm:text-sm">
+                <Link to={`/activity/${activity.id}/photos`}>
+                  <Camera className="h-4 w-4 mr-2" />
+                  View Photos
+                </Link>
+              </Button>
+            </div>
           )}
         </div>
       </div>
