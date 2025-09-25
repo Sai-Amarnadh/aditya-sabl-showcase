@@ -287,8 +287,7 @@ const Winners = () => {
             <CardContent className="p-12 text-center">
               <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Trophy className="h-12 w-12 text-primary" />
-                </div>
-              </div>
+               </div>
               <h3 className="text-lg sm:text-xl font-semibold text-primary mb-2">No Winners Found</h3>
               <p className="text-sm sm:text-base text-muted-foreground mb-4">
                 Try adjusting your filters to see more results.
