@@ -46,22 +46,24 @@ const App = () => {
         <BrowserRouter>
           <ScrollToTop />
           <DataProvider>
-            <div className="min-h-screen bg-background">
+            <div className="min-h-screen bg-background flex flex-col">
               <Navbar />
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/upcoming" element={<UpcomingActivities />} />
-              <Route path="/activity/:id" element={<ActivityDetail />} />
-              <Route path="/activity/:id/photos" element={<ActivityPhotos />} />
-                <Route path="/previous" element={<PreviousActivities />} />
-                <Route path="/winners" element={<Winners />} />
-                <Route path="/weekly-winners" element={<WeeklyWinners />} />
-                <Route path="/gallery" element={<Gallery />} />
-                <Route path="/admin" element={<Admin />} />
-                <Route path="/register/:id" element={<Register />} />
-                <Route path="/about" element={<About />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
+              <main className="flex-grow">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/upcoming" element={<UpcomingActivities />} />
+                <Route path="/activity/:id" element={<ActivityDetail />} />
+                <Route path="/activity/:id/photos" element={<ActivityPhotos />} />
+                  <Route path="/previous" element={<PreviousActivities />} />
+                  <Route path="/winners" element={<Winners />} />
+                  <Route path="/weekly-winners" element={<WeeklyWinners />} />
+                  <Route path="/gallery" element={<Gallery />} />
+                  <Route path="/admin" element={<Admin />} />
+                  <Route path="/register/:id" element={<Register />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </main>
               <Footer />
             </div>
           </DataProvider>
