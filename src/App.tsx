@@ -7,6 +7,7 @@ import { DataProvider } from "./contexts/DataContext";
 import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
 import PageLoader from "./components/PageLoader";
 import Home from "./pages/Home";
 import UpcomingActivities from "./pages/UpcomingActivities";
@@ -43,6 +44,7 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ScrollToTop />
           <DataProvider>
             <div className="min-h-screen bg-background">
               <Navbar />
