@@ -212,13 +212,23 @@ export const deleteWinner = async (id: string): Promise<boolean> => {
   }
 };
 
+import imageCompression from 'browser-image-compression';
+
 // --- Storage ---
 export const uploadImage = async (file: File, bucket: string): Promise<string | null> => {
+  const options = {
+    maxSizeMB: 1,
+    maxWidthOrHeight: 1920,
+    useWebWorker: true,
+  };
+
   try {
+    const compressedFile = await imageCompression(file, options);
+
     const fileName = `${Date.now()}_${file.name}`;
     const { data, error } = await supabase.storage
       .from(bucket)
-      .upload(fileName, file);
+      .upload(fileName, compressedFile);
 
     if (error) {
       throw error;
