@@ -57,23 +57,25 @@ const Navbar = () => {
               </div>
             </div>
             
-            <div className="hidden lg:flex space-x-4 xl:space-x-6 items-center animate-slide-in-right">
+            <div className="hidden lg:flex items-center justify-center flex-1 animate-slide-in-right">
+              <div className="flex items-center space-x-8 xl:space-x-10">
               {navItems.map((item, index) => (
                 <NavLink
                   key={item.to}
                   to={item.to}
                   className={({ isActive }) =>
-                    `navbar-link-white flex items-center space-x-1 sm:space-x-2 px-2 sm:px-4 py-2 text-xs sm:text-sm font-medium transition-all duration-300 hover:scale-105 relative ${
+                    `navbar-link-enhanced flex items-center space-x-2 px-4 py-3 text-sm font-medium transition-all duration-300 hover:scale-105 relative group ${
                       isActive ? 'active' : ''
                     }`
                   }
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <item.icon className="h-3 w-3 sm:h-4 sm:w-4" />
-                  <span className="hidden xl:inline">{item.label}</span>
-                  <span className="xl:hidden">{item.label.split(' ')[0]}</span>
+                  <item.icon className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                  <span className="hidden xl:inline whitespace-nowrap">{item.label}</span>
+                  <span className="xl:hidden whitespace-nowrap">{item.label.split(' ')[0]}</span>
                 </NavLink>
               ))}
+              </div>
             </div>
 
             {/* Mobile hamburger menu */}

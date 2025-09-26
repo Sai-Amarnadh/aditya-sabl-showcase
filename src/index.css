@@ -406,8 +406,38 @@
   @apply bg-white rounded-xl shadow-soft hover:shadow-elevated transition-all duration-300 border border-gray-100;
 }
 
+/* Dual Border Card Styles - Navy Blue outer, Orange inner */
+.dual-border-card {
+  @apply bg-white rounded-2xl shadow-soft hover:shadow-elevated transition-all duration-300;
+  border: 3px solid hsl(var(--primary));
+  position: relative;
+}
+
+.dual-border-card::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border: 2px solid hsl(var(--accent));
+  border-radius: 1rem;
+  pointer-events: none;
+}
+
+.dual-border-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 20px 40px -12px rgba(30, 58, 138, 0.25);
+}
+
 .clean-card-hover {
   @apply hover:scale-[1.02] hover:-translate-y-1;
+}
+
+/* Enhanced Hover Effects */
+.hover-lift-enhanced {
+  @apply transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02];
+}
+
+.hover-lift-enhanced:hover {
+  box-shadow: 0 20px 40px -12px rgba(30, 58, 138, 0.25);
 }
 
 /* Clean Button Styles - Navy Blue Primary, Orange Accent */
@@ -456,6 +486,33 @@
 /* White Navbar Link Styles */
 .navbar-link-white {
   @apply text-primary/80 hover:text-primary transition-all duration-300 relative;
+}
+
+/* Enhanced Navbar Link Styles with Orange Underline */
+.navbar-link-enhanced {
+  @apply text-primary/80 hover:text-primary transition-all duration-300 relative;
+}
+
+.navbar-link-enhanced::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 3px;
+  background: hsl(var(--accent));
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.navbar-link-enhanced:hover::after {
+  width: 100%;
+}
+
+.navbar-link-enhanced.active::after {
+  width: 100%;
+  background: hsl(var(--accent));
 }
 
 .navbar-link-white.active {

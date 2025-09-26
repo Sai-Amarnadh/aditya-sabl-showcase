@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import ActivityCard from '@/components/ActivityCard';
 import { getActivities, Activity, getParticipants, Participant, getWinners, Winner } from '@/lib/data-service';
 import { useData } from '@/contexts/DataContext';
-import { History, Trophy, Users, Camera, Download } from 'lucide-react';
+import { History, Trophy, Users, Camera, Download, Award, Target, Sparkles } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -185,25 +185,39 @@ const PreviousActivities = () => {
     <div className="page-bg-clean">
       <div className="container mx-auto px-4 py-8 sm:py-12">
         {/* Header */}
-        <div className="text-center mb-8 sm:mb-12 animate-slide-up">
-          <div className="flex flex-col sm:flex-row items-center justify-center mb-4 gap-2 sm:gap-0">
-            <History className="h-8 w-8 text-primary mr-3" />
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gradient-navy text-center">Previous Activities</h1>
+        <div className="text-center mb-12 sm:mb-16 animate-slide-up">
+          <div className="relative inline-block mb-6">
+            <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-full blur-xl"></div>
+            <div className="relative bg-white rounded-full p-4 shadow-elevated">
+              <History className="h-12 w-12 text-primary" />
+            </div>
           </div>
-          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gradient-navy mb-6">
+            Previous Activities
+          </h1>
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto px-4 leading-relaxed">
             Explore our successful past events and the amazing achievements of our students in various SABL activities.
           </p>
+          <div className="flex items-center justify-center gap-2 mt-4">
+            <Award className="h-5 w-5 text-accent animate-pulse" />
+            <span className="text-accent font-medium">Celebrating excellence and innovation</span>
+            <Award className="h-5 w-5 text-accent animate-pulse" />
+          </div>
         </div>
 
         {/* Activities Timeline */}
         <div className="mb-8">
-          <h2 className="text-xl sm:text-2xl font-semibold text-primary mb-6 text-center">Event Timeline</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-primary mb-8 text-center flex items-center justify-center gap-3">
+            <Target className="h-8 w-8 text-accent" />
+            Event Timeline
+            <Target className="h-8 w-8 text-accent" />
+          </h2>
           {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               {Array.from({ length: 6 }).map((_, index) => (
-                <div key={index} className="clean-card animate-pulse overflow-hidden">
-                  <div className="h-48 bg-muted"></div>
-                  <div className="p-4 sm:p-6">
+                <div key={index} className="dual-border-card animate-pulse overflow-hidden">
+                  <div className="h-52 bg-muted"></div>
+                  <div className="p-6">
                     <div className="h-6 bg-muted rounded mb-3"></div>
                     <div className="h-4 bg-muted rounded mb-2"></div>
                     <div className="h-4 bg-muted rounded mb-4"></div>
@@ -213,11 +227,11 @@ const PreviousActivities = () => {
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-8">
               {completedActivities
                 .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                 .map((activity, index) => (
-                  <div key={activity.id} className="relative animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
+                  <div key={activity.id} className="relative animate-slide-up hover-lift-enhanced" style={{ animationDelay: `${index * 0.1}s` }}>
                     <ActivityCard
                       activity={activity}
                       onViewParticipants={handleViewParticipants}
@@ -229,70 +243,76 @@ const PreviousActivities = () => {
         </div>
 
         {/* Achievement Stats */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 my-8 sm:my-12">
-          <div className="stats-card-navy text-center animate-slide-up">
-            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 my-12 sm:my-16">
+          <div className="dual-border-card stats-card-navy text-center animate-slide-up hover-lift-enhanced group">
+            <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
               <History className="h-6 w-6 text-white" />
             </div>
-            <div className="text-xl sm:text-2xl font-bold mb-1">{completedActivities.length}</div>
-            <div className="text-white/90 text-xs sm:text-sm">Events Completed</div>
+            <div className="text-2xl sm:text-3xl font-bold mb-2">{completedActivities.length}</div>
+            <div className="text-white/90 text-sm font-medium">Events Completed</div>
           </div>
           
-          <div className="stats-card-orange text-center animate-slide-up" style={{ animationDelay: '0.1s' }}>
-            <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div className="dual-border-card stats-card-orange text-center animate-slide-up hover-lift-enhanced group" style={{ animationDelay: '0.1s' }}>
+            <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
               <Users className="h-6 w-6 text-white" />
             </div>
-            <div className="text-xl sm:text-2xl font-bold mb-1">300+</div>
-            <div className="text-white/90 text-xs sm:text-sm">Total Participants</div>
+            <div className="text-2xl sm:text-3xl font-bold mb-2">300+</div>
+            <div className="text-white/90 text-sm font-medium">Total Participants</div>
           </div>
           
-          <div className="stats-card-navy text-center animate-slide-up" style={{ animationDelay: '0.2s' }}>
-            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div className="dual-border-card stats-card-navy text-center animate-slide-up hover-lift-enhanced group" style={{ animationDelay: '0.2s' }}>
+            <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
               <Trophy className="h-6 w-6 text-white" />
             </div>
-            <div className="text-xl sm:text-2xl font-bold mb-1">18</div>
-            <div className="text-white/90 text-xs sm:text-sm">Winners Crowned</div>
+            <div className="text-2xl sm:text-3xl font-bold mb-2">18</div>
+            <div className="text-white/90 text-sm font-medium">Winners Crowned</div>
           </div>
           
-          <div className="stats-card-navy text-center animate-slide-up" style={{ animationDelay: '0.3s' }}>
-            <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div className="dual-border-card stats-card-navy text-center animate-slide-up hover-lift-enhanced group" style={{ animationDelay: '0.3s' }}>
+            <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
               <Camera className="h-6 w-6 text-white" />
             </div>
-            <div className="text-xl sm:text-2xl font-bold mb-1">{totalPhotos}</div>
-            <div className="text-white/90 text-xs sm:text-sm">Photos Captured</div>
+            <div className="text-2xl sm:text-3xl font-bold mb-2">{totalPhotos}</div>
+            <div className="text-white/90 text-sm font-medium">Photos Captured</div>
           </div>
         </div>
 
         {/* Success Stories */}
-        <div className="mt-12 sm:mt-16 stats-card-navy rounded-2xl p-6 sm:p-8 text-white shadow-elevated animate-slide-up mx-4 sm:mx-0">
+        <div className="mt-16 sm:mt-20 dual-border-card stats-card-navy rounded-3xl p-8 sm:p-12 text-white shadow-elevated animate-slide-up mx-2 sm:mx-0 hover-lift-enhanced">
+          <div className="relative inline-block mb-8">
+            <div className="absolute -inset-2 bg-white/20 rounded-full blur-lg"></div>
+            <div className="relative w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto">
+              <Sparkles className="h-10 w-10 text-white" />
+            </div>
+          </div>
           <div className="text-center mb-8">
-            <h2 className="text-xl sm:text-2xl font-bold mb-4">Success Stories</h2>
-            <p className="text-white/90 text-sm sm:text-base">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-6">Success Stories</h2>
+            <p className="text-white/90 text-lg max-w-2xl mx-auto leading-relaxed">
               Our previous activities have been stepping stones for many students' career growth
             </p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-6 shadow-soft">
-              <div className="text-4xl mb-4">💡</div>
-              <h3 className="font-semibold text-white mb-2">Innovation Boost</h3>
-              <p className="text-white/80 text-xs sm:text-sm">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+            <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:bg-white/30 transition-all duration-300 hover:scale-105 border border-white/20">
+              <div className="text-5xl mb-6 text-center">💡</div>
+              <h3 className="font-bold text-white mb-4 text-lg text-center">Innovation Boost</h3>
+              <p className="text-white/90 text-sm leading-relaxed text-center">
                 Students developed 15+ innovative projects through our hackathons and competitions
               </p>
             </div>
             
-            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-6 shadow-soft">
-              <div className="text-4xl mb-4">🚀</div>
-              <h3 className="font-semibold text-white mb-2">Career Growth</h3>
-              <p className="text-white/80 text-xs sm:text-sm">
+            <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:bg-white/30 transition-all duration-300 hover:scale-105 border border-white/20">
+              <div className="text-5xl mb-6 text-center">🚀</div>
+              <h3 className="font-bold text-white mb-4 text-lg text-center">Career Growth</h3>
+              <p className="text-white/90 text-sm leading-relaxed text-center">
                 Many participants received internship offers and job placements after showcasing their skills
               </p>
             </div>
             
-            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-6 shadow-soft">
-              <div className="text-4xl mb-4">🤝</div>
-              <h3 className="font-semibold text-white mb-2">Network Building</h3>
-              <p className="text-white/80 text-xs sm:text-sm">
+            <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:bg-white/30 transition-all duration-300 hover:scale-105 border border-white/20">
+              <div className="text-5xl mb-6 text-center">🤝</div>
+              <h3 className="font-bold text-white mb-4 text-lg text-center">Network Building</h3>
+              <p className="text-white/90 text-sm leading-relaxed text-center">
                 Strong connections formed between students, faculty, and industry professionals
               </p>
             </div>
