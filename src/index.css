@@ -406,25 +406,15 @@
   @apply bg-white rounded-xl shadow-soft hover:shadow-elevated transition-all duration-300 border border-gray-100;
 }
 
-/* Dual Border Card Styles - Navy Blue outer, Orange inner */
+/* Single Border Card Styles - Clean Navy Blue border */
 .dual-border-card {
-  @apply bg-white rounded-2xl shadow-soft hover:shadow-elevated transition-all duration-300;
-  border: 3px solid hsl(var(--primary));
-  position: relative;
-}
-
-.dual-border-card::before {
-  content: '';
-  position: absolute;
-  inset: 3px;
-  border: 2px solid hsl(var(--accent));
-  border-radius: 1rem;
-  pointer-events: none;
+  @apply bg-white rounded-2xl shadow-soft hover:shadow-elevated transition-all duration-300 border-2 border-primary/20;
 }
 
 .dual-border-card:hover {
   transform: translateY(-4px) scale(1.02);
   box-shadow: 0 20px 40px -12px rgba(30, 58, 138, 0.25);
+  border-color: hsl(var(--primary) / 0.4);
 }
 
 .clean-card-hover {

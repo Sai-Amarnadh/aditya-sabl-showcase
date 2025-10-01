@@ -60,7 +60,6 @@ const WinnerDetailsModal = ({ winner, isOpen, onClose }: WinnerDetailsModalProps
         {isOpen && showParticles && (
           <Particles
             id="tsparticles"
-            init={particlesInit}
             options={{
               fullScreen: { enable: false },
               particles: {

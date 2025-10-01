@@ -39,38 +39,38 @@ const Navbar = () => {
         isScrolled ? 'shadow-elevated bg-white/95' : 'shadow-header bg-white/90'
       }`}>
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-2 sm:space-x-3 flex-shrink-0 animate-slide-in-left">
-              <img src="/aditya-removebg-preview (1).png" alt="Aditya Logo" className="h-10 w-10 object-contain" />
-              <div className="hidden sm:block">
-                <h1 className="text-base sm:text-lg font-bold">
+          <div className="flex items-center justify-between h-16 gap-4">
+            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 min-w-0 animate-slide-in-left">
+              <img src="/aditya-removebg-preview (1).png" alt="Aditya Logo" className="h-10 w-10 flex-shrink-0 object-contain" />
+              <div className="hidden md:block min-w-0">
+                <h1 className="text-sm md:text-base lg:text-lg font-bold leading-tight">
                   <span className="text-orange-500">ADITYA</span>{' '}
                   <span className="text-primary/80">UNIVERSITY</span>
                 </h1>
-                <p className="text-xs sm:text-sm text-primary/60">Department of Computer Science and Engineering SABL Activities</p>
+                <p className="text-[10px] sm:text-xs lg:text-sm text-primary/60 leading-tight">Department of CSE SABL Activities</p>
               </div>
-              <div className="sm:hidden">
-                <h1 className="text-base font-bold">
-                  <span className="text-primary">ADITYA</span>{' '}
-                  <span className="text-primary/80">UNIVERSITY</span>
+              <div className="md:hidden min-w-0">
+                <h1 className="text-sm font-bold leading-tight">
+                  <span className="text-orange-500">ADITYA</span>{' '}
+                  <span className="text-primary/80">UNIV</span>
                 </h1>
               </div>
             </div>
             
-            <div className="hidden lg:flex items-center justify-center flex-1 animate-slide-in-right">
-              <div className="flex items-center space-x-8 xl:space-x-10">
+            <div className="hidden lg:flex items-center justify-end flex-1 animate-slide-in-right">
+              <div className="flex items-center gap-1 xl:gap-2">
               {navItems.map((item, index) => (
                 <NavLink
                   key={item.to}
                   to={item.to}
                   className={({ isActive }) =>
-                    `navbar-link-enhanced flex items-center space-x-2 px-4 py-3 text-sm font-medium transition-all duration-300 hover:scale-105 relative group ${
+                    `navbar-link-enhanced flex items-center gap-1.5 px-2 xl:px-3 py-2 text-xs xl:text-sm font-medium transition-all duration-300 hover:scale-105 relative group ${
                       isActive ? 'active' : ''
                     }`
                   }
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <item.icon className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                  <item.icon className="h-4 w-4 flex-shrink-0 group-hover:scale-110 transition-transform duration-300" />
                   <span className="hidden xl:inline whitespace-nowrap">{item.label}</span>
                   <span className="xl:hidden whitespace-nowrap">{item.label.split(' ')[0]}</span>
                 </NavLink>
