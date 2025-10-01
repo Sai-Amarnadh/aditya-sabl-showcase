@@ -791,84 +791,85 @@ select:focus {
 
 .celebration-particle {
   position: absolute;
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  animation: celebrationFloat 4s ease-in-out infinite;
+  animation: celebrationFloat 5s ease-in-out infinite;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .celebration-particle-1 {
-  background: #FFD700;
-  top: 10%;
-  left: 10%;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  top: 8%;
+  left: 12%;
   animation-delay: 0s;
 }
 
 .celebration-particle-2 {
-  background: #FF6B35;
-  top: 20%;
-  right: 15%;
-  animation-delay: 0.5s;
+  background: linear-gradient(135deg, #FF6B35, #FF8C42);
+  top: 15%;
+  right: 18%;
+  animation-delay: 0.6s;
 }
 
 .celebration-particle-3 {
-  background: #32CD32;
-  bottom: 30%;
-  left: 20%;
-  animation-delay: 1s;
+  background: linear-gradient(135deg, #32CD32, #90EE90);
+  bottom: 25%;
+  left: 25%;
+  animation-delay: 1.2s;
 }
 
 .celebration-particle-4 {
-  background: #FF1493;
-  bottom: 20%;
-  right: 10%;
-  animation-delay: 1.5s;
+  background: linear-gradient(135deg, #FF1493, #FF69B4);
+  bottom: 18%;
+  right: 15%;
+  animation-delay: 1.8s;
 }
 
 .celebration-particle-5 {
-  background: #00CED1;
-  top: 50%;
-  left: 5%;
-  animation-delay: 2s;
+  background: linear-gradient(135deg, #00CED1, #40E0D0);
+  top: 45%;
+  left: 8%;
+  animation-delay: 2.4s;
 }
 
 .celebration-particle-6 {
-  background: #9370DB;
-  top: 60%;
-  right: 5%;
-  animation-delay: 2.5s;
-}
-
-.celebration-particle-7 {
-  background: #FFA500;
-  bottom: 50%;
-  left: 50%;
+  background: linear-gradient(135deg, #9370DB, #BA55D3);
+  top: 55%;
+  right: 8%;
   animation-delay: 3s;
 }
 
+.celebration-particle-7 {
+  background: linear-gradient(135deg, #FFA500, #FFB84D);
+  bottom: 45%;
+  left: 45%;
+  animation-delay: 3.6s;
+}
+
 .celebration-particle-8 {
-  background: #FF69B4;
-  top: 30%;
-  right: 50%;
-  animation-delay: 3.5s;
+  background: linear-gradient(135deg, #1E90FF, #87CEEB);
+  top: 35%;
+  right: 45%;
+  animation-delay: 4.2s;
 }
 
 @keyframes celebrationFloat {
   0%, 100% {
-    transform: translateY(0px) scale(0.8);
-    opacity: 0.6;
+    transform: translateY(0px) translateX(0px) scale(0.9);
+    opacity: 0.5;
   }
   25% {
-    transform: translateY(-15px) scale(1.2);
-    opacity: 1;
+    transform: translateY(-12px) translateX(8px) scale(1.1);
+    opacity: 0.9;
   }
   50% {
-    transform: translateY(-8px) scale(1);
-    opacity: 0.8;
+    transform: translateY(-20px) translateX(-5px) scale(1);
+    opacity: 1;
   }
   75% {
-    transform: translateY(-20px) scale(1.1);
-    opacity: 0.9;
+    transform: translateY(-15px) translateX(10px) scale(1.05);
+    opacity: 0.8;
   }
 }
 
@@ -881,36 +882,38 @@ select:focus {
   height: 100%;
   pointer-events: none;
   z-index: 2;
+  overflow: visible;
 }
 
 .floating-emoji {
   position: absolute;
-  font-size: 1.2rem;
-  animation: floatingEmoji 6s ease-in-out infinite;
+  font-size: 1.5rem;
+  animation: floatingEmoji 5s ease-in-out infinite;
+  filter: drop-shadow(0 2px 8px rgba(249, 115, 22, 0.3));
 }
 
 .floating-emoji-1 {
-  top: -10px;
-  left: -10px;
+  top: -15px;
+  left: -15px;
   animation-delay: 0s;
 }
 
 .floating-emoji-2 {
-  top: -15px;
-  right: -10px;
-  animation-delay: 1.5s;
+  top: -20px;
+  right: -15px;
+  animation-delay: 1.25s;
 }
 
 .floating-emoji-3 {
-  bottom: -10px;
-  left: -5px;
-  animation-delay: 3s;
+  bottom: -15px;
+  left: 50%;
+  animation-delay: 2.5s;
 }
 
 .floating-emoji-4 {
-  bottom: -15px;
-  right: -5px;
-  animation-delay: 4.5s;
+  top: 50%;
+  right: -15px;
+  animation-delay: 3.75s;
 }
 
 @keyframes floatingEmoji {
@@ -918,17 +921,29 @@ select:focus {
     transform: translateY(0px) rotate(0deg) scale(0);
     opacity: 0;
   }
-  10% {
-    transform: translateY(-5px) rotate(10deg) scale(1);
+  5% {
+    transform: translateY(-3px) rotate(5deg) scale(0.8);
+    opacity: 0.7;
+  }
+  15% {
+    transform: translateY(-8px) rotate(15deg) scale(1);
     opacity: 1;
   }
-  50% {
-    transform: translateY(-15px) rotate(-5deg) scale(1.2);
-    opacity: 0.8;
+  40% {
+    transform: translateY(-18px) rotate(-10deg) scale(1.1);
+    opacity: 0.9;
   }
-  90% {
-    transform: translateY(-10px) rotate(5deg) scale(1);
-    opacity: 1;
+  60% {
+    transform: translateY(-12px) rotate(8deg) scale(1.05);
+    opacity: 0.85;
+  }
+  85% {
+    transform: translateY(-5px) rotate(-5deg) scale(0.95);
+    opacity: 0.7;
+  }
+  95% {
+    transform: translateY(0px) rotate(0deg) scale(0.5);
+    opacity: 0.3;
   }
 }
 
@@ -936,15 +951,27 @@ select:focus {
 .celebration-container .clean-card {
   position: relative;
   z-index: 3;
-  animation: celebrationGlow 3s ease-in-out infinite;
+  animation: celebrationGlow 4s ease-in-out infinite;
 }
 
 @keyframes celebrationGlow {
   0%, 100% {
-    box-shadow: 0 4px 20px -4px rgba(30, 58, 138, 0.1), 0 0 0 0 rgba(249, 115, 22, 0);
+    box-shadow: 
+      0 4px 20px -4px rgba(30, 58, 138, 0.1), 
+      0 0 0 0 rgba(249, 115, 22, 0),
+      0 0 0 0 rgba(255, 215, 0, 0);
   }
-  50% {
-    box-shadow: 0 8px 30px -8px rgba(30, 58, 138, 0.15), 0 0 20px 5px rgba(249, 115, 22, 0.2);
+  33% {
+    box-shadow: 
+      0 6px 25px -6px rgba(30, 58, 138, 0.15), 
+      0 0 15px 3px rgba(249, 115, 22, 0.15),
+      0 0 8px 2px rgba(255, 215, 0, 0.1);
+  }
+  66% {
+    box-shadow: 
+      0 8px 30px -8px rgba(30, 58, 138, 0.2), 
+      0 0 20px 5px rgba(249, 115, 22, 0.2),
+      0 0 12px 3px rgba(255, 215, 0, 0.15);
   }
 }
 
@@ -1035,17 +1062,39 @@ select:focus {
 /* Responsive improvements */
 @media (max-width: 640px) {
   .celebration-particle {
-    width: 4px;
-    height: 4px;
+    width: 6px;
+    height: 6px;
   }
   
   .floating-emoji {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
   
   .winners-page-celebration::before,
   .winners-page-celebration::after {
-    font-size: 1rem;
+    font-size: 1.2rem;
+  }
+  
+  @keyframes celebrationFloat {
+    0%, 100% {
+      transform: translateY(0px) translateX(0px) scale(0.9);
+      opacity: 0.4;
+    }
+    50% {
+      transform: translateY(-10px) translateX(5px) scale(1);
+      opacity: 0.8;
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  .celebration-particle {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .floating-emoji {
+    font-size: 1.8rem;
   }
 }
 
