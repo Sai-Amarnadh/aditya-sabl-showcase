@@ -33,26 +33,27 @@ const WinnerCard = ({ winner, featured = false, onClick }: WinnerCardProps) => {
     >
       <div className="p-4 sm:p-6">
         <div className="flex items-center space-x-4">
-          <div className="relative">
+          <div className="relative flex-shrink-0">
             {winner.photo ? (
               <img 
                 src={winner.photo} 
                 alt={winner.name} 
-                className="w-12 h-12 sm:w-16 sm:h-16 rounded-full object-cover border-2 border-gray-100 group-hover:border-primary transition-colors duration-300" 
+                className="w-12 h-12 sm:w-16 sm:h-16 rounded-full object-cover border-2 border-gray-100 group-hover:border-primary transition-colors duration-300 aspect-square" 
+                style={{ objectFit: 'cover' }}
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.style.display = 'none';
                   const parent = target.parentElement;
                   if (parent) {
                     const fallback = document.createElement('div');
-                    fallback.className = "w-12 h-12 sm:w-16 sm:h-16 bg-primary rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-lg border-2 border-gray-100";
+                    fallback.className = "w-12 h-12 sm:w-16 sm:h-16 bg-primary rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-lg border-2 border-gray-100 aspect-square";
                     fallback.textContent = winner.name.split(' ').map(n => n[0]).join('');
                     parent.appendChild(fallback);
                   }
                 }}
               />
             ) : (
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-lg border-2 border-gray-100 group-hover:bg-primary/90 transition-colors duration-300">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-lg border-2 border-gray-100 group-hover:bg-primary/90 transition-colors duration-300 aspect-square">
                 {winner.name.split(' ').map(n => n[0]).join('')}
               </div>
             )}

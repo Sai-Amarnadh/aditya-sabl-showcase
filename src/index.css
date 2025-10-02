@@ -1098,6 +1098,131 @@ select:focus {
   }
 }
 
+/* Bubble Animations for Home Page */
+.bubbles-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.4;
+  animation: bubbleFloat 15s infinite ease-in-out;
+  backdrop-filter: blur(2px);
+}
+
+.bubble-orange {
+  background: radial-gradient(circle at 30% 30%, rgba(249, 115, 22, 0.8), rgba(249, 115, 22, 0.3));
+  box-shadow: 0 8px 32px rgba(249, 115, 22, 0.3);
+}
+
+.bubble-navy {
+  background: radial-gradient(circle at 30% 30%, rgba(30, 58, 138, 0.8), rgba(30, 58, 138, 0.3));
+  box-shadow: 0 8px 32px rgba(30, 58, 138, 0.3);
+}
+
+.bubble-white {
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4));
+  box-shadow: 0 8px 32px rgba(255, 255, 255, 0.2);
+}
+
+.bubble-1 {
+  width: 80px;
+  height: 80px;
+  left: 10%;
+  bottom: -100px;
+  animation-delay: 0s;
+  animation-duration: 12s;
+}
+
+.bubble-2 {
+  width: 60px;
+  height: 60px;
+  left: 25%;
+  bottom: -80px;
+  animation-delay: 2s;
+  animation-duration: 14s;
+}
+
+.bubble-3 {
+  width: 100px;
+  height: 100px;
+  left: 40%;
+  bottom: -120px;
+  animation-delay: 1s;
+  animation-duration: 16s;
+}
+
+.bubble-4 {
+  width: 70px;
+  height: 70px;
+  left: 60%;
+  bottom: -90px;
+  animation-delay: 3s;
+  animation-duration: 13s;
+}
+
+.bubble-5 {
+  width: 90px;
+  height: 90px;
+  left: 75%;
+  bottom: -110px;
+  animation-delay: 1.5s;
+  animation-duration: 15s;
+}
+
+.bubble-6 {
+  width: 50px;
+  height: 50px;
+  left: 90%;
+  bottom: -70px;
+  animation-delay: 2.5s;
+  animation-duration: 11s;
+}
+
+.bubble-7 {
+  width: 65px;
+  height: 65px;
+  left: 15%;
+  bottom: -85px;
+  animation-delay: 4s;
+  animation-duration: 14s;
+}
+
+.bubble-8 {
+  width: 85px;
+  height: 85px;
+  left: 50%;
+  bottom: -105px;
+  animation-delay: 0.5s;
+  animation-duration: 13s;
+}
+
+@keyframes bubbleFloat {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(-50vh) translateX(20px) scale(1.1);
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(-30px) scale(0.8);
+    opacity: 0;
+  }
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

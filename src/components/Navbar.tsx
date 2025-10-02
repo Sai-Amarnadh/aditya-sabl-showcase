@@ -43,17 +43,18 @@ const Navbar = () => {
             <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 min-w-0 animate-slide-in-left">
               <img src="/aditya-removebg-preview (1).png" alt="Aditya Logo" className="h-10 w-10 flex-shrink-0 object-contain" />
               <div className="hidden md:block min-w-0">
-                <h1 className="text-sm md:text-base lg:text-lg font-bold leading-tight">
+                <h1 className="text-sm md:text-base lg:text-lg font-bold leading-tight whitespace-nowrap">
                   <span className="text-orange-500">ADITYA</span>{' '}
                   <span className="text-primary/80">UNIVERSITY</span>
                 </h1>
-                <p className="text-[10px] sm:text-xs lg:text-sm text-primary/60 leading-tight">Department of CSE SABL Activities</p>
+                <p className="text-[10px] sm:text-xs lg:text-sm text-primary/60 leading-tight whitespace-nowrap">Department of CSE SABL Activities</p>
               </div>
-              <div className="md:hidden min-w-0">
-                <h1 className="text-sm font-bold leading-tight">
+              <div className="md:hidden min-w-0 max-w-[180px] sm:max-w-none">
+                <h1 className="text-xs sm:text-sm font-bold leading-tight">
                   <span className="text-orange-500">ADITYA</span>{' '}
-                  <span className="text-primary/80">UNIV</span>
+                  <span className="text-primary/80">UNIVERSITY</span>
                 </h1>
+                <p className="text-[9px] sm:text-[10px] text-primary/60 leading-tight truncate">CSE SABL Activities</p>
               </div>
             </div>
             

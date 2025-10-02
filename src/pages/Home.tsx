@@ -54,6 +54,18 @@ const Home = () => {
           />
         </div>
 
+        {/* Bubbles Animation */}
+        <div className="bubbles-container">
+          <div className="bubble bubble-orange bubble-1"></div>
+          <div className="bubble bubble-navy bubble-2"></div>
+          <div className="bubble bubble-white bubble-3"></div>
+          <div className="bubble bubble-orange bubble-4"></div>
+          <div className="bubble bubble-navy bubble-5"></div>
+          <div className="bubble bubble-white bubble-6"></div>
+          <div className="bubble bubble-orange bubble-7"></div>
+          <div className="bubble bubble-navy bubble-8"></div>
+        </div>
+
         {/* Main Content */}
         <div className="relative z-10 text-center text-white px-4">
           <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-6 animate-slide-up">
