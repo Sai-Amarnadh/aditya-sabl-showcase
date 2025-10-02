@@ -175,24 +175,54 @@ const Winners = () => {
           <div className="space-y-8">
             {/* Group winners by week and activity type for current week winners */}
             {filteredWinners.some(w => w.isThisWeekWinner) && (
-              <Card className="clean-card border-primary/30 animate-slide-up">
-                <CardHeader>
-                  <CardTitle className="text-center text-primary flex items-center justify-center gap-2">
-                    <Trophy className="h-6 w-6" />
+              <Card className="clean-card border-primary/30 animate-slide-up overflow-hidden relative celebration-container">
+                <div className="celebration-particles">
+                  {Array.from({ length: 8 }).map((_, i) => (
+                    <div key={i} className={`celebration-particle celebration-particle-${i + 1}`}></div>
+                  ))}
+                </div>
+                <CardHeader className="relative z-10">
+                  <CardTitle className="text-center text-primary flex items-center justify-center gap-2 animate-pulse-soft">
+                    <Trophy className="h-6 w-6 animate-bounce-gentle" />
                     🏆 Top Performers of the Week
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="relative z-10">
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                   {filteredWinners
                     .filter(w => w.isThisWeekWinner)
                     .sort((a, b) => (a.position || 1) - (b.position || 1))
                     .map((winner, index) => (
-                      <div key={winner.id} className="animate-slide-up hover:scale-105 transition-all duration-300" style={{ animationDelay: `${index * 0.1}s` }}>
-                        <div className="relative">
+                      <div key={winner.id} className="animate-slide-up hover:scale-105 transition-all duration-300 relative" style={{ animationDelay: `${index * 0.1}s` }}>
+                        <div className="relative celebration-container">
+                          {/* Individual celebration effects for each winner */}
+                          <div className="celebration-particles">
+                            {Array.from({ length: 6 }).map((_, i) => (
+                              <div key={i} className={`celebration-particle celebration-particle-${i + 1}`}></div>
+                            ))}
+                          </div>
+                          
+                          {/* Floating emojis */}
+                          <div className="floating-emojis">
+                            <div className="floating-emoji floating-emoji-1">🎉</div>
+                            <div className="floating-emoji floating-emoji-2">✨</div>
+                            <div className="floating-emoji floating-emoji-3">🏆</div>
+                            <div className="floating-emoji floating-emoji-4">🎊</div>
+                          </div>
+                          
                           <WinnerCard winner={winner} featured={winner.position === 1} onClick={() => handleWinnerClick(winner)} />
                           {winner.position === 1 && (
                             <div className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full p-2 shadow-lg animate-bounce-gentle">
+                              <Trophy className="h-4 w-4" />
+                            </div>
+                          )}
+                          {winner.position === 2 && (
+                            <div className="absolute -top-2 -right-2 bg-gray-400 text-white rounded-full p-2 shadow-lg animate-pulse-soft">
+                              <Trophy className="h-4 w-4" />
+                            </div>
+                          )}
+                          {winner.position === 3 && (
+                            <div className="absolute -top-2 -right-2 bg-orange-500 text-white rounded-full p-2 shadow-lg animate-float-gentle">
                               <Trophy className="h-4 w-4" />
                             </div>
                           )}
