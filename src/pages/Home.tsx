@@ -81,13 +81,13 @@ const Home = () => {
             Fostering innovation, creativity, and excellence in computer science education through engaging activities and competitions.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-center animate-slide-up" style={{ animationDelay: '0.6s' }}>
-            <Button size="lg" asChild className="btn-orange-accent">
+            <Button size="lg" asChild className="btn-orange-accent w-full sm:w-auto">
               <Link to="/upcoming">
                 Explore Activities
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
-            <Button size="lg" asChild variant="outline" className="bg-white/10 text-white border-white/20 hover:bg-white/20">
+            <Button size="lg" asChild className="btn-navy-outline bg-white text-primary hover:bg-white/90 w-full sm:w-auto">
               <a href="/SABL_Grading_Points_Overview.pdf" download>
                 <Download className="mr-2 h-5 w-5" />
                 Download Grading Points
