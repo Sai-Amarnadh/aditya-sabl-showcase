@@ -4,7 +4,7 @@ import WinnerCard from '@/components/WinnerCard';
 import WinnerDetailsModal from '@/components/WinnerDetailsModal';
 import { getWinners, Winner } from '@/lib/data-service';
 import { useData } from '@/contexts/DataContext';
-import { Calendar, History, Trophy, ArrowRight } from 'lucide-react';
+import { Calendar, History, Trophy, ArrowRight, Download } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
@@ -80,12 +80,18 @@ const Home = () => {
           <p className="text-base sm:text-lg md:text-xl mb-8 opacity-80 max-w-2xl mx-auto animate-slide-up" style={{ animationDelay: '0.4s' }}>
             Fostering innovation, creativity, and excellence in computer science education through engaging activities and competitions.
           </p>
-          <div className="animate-slide-up" style={{ animationDelay: '0.6s' }}>
+          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center animate-slide-up" style={{ animationDelay: '0.6s' }}>
             <Button size="lg" asChild className="btn-orange-accent">
               <Link to="/upcoming">
                 Explore Activities
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
+            </Button>
+            <Button size="lg" asChild variant="outline" className="bg-white/10 text-white border-white/20 hover:bg-white/20">
+              <a href="/SABL_Grading_Points_Overview.pdf" download>
+                <Download className="mr-2 h-5 w-5" />
+                Download Grading Points
+              </a>
             </Button>
           </div>
         </div>
