@@ -9,8 +9,6 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Search, User, Award, Calendar, Trophy } from 'lucide-react';
 import { getStudentPerformance } from '@/lib/data-service';
 import { format } from 'date-fns';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 
 const StudentPerformance = () => {
   const [pin, setPin] = useState('');
@@ -51,9 +49,7 @@ const StudentPerformance = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
-      <Navbar />
-      
+    <>
       <main className="flex-grow container mx-auto px-4 py-12">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-8">
@@ -210,9 +206,7 @@ const StudentPerformance = () => {
           )}
         </div>
       </main>
-
-      <Footer />
-    </div>
+    </>
   );
 };
 
