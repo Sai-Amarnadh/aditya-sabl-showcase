@@ -37,34 +37,40 @@ export type Database = {
       }
       participants: {
         Row: {
-          id: number
           activity_id: number
+          award: string
+          college: string
+          created_at: string | null
+          department: string
+          id: number
+          marks: number | null
           name: string
           roll_number: string
-          department: string
-          college: string
-          award: string
-          created_at: string | null
+          student_pin: string | null
         }
         Insert: {
-          id?: never
           activity_id: number
+          award: string
+          college: string
+          created_at?: string | null
+          department: string
+          id?: number
+          marks?: number | null
           name: string
           roll_number: string
-          department: string
-          college?: string
-          award: string
-          created_at?: string | null
+          student_pin?: string | null
         }
         Update: {
-          id?: never
           activity_id?: number
+          award?: string
+          college?: string
+          created_at?: string | null
+          department?: string
+          id?: number
+          marks?: number | null
           name?: string
           roll_number?: string
-          department?: string
-          college?: string
-          award?: string
-          created_at?: string | null
+          student_pin?: string | null
         }
         Relationships: [
           {
@@ -73,7 +79,7 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "previous_activities"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       previous_activities: {
@@ -109,6 +115,36 @@ export type Database = {
           photos?: string[] | null
           poster_url?: string | null
           title?: string
+        }
+        Relationships: []
+      }
+      students: {
+        Row: {
+          branch: string
+          created_at: string | null
+          id: number
+          name: string
+          pin: string
+          section: string
+          year: string
+        }
+        Insert: {
+          branch: string
+          created_at?: string | null
+          id?: number
+          name: string
+          pin: string
+          section: string
+          year: string
+        }
+        Update: {
+          branch?: string
+          created_at?: string | null
+          id?: number
+          name?: string
+          pin?: string
+          section?: string
+          year?: string
         }
         Relationships: []
       }
@@ -161,7 +197,7 @@ export type Database = {
           position: number | null
           roll_number: string
           week_number: number | null
-          year: string | null
+          year: number | null
         }
         Insert: {
           activity_type?: string | null
@@ -175,7 +211,7 @@ export type Database = {
           position?: number | null
           roll_number: string
           week_number?: number | null
-          year?: string | null
+          year?: number | null
         }
         Update: {
           activity_type?: string | null
@@ -189,7 +225,7 @@ export type Database = {
           position?: number | null
           roll_number?: string
           week_number?: number | null
-          year?: string | null
+          year?: number | null
         }
         Relationships: []
       }

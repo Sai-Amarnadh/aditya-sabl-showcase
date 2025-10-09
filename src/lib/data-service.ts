@@ -42,6 +42,18 @@ export interface Participant {
   department: string;
   college: string;
   award: '1st Place' | '2nd Place' | '3rd Place' | 'Participation';
+  studentPin?: string;
+  marks?: number;
+  createdAt?: string;
+}
+
+export interface Student {
+  id: string;
+  pin: string;
+  name: string;
+  branch: string;
+  year: string;
+  section: string;
   createdAt?: string;
 }
 
@@ -50,6 +62,7 @@ type UpcomingActivityRow = Database['public']['Tables']['upcoming_activities']['
 type PreviousActivityRow = Database['public']['Tables']['previous_activities']['Row'];
 type GalleryRow = Database['public']['Tables']['gallery']['Row'];
 type ParticipantRow = Database['public']['Tables']['participants']['Row'];
+type StudentRow = Database['public']['Tables']['students']['Row'];
 
 // Helper function to transform database row to Winner
 const transformWinnerFromDB = (row: WinnerRow): Winner => ({
@@ -59,7 +72,7 @@ const transformWinnerFromDB = (row: WinnerRow): Winner => ({
   event: row.event || 'Unknown Event',
   date: row.date || new Date().toISOString(),
   photo: row.photo_url || '',
-  year: row.year || new Date().getFullYear().toString(),
+  year: row.year ? String(row.year) : new Date().getFullYear().toString(),
   isThisWeekWinner: row.is_week_winner || false,
   position: row.position || 1,
   activityType: row.activity_type || 'General',
@@ -73,7 +86,7 @@ const transformWinnerToDB = (winner: Omit<Winner, 'id'>): Omit<WinnerRow, 'id' |
   event: winner.event,
   date: winner.date,
   photo_url: winner.photo,
-  year: winner.year || new Date().getFullYear().toString(),
+  year: winner.year ? parseInt(winner.year) : new Date().getFullYear(),
   is_week_winner: winner.isThisWeekWinner || false,
   position: winner.position || 1,
   activity_type: winner.activityType || 'General',
@@ -136,6 +149,8 @@ const transformParticipantFromDB = (row: ParticipantRow): Participant => ({
   department: row.department,
   college: row.college,
   award: row.award as Participant['award'],
+  studentPin: row.student_pin || undefined,
+  marks: row.marks || 2,
   createdAt: row.created_at || undefined,
 });
 
@@ -147,6 +162,28 @@ const transformParticipantToDB = (participant: Omit<Participant, 'id'>) => ({
   department: participant.department,
   college: participant.college,
   award: participant.award,
+  student_pin: participant.studentPin || null,
+  marks: participant.marks || 2,
+});
+
+// Helper function to transform database row to Student
+const transformStudentFromDB = (row: StudentRow): Student => ({
+  id: row.id.toString(),
+  pin: row.pin,
+  name: row.name,
+  branch: row.branch,
+  year: row.year,
+  section: row.section,
+  createdAt: row.created_at || undefined,
+});
+
+// Helper function to transform Student to database format
+const transformStudentToDB = (student: Omit<Student, 'id'>) => ({
+  pin: student.pin,
+  name: student.name,
+  branch: student.branch,
+  year: student.year,
+  section: student.section,
 });
 
 // --- Winners ---
@@ -511,5 +548,138 @@ export const deleteParticipant = async (id: string): Promise<boolean> => {
   } catch (error) {
     console.error('Error deleting participant:', error);
     return false;
+  }
+};
+
+// --- Students ---
+export const getStudents = async (): Promise<Student[]> => {
+  const { data, error } = await supabase
+    .from('students')
+    .select('*')
+    .order('name', { ascending: true });
+
+  if (error) {
+    console.error('Error fetching students:', error);
+    return [];
+  }
+
+  return (data || []).map(transformStudentFromDB);
+};
+
+export const getStudentByPin = async (pin: string): Promise<Student | null> => {
+  try {
+    const { data, error } = await supabase
+      .from('students')
+      .select('*')
+      .eq('pin', pin)
+      .single();
+
+    if (error) throw error;
+    return data ? transformStudentFromDB(data) : null;
+  } catch (error) {
+    console.error('Error fetching student by PIN:', error);
+    return null;
+  }
+};
+
+export const addStudent = async (student: Omit<Student, 'id'>): Promise<Student | null> => {
+  try {
+    const { data, error } = await supabase
+      .from('students')
+      .insert([transformStudentToDB(student)])
+      .select('*')
+      .single();
+
+    if (error) throw error;
+    return data ? transformStudentFromDB(data) : null;
+  } catch (error) {
+    console.error('Error adding student:', error);
+    return null;
+  }
+};
+
+export const bulkAddStudents = async (students: Omit<Student, 'id'>[]): Promise<boolean> => {
+  try {
+    const { error } = await supabase
+      .from('students')
+      .insert(students.map(transformStudentToDB));
+
+    if (error) throw error;
+    return true;
+  } catch (error) {
+    console.error('Error bulk adding students:', error);
+    return false;
+  }
+};
+
+export const updateStudent = async (student: Student): Promise<Student | null> => {
+  try {
+    const { data, error } = await supabase
+      .from('students')
+      .update(transformStudentToDB(student))
+      .eq('id', parseInt(student.id))
+      .select('*')
+      .single();
+
+    if (error) throw error;
+    return data ? transformStudentFromDB(data) : null;
+  } catch (error) {
+    console.error('Error updating student:', error);
+    return null;
+  }
+};
+
+export const deleteStudent = async (id: string): Promise<boolean> => {
+  try {
+    const { error } = await supabase
+      .from('students')
+      .delete()
+      .eq('id', parseInt(id));
+
+    if (error) throw error;
+    return true;
+  } catch (error) {
+    console.error('Error deleting student:', error);
+    return false;
+  }
+};
+
+// Get student performance data (all activities they participated in)
+export const getStudentPerformance = async (pin: string) => {
+  try {
+    const student = await getStudentByPin(pin);
+    if (!student) return null;
+
+    const { data, error } = await supabase
+      .from('participants')
+      .select(`
+        *,
+        previous_activities (
+          id,
+          title,
+          activity_date
+        )
+      `)
+      .eq('student_pin', pin)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    const participations = data?.map(p => ({
+      ...transformParticipantFromDB(p),
+      activityName: (p as any).previous_activities?.title || 'Unknown Activity',
+      activityDate: (p as any).previous_activities?.activity_date || '',
+    })) || [];
+
+    const totalMarks = participations.reduce((sum, p) => sum + (p.marks || 2), 0);
+
+    return {
+      student,
+      participations,
+      totalMarks,
+    };
+  } catch (error) {
+    console.error('Error fetching student performance:', error);
+    return null;
   }
 };

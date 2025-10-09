@@ -25,6 +25,7 @@ import {
   addParticipant,
   updateParticipant,
   deleteParticipant,
+  getStudentByPin,
   Winner, 
   Activity, 
   GalleryImage,
@@ -32,8 +33,9 @@ import {
 } from '@/lib/data-service';
 import { useData } from '@/contexts/DataContext';
 import { useToast } from '@/hooks/use-toast';
-import { Trash2, Edit, Plus, Users, Calendar, Trophy, Image as ImageIcon, UserPlus } from 'lucide-react';
+import { Trash2, Edit, Plus, Users, Calendar, Trophy, Image as ImageIcon, UserPlus, Search } from 'lucide-react';
 import ActivityPhotoManager from '@/components/ActivityPhotoManager';
+import BulkStudentUpload from '@/components/BulkStudentUpload';
 
 const Admin = () => {
   // State for winners
@@ -82,8 +84,11 @@ const Admin = () => {
     rollNumber: '',
     department: '',
     college: 'Aditya University',
-    award: 'Participation' as 'Participation' | '1st Place' | '2nd Place' | '3rd Place'
+    award: 'Participation' as 'Participation' | '1st Place' | '2nd Place' | '3rd Place',
+    studentPin: '',
+    marks: 2
   });
+  const [searchPin, setSearchPin] = useState('');
 
   const [loading, setLoading] = useState(false);
   const [participantLoading, setParticipantLoading] = useState(false);
@@ -436,6 +441,51 @@ const Admin = () => {
     }
   };
 
+  // PIN Search Handler
+  const handleSearchByPin = async () => {
+    if (!searchPin.trim()) {
+      toast({
+        title: "Error",
+        description: "Please enter a PIN number",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      const student = await getStudentByPin(searchPin.trim());
+      if (!student) {
+        toast({
+          title: "Not Found",
+          description: "No student found with this PIN",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      // Auto-fill form with student details
+      setParticipantForm({
+        ...participantForm,
+        name: student.name,
+        rollNumber: student.pin,
+        department: student.branch,
+        studentPin: student.pin
+      });
+
+      toast({
+        title: "Student Found",
+        description: `Loaded details for ${student.name}`,
+      });
+    } catch (error) {
+      console.error('Error searching student:', error);
+      toast({
+        title: "Error",
+        description: "Failed to search for student",
+        variant: "destructive"
+      });
+    }
+  };
+
   const resetParticipantForm = () => {
     setParticipantForm({
       activityId: selectedActivityId,
@@ -443,9 +493,12 @@ const Admin = () => {
       rollNumber: '',
       department: '',
       college: 'Aditya University',
-      award: 'Participation'
+      award: 'Participation',
+      studentPin: '',
+      marks: 2
     });
     setEditingParticipant(null);
+    setSearchPin('');
   };
 
   const handleEditParticipant = (participant: Participant) => {
@@ -456,7 +509,9 @@ const Admin = () => {
       rollNumber: participant.rollNumber,
       department: participant.department,
       college: participant.college,
-      award: participant.award
+      award: participant.award,
+      studentPin: participant.studentPin || '',
+      marks: participant.marks || 2
     });
   };
 
@@ -472,26 +527,30 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="winners" className="w-full">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="winners" className="flex items-center gap-2">
               <Trophy className="h-4 w-4" />
-              Winners
+              <span className="hidden sm:inline">Winners</span>
             </TabsTrigger>
             <TabsTrigger value="activities" className="flex items-center gap-2">
               <Calendar className="h-4 w-4" />
-              Activities
+              <span className="hidden sm:inline">Activities</span>
             </TabsTrigger>
             <TabsTrigger value="gallery" className="flex items-center gap-2">
               <ImageIcon className="h-4 w-4" />
-              Gallery
+              <span className="hidden sm:inline">Gallery</span>
             </TabsTrigger>
             <TabsTrigger value="photos" className="flex items-center gap-2">
               <ImageIcon className="h-4 w-4" />
-              Photos
+              <span className="hidden sm:inline">Photos</span>
+            </TabsTrigger>
+            <TabsTrigger value="students" className="flex items-center gap-2">
+              <Users className="h-4 w-4" />
+              <span className="hidden sm:inline">Students</span>
             </TabsTrigger>
             <TabsTrigger value="participants" className="flex items-center gap-2">
-              <Users className="h-4 w-4" />
-              Participants
+              <UserPlus className="h-4 w-4" />
+              <span className="hidden sm:inline">Add Participants</span>
             </TabsTrigger>
           </TabsList>
 
@@ -904,6 +963,11 @@ const Admin = () => {
             </div>
           </TabsContent>
 
+          {/* Students Tab */}
+          <TabsContent value="students">
+            <BulkStudentUpload />
+          </TabsContent>
+
           {/* Participants Tab */}
           <TabsContent value="participants">
             <div className="space-y-6">
@@ -946,6 +1010,30 @@ const Admin = () => {
                             <CardTitle>{editingParticipant ? 'Edit Participant' : 'Add Participant'}</CardTitle>
                           </CardHeader>
                           <CardContent>
+                            {/* PIN Search Section */}
+                            {!editingParticipant && (
+                              <div className="mb-6 p-4 bg-muted/50 rounded-lg">
+                                <Label className="mb-2 flex items-center gap-2">
+                                  <Search className="h-4 w-4" />
+                                  Quick Add by PIN
+                                </Label>
+                                <div className="flex gap-2 mt-2">
+                                  <Input
+                                    value={searchPin}
+                                    onChange={(e) => setSearchPin(e.target.value)}
+                                    placeholder="Enter student PIN..."
+                                    onKeyPress={(e) => e.key === 'Enter' && handleSearchByPin()}
+                                  />
+                                  <Button type="button" onClick={handleSearchByPin} size="sm">
+                                    Search
+                                  </Button>
+                                </div>
+                                <p className="text-xs text-muted-foreground mt-2">
+                                  Search by PIN to auto-fill student details
+                                </p>
+                              </div>
+                            )}
+
                             <form onSubmit={handleParticipantSubmit} className="space-y-4">
                               <div>
                                 <Label htmlFor="participantName">Name *</Label>

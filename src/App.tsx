@@ -18,6 +18,7 @@ import Winners from "./pages/Winners";
 import WeeklyWinners from "./pages/WeeklyWinners";
 import Gallery from "./pages/Gallery";
 import Admin from "./pages/Admin";
+import StudentPerformance from "./pages/StudentPerformance";
 import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
 import About from "./pages/About";
@@ -59,6 +60,7 @@ const App = () => {
                   <Route path="/weekly-winners" element={<WeeklyWinners />} />
                   <Route path="/gallery" element={<Gallery />} />
                   <Route path="/admin" element={<Admin />} />
+                  <Route path="/performance" element={<StudentPerformance />} />
                   <Route path="/register/:id" element={<Register />} />
                   <Route path="/about" element={<About />} />
                   <Route path="*" element={<NotFound />} />

@@ -21,6 +21,7 @@ const Navbar = () => {
     { to: '/previous', label: 'Previous Activities', icon: History },
     { to: '/winners', label: 'Winners', icon: Trophy },
     { to: '/gallery', label: 'Gallery', icon: Image },
+    { to: '/performance', label: 'Performance', icon: Trophy },
     { to: '/about', label: 'About', icon: Info },
     { to: '/admin', label: 'Admin', icon: Settings },
   ];
