@@ -87,7 +87,7 @@ const Home = () => {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
-            <Button size="lg" asChild className="btn-navy-outline bg-white text-primary hover:bg-white/90 w-full sm:w-auto">
+            <Button size="lg" asChild className="bg-white text-primary border-2 border-white hover:bg-primary hover:text-white font-medium shadow-lg hover:shadow-xl transition-all duration-300 w-full sm:w-auto">
               <a href="/SABL_Grading_Points_Overview.pdf" download>
                 <Download className="mr-2 h-5 w-5" />
                 Download Grading Points

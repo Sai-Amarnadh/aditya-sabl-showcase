@@ -43,7 +43,7 @@ const About: React.FC = () => {
                 their knowledge in practical scenarios.
               </p>
               <a href="/SABL_Grading_Points_Overview.pdf" download>
-                <button className="bg-white text-primary hover:bg-gray-100 font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg text-sm sm:text-base w-full sm:w-auto">
+                <button className="bg-white text-primary hover:bg-white/90 border-2 border-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg text-sm sm:text-base w-full sm:w-auto">
                   📄 Download Grading Points Overview
                 </button>
               </a>
