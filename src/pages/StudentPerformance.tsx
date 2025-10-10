@@ -133,16 +133,16 @@ const StudentPerformance = () => {
           {performanceData && (
             <div className="space-y-6">
               {/* Performance Chart & Stats */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Participation Chart */}
-                <Card>
+                <Card className="flex flex-col">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <TrendingUp className="h-5 w-5" />
                       Participation Overview
                     </CardTitle>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="flex-1 flex flex-col justify-center">
                     <ResponsiveContainer width="100%" height={250}>
                       <PieChart>
                         <Pie
@@ -181,65 +181,31 @@ const StudentPerformance = () => {
                 </Card>
 
                 {/* Quick Stats */}
-                <Card>
+                <Card className="flex flex-col">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Trophy className="h-5 w-5" />
                       Performance Stats
                     </CardTitle>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="flex-1 flex flex-col justify-center">
                     <div className="space-y-4">
                       <div className="flex justify-between items-center p-3 bg-primary/5 rounded-lg">
                         <span className="text-sm font-medium">Total Events</span>
                         <span className="text-2xl font-bold text-primary">{totalEvents}</span>
                       </div>
-                      <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg">
+                      <div className="flex justify-between items-center p-3 bg-green-50 dark:bg-green-950/30 rounded-lg">
                         <span className="text-sm font-medium">Participated</span>
-                        <span className="text-2xl font-bold text-green-600">{performanceData.participations.length}</span>
+                        <span className="text-2xl font-bold text-green-600 dark:text-green-400">{performanceData.participations.length}</span>
                       </div>
-                      <div className="flex justify-between items-center p-3 bg-orange-50 rounded-lg">
+                      <div className="flex justify-between items-center p-3 bg-orange-50 dark:bg-orange-950/30 rounded-lg">
                         <span className="text-sm font-medium">Total Marks</span>
-                        <span className="text-2xl font-bold text-orange-600">{performanceData.totalMarks}</span>
+                        <span className="text-2xl font-bold text-orange-600 dark:text-orange-400">{performanceData.totalMarks}</span>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
               </div>
-
-              {/* Student Info Card */}
-              <Card>
-                <CardHeader className="bg-primary/5">
-                  <CardTitle className="flex items-center gap-2">
-                    <User className="h-5 w-5" />
-                    Student Details
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="pt-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <p className="text-sm text-muted-foreground">PIN Number</p>
-                      <p className="text-lg font-semibold">{performanceData.student.pin}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Name</p>
-                      <p className="text-lg font-semibold">{performanceData.student.name}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Branch</p>
-                      <p className="text-lg font-semibold">{performanceData.student.branch}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Year</p>
-                      <p className="text-lg font-semibold">{performanceData.student.year}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Section</p>
-                      <p className="text-lg font-semibold">{performanceData.student.section}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
 
               {/* Participations Table */}
               <Card>
@@ -301,6 +267,40 @@ const StudentPerformance = () => {
                       </Table>
                     </div>
                   )}
+                </CardContent>
+              </Card>
+
+              {/* Student Info Card */}
+              <Card>
+                <CardHeader className="bg-primary/5">
+                  <CardTitle className="flex items-center gap-2">
+                    <User className="h-5 w-5" />
+                    Student Details
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div>
+                      <p className="text-sm text-muted-foreground">PIN Number</p>
+                      <p className="text-lg font-semibold">{performanceData.student.pin}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Name</p>
+                      <p className="text-lg font-semibold">{performanceData.student.name}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Branch</p>
+                      <p className="text-lg font-semibold">{performanceData.student.branch}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Year</p>
+                      <p className="text-lg font-semibold">{performanceData.student.year}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Section</p>
+                      <p className="text-lg font-semibold">{performanceData.student.section}</p>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             </div>

@@ -571,7 +571,7 @@ export const getStudentByPin = async (pin: string): Promise<Student | null> => {
     const { data, error } = await supabase
       .from('students')
       .select('*')
-      .eq('pin', pin)
+      .ilike('pin', pin)
       .single();
 
     if (error) throw error;
@@ -660,7 +660,7 @@ export const getStudentPerformance = async (pin: string) => {
           activity_date
         )
       `)
-      .eq('student_pin', pin)
+      .ilike('student_pin', pin)
       .order('created_at', { ascending: false });
 
     if (error) throw error;
