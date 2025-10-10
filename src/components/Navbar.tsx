@@ -42,7 +42,7 @@ const Navbar = () => {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16 gap-4">
             <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 min-w-0 animate-slide-in-left">
-              <img src="/aditya-removebg-preview (1).png" alt="Aditya Logo" className="h-10 w-10 flex-shrink-0 object-contain" />
+              <img src="/aditya-removebg-preview (1).jpg" alt="Aditya Logo" className="h-10 w-10 flex-shrink-0 object-contain" />
               <div className="hidden md:block min-w-0">
                 <h1 className="text-sm md:text-base lg:text-lg font-bold leading-tight whitespace-nowrap">
                   <span className="text-orange-500">ADITYA</span>{' '}
