@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -6,15 +6,28 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Search, User, Award, Calendar, Trophy } from 'lucide-react';
+import { Search, User, Award, Calendar, Trophy, TrendingUp, Sparkles } from 'lucide-react';
 import { getStudentPerformance } from '@/lib/data-service';
+import { supabase } from '@/integrations/supabase/client';
 import { format } from 'date-fns';
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 
 const StudentPerformance = () => {
   const [pin, setPin] = useState('');
   const [loading, setLoading] = useState(false);
   const [performanceData, setPerformanceData] = useState<any>(null);
   const [error, setError] = useState('');
+  const [totalEvents, setTotalEvents] = useState(0);
+
+  useEffect(() => {
+    const fetchTotalEvents = async () => {
+      const { count } = await supabase
+        .from('previous_activities')
+        .select('*', { count: 'exact', head: true });
+      setTotalEvents(count || 0);
+    };
+    fetchTotalEvents();
+  }, []);
 
   const handleSearch = async () => {
     if (!pin.trim()) {
@@ -47,6 +60,27 @@ const StudentPerformance = () => {
       handleSearch();
     }
   };
+
+  const getMotivationalQuote = (participationRate: number) => {
+    if (participationRate >= 70) {
+      return {
+        quote: "Outstanding! You're a true SABL champion! 🏆",
+        color: "text-green-600"
+      };
+    } else if (participationRate >= 40) {
+      return {
+        quote: "Great progress! Keep participating to reach excellence! 🌟",
+        color: "text-blue-600"
+      };
+    } else {
+      return {
+        quote: "Every journey starts with a single step. Participate more to unlock your potential! 💪",
+        color: "text-orange-600"
+      };
+    }
+  };
+
+  const COLORS = ['#3b82f6', '#e5e7eb'];
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -98,6 +132,81 @@ const StudentPerformance = () => {
           {/* Student Details & Performance */}
           {performanceData && (
             <div className="space-y-6">
+              {/* Performance Chart & Stats */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Participation Chart */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <TrendingUp className="h-5 w-5" />
+                      Participation Overview
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ResponsiveContainer width="100%" height={250}>
+                      <PieChart>
+                        <Pie
+                          data={[
+                            { name: 'Participated', value: performanceData.participations.length },
+                            { name: 'Not Participated', value: Math.max(0, totalEvents - performanceData.participations.length) }
+                          ]}
+                          cx="50%"
+                          cy="50%"
+                          labelLine={false}
+                          label={({ name, value }) => `${name}: ${value}`}
+                          outerRadius={80}
+                          fill="#8884d8"
+                          dataKey="value"
+                        >
+                          {[0, 1].map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                        <Legend />
+                      </PieChart>
+                    </ResponsiveContainer>
+                    <div className="mt-4 text-center">
+                      <p className="text-sm text-muted-foreground mb-2">
+                        Participation Rate: {totalEvents > 0 ? Math.round((performanceData.participations.length / totalEvents) * 100) : 0}%
+                      </p>
+                      <div className={`flex items-center justify-center gap-2 font-medium ${getMotivationalQuote(totalEvents > 0 ? (performanceData.participations.length / totalEvents) * 100 : 0).color}`}>
+                        <Sparkles className="h-4 w-4" />
+                        <p className="text-sm">
+                          {getMotivationalQuote(totalEvents > 0 ? (performanceData.participations.length / totalEvents) * 100 : 0).quote}
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Quick Stats */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Trophy className="h-5 w-5" />
+                      Performance Stats
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-center p-3 bg-primary/5 rounded-lg">
+                        <span className="text-sm font-medium">Total Events</span>
+                        <span className="text-2xl font-bold text-primary">{totalEvents}</span>
+                      </div>
+                      <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg">
+                        <span className="text-sm font-medium">Participated</span>
+                        <span className="text-2xl font-bold text-green-600">{performanceData.participations.length}</span>
+                      </div>
+                      <div className="flex justify-between items-center p-3 bg-orange-50 rounded-lg">
+                        <span className="text-sm font-medium">Total Marks</span>
+                        <span className="text-2xl font-bold text-orange-600">{performanceData.totalMarks}</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
               {/* Student Info Card */}
               <Card>
                 <CardHeader className="bg-primary/5">
@@ -127,13 +236,6 @@ const StudentPerformance = () => {
                     <div>
                       <p className="text-sm text-muted-foreground">Section</p>
                       <p className="text-lg font-semibold">{performanceData.student.section}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Total Marks</p>
-                      <p className="text-lg font-semibold text-primary flex items-center gap-2">
-                        <Trophy className="h-5 w-5" />
-                        {performanceData.totalMarks} marks
-                      </p>
                     </div>
                   </div>
                 </CardContent>

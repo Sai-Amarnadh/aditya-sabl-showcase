@@ -4,7 +4,7 @@ import WinnerCard from '@/components/WinnerCard';
 import WinnerDetailsModal from '@/components/WinnerDetailsModal';
 import { getWinners, Winner } from '@/lib/data-service';
 import { useData } from '@/contexts/DataContext';
-import { Calendar, History, Trophy, ArrowRight, Download } from 'lucide-react';
+import { Calendar, History, Trophy, ArrowRight, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
@@ -88,10 +88,10 @@ const Home = () => {
               </Link>
             </Button>
             <Button size="lg" asChild className="bg-white text-primary border-2 border-white hover:bg-primary hover:text-white font-medium shadow-lg hover:shadow-xl transition-all duration-300 w-full sm:w-auto">
-              <a href="/SABL_Grading_Points_Overview.pdf" download>
-                <Download className="mr-2 h-5 w-5" />
-                Download Grading Points
-              </a>
+              <Link to="/performance">
+                <TrendingUp className="mr-2 h-5 w-5" />
+                Check Performance
+              </Link>
             </Button>
           </div>
         </div>
