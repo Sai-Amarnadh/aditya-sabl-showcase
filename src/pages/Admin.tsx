@@ -26,14 +26,16 @@ import {
   updateParticipant,
   deleteParticipant,
   getStudentByPin,
+  getStudents,
   Winner, 
   Activity, 
   GalleryImage,
-  Participant
+  Participant,
+  Student
 } from '@/lib/data-service';
 import { useData } from '@/contexts/DataContext';
 import { useToast } from '@/hooks/use-toast';
-import { Trash2, Edit, Plus, Users, Calendar, Trophy, Image as ImageIcon, UserPlus, Search } from 'lucide-react';
+import { Trash2, Edit, Plus, Users, Calendar, Trophy, Image as ImageIcon, UserPlus, Search, Download } from 'lucide-react';
 import ActivityPhotoManager from '@/components/ActivityPhotoManager';
 import BulkStudentUpload from '@/components/BulkStudentUpload';
 
@@ -483,6 +485,69 @@ const Admin = () => {
         description: "Failed to search for student",
         variant: "destructive"
       });
+    }
+  };
+
+  const handleDownloadStudentReport = async () => {
+    try {
+      setLoading(true);
+      
+      // Fetch all students
+      const students = await getStudents();
+      
+      // Fetch all participants to count participation for each student
+      const allParticipants = await getParticipants();
+      
+      // Create a map of student PIN to participation count
+      const participationMap = new Map<string, number>();
+      allParticipants.forEach(participant => {
+        if (participant.studentPin) {
+          const currentCount = participationMap.get(participant.studentPin) || 0;
+          participationMap.set(participant.studentPin, currentCount + 1);
+        }
+      });
+      
+      // Create CSV content
+      const headers = ['PIN Number', 'Name', 'Branch', 'Year', 'Section', 'Events Participated'];
+      const rows = students.map(student => [
+        student.pin,
+        student.name,
+        student.branch,
+        student.year,
+        student.section,
+        participationMap.get(student.pin) || 0
+      ]);
+      
+      // Combine headers and rows
+      const csvContent = [
+        headers.join(','),
+        ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+      ].join('\n');
+      
+      // Create and download the file
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', `student_report_${new Date().toISOString().split('T')[0]}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      toast({
+        title: "Success",
+        description: `Downloaded report for ${students.length} students`,
+      });
+    } catch (error) {
+      console.error('Error downloading student report:', error);
+      toast({
+        title: "Error",
+        description: "Failed to download student report",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -965,7 +1030,18 @@ const Admin = () => {
 
           {/* Students Tab */}
           <TabsContent value="students">
-            <BulkStudentUpload />
+            <div className="space-y-6">
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <CardTitle>Student Management</CardTitle>
+                  <Button onClick={handleDownloadStudentReport} variant="outline" className="gap-2">
+                    <Download className="h-4 w-4" />
+                    Download Report
+                  </Button>
+                </CardHeader>
+              </Card>
+              <BulkStudentUpload />
+            </div>
           </TabsContent>
 
           {/* Participants Tab */}
