@@ -64,17 +64,17 @@ const StudentPerformance = () => {
   const getMotivationalQuote = (participationRate: number) => {
     if (participationRate >= 70) {
       return {
-        quote: "Outstanding! You're a true SABL champion! 🏆",
+        quote: "Outstanding Performance!",
         color: "text-green-600"
       };
     } else if (participationRate >= 40) {
       return {
-        quote: "Great progress! Keep participating to reach excellence! 🌟",
+        quote: "Keep Going!",
         color: "text-blue-600"
       };
     } else {
       return {
-        quote: "Every journey starts with a single step. Participate more to unlock your potential! 💪",
+        quote: "Participate More!",
         color: "text-orange-600"
       };
     }
@@ -177,7 +177,7 @@ const StudentPerformance = () => {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="flex-1 flex flex-col justify-center">
-                    <ResponsiveContainer width="100%" height={250}>
+                    <ResponsiveContainer width="100%" height={300}>
                       <PieChart>
                         <Pie
                           data={[
@@ -186,9 +186,9 @@ const StudentPerformance = () => {
                           ]}
                           cx="50%"
                           cy="50%"
-                          labelLine={false}
+                          labelLine={true}
                           label={({ name, value }) => `${name}: ${value}`}
-                          outerRadius={80}
+                          outerRadius={90}
                           fill="#8884d8"
                           dataKey="value"
                         >
@@ -197,16 +197,15 @@ const StudentPerformance = () => {
                           ))}
                         </Pie>
                         <Tooltip />
-                        <Legend />
                       </PieChart>
                     </ResponsiveContainer>
                     <div className="mt-4 text-center">
                       <p className="text-sm text-muted-foreground mb-2">
                         Participation Rate: {totalEvents > 0 ? Math.round((performanceData.participations.length / totalEvents) * 100) : 0}%
                       </p>
-                      <div className={`flex items-center justify-center gap-2 font-medium ${getMotivationalQuote(totalEvents > 0 ? (performanceData.participations.length / totalEvents) * 100 : 0).color}`}>
+                      <div className={`flex items-center justify-center gap-2 ${getMotivationalQuote(totalEvents > 0 ? (performanceData.participations.length / totalEvents) * 100 : 0).color}`}>
                         <Sparkles className="h-4 w-4" />
-                        <p className="text-sm">
+                        <p className="text-sm font-medium">
                           {getMotivationalQuote(totalEvents > 0 ? (performanceData.participations.length / totalEvents) * 100 : 0).quote}
                         </p>
                       </div>
