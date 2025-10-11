@@ -150,7 +150,7 @@ const transformParticipantFromDB = (row: ParticipantRow): Participant => ({
   college: row.college,
   award: row.award as Participant['award'],
   studentPin: row.student_pin || undefined,
-  marks: row.marks || 2,
+  marks: row.marks || (row.award === 'Participation' || row.award === 'Volunteer' ? 5 : 10),
   createdAt: row.created_at || undefined,
 });
 
@@ -163,7 +163,7 @@ const transformParticipantToDB = (participant: Omit<Participant, 'id'>) => ({
   college: participant.college,
   award: participant.award,
   student_pin: participant.studentPin || null,
-  marks: participant.marks || 2,
+  marks: participant.marks || (participant.award === 'Participation' || participant.award === 'Volunteer' ? 5 : 10),
 });
 
 // Helper function to transform database row to Student
@@ -671,7 +671,7 @@ export const getStudentPerformance = async (pin: string) => {
       activityDate: (p as any).previous_activities?.activity_date || '',
     })) || [];
 
-    const totalMarks = participations.reduce((sum, p) => sum + (p.marks || 2), 0);
+    const totalMarks = participations.reduce((sum, p) => sum + (p.marks || 5), 0);
 
     return {
       student,

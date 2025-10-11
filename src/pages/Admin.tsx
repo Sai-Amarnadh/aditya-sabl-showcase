@@ -88,7 +88,7 @@ const Admin = () => {
     college: 'Aditya University',
     award: 'Participation' as 'Participation' | '1st Place' | '2nd Place' | '3rd Place' | 'Volunteer',
     studentPin: '',
-    marks: 2
+    marks: 5
   });
   const [searchPin, setSearchPin] = useState('');
 
@@ -560,7 +560,7 @@ const Admin = () => {
       college: 'Aditya University',
       award: 'Participation',
       studentPin: '',
-      marks: 2
+      marks: 5
     });
     setEditingParticipant(null);
     setSearchPin('');
@@ -576,7 +576,7 @@ const Admin = () => {
       college: participant.college,
       award: participant.award,
       studentPin: participant.studentPin || '',
-      marks: participant.marks || 2
+      marks: participant.marks || (participant.award === 'Participation' || participant.award === 'Volunteer' ? 5 : 10)
     });
   };
 

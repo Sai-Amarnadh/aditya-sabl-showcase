@@ -292,7 +292,7 @@ const StudentPerformance = () => {
                                 </Badge>
                               </TableCell>
                               <TableCell className="text-right font-semibold text-primary">
-                                {participation.marks || 2}
+                                {participation.marks || 5}
                               </TableCell>
                             </TableRow>
                           ))}
