@@ -86,7 +86,7 @@ const Admin = () => {
     rollNumber: '',
     department: '',
     college: 'Aditya University',
-    award: 'Participation' as 'Participation' | '1st Place' | '2nd Place' | '3rd Place',
+    award: 'Participation' as 'Participation' | '1st Place' | '2nd Place' | '3rd Place' | 'Volunteer',
     studentPin: '',
     marks: 2
   });
@@ -1151,7 +1151,7 @@ const Admin = () => {
                                 <Label htmlFor="participantAward">Award/Position *</Label>
                                 <Select
                                   value={participantForm.award}
-                                  onValueChange={(value: 'Participation' | '1st Place' | '2nd Place' | '3rd Place') => 
+                                  onValueChange={(value: 'Participation' | '1st Place' | '2nd Place' | '3rd Place' | 'Volunteer') => 
                                     setParticipantForm({ ...participantForm, award: value })
                                   }
                                 >
@@ -1163,6 +1163,7 @@ const Admin = () => {
                                     <SelectItem value="2nd Place">2nd Place</SelectItem>
                                     <SelectItem value="3rd Place">3rd Place</SelectItem>
                                     <SelectItem value="Participation">Participation</SelectItem>
+                                    <SelectItem value="Volunteer">Volunteer</SelectItem>
                                   </SelectContent>
                                 </Select>
                               </div>
@@ -1195,7 +1196,13 @@ const Admin = () => {
                               </div>
                             ) : participants.length > 0 ? (
                               <div className="space-y-3 max-h-96 overflow-y-auto">
-                                {participants.map((participant) => (
+                                {participants
+                                  .sort((a, b) => {
+                                    // Winners first (1st, 2nd, 3rd Place), then others
+                                    const awardOrder = { '1st Place': 1, '2nd Place': 2, '3rd Place': 3, 'Participation': 4, 'Volunteer': 5 };
+                                    return (awardOrder[a.award as keyof typeof awardOrder] || 99) - (awardOrder[b.award as keyof typeof awardOrder] || 99);
+                                  })
+                                  .map((participant) => (
                                   <div key={participant.id} className="flex items-center justify-between p-3 border rounded-lg">
                                     <div className="flex-1">
                                       <h4 className="font-medium">{participant.name}</h4>

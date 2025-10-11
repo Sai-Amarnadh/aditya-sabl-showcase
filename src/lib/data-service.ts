@@ -41,7 +41,7 @@ export interface Participant {
   rollNumber: string;
   department: string;
   college: string;
-  award: '1st Place' | '2nd Place' | '3rd Place' | 'Participation';
+  award: '1st Place' | '2nd Place' | '3rd Place' | 'Participation' | 'Volunteer';
   studentPin?: string;
   marks?: number;
   createdAt?: string;
