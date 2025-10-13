@@ -38,6 +38,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Trash2, Edit, Plus, Users, Calendar, Trophy, Image as ImageIcon, UserPlus, Search, Download } from 'lucide-react';
 import ActivityPhotoManager from '@/components/ActivityPhotoManager';
 import BulkStudentUpload from '@/components/BulkStudentUpload';
+import BulkParticipantUpload from '@/components/BulkParticipantUpload';
 
 const Admin = () => {
   // State for winners
@@ -1255,6 +1256,7 @@ const Admin = () => {
                   </div>
                 </CardContent>
               </Card>
+              <BulkParticipantUpload />
             </div>
           </TabsContent>
         </Tabs>
