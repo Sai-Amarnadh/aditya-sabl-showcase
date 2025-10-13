@@ -23,7 +23,6 @@ const Navbar = () => {
     { to: '/gallery', label: 'Gallery', icon: Image },
     { to: '/performance', label: 'Performance', icon: Trophy },
     { to: '/about', label: 'About', icon: Info },
-    { to: '/admin', label: 'Admin', icon: Settings },
   ];
 
   return (
