@@ -1072,7 +1072,7 @@ const Admin = () => {
                         <SelectContent>
                           {completedActivities.map((activity) => (
                             <SelectItem key={activity.id} value={activity.id}>
-                              {activity.name} - {new Date(activity.date).toLocaleDateString()}
+                              ID: {activity.id} - {activity.name} - {new Date(activity.date).toLocaleDateString()}
                             </SelectItem>
                           ))}
                         </SelectContent>
