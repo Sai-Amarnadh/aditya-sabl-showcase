@@ -26,7 +26,7 @@ const WinnerDetailsModal = ({ winner, isOpen, onClose }: WinnerDetailsModalProps
       setShowParticles(true);
       timer = setTimeout(() => {
         setShowParticles(false);
-      }, 4000); // Stop emitting particles after 4 seconds
+      }, 6000);
     }
     return () => clearTimeout(timer);
   }, [isOpen]);
@@ -124,26 +124,58 @@ const WinnerDetailsModal = ({ winner, isOpen, onClose }: WinnerDetailsModalProps
                   },
                 },
               },
-              emitters: {
-                direction: "top",
-                rate: {
-                  quantity: 8,
-                  delay: 0.1,
+              emitters: [
+                {
+                  direction: "top",
+                  rate: {
+                    quantity: 12,
+                    delay: 0.08,
+                  },
+                  position: {
+                    x: 25,
+                    y: 100,
+                  },
+                  size: {
+                    width: 0,
+                    height: 0,
+                  },
                 },
-                position: {
-                  x: 50,
-                  y: 100,
+                {
+                  direction: "top",
+                  rate: {
+                    quantity: 12,
+                    delay: 0.08,
+                  },
+                  position: {
+                    x: 75,
+                    y: 100,
+                  },
+                  size: {
+                    width: 0,
+                    height: 0,
+                  },
                 },
-                size: {
-                  width: 100,
-                  height: 0,
+                {
+                  direction: "top",
+                  rate: {
+                    quantity: 10,
+                    delay: 0.1,
+                  },
+                  position: {
+                    x: 50,
+                    y: 100,
+                  },
+                  size: {
+                    width: 0,
+                    height: 0,
+                  },
                 },
-              },
+              ],
             }}
             className="absolute inset-0 z-0"
           />
         )}
-        <div className="relative z-10 bg-white rounded-2xl border">
+        <div className="relative z-10 bg-white rounded-2xl border-4 border-yellow-500 shadow-2xl animate-pulse-soft">
           <DialogClose className="absolute right-4 top-4 z-20 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
             <X className="h-4 w-4" />
             <span className="sr-only">Close</span>
