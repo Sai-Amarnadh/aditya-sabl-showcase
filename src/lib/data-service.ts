@@ -155,16 +155,24 @@ const transformParticipantFromDB = (row: ParticipantRow): Participant => ({
 });
 
 // Helper function to transform Participant to database format
-const transformParticipantToDB = (participant: Omit<Participant, 'id'>) => ({
-  activity_id: parseInt(participant.activityId),
-  name: participant.name,
-  roll_number: participant.rollNumber,
-  department: participant.department,
-  college: participant.college,
-  award: participant.award,
-  student_pin: participant.studentPin || null,
-  marks: participant.marks || (participant.award === 'Participation' || participant.award === 'Volunteer' ? 5 : 10),
-});
+const transformParticipantToDB = (participant: Omit<Participant, 'id'>) => {
+  // Determine marks based on award type if not explicitly provided
+  let marks = participant.marks;
+  if (!marks) {
+    marks = (participant.award === 'Participation' || participant.award === 'Volunteer') ? 5 : 10;
+  }
+  
+  return {
+    activity_id: parseInt(participant.activityId),
+    name: participant.name,
+    roll_number: participant.rollNumber,
+    department: participant.department,
+    college: participant.college,
+    award: participant.award,
+    student_pin: participant.studentPin || null,
+    marks: marks,
+  };
+};
 
 // Helper function to transform database row to Student
 const transformStudentFromDB = (row: StudentRow): Student => ({
@@ -210,6 +218,15 @@ export const addWinner = async (winner: Omit<Winner, 'id'>): Promise<Winner | nu
       .single();
 
     if (error) throw error;
+    
+    // Update participant marks to 10 if roll number exists
+    if (data && winner.rollNumber) {
+      await supabase
+        .from('participants')
+        .update({ marks: 10 })
+        .eq('roll_number', winner.rollNumber);
+    }
+    
     return data ? transformWinnerFromDB(data) : null;
   } catch (error) {
     console.error('Error adding winner:', error);
@@ -227,6 +244,15 @@ export const updateWinner = async (winner: Winner): Promise<Winner | null> => {
       .single();
 
     if (error) throw error;
+    
+    // Update participant marks to 10 if roll number exists
+    if (data && winner.rollNumber) {
+      await supabase
+        .from('participants')
+        .update({ marks: 10 })
+        .eq('roll_number', winner.rollNumber);
+    }
+    
     return data ? transformWinnerFromDB(data) : null;
   } catch (error) {
     console.error('Error updating winner:', error);
