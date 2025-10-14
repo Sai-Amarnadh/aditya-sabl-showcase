@@ -26,9 +26,9 @@ const WinnerCard = ({ winner, featured = false, onClick }: WinnerCardProps) => {
 
   return (
     <div
-      className={`clean-card clean-card-hover overflow-hidden group transition-all duration-300 ${
-        featured ? 'border-4 border-yellow-500 shadow-elevated' : 'border-4 border-primary/40'
-      } ${onClick ? 'cursor-pointer hover:border-yellow-600 hover:shadow-elevated hover:-translate-y-1' : ''}`}
+      className={`clean-card clean-card-hover overflow-hidden group transition-all duration-300 border-2 ${
+        featured ? 'border-primary shadow-elevated ring-2 ring-primary/20' : 'border-primary/30 hover:border-primary/50'
+      } ${onClick ? 'cursor-pointer hover:shadow-elevated hover:-translate-y-1' : ''}`}
       onClick={onClick}
     >
       <div className="p-4 sm:p-6">
