@@ -8,7 +8,7 @@ const Footer: React.FC = () => {
         <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
           <span>Built with</span>
           <Heart className="h-4 w-4 text-red-500 fill-red-500" />
-          <span>by Make results, not excuses!!</span>
+          <span>Make results, not excuses!!</span>
         </div>
       </div>
     </footer>
